@@ -1,0 +1,20 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+		xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+<m:MaterialModalContent ui:field="modalcontent">
+
+	<m:MaterialTitle ui:field="textarea" />
+</m:MaterialModalContent>
+		
+<m:MaterialModalFooter align="right">
+	<m:MaterialButton ui:field="btnOK" waves="green" type="flat" text="Close" />
+</m:MaterialModalFooter>
+</g:HTMLPanel>
+</ui:UiBinder> 

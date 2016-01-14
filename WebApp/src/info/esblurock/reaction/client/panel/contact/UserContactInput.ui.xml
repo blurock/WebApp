@@ -1,0 +1,50 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
+
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+
+	<m:MaterialCollapsible ui:field="datasets" type="popout">
+		<m:item>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s4">
+					<m:MaterialLabel ui:field="title" fontSize="2" />
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s4">
+					<m:MaterialButton ui:field="submit" waves="light" />
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s4">
+					<m:MaterialDropDown 
+						waves="light" divider="true" activates="myDropDown" 
+						ui:field="userrolelist">
+						<m:item>
+							<m:MaterialLink ui:field="professorchoice" text="Professor" />
+						</m:item>
+						<m:item>
+							<m:MaterialLink ui:field="researcherchoice" text="Researcher" />
+						</m:item>
+						<m:item>
+							<m:MaterialLink ui:field="lecturerchoice" text="Lecturer" />
+						</m:item>
+						<m:item>
+							<m:MaterialLink ui:field="postdocchoice" text="Post-Doc" />
+						</m:item>
+						<m:item>
+							<m:MaterialLink ui:field="studentchoice" text="Student" />
+						</m:item>
+						<m:item>
+							<m:MaterialLink ui:field="managerchoice" text="Manager" />
+						</m:item>
+						<m:item>
+							<m:MaterialLink ui:field="otherchoice" text="other" />
+						</m:item>
+					</m:MaterialDropDown>
+				</m:MaterialColumn>
+			</m:MaterialRow>
+		</m:item>
+	</m:MaterialCollapsible>
+</ui:UiBinder> 

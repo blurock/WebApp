@@ -1,0 +1,18 @@
+Login
+Ability to login
+Query 
+Ability to execute queries 
+Profile 
+Able to change own profile
+Password 
+Able to change own password
+UserDataInput 
+Able to input data under users name
+UserDataDelete
+Able to delete data under users name
+DataInput 
+Able to input data under other users name
+DataDelete
+Able to delete data under other users name
+ALL
+Able to perform all operations

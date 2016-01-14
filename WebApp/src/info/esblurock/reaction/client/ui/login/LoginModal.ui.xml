@@ -1,0 +1,60 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:m="urn:import:gwt.material.design.client.ui" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:user="urn:import:info.esblurock.reaction.client.panel">
+
+	<ui:with field='loginres'
+		type='info.esblurock.reaction.client.ui.resource.LoginResources' />
+
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	.fieldPanel {
+		background: blue-grey lighten-5;
+		padding: 6%;
+	}
+	
+	.imgProfile {
+		margin-top: -120px;
+		width: 20%;
+		margin-left: 40%;
+		border: 5px solid #fff;
+	}
+	
+	.rowAction {
+		margin-top: 20px;
+	}
+
+	</ui:style>
+				<g:HTMLPanel ui:field="secondfield">
+					<m:MaterialRow ui:field="loginrow">
+						<m:MaterialColumn grid="s12 m6">
+							<m:MaterialPanel>
+								<m:MaterialTitle title="Login"
+									description="Please provide your account credentials." />
+								<m:MaterialCheckBox ui:field="keepme"
+									text="Keep me logged in" />
+								<m:MaterialButton ui:field="btnCreate" color="gray"
+									waves="light" text="Create an account" width="100%" align="bottom" />
+
+							</m:MaterialPanel>
+						</m:MaterialColumn>
+						<m:MaterialColumn grid="s12 m6">
+							<m:MaterialPanel addStyleNames="{style.fieldPanel}">
+								<m:MaterialImage resource="{loginres.OneKey}"
+									type="circle" addStyleNames="{style.imgProfile} z-depth-1" />
+								<m:MaterialTextBox type="email" placeholder="Email"
+									ui:field="username" />
+								<m:MaterialTextBox type="password"
+									placeholder="Password" ui:field="userpassword" />
+								<m:MaterialButton ui:field="btnLogin" color="blue"
+									waves="light" text="Log In" width="100%" />
+							</m:MaterialPanel>
+						</m:MaterialColumn>
+					</m:MaterialRow>
+					<!-- user:SecondPanelExample ui:field="secondexample"/ -->
+				</g:HTMLPanel>
+
+
+</ui:UiBinder> 

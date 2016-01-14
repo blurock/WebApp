@@ -1,0 +1,1 @@
+Data is broken down into fine-grained pieces for easy access.

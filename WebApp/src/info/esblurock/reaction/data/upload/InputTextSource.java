@@ -1,0 +1,52 @@
+package info.esblurock.reaction.data.upload;
+
+import info.esblurock.reaction.client.data.DatabaseObject;
+
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+
+@PersistenceCapable
+public class InputTextSource extends DatabaseObject {
+
+	@Persistent
+	String textname;
+
+	@Persistent
+	String ID;
+
+	@Persistent
+	String sourceType;
+
+	@Persistent
+	String textType;
+
+	public InputTextSource() {
+		
+	}
+
+	public InputTextSource(String textname, String iD, String sourceType,
+			String textType) {
+		super();
+		this.textname = textname;
+		ID = iD;
+		this.sourceType = sourceType;
+		this.textType = textType;
+	}
+
+	public String getTextname() {
+		return textname;
+	}
+
+	public String getID() {
+		return ID;
+	}
+
+	public String getSourceType() {
+		return sourceType;
+	}
+
+	public String getTextType() {
+		return textType;
+	}
+
+}

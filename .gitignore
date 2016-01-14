@@ -1,0 +1,9 @@
+# JAVA project objects/folders to ignore
+*.jar
+*.log
+test-classes/
+webapp/
+classes/
+*.class
+appengine-generated/
+.DS_Store

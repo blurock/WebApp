@@ -1,0 +1,45 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
+
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+
+	<m:MaterialCollapsible ui:field="datasets" type="popout">
+		<m:item>
+			<m:MaterialRow color="indigo lighten-4" >
+				<m:MaterialColumn grid="s4">
+					<m:MaterialLabel ui:field="title" fontSize="2"/>
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s4">
+					<m:MaterialButton ui:field="submit" color="indigo lighten-2" waves="light"/>
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s4">
+					<m:MaterialDropDown color="indigo lighten-2"
+						 waves="light" divider="true" activates="myDropDown"
+						ui:field="orgtype">
+						<m:item>
+							<m:MaterialLink ui:field="unichoice" text="University" />
+						</m:item>
+						<m:item>
+							<m:MaterialLink ui:field="indchoice" text="Industry" />
+						</m:item>
+						<m:item>
+							<m:MaterialLink ui:field="instchoice" text="Institute" />
+						</m:item>
+						<m:item>
+							<m:MaterialLink ui:field="govchoice" text="Goverment" />
+						</m:item>
+						<m:item>
+							<m:MaterialLink ui:field="otherchoice" text="Other" />
+						</m:item>
+					</m:MaterialDropDown>
+				</m:MaterialColumn>
+			</m:MaterialRow>
+
+		</m:item>
+	</m:MaterialCollapsible>
+</ui:UiBinder> 

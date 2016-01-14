@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:user="urn:import:info.esblurock.reaction.client.panel">
+
+	<ui:with field='res'
+		type='info.esblurock.reaction.client.ui.resource.MaterialResources' />
+	<ui:with field='loginres'
+		type='info.esblurock.reaction.client.ui.resource.LoginResources' />
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	
+	body {
+		background: #fff;
+	}
+	
+	.panel {
+		background: aqua;
+		background-size: 100%;
+		padding: 0px !important;
+		padding-top: 40% !important;
+	}
+	
+	.fieldPanel {
+		background: blue-grey lighten-5;
+		padding: 6%;
+	}
+	
+	.imgProfile {
+		margin-top: -120px;
+		width: 20%;
+		margin-left: 40%;
+		border: 5px solid #fff;
+	}
+	
+	.rowAction {
+		margin-top: 20px;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<m:MaterialNavBar ui:field="navbar" wave="light"
+			color="brown" align="right">
+			<m:nav>
+				<m:MaterialLink ui:field="toplogin" text="login" icon="mdi-action-lock-open"
+					textColor="white" />
+			</m:nav>
+			<m:nav>
+				<m:MaterialLink ui:field="toplogout" text="logout" icon="mdi-action-lock-open"
+					textColor="white" />
+			</m:nav>
+			<m:nav>
+				<m:MaterialLink ui:field="linkmenu" icon="mdi-action-list"
+					textColor="white" />
+			</m:nav>
+			<m:nav>
+				<m:MaterialLink icon="mdi-navigation-more-vert"
+					textColor="white" />
+			</m:nav>
+		</m:MaterialNavBar>
+		<m:MaterialParallax ui:field="firstfield"
+			resource="{res.blackboardbackground}">
+			<m:content>
+				<m:MaterialSlide fullScreen="false">
+					<m:slide>
+						<m:MaterialSlideItem ui:field="item1"
+							ui:align="center"
+							url="http://mcensustainableenergy.pbworks.com/w/page/20638179/f/Combustion.jpg" />
+					</m:slide>
+					<m:slide>
+						<m:MaterialSlideItem ui:field="item2" align="left"
+							url="http://www.ecm2013.lth.se/fileadmin/forbrf/ecm2013/ECM2013_group_photo_small.JPG" />
+					</m:slide>
+					<m:slide>
+						<m:MaterialSlideItem ui:field="item3" align="right"
+							url="http://www.soilworx.com.au/data/img/products/sand/Sand-Bulk-Brick-White.jpg" />
+					</m:slide>
+					<m:slide>
+						<m:MaterialSlideItem ui:field="item4" align="center"
+							url="http://physics.aps.org/assets/d30f8977-219e-4566-a6fc-1138bbe2a9b0/e130_1.png" />
+					</m:slide>
+				</m:MaterialSlide>
+			</m:content>
+		</m:MaterialParallax>
+		<m:MaterialParallax
+			url="http://atm.ulb.ac.be/wp-content/uploads/2014/11/isoLLNL874-eps-converted-to.png">
+			<m:content>
+				<m:MaterialTitle ui:field="firstdescription">
+				</m:MaterialTitle>
+			</m:content>
+		</m:MaterialParallax>
+
+	</g:HTMLPanel>
+</ui:UiBinder> 
+

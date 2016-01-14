@@ -1,0 +1,49 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	
+	.textbody {
+		font-family: courier;
+	}
+	</ui:style>
+	<m:MaterialCollapsibleItem>
+		<m:header>
+			<m:MaterialLink ui:field="objecttitle" icon="mdi-communication-vpn-key" />
+		</m:header>
+
+		<m:content>
+			<g:HTMLPanel ui:field="contentpanel">
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s12">
+						<m:MaterialTextBox ui:field="keyword" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s12">
+						<m:MaterialTextBox ui:field="oneline" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s12">
+						<m:MaterialTextArea ui:field="description" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s4">
+						<m:MaterialDatePicker ui:field="date" />
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s4">
+						<m:MaterialTextBox ui:field="sourcekey" />
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s4">
+						<m:MaterialTextBox ui:field="inputkey" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+			</g:HTMLPanel>
+		</m:content>
+	</m:MaterialCollapsibleItem>
+</ui:UiBinder> 

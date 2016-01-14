@@ -1,0 +1,11 @@
+Query
+Login Query
+StandardUser
+Login Query Profile Password
+DataUser
+Login Query Profile Password UserDataInput UserDataDelete
+Administrator
+Login Query Profile Password UserDataInput UserDataDelete DataInput DataDelete
+SuperUser
+Login Query Profile Password UserDataInput UserDataDelete DataInput DataDelete
+

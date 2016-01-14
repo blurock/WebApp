@@ -1,0 +1,33 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:m="urn:import:gwt.material.design.client.ui" xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with field='res'
+		type='info.esblurock.reaction.client.ui.resource.MaterialResources' />
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	
+	header, main, footer {
+		padding-left: 320px;
+	}
+	</ui:style>
+	<m:MaterialNavBar ui:field="navbar" wave="light"
+		align="right" color="blue" text="Query" sideBar="fixed"
+		sideBarWidth="300">
+		<m:nav>
+			<g:TextBox title="Search" text="Reaction" 
+				ui:field="search" />
+		</m:nav>
+		<m:nav>
+			<m:MaterialButton ui:field="submittopquery" text="Submit"
+				color="light-blue lighten-5" textColor="black" />
+		</m:nav>
+			<m:nav>
+				<m:MaterialLink ui:field="linkmenu" icon="mdi-action-list"
+					textColor="white" />
+			</m:nav>
+
+
+	</m:MaterialNavBar>
+</ui:UiBinder> 
