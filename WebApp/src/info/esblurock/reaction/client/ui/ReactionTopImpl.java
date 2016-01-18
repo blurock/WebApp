@@ -105,7 +105,9 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		toplogin.setVisible(false);
 		linkmenu.setVisible(true);
 	}
+	@Override
 	public void setLoggedOut() {
+		super.setLoggedOut();
 		toplogout.setVisible(false);
 		toplogin.setVisible(true);
 		linkmenu.setVisible(false);		
@@ -117,10 +119,8 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 
 	@UiHandler("toplogout")
 	void onTopLogoutClick(ClickEvent e) {
-		logout.logout(toplogin, toplogout);
-		toplogout.setVisible(false);
-		toplogin.setVisible(true);
-
+		logout.logout(this);
+		setLoggedOut();
 	}
 
 	@UiHandler("linkmenu")

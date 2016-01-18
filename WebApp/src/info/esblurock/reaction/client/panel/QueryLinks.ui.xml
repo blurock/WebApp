@@ -7,7 +7,7 @@
 	}
 	</ui:style>
 	<g:HTMLPanel>
-		<m:MaterialModalContent ui:field="content"
+		<m:MaterialModalContent ui:field="content" 
 			title="Pages">
 			<m:MaterialRow>
 				<m:MaterialColumn>

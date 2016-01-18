@@ -1,10 +1,10 @@
 package info.esblurock.reaction.client.panel;
 
-import info.esblurock.reaction.client.activity.place.ReactionTopPlace;
 import info.esblurock.reaction.client.panel.query.BasicSearchCallback;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.client.panel.query.ReactionSearchServiceAsync;
 import info.esblurock.reaction.client.ui.ReactionQueryView.Presenter;
+import info.esblurock.reaction.client.ui.login.UserDTO;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLink;
@@ -17,7 +17,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.TextBox;
@@ -40,16 +39,20 @@ public class QueryNavBar extends Composite implements HasText {
 	MaterialButton submittopquery;
 	@UiField
 	MaterialLink linkmenu;
-
+	@UiField
+	MaterialLink navuser;
+	
 	MaterialCollapsibleItem search0;
 	Presenter listener;
 	QueryLinks links;
 	String name;
-
+	UserDTO user;
+	
 	public QueryNavBar(MaterialCollapsibleItem search0) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.search0 = search0;
 		links = new QueryLinks();
+		
 	}
 	public QueryNavBar(String firstName, MaterialCollapsibleItem search0) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -78,21 +81,16 @@ public class QueryNavBar extends Composite implements HasText {
 	@UiHandler("linkmenu")
 	void onLinkClick(ClickEvent e) {
 		MaterialModal.showModal(links,  TYPE.BOTTOM_SHEET);
-		/*
-		Window.alert("Go back to Top window");
-		if(listener == null) {
-			Window.alert("null");
-		} else {
-			Window.alert(listener.toString());
-		}
-		Window.alert(listener.toString());
-		listener.goTo(new ReactionTopPlace(name));
-		*/
 	}
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;
 		links.setPresenter(listener);
 	}
-	
+	public void setUser(UserDTO user) {
+		this.user = user;
+		links.setUser(user);
+		String umsg = user.getName() + " @Host=" + user.getIP();
+		navuser.setText(umsg);
+	}
 	
 }

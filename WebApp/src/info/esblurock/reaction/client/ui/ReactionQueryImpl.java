@@ -2,16 +2,19 @@ package info.esblurock.reaction.client.ui;
 
 import info.esblurock.reaction.client.panel.QueryAndResultPanel;
 import info.esblurock.reaction.client.panel.QueryNavBar;
+import info.esblurock.reaction.client.ui.login.AsyncGetUserData;
+import info.esblurock.reaction.client.ui.login.UserDTO;
 import gwt.material.design.client.ui.MaterialContainer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ReactionQueryImpl extends Composite implements ReactionQueryView {
+public class ReactionQueryImpl extends UiImplementationBase implements ReactionQueryView {
 
 	private static ReactionQueryImplUiBinder uiBinder = GWT
 			.create(ReactionQueryImplUiBinder.class);
@@ -41,8 +44,8 @@ public class ReactionQueryImpl extends Composite implements ReactionQueryView {
 
 	public ReactionQueryImpl(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
-		QueryAndResultPanel query = new QueryAndResultPanel(firstName);
-		QueryNavBar navbar = new QueryNavBar(firstName, query.getQueryTop());
+		query = new QueryAndResultPanel(firstName);
+		navbar = new QueryNavBar(firstName, query.getQueryTop());
 		init(query,navbar);
 	}
 
@@ -64,7 +67,13 @@ public class ReactionQueryImpl extends Composite implements ReactionQueryView {
 		this.listener = listener;
 		navbar.setPresenter(listener);
 		query.setPresenter(listener);
+		AsyncGetUserData async = new AsyncGetUserData(this);
 	}
-
+	@Override
+	public void setUser(UserDTO user) {
+		super.setUser(user);
+		navbar.setUser(user);
+		query.setUser(user);
+	}
 
 }

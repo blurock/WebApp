@@ -8,7 +8,7 @@
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry id=&quot;org.eclipse.jdt.launching.classpathentry.defaultClasspath&quot;&gt;&#13;&#10;&lt;memento project=&quot;WebApp&quot;/&gt;&#13;&#10;&lt;/runtimeClasspathEntry&gt;&#13;&#10;"/>
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry externalArchive=&quot;/opt/Google/gwt-2.7.0/gwt-dev.jar&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#13;&#10;"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value=" info.esblurock.reaction.client.resources.InterfaceConstants -out src -createMessages"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value=" info.esblurock.reaction.client.resources.InterfaceConstants -out src "/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="WebApp"/>
 <booleanAttribute key="org.eclipse.debug.core.appendEnvironmentVariables" value="true"/>
 </launchConfiguration>

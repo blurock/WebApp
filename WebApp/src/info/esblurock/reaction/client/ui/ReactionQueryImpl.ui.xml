@@ -8,11 +8,8 @@
 	}
 	</ui:style>
 
-	<g:HTMLPanel ui:field="wholepanel" >
-	
-
-
-		<m:MaterialFooter color="blue"
+	<g:HTMLPanel  ui:field="wholepanel" >
+		<m:MaterialFooter color="blue" 
 			copyright="© 2015 Very Open Data Project: Prototype" type="fixed">
 		</m:MaterialFooter>
 	</g:HTMLPanel>

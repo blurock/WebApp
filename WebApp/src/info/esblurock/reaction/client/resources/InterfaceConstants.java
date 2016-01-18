@@ -1,17 +1,26 @@
 package info.esblurock.reaction.client.resources;
 
 /**
- * Interface to represent the messages contained in resource bundle:
- * 	/Users/edwardblurock/Box Sync/ScientificNotebook/Project/WebApp/src/info/esblurock/reaction/client/resources/InterfaceConstants.properties'.
+ * Interface to represent the constants contained in resource bundle:
+ * 	'/Users/edwardblurock/git/WebApp/src/info/esblurock/reaction/client/resources/InterfaceConstants.properties'.
  */
-public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages {
+public interface InterfaceConstants extends com.google.gwt.i18n.client.Constants {
   
+  /**
+   * Translated "InterfaceConstants".
+   * 
+   * @return translated "InterfaceConstants"
+   */
+  @DefaultStringValue("InterfaceConstants")
+  @Key("ClassName")
+  String ClassName();
+
   /**
    * Translated "Action".
    * 
    * @return translated "Action"
    */
-  @DefaultMessage("Action")
+  @DefaultStringValue("Action")
   @Key("action")
   String action();
 
@@ -20,7 +29,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Perform an action on the data file"
    */
-  @DefaultMessage("Perform an action on the data file")
+  @DefaultStringValue("Perform an action on the data file")
   @Key("actiontooltip")
   String actiontooltip();
 
@@ -29,7 +38,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Set Keyword"
    */
-  @DefaultMessage("Set Keyword")
+  @DefaultStringValue("Set Keyword")
   @Key("datakeyword")
   String datakeyword();
 
@@ -38,7 +47,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Keyword of the data set (from description)"
    */
-  @DefaultMessage("Keyword of the data set (from description)")
+  @DefaultStringValue("Keyword of the data set (from description)")
   @Key("datakeywordtooltip")
   String datakeywordtooltip();
 
@@ -47,7 +56,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Data Type"
    */
-  @DefaultMessage("Data Type")
+  @DefaultStringValue("Data Type")
   @Key("datatype")
   String datatype();
 
@@ -56,7 +65,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The type of data file (determines how the file will be processed)"
    */
-  @DefaultMessage("The type of data file (determines how the file will be processed)")
+  @DefaultStringValue("The type of data file (determines how the file will be processed)")
   @Key("datatypetooltip")
   String datatypetooltip();
 
@@ -65,7 +74,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Delete"
    */
-  @DefaultMessage("Delete")
+  @DefaultStringValue("Delete")
   @Key("delete")
   String delete();
 
@@ -74,7 +83,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Delete the data file entry in database"
    */
-  @DefaultMessage("Delete the data file entry in database")
+  @DefaultStringValue("Delete the data file entry in database")
   @Key("deletetooltip")
   String deletetooltip();
 
@@ -83,7 +92,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Entry Date"
    */
-  @DefaultMessage("Entry Date")
+  @DefaultStringValue("Entry Date")
   @Key("entrydate")
   String entrydate();
 
@@ -92,7 +101,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The date the data file was entered"
    */
-  @DefaultMessage("The date the data file was entered")
+  @DefaultStringValue("The date the data file was entered")
   @Key("entrydatetooltip")
   String entrydatetooltip();
 
@@ -101,7 +110,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "ERROR"
    */
-  @DefaultMessage("ERROR")
+  @DefaultStringValue("ERROR")
   @Key("errortitle")
   String errortitle();
 
@@ -110,7 +119,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Filename"
    */
-  @DefaultMessage("Filename")
+  @DefaultStringValue("Filename")
   @Key("filename")
   String filename();
 
@@ -119,7 +128,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The filename of the text"
    */
-  @DefaultMessage("The filename of the text")
+  @DefaultStringValue("The filename of the text")
   @Key("filenametooltip")
   String filenametooltip();
 
@@ -128,7 +137,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "InputDate"
    */
-  @DefaultMessage("InputDate")
+  @DefaultStringValue("InputDate")
   @Key("inputDate")
   String inputDate();
 
@@ -137,7 +146,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The creation date of the object"
    */
-  @DefaultMessage("The creation date of the object")
+  @DefaultStringValue("The creation date of the object")
   @Key("inputDatetooltip")
   String inputDatetooltip();
 
@@ -146,7 +155,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Input File Transaction"
    */
-  @DefaultMessage("Input File Transaction")
+  @DefaultStringValue("Input File Transaction")
   @Key("inputtransaction")
   String inputtransaction();
 
@@ -155,7 +164,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Keyword"
    */
-  @DefaultMessage("Keyword")
+  @DefaultStringValue("Keyword")
   @Key("keyword")
   String keyword();
 
@@ -164,7 +173,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The data object keyword (used in search)"
    */
-  @DefaultMessage("The data object keyword (used in search)")
+  @DefaultStringValue("The data object keyword (used in search)")
   @Key("keywordtooltip")
   String keywordtooltip();
 
@@ -173,7 +182,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Number Lines"
    */
-  @DefaultMessage("Number Lines")
+  @DefaultStringValue("Number Lines")
   @Key("numberLines")
   String numberLines();
 
@@ -182,7 +191,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The number of lines in the file"
    */
-  @DefaultMessage("The number of lines in the file")
+  @DefaultStringValue("The number of lines in the file")
   @Key("numberLinestooltip")
   String numberLinestooltip();
 
@@ -191,7 +200,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "NumberObjectKeys"
    */
-  @DefaultMessage("NumberObjectKeys")
+  @DefaultStringValue("NumberObjectKeys")
   @Key("objectKeysSize")
   String objectKeysSize();
 
@@ -200,7 +209,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The number of object entries for the object"
    */
-  @DefaultMessage("The number of object entries for the object")
+  @DefaultStringValue("The number of object entries for the object")
   @Key("objectKeysSizetooltip")
   String objectKeysSizetooltip();
 
@@ -209,7 +218,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Process"
    */
-  @DefaultMessage("Process")
+  @DefaultStringValue("Process")
   @Key("process")
   String process();
 
@@ -218,7 +227,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The first parsing of the data file"
    */
-  @DefaultMessage("The first parsing of the data file")
+  @DefaultStringValue("The first parsing of the data file")
   @Key("processtooltip")
   String processtooltip();
 
@@ -227,7 +236,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "NumberRDF"
    */
-  @DefaultMessage("NumberRDF")
+  @DefaultStringValue("NumberRDF")
   @Key("rdfKeyWordsSize")
   String rdfKeyWordsSize();
 
@@ -236,7 +245,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The number of RDF entries made"
    */
-  @DefaultMessage("The number of RDF entries made")
+  @DefaultStringValue("The number of RDF entries made")
   @Key("rdfKeyWordsSizetooltip")
   String rdfKeyWordsSizetooltip();
 
@@ -245,7 +254,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Source Date"
    */
-  @DefaultMessage("Source Date")
+  @DefaultStringValue("Source Date")
   @Key("sourcedate")
   String sourcedate();
 
@@ -254,7 +263,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The date the data was created/published by the author"
    */
-  @DefaultMessage("The date the data was created/published by the author")
+  @DefaultStringValue("The date the data was created/published by the author")
   @Key("sourcedatetooltip")
   String sourcedatetooltip();
 
@@ -263,7 +272,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Source Key"
    */
-  @DefaultMessage("Source Key")
+  @DefaultStringValue("Source Key")
   @Key("sourcekey")
   String sourcekey();
 
@@ -272,7 +281,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The creator of the source file"
    */
-  @DefaultMessage("The creator of the source file")
+  @DefaultStringValue("The creator of the source file")
   @Key("sourcekeytooltip")
   String sourcekeytooltip();
 
@@ -281,7 +290,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "StoredObjectKey"
    */
-  @DefaultMessage("StoredObjectKey")
+  @DefaultStringValue("StoredObjectKey")
   @Key("storedObjectKey")
   String storedObjectKey();
 
@@ -290,7 +299,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The keyword for the main stored object (there could be subobjects)"
    */
-  @DefaultMessage("The keyword for the main stored object (there could be subobjects)")
+  @DefaultStringValue("The keyword for the main stored object (there could be subobjects)")
   @Key("storedObjectKeytooltip")
   String storedObjectKeytooltip();
 
@@ -299,7 +308,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "SUCCESS"
    */
-  @DefaultMessage("SUCCESS")
+  @DefaultStringValue("SUCCESS")
   @Key("successtitle")
   String successtitle();
 
@@ -308,25 +317,43 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "Data Entry: Enter raw data into database"
    */
-  @DefaultMessage("Data Entry: Enter raw data into database")
+  @DefaultStringValue("Data Entry: Enter raw data into database")
   @Key("toplinksentry")
   String toplinksentry();
+
+  /**
+   * Translated "User Profile: Edit user profile and account information".
+   * 
+   * @return translated "User Profile: Edit user profile and account information"
+   */
+  @DefaultStringValue("User Profile: Edit user profile and account information")
+  @Key("toplinksprofile")
+  String toplinksprofile();
 
   /**
    * Translated "Query: Enter keyword queries to database".
    * 
    * @return translated "Query: Enter keyword queries to database"
    */
-  @DefaultMessage("Query: Enter keyword queries to database")
+  @DefaultStringValue("Query: Enter keyword queries to database")
   @Key("toplinksquery")
   String toplinksquery();
+
+  /**
+   * Translated "Home Page".
+   * 
+   * @return translated "Home Page"
+   */
+  @DefaultStringValue("Home Page")
+  @Key("toplinkstop")
+  String toplinkstop();
 
   /**
    * Translated "ObjectType".
    * 
    * @return translated "ObjectType"
    */
-  @DefaultMessage("ObjectType")
+  @DefaultStringValue("ObjectType")
   @Key("transactionObjectType")
   String transactionObjectType();
 
@@ -335,7 +362,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The type of the transaction object"
    */
-  @DefaultMessage("The type of the transaction object")
+  @DefaultStringValue("The type of the transaction object")
   @Key("transactionObjectTypetooltip")
   String transactionObjectTypetooltip();
 
@@ -344,7 +371,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "User"
    */
-  @DefaultMessage("User")
+  @DefaultStringValue("User")
   @Key("user")
   String user();
 
@@ -353,16 +380,7 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Messages 
    * 
    * @return translated "The individual who entered the data"
    */
-  @DefaultMessage("The individual who entered the data")
+  @DefaultStringValue("The individual who entered the data")
   @Key("usertooltip")
   String usertooltip();
-
-  /**
-   * Translated "Welcome.  The current time is {0}.".
-   * 
-   * @return translated "Welcome.  The current time is {0}."
-   */
-  @DefaultMessage("Welcome.  The current time is {0}.")
-  @Key("welcome")
-  String welcome(String arg0);
 }

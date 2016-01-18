@@ -7,6 +7,7 @@ import info.esblurock.reaction.client.activity.place.ReactionFirstPlace;
 import info.esblurock.reaction.client.activity.place.ReactionTopPlace;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 import info.esblurock.reaction.client.ui.ReactionQueryView.Presenter;
+import info.esblurock.reaction.client.ui.login.UserDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -27,6 +28,10 @@ public class QueryLinks extends Composite implements HasText {
 	interface QueryLinksUiBinder extends UiBinder<Widget, QueryLinks> {
 	}
 
+	private String datainputS = "DataInput";
+	private String queryS = "Query";
+
+	
 	@UiField
 	MaterialLink top;
 	@UiField
@@ -35,7 +40,8 @@ public class QueryLinks extends Composite implements HasText {
 	MaterialButton close;
 	
 	private Presenter listener;
-
+	UserDTO user;
+	
 	InterfaceConstants interfaceconstants = GWT.create(InterfaceConstants.class);
 
 	public QueryLinks() {
@@ -48,8 +54,10 @@ public class QueryLinks extends Composite implements HasText {
 	}
 
 	private void init() {
-		top.setText(interfaceconstants.toplinksquery());
+		top.setText(interfaceconstants.toplinkstop());
 		dataentry.setText(interfaceconstants.toplinksentry());
+		top.setVisible(true);
+		dataentry.setVisible(false);
 	}
 	
 	@UiHandler("dataentry")
@@ -79,5 +87,9 @@ public class QueryLinks extends Composite implements HasText {
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;
 	}
-
+	public void setUser(UserDTO user) {
+		this.user = user;
+		dataentry.setVisible(user.checkLevel(datainputS));
+		top.setVisible(true);
+	}
 }

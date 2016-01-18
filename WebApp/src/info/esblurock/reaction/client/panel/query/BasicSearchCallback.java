@@ -7,9 +7,7 @@ import java.util.Set;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTextArea;
-import gwt.material.design.client.ui.MaterialTitle;
 import info.esblurock.reaction.data.rdf.RDFQueryToStringSet;
 import info.esblurock.reaction.data.rdf.SetOfKeywordQueryAnswers;
 
@@ -33,14 +31,9 @@ public class BasicSearchCallback implements AsyncCallback<SetOfKeywordQueryAnswe
 	@Override
 	public void onSuccess(SetOfKeywordQueryAnswers result) {
 
-		String message = "Size: " + result.getKeys().size();
-		Window.alert(message);
-
 		HTMLPanel toppanel = new HTMLPanel("");		
 		topSearch.addContent(toppanel);
 
-		
-		Set<String> topset = result.getKeys();
 		MaterialCollapsible collapse = new MaterialCollapsible();
 		collapse.setType("Popout");
 		toppanel.add(collapse);
@@ -62,7 +55,7 @@ public class BasicSearchCallback implements AsyncCallback<SetOfKeywordQueryAnswe
 			build.append(topkey);
 			build.append(",\t");
 		}
-		Window.alert(build.toString());
+		Window.alert("Keys: " + build.toString());
 		
 		
 		
@@ -80,9 +73,15 @@ public class BasicSearchCallback implements AsyncCallback<SetOfKeywordQueryAnswe
 			ArrayList<String> strings = stringset.get(key);
 			MaterialCollapsible stringanscollapse = new MaterialCollapsible();
 			substringpanel.add(stringanscollapse);
+			//Window.alert(key + ":v2: " + Integer.toString(strings.size()) + " " + strings);
 			for(String ans : strings) {
-				MaterialCollapsibleItem substring = new MaterialCollapsibleItem();
-				MaterialLink sublabel = new MaterialLink(key);
+				//MaterialCollapsibleItem substring = new MaterialCollapsibleItem();
+				//MaterialLink sublabel = new MaterialLink(key);
+				MaterialTextArea subtext = new MaterialTextArea();
+				//subtext.setTitle(key);
+				subtext.setText(ans);
+				//substring.addContent(subtext);
+				/*
 				if(ans.length() < 80) {
 					MaterialTitle slabel = new MaterialTitle();
 					slabel.setDescription(ans);
@@ -93,8 +92,9 @@ public class BasicSearchCallback implements AsyncCallback<SetOfKeywordQueryAnswe
 					subtext.setText(ans);
 					substring.addContent(subtext);
 				}
-				substring.setHeader(sublabel);
-				stringsetcollapse.addItem(substring);
+				*/
+				//substring.setHeader(sublabel);
+				stringanscollapse.addItem(subtext);
 			}
 		}
 		

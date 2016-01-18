@@ -1,18 +1,18 @@
 package info.esblurock.reaction.client.panel;
 
+import info.esblurock.reaction.client.ui.UiImplementationBase;
 import info.esblurock.reaction.client.ui.ReactionQueryView.Presenter;
+import info.esblurock.reaction.client.ui.login.UserDTO;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLabel;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
-public class QueryAndResultPanel extends Composite implements HasText {
+public class QueryAndResultPanel extends UiImplementationBase implements HasText {
 	
 
 	private static QueryAndResultPanelUiBinder uiBinder = GWT
@@ -51,6 +51,10 @@ public class QueryAndResultPanel extends Composite implements HasText {
 	}
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;
+	}
+	@Override
+	public void setUser(UserDTO user) {
+		super.setUser(user);
 	}
 
 }

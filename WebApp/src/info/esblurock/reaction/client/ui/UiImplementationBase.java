@@ -19,6 +19,8 @@ public class UiImplementationBase  extends Composite {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	public void setLoggedOut() {
+		
+	}
 
 }

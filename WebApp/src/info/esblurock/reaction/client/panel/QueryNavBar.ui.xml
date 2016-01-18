@@ -13,20 +13,30 @@
 	}
 	</ui:style>
 	<m:MaterialNavBar ui:field="navbar" wave="light"
-		align="right" color="blue" text="Query" sideBar="fixed"
-		sideBarWidth="300">
+		align="right" color="blue" text="Query" sideBar="fixed" sideBarWidth="300">
 		<m:nav>
-			<g:TextBox title="Search" text="Reaction" 
-				ui:field="search" />
+			<g:TextBox title="Search" text="Blurock" ui:field="search" />
 		</m:nav>
 		<m:nav>
 			<m:MaterialButton ui:field="submittopquery" text="Submit"
 				color="light-blue lighten-5" textColor="black" />
 		</m:nav>
-			<m:nav>
-				<m:MaterialLink ui:field="linkmenu" icon="mdi-action-list"
-					textColor="white" />
-			</m:nav>
+		<m:nav>
+			<m:MaterialLink ui:field="linkmenu" icon="mdi-action-list"
+				textColor="white" />
+		</m:nav>
+		<m:sidebaritem>
+			<m:MaterialTopNav profileName="Data Input and Query"
+			resource="{res.blackboardbackground}"
+				ui:field="topNav" textColor="white" type="sidebar">
+				<m:child>
+					<m:MaterialLink 
+					ui:field="navuser" text="edward.blurock"
+						textColor="white" fontSize="0.8" icon="mdi-navigation-arrow-drop-down"
+						iconPosition="right" />
+				</m:child>
+			</m:MaterialTopNav>
+		</m:sidebaritem>
 
 
 	</m:MaterialNavBar>
