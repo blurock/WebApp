@@ -41,10 +41,15 @@ public class SetOfKeywordQueryAnswers implements Serializable{
 	}
 	public String toString(String prefix) {
 		StringBuilder build = new StringBuilder();
+		
+		
+		
 		String indent = prefix + " : \t";
 		Set<String> keys = querySets.keySet();
+		build.append(prefix + "SetOfKeywordQueryAnswers: " + keys.size() + "\n");
+		
 		for(String key : keys) {
-			build.append(prefix + " " + key + "\n");
+			build.append(prefix + "AnswerKey: " + key + "\n");
 			RDFQueryToStringSet queryset = querySets.get(key);
 			build.append(queryset.toString(indent));
 		}

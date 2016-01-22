@@ -30,4 +30,5 @@ public interface ReactionSearchService  extends RemoteService {
 	   RDFBySubjectSet objectSearch(String search);
 	   RDFBySubjectSet mergeSearch(HashSet<String> keyset);
 	   RDFBySubjectSet singleKeyQuery(String key);
+	   
 }

@@ -47,14 +47,14 @@ public class BasicSearchCallback implements AsyncCallback<RDFBySubjectSet> {
 			String stringKey = "String";
 			RDFQueryToStringSet stringset = result.get(stringKey);
 			if (stringset.size() > 0) {
-				QueryStringSet stringitem = new QueryStringSet(stringKey, stringset, topPath);
+				QueryStringSet stringitem = new QueryStringSet(stringKey, stringset, topPath,collapse);
 				collapse.addItem(stringitem);
 			}
 
 			String objectKey = "Object";
 			RDFQueryToStringSet objectset = result.get(objectKey);
 			if (objectset.size() > 0) {
-				QueryObjectSet objectitem = new QueryObjectSet(objectKey, objectset, topPath);
+				QueryObjectSet objectitem = new QueryObjectSet(objectKey, objectset, topPath,collapse);
 				collapse.addItem(objectitem);
 			}
 		}
