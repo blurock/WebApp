@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry exported="true" kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="jars/appengine-api-labs.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/appengine-api-stubs.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/appengine-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/appengine-local-runtime.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/appengine-testing.jar"/>
+	<classpathentry kind="lib" path="jars/cdk-1.4.19.jar"/>
+	<classpathentry kind="lib" path="jars/JTherGas.jar"/>
+	<classpathentry kind="lib" path="jars/JThermodynamicData.jar"/>
+	<classpathentry kind="lib" path="jars/jni-inchi-0.7-jar-with-dependencies.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
