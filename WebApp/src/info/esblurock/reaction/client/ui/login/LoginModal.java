@@ -99,8 +99,6 @@ public class LoginModal extends Composite implements HasText {
 							String level = result.getUserLevel();
 							Cookies.setCookie("level", result.getUserLevel(),
 									expires, null, "/", false);
-							Window.alert("Signed in: " + result.getName()
-									+ "\t Level: " + level);
 							toplevel.setLoggedIn();
 							toplevel.setUser(result);
 							MaterialModal.closeModal();

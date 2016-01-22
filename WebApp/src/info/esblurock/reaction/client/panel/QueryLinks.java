@@ -63,13 +63,11 @@ public class QueryLinks extends Composite implements HasText {
 	@UiHandler("dataentry")
 	void onQueryClick(ClickEvent e) {
 		String username = Cookies.getCookie("user");
-		Window.alert("dataentry");
 		listener.goTo(new ReactionFirstPlace(username));
 	}
 	@UiHandler("top")
 	void onEntryClick(ClickEvent e) {
 		String username = Cookies.getCookie("user");
-		Window.alert("top");
 		listener.goTo(new ReactionTopPlace(username));
 	}
 	@UiHandler("close")

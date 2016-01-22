@@ -38,7 +38,6 @@ public class ReactionQueryActivity  extends AbstractActivity implements Reaction
 
 	@Override
 	public void goTo(Place place) {
-		Window.alert("Query: goto: " + place.toString());
 		clientFactory.getPlaceController().goTo(place);
 	}
 

@@ -57,7 +57,7 @@ public class StoreObject {
 		store(object);
 		String key = object.getKey();
 		String classname = object.getClass().getName();
-		String typepredicate = objectPredicate + typeDelimiter + classname;
+		String typepredicate = classname + typeDelimiter + objectPredicate;
 		KeywordRDF objectrdf = new KeywordRDF(keyword, typepredicate, key.toString());
 		store(objectrdf);
 		transaction.addRDFKey(objectrdf.getKey());

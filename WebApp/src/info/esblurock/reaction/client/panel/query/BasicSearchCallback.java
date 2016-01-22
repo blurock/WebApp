@@ -1,6 +1,5 @@
 package info.esblurock.reaction.client.panel.query;
 
-
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -8,6 +7,7 @@ import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialTextArea;
+import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
 import info.esblurock.reaction.data.rdf.RDFQueryToStringSet;
 import info.esblurock.reaction.data.rdf.SetOfKeywordQueryAnswers;
 
@@ -15,90 +15,49 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
-public class BasicSearchCallback implements AsyncCallback<SetOfKeywordQueryAnswers> {
+public class BasicSearchCallback implements AsyncCallback<RDFBySubjectSet> {
 
 	MaterialCollapsibleItem topSearch;
-	
-	public BasicSearchCallback(MaterialCollapsibleItem search) {
-		topSearch= search;
+	QueryPath topPath;
+
+	public BasicSearchCallback(QueryPath path, MaterialCollapsibleItem search) {
+		topSearch = search;
+		topPath = path;
 	}
-	
+
 	@Override
 	public void onFailure(Throwable caught) {
 		Window.alert(caught.toString());
 	}
 
 	@Override
-	public void onSuccess(SetOfKeywordQueryAnswers result) {
+	public void onSuccess(RDFBySubjectSet answer) {
+		Set<String> keys = answer.keySet();
 
-		HTMLPanel toppanel = new HTMLPanel("");		
-		topSearch.addContent(toppanel);
+		HTMLPanel toppanel = new HTMLPanel("");
+		//topSearch.addContent(toppanel);
 
 		MaterialCollapsible collapse = new MaterialCollapsible();
 		collapse.setType("Popout");
-		toppanel.add(collapse);
-		
-		String stringKey = "String";
-		HTMLPanel stringpanel = new HTMLPanel("");
-		MaterialLabel stringlabel = new MaterialLabel(stringKey);
-		MaterialCollapsibleItem stringitem = new MaterialCollapsibleItem();
-		stringitem.addHeader(stringlabel);
-		stringitem.addContent(stringpanel);
-		collapse.addItem(stringitem);
+		//toppanel.add(collapse);
+		topSearch.addContent(collapse);
 
-		
-		RDFQueryToStringSet stringset = result.get(stringKey);
-		Set<String> stringkeys = stringset.keySet();
-		
-		StringBuilder build = new StringBuilder();
-		for(String topkey : stringkeys) {
-			build.append(topkey);
-			build.append(",\t");
-		}
-		Window.alert("Keys: " + build.toString());
-		
-		
-		
-		MaterialCollapsible stringsetcollapse = new MaterialCollapsible();
-		stringsetcollapse.setType("popout");
-		stringpanel.add(stringsetcollapse);
-		for(String key: stringkeys) {
-			MaterialCollapsibleItem item = new MaterialCollapsibleItem();
-			MaterialLabel label = new MaterialLabel(key);
-			HTMLPanel substringpanel = new HTMLPanel("");
-			item.addHeader(label);
-			item.addContent(substringpanel);
-			stringsetcollapse.addItem(item);
-			
-			ArrayList<String> strings = stringset.get(key);
-			MaterialCollapsible stringanscollapse = new MaterialCollapsible();
-			substringpanel.add(stringanscollapse);
-			//Window.alert(key + ":v2: " + Integer.toString(strings.size()) + " " + strings);
-			for(String ans : strings) {
-				//MaterialCollapsibleItem substring = new MaterialCollapsibleItem();
-				//MaterialLink sublabel = new MaterialLink(key);
-				MaterialTextArea subtext = new MaterialTextArea();
-				//subtext.setTitle(key);
-				subtext.setText(ans);
-				//substring.addContent(subtext);
-				/*
-				if(ans.length() < 80) {
-					MaterialTitle slabel = new MaterialTitle();
-					slabel.setDescription(ans);
-					substring.addContent(slabel);
-				} else {
-					MaterialTextArea subtext = new MaterialTextArea();
-					//subtext.setTitle(key);
-					subtext.setText(ans);
-					substring.addContent(subtext);
-				}
-				*/
-				//substring.setHeader(sublabel);
-				stringanscollapse.addItem(subtext);
+		for (String key : keys) {
+			SetOfKeywordQueryAnswers result = answer.get(key);
+			String stringKey = "String";
+			RDFQueryToStringSet stringset = result.get(stringKey);
+			if (stringset.size() > 0) {
+				QueryStringSet stringitem = new QueryStringSet(stringKey, stringset, topPath);
+				collapse.addItem(stringitem);
+			}
+
+			String objectKey = "Object";
+			RDFQueryToStringSet objectset = result.get(objectKey);
+			if (objectset.size() > 0) {
+				QueryObjectSet objectitem = new QueryObjectSet(objectKey, objectset, topPath);
+				collapse.addItem(objectitem);
 			}
 		}
-		
-		}
-		
-
 	}
+
+}

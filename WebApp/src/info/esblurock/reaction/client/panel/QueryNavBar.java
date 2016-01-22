@@ -1,6 +1,7 @@
 package info.esblurock.reaction.client.panel;
 
 import info.esblurock.reaction.client.panel.query.BasicSearchCallback;
+import info.esblurock.reaction.client.panel.query.QueryPath;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.client.panel.query.ReactionSearchServiceAsync;
 import info.esblurock.reaction.client.ui.ReactionQueryView.Presenter;
@@ -75,7 +76,8 @@ public class QueryNavBar extends Composite implements HasText {
 		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
 		String title = "Keyword Search: " + search.getText();
 		search0.setTitle(title);
-		async.basicSearch(search.getText(), new BasicSearchCallback(search0));
+		QueryPath path = new QueryPath(search.getText());
+		async.basicSearch(search.getText(), new BasicSearchCallback(path, search0));
 	}
 
 	@UiHandler("linkmenu")

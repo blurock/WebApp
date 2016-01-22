@@ -9,8 +9,11 @@ import gwt.material.design.client.ui.MaterialSlideItem;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialModal.TYPE;
+import info.esblurock.reaction.client.ui.login.CheckSessionLoginCallback;
 import info.esblurock.reaction.client.ui.login.ClientLogout;
 import info.esblurock.reaction.client.ui.login.LoginModal;
+import info.esblurock.reaction.client.ui.login.LoginService;
+import info.esblurock.reaction.client.ui.login.LoginServiceAsync;
 import info.esblurock.reaction.client.ui.login.UserDTO;
 import info.esblurock.reaction.client.ui.modal.TopPageLinks;
 import info.esblurock.reaction.client.ui.resource.ReactionTopViewResources;
@@ -89,8 +92,9 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		String sessionid = Cookies.getCookie("sid");
 		String username = Cookies.getCookie("user");
 		if(username != null) {
-			MaterialToast.alert("Session ID: " + sessionid + "\tUser: " + username);
-			setLoggedIn();
+			LoginServiceAsync async = LoginService.Util.getInstance();
+			CheckSessionLoginCallback callback = new CheckSessionLoginCallback(username, this);
+			async.loginFromSessionServer(callback);
 		} else {
 			setLoggedOut();
 		}
@@ -110,7 +114,10 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		super.setLoggedOut();
 		toplogout.setVisible(false);
 		toplogin.setVisible(true);
-		linkmenu.setVisible(false);		
+		linkmenu.setVisible(false);	
+		Cookies.removeCookie("user");
+		Cookies.removeCookie("sid");
+
 	}
 	@UiHandler("toplogin")
 	void onTopLoginClick(ClickEvent e) {
@@ -138,5 +145,6 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	public void setUser(UserDTO user) {
 		super.setUser(user);
 		links.setUser(user);
+		setLoggedIn();
 	}
 }
