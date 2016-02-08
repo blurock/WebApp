@@ -1,8 +1,11 @@
 package info.esblurock.reaction.client.panel.transaction;
 
+import info.esblurock.reaction.client.ReactionProcessUploadedLines;
+import info.esblurock.reaction.client.ReactionProcessUploadedLinesAsync;
 import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.contact.ClientStoreOrganizationInput;
+import info.esblurock.reaction.client.panel.transaction.process.ProcessUploadCallback;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 import gwt.material.design.client.ui.MaterialButton;
@@ -16,6 +19,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
@@ -105,8 +109,14 @@ public class TransactionActions extends Composite implements HasText {
 
 	@UiHandler("btnprocess")
 	void onClickProcess(ClickEvent e) {
+		/*
+		ProcessUploadCallback callback =new ProcessUploadCallback();
+		ReactionProcessUploadedLinesAsync async = ReactionProcessUploadedLines.Util.getInstance();
+		String key = keyword.getText();
+		String file = filename.getText();
+		async.processUploadedMechanism(key, file, callback);
+		*/
 		MaterialModal.closeModal();
-		MaterialToast.alert("Process");
 	}
 
 	@UiHandler("btndelete")

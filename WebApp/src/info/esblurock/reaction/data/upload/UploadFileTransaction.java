@@ -15,7 +15,7 @@ import javax.jdo.annotations.PrimaryKey;
 public class UploadFileTransaction extends DatabaseObject {
     @Persistent
     String user;
-    
+  
     @Persistent
     String filename;
     
@@ -48,7 +48,6 @@ public class UploadFileTransaction extends DatabaseObject {
 	public String getSourceType() {
 		return sourceType;
 	}
-
 
 	public ArrayList<String> getSetOfLinesKeys() {
 		return setOfLinesKeys;

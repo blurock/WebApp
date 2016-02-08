@@ -70,7 +70,6 @@ public class ObjectTransaction extends Composite implements HasText {
 		sortDataHandler = new ListHandler<TransactionInfo>(orders);
 		setGrid(new ArrayList<TransactionInfo>());
 		getAllTransactionInfo();
-		MaterialToast.alert("Here 2");
 		dataGrid.setStyleName("striped responsive-table");
 	}
 	public void setGrid(List<TransactionInfo> orders) {
@@ -123,46 +122,6 @@ public class ObjectTransaction extends Composite implements HasText {
 						MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
 					}
 				});
-/*
-		// Key
-		Column<TransactionInfo, MaterialButton> colKey = new Column<TransactionInfo, MaterialButton>(
-				new MaterialButtonCell()) {
-			@Override
-			public MaterialButton getValue(TransactionInfo object) {
-				MaterialButton button = new MaterialButton(object.getKeyword(), "blue-text text-darken-2 light-blue lighten-5",
-						"light");
-				return button;
-			}
-		};
-		colKey.setFieldUpdater(new FieldUpdater<TransactionInfo, MaterialButton>() {
-			@Override
-			public void update(int index, TransactionInfo object,
-					MaterialButton value) {
-				String info = "\nKey:        " + object.getKeyword() 
-						    + "\nSource Key: " + object.getSourceKey()
-						    + "\nType:       " + object.getType();
-						
-				TextMessagePopup popup = new TextMessagePopup("Info", info);
-				MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
-				
-				MaterialToast.alert(object.getKeyword() + ": "
-						+ object.getSourceKey());
-			}
-		});
-
-		colKey.setSortable(true);
-		sortDataHandler.setComparator(colKey,
-				new Comparator<TransactionInfo>() {
-
-					@Override
-					public int compare(TransactionInfo o1,
-							TransactionInfo o2) {
-
-						return o1.getKeyword().compareTo(o2.getKeyword());
-					}
-				});
-				
-*/
 		// Source sourceKey
 		TextColumn<TransactionInfo> colObjectType = new TextColumn<TransactionInfo>() {
 			@Override

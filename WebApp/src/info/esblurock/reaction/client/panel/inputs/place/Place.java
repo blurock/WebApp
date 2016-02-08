@@ -6,6 +6,7 @@ import info.esblurock.reaction.client.panel.inputs.InputSet;
 import info.esblurock.reaction.client.panel.inputs.SetOfInputs;
 import info.esblurock.reaction.client.panel.transaction.ObjectTransaction;
 import info.esblurock.reaction.client.panel.transaction.TransactionSources;
+import info.esblurock.reaction.client.panel.transaction.UploadFileSetsTransactions;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -147,23 +148,40 @@ public enum Place {
 			return new TransactionSources();
 		}
 	},
-		transactions {
-			@Override
-			public String getTitle() {
-				return "Transactions";
-			}
+	transactions {
+		@Override
+		public String getTitle() {
+			return "Transactions";
+		}
 
-			@Override
-			public String getDescription() {
-				return "Full set of database entries for a transaction";
-			}
+		@Override
+		public String getDescription() {
+			return "Full set of database entries for a transaction";
+		}
 
-			@Override
-			public Widget getContent() {
-				return new ObjectTransaction();
-			}
+		@Override
+		public Widget getContent() {
+			return new ObjectTransaction();
+		}
 
-	};
+},
+	uploadsets {
+		@Override
+		public String getTitle() {
+			return "Upload Sets";
+		}
+
+		@Override
+		public String getDescription() {
+			return "Uploaded File Sets to process";
+		}
+
+		@Override
+		public Widget getContent() {
+			return new UploadFileSetsTransactions();
+		}
+
+};
 
 	public abstract String getTitle();
 

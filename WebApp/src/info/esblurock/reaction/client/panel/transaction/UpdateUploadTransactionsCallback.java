@@ -32,14 +32,11 @@ public class UpdateUploadTransactionsCallback implements
 	@Override
 	public void onSuccess(Set<UploadFileTransaction> result) {
 		try {
-			MaterialToast.alert("onSuccess begin: "
-					+ Integer.toString(result.size()));
 			for (UploadFileTransaction source : result) {
 				gui.addUploadFileTransaction(source);
 			}
 			//gui.setGrid(null);
 			gui.refresh();
-			MaterialToast.alert(Integer.toString(gui.getTransactions().size()));
 		} catch (Exception ex) {
 			Window.alert(ex.toString());
 		}

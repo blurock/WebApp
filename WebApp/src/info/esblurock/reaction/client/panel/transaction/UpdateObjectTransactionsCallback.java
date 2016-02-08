@@ -32,13 +32,10 @@ public class UpdateObjectTransactionsCallback implements
 	@Override
 	public void onSuccess(List<TransactionInfo> result) {
 		try {
-			MaterialToast.alert("onSuccess begin: "
-					+ Integer.toString(result.size()));
 			for (TransactionInfo info : result) {
 				gui.addTransactionInfo(info);
 			}
 			gui.refresh();
-			MaterialToast.alert(Integer.toString(gui.getTransactions().size()));
 		} catch (Exception ex) {
 			Window.alert(ex.toString());
 		}

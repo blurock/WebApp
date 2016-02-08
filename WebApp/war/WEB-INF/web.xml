@@ -39,6 +39,10 @@
 		<servlet-class>info.esblurock.reaction.server.ReactionSearchServiceImpl</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>reactionProcessUploadedLinesService</servlet-name>
+		<servlet-class>info.esblurock.reaction.server.ReactionProcessUploadedLinesImpl</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>uploadServlet</servlet-name>
 		<!-- This is the default servlet, it puts files in session -->
 		<servlet-class>info.esblurock.reaction.server.ReactionUploadServiceImpl</servlet-class>
@@ -72,6 +76,11 @@
 		<servlet-name>uploadServlet</servlet-name>
 		<url-pattern>*.gupld</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>reactionProcessUploadedLinesService</servlet-name>
+		<url-pattern>/webapp/reactionprocessuploadedlines</url-pattern>
+		<url-pattern>/reactionprocessuploadedlines</url-pattern>
+	</servlet-mapping> 
 	<servlet-mapping>
 		<servlet-name>reactionQueryService</servlet-name>
 		<url-pattern>/webapp/reactionqueryservice</url-pattern>

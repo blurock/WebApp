@@ -13,10 +13,12 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable
 public class TextSetUploadData extends DatabaseObject {
 
-    @Persistent(dependent = "true")
+	private static final long serialVersionUID = 1L;
+
+	@Persistent(dependent = "true")
     DescriptionDataData description;
 
-    @Persistent(serialized="true")
+    @Persistent
     ArrayList<InputTextSource> inputTextSources;
     
     public TextSetUploadData() {

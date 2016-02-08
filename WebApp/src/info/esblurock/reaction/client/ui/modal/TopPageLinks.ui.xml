@@ -1,27 +1,30 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-xmlns:m="urn:import:gwt.material.design.client.ui"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:m="urn:import:gwt.material.design.client.ui" xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
 	.important {
 		font-weight: bold;
 	}
 	</ui:style>
 	<g:HTMLPanel>
-	<m:MaterialModalContent ui:field="content" title="Pages">
-	<m:MaterialRow>
-	<m:MaterialColumn>
-	<m:MaterialLink ui:field="query" text="Query: Enter keyword queries to database"/>
-	</m:MaterialColumn>
-	</m:MaterialRow>
-	<m:MaterialRow>
-	<m:MaterialColumn>
-	<m:MaterialLink ui:field="dataentry"  text="Data Entry: Enter raw data into database"/>
-	</m:MaterialColumn>
-	</m:MaterialRow>
-	</m:MaterialModalContent>>
-	<m:MaterialModalFooter>
-	<m:MaterialButton ui:field="close" text="Close"/>
-	</m:MaterialModalFooter>
+		<m:MaterialModalContent ui:field="content"
+			title="Pages">
+			<m:MaterialRow>
+				<m:MaterialColumn>
+					<m:MaterialLink ui:field="query"
+						text="Query: Enter keyword queries to database" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+			<m:MaterialRow>
+				<m:MaterialColumn>
+					<m:MaterialLink ui:field="dataentry"
+						text="Data Entry: Enter raw data into database" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+		</m:MaterialModalContent>
+		>
+		<m:MaterialModalFooter>
+			<m:MaterialButton ui:field="close" text="Close" />
+		</m:MaterialModalFooter>
 	</g:HTMLPanel>
 </ui:UiBinder> 

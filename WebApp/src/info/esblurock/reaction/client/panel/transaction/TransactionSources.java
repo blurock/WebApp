@@ -81,11 +81,7 @@ public class TransactionSources extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		sortDataHandler = new ListHandler<UploadFileTransaction>(orders);
 		setGrid(new ArrayList<UploadFileTransaction>());
-		
-
-		MaterialToast.alert("Here 1");
 		getAllUploadFileTransaction();
-		MaterialToast.alert("Here 2");
 		dataGrid.setStyleName("striped responsive-table");
 	}
 
@@ -286,10 +282,8 @@ public class TransactionSources extends Composite {
 		//dataGrid.flush();
 	}
 	public void getUploadedFiles() {
-		MaterialToast.alert("Callback");
 		UpdateUploadTransactionsCallback callback = new UpdateUploadTransactionsCallback(this);
 		async.getSetOfUploadedFiles(callback);
-		//UploadFileTransactionProvider.setList(orders);
 	}
 
 }

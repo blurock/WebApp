@@ -21,7 +21,6 @@ public class StoreTextSetUploadData  extends StoreObject {
 		data.getDescription().setParentKey(data.getKey());
 		StoreDescriptionData description = new StoreDescriptionData(data.getDescription().getKeyword(),
 				data.getDescription(), transaction);
-		
 	}
 	protected void storeRDF() {
 		TextSetUploadData data = (TextSetUploadData) object;

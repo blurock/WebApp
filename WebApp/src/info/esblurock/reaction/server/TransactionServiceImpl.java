@@ -10,6 +10,8 @@ import javax.jdo.PersistenceManager;
 import info.esblurock.reaction.client.panel.transaction.TransactionService;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
+import info.esblurock.reaction.data.upload.InputTextSource;
+import info.esblurock.reaction.data.upload.TextSetUploadData;
 import info.esblurock.reaction.server.datastore.PMF;
 
 import com.google.appengine.api.datastore.Key;
@@ -33,6 +35,41 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		return lst;
 	}
 
+	public List<TextSetUploadData> getAllUploadTransactions() {
+		javax.jdo.Query q = pm.newQuery(TextSetUploadData.class);
+		List<TextSetUploadData> results = (List<TextSetUploadData>) q.execute();
+		ArrayList<TextSetUploadData> lst = new ArrayList<TextSetUploadData>();
+		for(TextSetUploadData transaction: results) {
+			if(transaction.getDescription() == null) {
+				System.out.println("transaction Description is null");
+			} else {
+				System.out.println("transaction Description is not null\n" + transaction.getDescription().toString());
+			}
+			TextSetUploadData t = pm.detachCopy(transaction);
+			if(t.getDescription() == null) {
+				System.out.println("Description is null");
+			} else {
+				System.out.println("Description is not null");
+			}
+			ArrayList<InputTextSource> datalst = transaction.getInputTextSources();
+			if(datalst == null) {
+				System.out.println("InputTextSource is null");
+				lst.add(t);
+			} else {
+				System.out.println("InputTextSource size is " + datalst.size());
+				TextSetUploadData trans = new TextSetUploadData(t.getDescription());
+				trans.setKey(t.getKey());
+				for(InputTextSource source : datalst) {
+					InputTextSource s = pm.detachCopy(source);
+					trans.addInputTextSource(s);
+				}
+				lst.add(trans);
+			}
+			
+		}
+		return lst;
+		
+	}
 	@Override
 	public List<TransactionInfo> getTransactions(String user, String keyword,
 			String objecttype) {

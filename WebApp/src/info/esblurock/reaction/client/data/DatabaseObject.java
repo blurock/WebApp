@@ -24,12 +24,9 @@ public class DatabaseObject implements Serializable{
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
-    private String key;
-
-
+    String key;
 	@Persistent
 	Date creationDate;
-
 	@Persistent
 	String access;
 
@@ -40,6 +37,9 @@ public class DatabaseObject implements Serializable{
 
 	public String getKey() {
 		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
 	}
 	public Date getCreationDate() {
 		return creationDate;

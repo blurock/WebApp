@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import info.esblurock.reaction.data.transaction.TransactionInfo;
+import info.esblurock.reaction.data.upload.TextSetUploadData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -26,6 +27,7 @@ public interface TransactionService extends RemoteService {
 	       }
 	   }
 	   List<TransactionInfo> getAllTransactions();
+	   List<TextSetUploadData> getAllUploadTransactions();
 	   List<TransactionInfo> getTransactions(String user, String keyword,
 			String objecttype);
 	   String removeTransaction(String key) throws Exception;

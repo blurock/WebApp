@@ -1,6 +1,7 @@
 package info.esblurock.reaction.client.panel.transaction;
 
 import info.esblurock.reaction.data.transaction.TransactionInfo;
+import info.esblurock.reaction.data.upload.TextSetUploadData;
 
 import java.util.List;
 import java.util.Set;
@@ -21,5 +22,7 @@ public interface TransactionServiceAsync {
 	void getKeywordSet(AsyncCallback<Set<String>> callback);
 
 	void getObjectTypeSet(AsyncCallback<Set<String>> callback);
+
+	void getAllUploadTransactions(AsyncCallback<List<TextSetUploadData>> callback);
 
 }

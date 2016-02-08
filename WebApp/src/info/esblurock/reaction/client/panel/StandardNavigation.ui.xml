@@ -114,6 +114,12 @@
 						<m:content>
 							<m:UnorderedList>
 								<m:ListItem>
+									<m:MaterialLink ui:field="uploadsets" iconPosition="left"
+										text="File Sets" textColor="blue"
+										tooltip="File sets to process"
+										tooltipLocation="right" />
+								</m:ListItem>
+								<m:ListItem>
 									<m:MaterialLink ui:field="toprocess" iconPosition="left"
 										text="To Process" textColor="blue"
 										tooltip="Transactions to process"

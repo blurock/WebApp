@@ -148,5 +148,10 @@ public class StandardNavigation extends Composite implements HasText {
 		MaterialToast.alert("transactions");
 		handleHistoryToken("transactions");
 	}
+	@UiHandler("uploadsets")
+	void onUploads(ClickEvent e) {
+		MaterialToast.alert("uploadsets");
+		handleHistoryToken("uploadsets");
+	}
 
 }

@@ -2,7 +2,8 @@ elements
 h c o n ar
 end
 species
-h           h2          o             o2          oh          
+h           h2          o             o2          oh   
+end       
 reactions                         cal/mole
    h+o2 = o+oh    1.915E+14   0.00  1.644E+04
 end
