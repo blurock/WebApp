@@ -22,16 +22,34 @@ import info.esblurock.reaction.server.datastore.PMF;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StoreDescriptionDataImpl.
+ */
 public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		StoreDescriptionData {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The organization description. */
 	static String organizationDescription = "OrganizationDescription";
+	
+	/** The user description. */
 	static String userDescription = "UserDescription";
 
+	/** The pm. */
 	PersistenceManager pm = PMF.get().getPersistenceManager();
+	
+	/** The conversion. */
 	StringToKeyConversion conversion = new StringToKeyConversion();
 
+	/**
+	 * Gets the organization description data.
+	 *
+	 * @param input the input
+	 * @return the organization description data
+	 */
 	private OrganizationDescriptionData getOrganizationDescriptionData(
 			OrganizationInput input) {
 		DescriptionDataData description = getDescriptionDataData(input
@@ -45,12 +63,24 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		return organization;
 	}
 
+	/**
+	 * Gets the contact info data.
+	 *
+	 * @param contact the contact
+	 * @return the contact info data
+	 */
 	private ContactInfoData getContactInfoData(ContactInfoPanel contact) {
 		ContactInfoData data = new ContactInfoData(contact.getEmail(),
 				contact.getPhone(), contact.getMainhomepage());
 		return data;
 	}
 
+	/**
+	 * Gets the contact location data.
+	 *
+	 * @param input the input
+	 * @return the contact location data
+	 */
 	private ContactLocationData getContactLocationData(
 			ContactLocationPanel input) {
 		ContactLocationData location = new ContactLocationData(
@@ -60,6 +90,12 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		return location;
 	}
 
+	/**
+	 * Gets the description data data.
+	 *
+	 * @param input the input
+	 * @return the description data data
+	 */
 	private DescriptionDataData getDescriptionDataData(DataDescription input) {
 		DescriptionDataData data = new DescriptionDataData(input.getKeyWord(),
 				input.getOneLineDescription(), input.getDescription(),
@@ -96,6 +132,9 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		return panel;
 	}
 */
+/* (non-Javadoc)
+ * @see info.esblurock.reaction.client.StoreDescriptionData#removeOrganizationDescriptionData(java.lang.String)
+ */
 /*
 	@Override
 	public ContactInfoPanel getContactInfoData(String keyS, ContactInfoPanel panel) {
@@ -144,6 +183,9 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		return ans;
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.StoreDescriptionData#removeContactInfoData(java.lang.String)
+	 */
 	@Override
 	public String removeContactInfoData(String key) {
 		String ans = "";
@@ -158,6 +200,9 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		return ans;
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.StoreDescriptionData#removeContactLocationData(java.lang.String)
+	 */
 	@Override
 	public String removeContactLocationData(String key) {
 		String ans = "";
@@ -172,6 +217,9 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		return ans;
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.StoreDescriptionData#removeDescriptionDataData(java.lang.String)
+	 */
 	@Override
 	public String removeDescriptionDataData(String key) {
 		String ans = "";
@@ -186,6 +234,9 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		return ans;
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.StoreDescriptionData#getListOfOrganizationsKeywords()
+	 */
 	@Override
 	public List<String> getListOfOrganizationsKeywords() {
 		javax.jdo.Query q = pm.newQuery(OrganizationDescriptionData.class);
@@ -201,6 +252,9 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		return names;
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.StoreDescriptionData#getListOfContactsKeywords()
+	 */
 	@Override
 	public List<String> getListOfContactsKeywords() {
 		/*
@@ -263,24 +317,45 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 */
 
 	
-	private String storeContactInfoData(ContactInfoData contact) {
+	/**
+ * Store contact info data.
+ *
+ * @param contact the contact
+ * @return the string
+ */
+private String storeContactInfoData(ContactInfoData contact) {
 		pm.makePersistent(contact);
 		pm.detachCopy(contact);
 		return contact.getKey();
 	}
 
+	/**
+	 * Store contact location data.
+	 *
+	 * @param location the location
+	 * @return the string
+	 */
 	private String storeContactLocationData(ContactLocationData location) {
 		pm.makePersistent(location);
 		pm.detachCopy(location);
 		return location.getKey();
 	}
 
+	/**
+	 * Store description data data.
+	 *
+	 * @param data the data
+	 * @return the string
+	 */
 	private String storeDescriptionDataData(DescriptionDataData data) {
 		pm.makePersistent(data);
 		pm.detachCopy(data);
 		return data.getKey();
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.StoreDescriptionData#storeOrganizationDescriptionData(info.esblurock.reaction.data.contact.entities.OrganizationDescriptionData)
+	 */
 	@Override
 	public String storeOrganizationDescriptionData(
 			OrganizationDescriptionData organization) {
@@ -293,6 +368,9 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		return store.getKey();
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.StoreDescriptionData#storeContactInfo(java.lang.String, info.esblurock.reaction.data.contact.entities.ContactInfoData)
+	 */
 	@Override
 	public String storeContactInfo(String key, ContactInfoData contact) {
 		contact.setParentKey(key);
@@ -300,6 +378,9 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		return id;
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.StoreDescriptionData#storeContactLocation(java.lang.String, info.esblurock.reaction.data.contact.entities.ContactLocationData)
+	 */
 	@Override
 	public String storeContactLocation(String key, ContactLocationData location) {
 		location.setParentKey(key);
@@ -307,6 +388,9 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		return id;
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.StoreDescriptionData#storeDescriptionDataData(java.lang.String, info.esblurock.reaction.data.description.DescriptionDataData)
+	 */
 	@Override
 	public String storeDescriptionDataData(String key, DescriptionDataData data) {
 		data.setParentKey(key);
@@ -314,6 +398,9 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		return id;
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.StoreDescriptionData#removeUserDescriptionData(java.lang.String)
+	 */
 	@Override
 	public String removeUserDescriptionData(String key) {
 		String ans = "";
@@ -328,6 +415,9 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 		return ans;
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.StoreDescriptionData#storeUserDescriptionData(info.esblurock.reaction.data.contact.entities.UserDescriptionData)
+	 */
 	@Override
 	public String storeUserDescriptionData(
 			UserDescriptionData user) {

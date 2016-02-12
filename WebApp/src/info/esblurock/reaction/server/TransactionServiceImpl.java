@@ -8,6 +8,7 @@ import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 
 import info.esblurock.reaction.client.panel.transaction.TransactionService;
+import info.esblurock.reaction.data.delete.DeleteTransactionInfoAndObject;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.InputTextSource;
@@ -18,11 +19,19 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TransactionServiceImpl.
+ */
 public class TransactionServiceImpl extends RemoteServiceServlet implements
 		TransactionService {
 
+	/** The pm. */
 	PersistenceManager pm = PMF.get().getPersistenceManager();
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getAllTransactions()
+	 */
 	@Override
 	public List<TransactionInfo> getAllTransactions() {
 		javax.jdo.Query q = pm.newQuery(TransactionInfo.class);
@@ -35,10 +44,14 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		return lst;
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getAllUploadTransactions()
+	 */
 	public List<TextSetUploadData> getAllUploadTransactions() {
 		javax.jdo.Query q = pm.newQuery(TextSetUploadData.class);
 		List<TextSetUploadData> results = (List<TextSetUploadData>) q.execute();
 		ArrayList<TextSetUploadData> lst = new ArrayList<TextSetUploadData>();
+		System.out.println("getAllUploadTransactions(): " + results.size());
 		for(TextSetUploadData transaction: results) {
 			if(transaction.getDescription() == null) {
 				System.out.println("transaction Description is null");
@@ -63,13 +76,19 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 					InputTextSource s = pm.detachCopy(source);
 					trans.addInputTextSource(s);
 				}
+				System.out.println("getAllUploadTransactions(): adding TextSetUploadData to list");
 				lst.add(trans);
 			}
 			
 		}
+		System.out.println("getAllUploadTransactions(): Done");
 		return lst;
 		
 	}
+	
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getTransactions(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public List<TransactionInfo> getTransactions(String user, String keyword,
 			String objecttype) {
@@ -77,55 +96,36 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#removeTransaction(java.lang.String)
+	 */
 	@Override
 	public String removeTransaction(String key) throws Exception {
-		String ans = "";
-		try {
-			Object u = pm.getObjectById(TransactionInfo.class, key);
-			if(u != null && u instanceof TransactionInfo) {
-				TransactionInfo transaction = (TransactionInfo) u;
-				for(String objkey: transaction.getRdfKeyWords()) {
-					try {
-					System.out.println("RDF: "+ objkey);
-					KeywordRDF rdf = pm.getObjectById(KeywordRDF.class, objkey);
-					pm.deletePersistent(rdf);
-					} catch(JDOObjectNotFoundException ex) {
-						System.out.println("Not found: "+ objkey);
-					}
-				}
-				System.out.println("Done RDF");
-				if(transaction.getStoredObjectKey() != null) {
-					System.out.println("Delete: " + transaction.getTransactionObjectType() + "  " + transaction.getStoredObjectKey());
-					Object o = pm.getObjectById(Class.forName(transaction.getTransactionObjectType()), transaction.getStoredObjectKey());
-					System.out.println("Found");
-					pm.deletePersistent(o);
-					System.out.println("Done");
-				}
-				pm.deletePersistent(u);
-				ans = "SUCCESS: Deleted an id: " + key;
-
-			}
-			
-		} catch (Exception e) {
-			ans = "ERROR: Unable to delete id: " + key;
-			System.out.println("Exception: " + e);
-			//throw e;
-		}
-		return ans;
+		DeleteTransactionInfoAndObject delete = new DeleteTransactionInfoAndObject();
+		return delete.deleteFromObjectKey(key);
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getUserSet()
+	 */
 	@Override
 	public Set<String> getUserSet() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getKeywordSet()
+	 */
 	@Override
 	public Set<String> getKeywordSet() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getObjectTypeSet()
+	 */
 	@Override
 	public Set<String> getObjectTypeSet() {
 		// TODO Auto-generated method stub

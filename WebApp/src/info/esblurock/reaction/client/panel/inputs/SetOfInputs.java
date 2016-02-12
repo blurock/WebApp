@@ -118,7 +118,6 @@ public class SetOfInputs extends Composite {
 					description.getSourceDate(), description.getSource(), description.getInputKey());
 
 			TextSetUploadData	data = new TextSetUploadData(descrdata);
-			Window.alert("Process Inputs: " + inputs.size());
 			for (DataInput input : inputs) {
 				String typeS = input.getFileSourceType();
 				System.out.println("Type: " + typeS);
@@ -129,18 +128,10 @@ public class SetOfInputs extends Composite {
 				data.addInputTextSource(source);
 				System.out.println("Added");
 			}
-			System.out.println("Added 1");
 			String prefix = interfaceConstants.storedObjectKey() + ":   ";
-			Window.alert(prefix);
-			System.out.println("Added 2");
 			StandardStringReturnCallback callback = new StandardStringReturnCallback(prefix);
-			System.out.println("Added 3");
 			TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
-			System.out.println("Added 4");
-			Window.alert("Async Call");
 			async.storeTextSetUploadData(data, callback);
-			System.out.println("Added 5");
-			
 		} else {
 			MaterialToast.alert("Inputs Missing");
 		}

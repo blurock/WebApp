@@ -6,6 +6,7 @@ import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.contact.ClientStoreOrganizationInput;
 import info.esblurock.reaction.client.panel.transaction.process.ProcessUploadCallback;
+import info.esblurock.reaction.client.panel.transaction.process.RemoveTransactionCallback;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 import gwt.material.design.client.ui.MaterialButton;

@@ -24,11 +24,11 @@ public class DatabaseObject implements Serializable{
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
-    String key;
+    public String key;
 	@Persistent
-	Date creationDate;
+	public Date creationDate;
 	@Persistent
-	String access;
+	public String access;
 
 	public DatabaseObject() {
 		creationDate = new Date();

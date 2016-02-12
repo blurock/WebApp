@@ -5,6 +5,10 @@ import info.esblurock.reaction.client.data.DatabaseObject;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+/**
+ * @author edwardblurock
+ *
+ */
 @PersistenceCapable
 public class InputTextSource extends DatabaseObject {
 

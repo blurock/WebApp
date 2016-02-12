@@ -1,4 +1,4 @@
-package info.esblurock.reaction.client.panel.transaction;
+package info.esblurock.reaction.client.panel.transaction.process;
 
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialModal.TYPE;
