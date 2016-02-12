@@ -102,14 +102,18 @@ public class ChemkinCoefficients {
     		for(int i=0;i<troeCoeffs.length;i++) {
     			build.append("\t");
     			build.append(troeCoeffs[i]);
+    			build.append("\n");
     		}
     	} else {
     		if(low) {
     			build.append(lowCoeffsS);
+    			build.append("\n");
     		} else if(forward) {
     			build.append(forwardS);
+    			build.append("\n");
     		} else {
     			build.append(reverseS);
+    			build.append("\n");
     		}
     	build.append("\tA=");
     	build.append(A);
@@ -117,6 +121,7 @@ public class ChemkinCoefficients {
     	build.append(n);
     	build.append(",\tEa=");
     	build.append(Ea);
+    	build.append("\n");
     	}
    	return build.toString();
     }

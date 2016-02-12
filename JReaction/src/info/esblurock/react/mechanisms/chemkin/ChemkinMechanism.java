@@ -22,20 +22,23 @@ public class ChemkinMechanism {
 		parseComments(lines, commentChar);
 
 		String next = lines.getCurrent().trim();
-		if (next.startsWith(elementsLabel)) {
+		if (elementStart(next)) {
+			System.out.println("Process ELEMENTS");
 			next = lines.nextToken().trim();
 			elementList = new ChemkinElementList(lines);
 			elementList.parse();
 			System.out.println(elementList.toString());
 			next = lines.getCurrent().trim();
-			if (next.startsWith(speciesLabel)) {
+			if (speciesStart(next)) {
+				System.out.println("Process SPECIES");
 				speciesList = new ChemkinMoleculeList(lines);
 				next = lines.nextToken();
 				speciesList.parse();
 				System.out.println(speciesList.toString());
-				next = lines.getCurrent().trim();
+				next = lines.getCurrent();
 				System.out.println("Next: " + next);
-				if (next.startsWith(reactionsLabel)) {
+				if (reactionStart(next)) {
+					System.out.println("Process REACTIONS");
 					reactionList = new ChemkinReactionList();
 					next = lines.nextToken();
 					reactionList.parseReactions(lines, speciesList);
@@ -43,11 +46,27 @@ public class ChemkinMechanism {
 				} else {
 					throw new IOException("Expected: " + reactionsLabel + "got '" + next + "'");
 				}
+			} else { 
+				throw new IOException("Expected: " + speciesLabel + "got '" + next + "'");
 			}
+		} else {
+			throw new IOException("Expected: " + elementsLabel + "got '" + next + "'");
 		}
 
 	}
 
+	private boolean elementStart(String line) {
+		String l = line.trim().toUpperCase();
+		return l.startsWith(elementsLabel);
+	}
+	private boolean speciesStart(String line) {
+		String l = line.trim().toUpperCase();
+		return l.startsWith(speciesLabel);
+	}
+	private boolean reactionStart(String line) {
+		String l = line.trim().toUpperCase();
+		return l.startsWith(reactionsLabel);
+	}
 	public void parseComments(ChemkinString lines, String commentChar) {
 		StringBuilder builder = new StringBuilder();
 		boolean notdone = true;
@@ -62,5 +81,15 @@ public class ChemkinMechanism {
 			}
 		}
 		mechanismComment = builder.toString();
+	}
+	
+	public String toString() {
+		StringBuilder build = new StringBuilder();
+		
+		build.append(elementList.toString());
+		build.append(speciesList.toString());
+		build.append(reactionList.toString());
+		
+		return build.toString();
 	}
 }

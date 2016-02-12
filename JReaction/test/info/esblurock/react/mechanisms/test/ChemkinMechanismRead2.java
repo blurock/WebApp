@@ -22,7 +22,7 @@ public class ChemkinMechanismRead2 {
 		
 			ReadToString read = new ReadToString();
 			try {
-				System.out.println(read.parseFromLineSpecification(url));
+				//System.out.println(read.parseFromLineSpecification(url));
 				
 				System.out.println(read.parseFromLineSpecification(resource));
 			} catch (IOException e) {

@@ -4,8 +4,10 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinMolecule;
+import info.esblurock.react.mechanisms.chemkin.ChemkinMoleculeList;
 import info.esblurock.react.mechanisms.chemkin.ChemkinReaction;
 import info.esblurock.react.mechanisms.chemkin.ChemkinString;
 
@@ -17,18 +19,18 @@ public class ChemkinReactionReadTest3 {
 	public void test() {
 
 		System.out.println("ChemkinReactionTest()");
-		ArrayList<ChemkinMolecule> mols = new ArrayList<ChemkinMolecule>(8);
-		mols.add(0, new ChemkinMolecule("co"));
-		mols.add(1, new ChemkinMolecule("h2o2"));
-		mols.add(2, new ChemkinMolecule("co2"));
-		mols.add(3, new ChemkinMolecule("oh"));
-		mols.add(4, new ChemkinMolecule("o2"));
-		mols.add(5, new ChemkinMolecule("h"));
-		mols.add(6, new ChemkinMolecule("ho2"));
-		mols.add(7, new ChemkinMolecule("h2"));
-		mols.add(6, new ChemkinMolecule("h2o"));
-		mols.add(7, new ChemkinMolecule("T-CH2"));
-		mols.add(8, new ChemkinMolecule("c2h2"));
+		ChemkinMoleculeList mols = new ChemkinMoleculeList();
+		mols.put("co", new ChemkinMolecule("co"));
+		mols.put("h2o2", new ChemkinMolecule("h2o2"));
+		mols.put("co2", new ChemkinMolecule("co2"));
+		mols.put("oh", new ChemkinMolecule("oh"));
+		mols.put("o2", new ChemkinMolecule("o2"));
+		mols.put("h", new ChemkinMolecule("h"));
+		mols.put("ho2", new ChemkinMolecule("ho2"));
+		mols.put("h2", new ChemkinMolecule("h2"));
+		mols.put("h2o", new ChemkinMolecule("h2o"));
+		mols.put("T-CH2", new ChemkinMolecule("T-CH2"));
+		mols.put("c2h2", new ChemkinMolecule("c2h2"));
 
 		String commentString = "!";
 		

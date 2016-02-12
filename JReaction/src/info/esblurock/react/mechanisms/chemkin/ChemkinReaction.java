@@ -32,12 +32,12 @@ public class ChemkinReaction {
 	private String productsAsString;
 
 	ChemkinString lines;
-	HashMap<String,ChemkinMolecule> molecules;
+	ChemkinMoleculeList molecules;
 	
 	PatternRecognizer recognizer = new PatternRecognizer();
 
 	/** Creates a new instance of ChemkinReaction */
-	public ChemkinReaction(ChemkinString ls, HashMap<String,ChemkinMolecule> mols) {
+	public ChemkinReaction(ChemkinString ls, ChemkinMoleculeList mols) {
 		lines = ls;
 		molecules = mols;
 		commentChar = ls.getCommentChar();
@@ -231,14 +231,14 @@ public class ChemkinReaction {
 
 		build.append("Reactants as String: " + reactantsAsString + "\n");
 		build.append("Products as String : " + productsAsString + "\n");
-		build.append("Reactants: ");
+		build.append("Reactants:\n ");
 		for (ChemkinMolecule mol : Reactants) {
 			build.append(" ");
 			build.append(mol.toString());
 		}
 		build.append("\n");
 
-		build.append("Products: ");
+		build.append("Products: \n");
 		for (ChemkinMolecule mol : Products) {
 			build.append(" ");
 			build.append(mol.toString());
@@ -412,7 +412,7 @@ public class ChemkinReaction {
 		return molecules;
 	}
 
-	public void setMolecules(HashMap<String,ChemkinMolecule> molecules) {
+	public void setMolecules(ChemkinMoleculeList molecules) {
 		this.molecules = molecules;
 	}
 

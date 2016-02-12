@@ -12,7 +12,7 @@ public class ChemkinReactionList  extends ArrayList<ChemkinReaction> {
 	}
 
 	public boolean parseReactions(ChemkinString lines,
-			HashMap<String,ChemkinMolecule> molecules)
+			ChemkinMoleculeList molecules)
 			throws IOException {
 		System.out.println("Current at parse begin: " + lines.getCurrent());
 		boolean done = false;
@@ -32,7 +32,7 @@ public class ChemkinReactionList  extends ArrayList<ChemkinReaction> {
 			System.out.println("Next Reaction------------------------------");
 			System.out.println(next);
 						
-			if (next.toUpperCase().startsWith("END")) {
+			if (next.trim().toUpperCase().startsWith("END")) {
 				System.out.println("END of Reactions");
 				done = true;
 			} else {
@@ -52,13 +52,13 @@ public class ChemkinReactionList  extends ArrayList<ChemkinReaction> {
 	}
 	public String toString() {
 		StringBuilder build = new StringBuilder();
-		build.append("REACTIONS=================================================\n");
-		int count = 0;
+		build.append("\nREACTIONS=================================================\n");
+		int cnt = 0;
 		for(ChemkinReaction rxn : this) {
-			build.append("Count: " + count++);
+			build.append("Count: " + cnt++);
 			build.append("\n");
 			build.append(rxn.toString());
-			build.append("\n______________________________________________");
+			build.append("\n______________________________________________\n");
 		}
 		return build.toString();
 	}

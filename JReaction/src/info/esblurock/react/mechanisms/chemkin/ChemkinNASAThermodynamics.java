@@ -36,14 +36,14 @@ public class ChemkinNASAThermodynamics {
 		lines.setTrim(false);
 		skipOverComments(lines);
 		
-		if(lines.getCurrent().trim().startsWith(thermoKeywordS)) {
+		if(compareKeyword(lines.getCurrent(), thermoKeywordS)) {
 			parseFirstTemperatureLine(lines);
 			lines.nextToken();
 			boolean notdone = true;
 			int count = 0;
 			while(notdone) {
 				String first = lines.getCurrent();
-				if(first.trim().startsWith(endKeywordS)) {
+				if(compareKeyword(first,endKeywordS)) {
 					notdone = false;
 				} else {
 					try {
@@ -62,6 +62,10 @@ public class ChemkinNASAThermodynamics {
 		} else {
 			throw new IOException("Expected: '" + thermoKeywordS + "' got " + lines.getCurrent());
 		}
+	}
+	public boolean compareKeyword(String line, String keyword) {
+		String l = line.trim().toUpperCase();
+		return l.startsWith(keyword);
 	}
 	public String toString() {
 		StringBuilder build = new StringBuilder();

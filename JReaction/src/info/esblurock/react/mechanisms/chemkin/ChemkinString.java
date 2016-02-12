@@ -1,6 +1,7 @@
 package info.esblurock.react.mechanisms.chemkin;
 
 import java.io.IOException;
+import java.io.Serializable;
 /*
  * ChemkinString.java
  * 
@@ -16,7 +17,11 @@ import java.util.StringTokenizer;
  *
  * @author reaction
  */
-public class ChemkinString {
+public class ChemkinString implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private StringBuffer lastComment;
 	private String currentToken;
 	StringTokenizer tok;

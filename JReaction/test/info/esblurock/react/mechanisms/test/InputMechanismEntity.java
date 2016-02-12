@@ -8,37 +8,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import info.esblurock.react.mechanisms.chemkin.entity.MechanismEntity;
+import javax.jdo.annotations.PersistenceCapable;
+
 import info.esblurock.react.mechanisms.chemkin.entity.MechanismEntityFactory;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.QueryResultIterator;
-import com.googlecode.objectify.Key;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.googlecode.objectify.LoadResult;
-import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.Result;
-import com.googlecode.objectify.cmd.QueryKeys;
-
-import static com.googlecode.objectify.ObjectifyService.ofy;
 
 
-
+@PersistenceCapable
 public class InputMechanismEntity {
-    static {
-    	System.out.println("Step 1");
-        ObjectifyService.register(MechanismEntity.class);
-        System.out.println("Step 1.1");
-    }
 	
 	private final LocalServiceTestHelper helper =
 		      new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
@@ -72,7 +55,7 @@ public class InputMechanismEntity {
 			/*
 			Entity entity = factory.createEntity();
 			datastore.put(entity);
-			*/
+			
 			MechanismEntity entity = factory.createMechanismEntity();
 			System.out.println("Step 1.2");
 			Key<MechanismEntity> key = ofy().save().entity(entity).now();
@@ -89,7 +72,7 @@ public class InputMechanismEntity {
 			Key<MechanismEntity> load = keys.first().now();
 			System.out.println("Step 5");
 			System.out.println(load.getName());
-			
+			*/
 			
 			/*
 			 * Query q = new Query("MechanismData");

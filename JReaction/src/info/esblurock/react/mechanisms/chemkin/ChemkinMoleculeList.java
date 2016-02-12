@@ -11,6 +11,9 @@ public class ChemkinMoleculeList extends HashMap<String,ChemkinMolecule> {
 	private String reactionS = "REACTIONS";
 	private int modulocount = 5;
 	
+	public ChemkinMoleculeList() {
+		lines = null;
+	}
 	public ChemkinMoleculeList(ChemkinString ls) {
 		lines = ls;
 	}
@@ -21,7 +24,7 @@ public class ChemkinMoleculeList extends HashMap<String,ChemkinMolecule> {
 		while(notdone) {
 			next = next.trim();
 			if(next != null) {
-				if(next.startsWith(endS)) {
+				if(next.trim().toUpperCase().startsWith(endS)) {
 					notdone = false;
 					next = lines.nextToken();
 				} else if(next.startsWith(reactionS) ) {
@@ -41,9 +44,19 @@ public class ChemkinMoleculeList extends HashMap<String,ChemkinMolecule> {
 			}
 		}
 	}
+	public ChemkinMolecule put(String key, ChemkinMolecule molecule) {
+		return super.put(key.toLowerCase(),molecule);
+	}
+	public ChemkinMolecule get(String key) {
+		System.out.println("ChemkinMoleculeList Key=" + key);
+		return super.get(key.toLowerCase());
+	}
+	public boolean containsKey(String key) {
+		return super.containsKey(key.toLowerCase());
+	}
 	public String toString() {
 		StringBuilder build = new StringBuilder();
-		build.append("SPECIES");
+		build.append("SPECIES\n");
 		Set<String> keys = this.keySet();
 		int count = 0;
 		for(String key : keys) {
@@ -53,7 +66,7 @@ public class ChemkinMoleculeList extends HashMap<String,ChemkinMolecule> {
 			build.append(key);
 			build.append(" ");
 		}
-		build.append("\nEND");
+		build.append("\nEND\n");
 		return build.toString();
 	}
 }

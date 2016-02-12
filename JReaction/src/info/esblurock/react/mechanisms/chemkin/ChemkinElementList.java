@@ -22,7 +22,7 @@ public class ChemkinElementList extends HashMap<String,ChemkinElement>  {
 		while(notdone) {
 			next = next.trim();
 			if(next != null) {
-				if(next.startsWith(endS)) {
+				if(isEND(next)) {
 					notdone = false;
 				} else if(next.startsWith(lines.getCommentChar())) {
 					
@@ -39,19 +39,23 @@ public class ChemkinElementList extends HashMap<String,ChemkinElement>  {
 			next = lines.nextToken();
 		}
 	}
+	public boolean isEND(String line) {
+		String l = line.trim().toUpperCase();
+		return l.startsWith(endS);
+	}
 	public String toString() {
 		StringBuilder build = new StringBuilder();
-		build.append("SPECIES");
+		build.append("ELEMENTS\n");
 		Set<String> keys = this.keySet();
-		int count = 0;
+		int cnt = 0;
 		for(String key : keys) {
-			if(count++ % modulocount == 0) {
+			if(cnt++ % modulocount == 0) {
 				build.append("\n");
 			}
 			build.append(key);
 			build.append(" ");
 		}
-		build.append("\nEND");
+		build.append("\nEND\n");
 		return build.toString();
 	}
 	
