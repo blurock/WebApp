@@ -1,5 +1,7 @@
 package info.esblurock.reaction.data.upload;
 
+import java.io.Serializable;
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -9,7 +11,8 @@ import javax.jdo.annotations.PrimaryKey;
 
 
 @PersistenceCapable
-public class FileUploadLines {
+public class FileUploadLines implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)

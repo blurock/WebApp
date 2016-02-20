@@ -2,7 +2,7 @@ package info.esblurock.reaction.client.resources;
 
 /**
  * Interface to represent the messages contained in resource bundle:
- * 	/Users/edwardblurock/Box Sync/ScientificNotebook/Project/WebApp/src/info/esblurock/reaction/client/resources/EntityInformation.properties'.
+ * 	/Users/edwardblurock/git/WebApp/src/info/esblurock/reaction/client/resources/EntityInformation.properties'.
  */
 public interface EntityInformation extends com.google.gwt.i18n.client.Messages {
   

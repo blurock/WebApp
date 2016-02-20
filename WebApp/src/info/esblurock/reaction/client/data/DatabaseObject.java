@@ -16,7 +16,7 @@ import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
-public class DatabaseObject implements Serializable{
+public class DatabaseObject implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public String publicAccess = "Public";

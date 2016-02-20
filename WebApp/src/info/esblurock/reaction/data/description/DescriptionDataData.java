@@ -51,22 +51,6 @@ public class DescriptionDataData extends DatabaseObject {
 		this.sourcekey = sourcekey;
 		this.inputkey = inputkey;
 	}
-/*
-	public DescriptionDataData(String key, DescriptionData data) {
-		SetOfAttributeValuePairs set = data.getPropertySet(key);
-		for (AttributeValuePair pair : set) {
-			if (pair.getAttributeValue().equals(DescriptionData.keyWordKey)) {
-				this.keyword = pair.getPropertyValue();
-			} else if (pair.getAttributeValue().equals(
-					DescriptionData.oneLineDescriptionKey)) {
-				this.onlinedescription = pair.getPropertyValue();
-			} else if (pair.getAttributeValue().equals(
-					DescriptionData.fullDescriptionKey)) {
-				this.fulldescription = pair.getPropertyValue();
-			}
-		}
-	}
-*/
 	public String getKeyword() {
 		return keyword;
 	}
