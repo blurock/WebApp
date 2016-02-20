@@ -1,0 +1,29 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:m="urn:import:gwt.material.design.client.ui" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:user="urn:import:info.esblurock.reaction.client.panel" xmlns:gwt="urn:import:gwtupload.client">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+
+	<m:MaterialCollapsibleItem ui:field="stringitem">
+		<m:header>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s1">
+					<m:MaterialLink ui:field="remove" icon="mdi-navigation-close" />
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s11">
+					<m:MaterialLink ui:field="stringlabel" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+		</m:header>
+		<m:content>
+			<g:HTMLPanel ui:field="stringpanel">
+			<m:MaterialCollapsible ui:field="stringsetcollapse"/>
+			</g:HTMLPanel>
+		</m:content>
+	</m:MaterialCollapsibleItem>
+
+</ui:UiBinder> 

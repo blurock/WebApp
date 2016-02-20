@@ -3,6 +3,9 @@ package info.esblurock.react.mechanisms.chemkin;
 import java.io.IOException;
 
 public class ChemkinMechanism {
+	
+	String mechanismName;
+	
 	ChemkinElementList elementList;
 	ChemkinMoleculeList speciesList;
 	ChemkinReactionList reactionList;
@@ -92,4 +95,17 @@ public class ChemkinMechanism {
 		
 		return build.toString();
 	}
+
+	public ChemkinElementList getElementList() {
+		return elementList;
+	}
+
+	public ChemkinMoleculeList getSpeciesList() {
+		return speciesList;
+	}
+
+	public ChemkinReactionList getReactionList() {
+		return reactionList;
+	}
+	
 }

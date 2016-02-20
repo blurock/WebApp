@@ -416,4 +416,24 @@ public class ChemkinReaction {
 		this.molecules = molecules;
 	}
 
+	public ChemkinCoefficients getForwardCoefficients() {
+		return forwardCoefficients;
+	}
+
+	public ChemkinCoefficients getReverseCoefficients() {
+		return reverseCoefficients;
+	}
+
+	public ChemkinCoefficients getLowCoefficients() {
+		return lowCoefficients;
+	}
+
+	public ChemkinCoefficients getTroeCoefficients() {
+		return troeCoefficients;
+	}
+
+	public ThirdBodyMolecules getThirdBodyMolecules() {
+		return thirdBodyMolecules;
+	}
+
 }

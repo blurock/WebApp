@@ -1,0 +1,67 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:m="urn:import:gwt.material.design.client.ui" xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s2">
+				<m:MaterialLabel ui:field="keylabel" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s10">
+				<m:MaterialLink ui:field="key" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s2">
+				<m:MaterialLabel ui:field="keywordlabel" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s10">
+				<m:MaterialLink  ui:field="keyword"/>
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s2">
+				<m:MaterialLabel ui:field="onelinelabel"/>
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s10">
+				<m:MaterialLink ui:field="oneline" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s2">
+				<m:MaterialLabel ui:field="sourcekeylabel" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s10">
+				<m:MaterialLink ui:field="sourcekey" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s2">
+				<m:MaterialLabel ui:field="sourcedatelabel" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s10">
+				<m:MaterialLink ui:field="sourcedate" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s2">
+				<m:MaterialLabel ui:field="entrykeylabel" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s10">
+				<m:MaterialLink ui:field="entrykey" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s2">
+				<m:MaterialLabel ui:field="entrydatelabel" />
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s10">
+				<m:MaterialLink ui:field="entrydate" />
+			</m:MaterialColumn>
+		</m:MaterialRow>
+	</g:HTMLPanel>
+</ui:UiBinder> 

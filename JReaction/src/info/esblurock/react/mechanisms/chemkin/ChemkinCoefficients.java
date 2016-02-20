@@ -153,5 +153,14 @@ public class ChemkinCoefficients {
 	public void setReverse() {
 		this.forward = false;
 	}
+	public boolean isLow() {
+		return low;
+	}
+	public boolean isTroe() {
+		return troe;
+	}
+	public String[] getTroeCoeffs() {
+		return troeCoeffs;
+	}
 
 }
