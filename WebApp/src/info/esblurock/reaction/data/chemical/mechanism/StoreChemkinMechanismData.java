@@ -17,6 +17,7 @@ public class StoreChemkinMechanismData  extends StoreObject  {
 	}
 	
 	protected void storeObject() {
+		super.storeObject();
 	}
 
 	

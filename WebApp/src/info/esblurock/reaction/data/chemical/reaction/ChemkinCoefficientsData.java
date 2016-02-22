@@ -10,6 +10,7 @@ import info.esblurock.reaction.client.data.DatabaseObject;
 @PersistenceCapable
 public class ChemkinCoefficientsData extends DatabaseObject  {
 	
+	private static final long serialVersionUID = 1L;
 	@Persistent
 	public boolean forward;
 	@Persistent

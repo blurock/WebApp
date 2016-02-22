@@ -83,6 +83,7 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 	@Override
 	public String removeUploadedFile(String key) throws Exception {
 		verify(deleteUploadedFile, TaskTypes.dataDelete);
+		System.out.println("Verication: Task(" + deleteUploadedFile + ")  TaskType.dataDelete(" + TaskTypes.dataDelete + ")");
 		return input.removeUpload(key);
 	}
 	

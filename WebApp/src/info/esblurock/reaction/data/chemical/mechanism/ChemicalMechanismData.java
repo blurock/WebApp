@@ -10,20 +10,35 @@ import info.esblurock.reaction.data.chemical.elements.ChemicalElementListData;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeListData;
 import info.esblurock.reaction.data.chemical.reaction.MechanismReactionListData;
 
+/**
+ * The Class ChemicalMechanismData which stores all the information from a CHEMKIN mech file
+ */
 @PersistenceCapable
 public class ChemicalMechanismData extends DatabaseObject {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
-	@Persistent(dependent = "true")
+
+
+	/** The element list. */
+	@Persistent
 	ChemicalElementListData  elementList;
 	
-	@Persistent(dependent = "true")
+	/** The molecule list. */
+	@Persistent
 	MechanismMoleculeListData  moleculeList;
 	
-	@Persistent(dependent = "true")
+	/** The reaction list. */
+	@Persistent
 	MechanismReactionListData reactionList;
 
+	/**
+	 * Instantiates a new chemical mechanism data.
+	 *
+	 * @param elementList the element list
+	 * @param moleculeList the molecule list
+	 * @param reactionList the reaction list
+	 */
 	public ChemicalMechanismData(ChemicalElementListData elementList, MechanismMoleculeListData moleculeList,
 			MechanismReactionListData reactionList) {
 		super();
@@ -32,14 +47,29 @@ public class ChemicalMechanismData extends DatabaseObject {
 		this.reactionList = reactionList;
 	}
 
+	/**
+	 * Gets the element list.
+	 *
+	 * @return the element list
+	 */
 	public ChemicalElementListData getElementList() {
 		return elementList;
 	}
 
+	/**
+	 * Gets the molecule list.
+	 *
+	 * @return the molecule list
+	 */
 	public MechanismMoleculeListData getMoleculeList() {
 		return moleculeList;
 	}
 
+	/**
+	 * Gets the reaction list.
+	 *
+	 * @return the reaction list
+	 */
 	public MechanismReactionListData getReactionList() {
 		return reactionList;
 	}

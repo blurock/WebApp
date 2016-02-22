@@ -11,16 +11,16 @@ public class StoreMechanismMoleculeData  extends StoreObject {
 	static public String speciesName = "SpeciesName";
 	static public String speciesMechDelimitor = "#";
 
-	public StoreMechanismMoleculeData(String keyword, DatabaseObject object, TransactionInfo transaction) {
-		super(keyword, object, transaction);
+	public StoreMechanismMoleculeData(String keyword, DatabaseObject object, TransactionInfo transaction, boolean storeObject) {
+		super(keyword, object, transaction,storeObject);
 	}
 	protected void storeObject() {
+		System.out.println("StoreMechanismMoleculeData::storeObject()" + this.storeObject);
 		super.storeObject();
 	}
 	
 	protected void storeRDF() {
 		MechanismMoleculeData molecule = (MechanismMoleculeData) object;
-		storeObjectRDF(molecule);
 		storeStringRDF(mechanismMolecule,molecule.getMechanismKeyword());
 		storeStringRDF(speciesName,molecule.getMoleculeName());
 	}

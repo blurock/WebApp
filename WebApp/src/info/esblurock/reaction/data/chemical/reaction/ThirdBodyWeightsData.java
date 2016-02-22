@@ -8,6 +8,7 @@ import info.esblurock.reaction.client.data.DatabaseObject;
 @PersistenceCapable
 public class ThirdBodyWeightsData extends DatabaseObject  {
 	
+	private static final long serialVersionUID = 1L;
 	@Persistent
 	String moleculeKey;
 	@Persistent

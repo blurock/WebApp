@@ -29,17 +29,20 @@ public class CreateChemicalMechanismData {
 	
 	public ChemicalMechanismData create(String mechanismKeyword, ChemkinMechanism mechanism, TransactionInfo transaction) {
 		
+		System.out.println("CreateChemicalMechanismData Create/Store: ChemicalElementListData");
 		CreateChemicalElementListData createElementList = new CreateChemicalElementListData();
 		ChemicalElementListData   elementList = createElementList.create(mechanism.getElementList());
 		
+		System.out.println("CreateChemicalMechanismData Create/Store: MechanismMoleculeListData");
 		createMoleculeList = new CreateMechanismMoleculeListData(mechanismKeyword);
-		MechanismMoleculeListData reactionMoleculeList = createMoleculeList.create(mechanism.getSpeciesList(),transaction);
+		MechanismMoleculeListData moleculeList = createMoleculeList.create(mechanism.getSpeciesList(),transaction);
 		moleculeNamesTable = createMoleculeList.getMoleculeMap();
 		
+		System.out.println("CreateChemicalMechanismData Create/Store: MechanismReactionListData");
 		createReactionList = new CreateMechanismReactionListData(mechanismKeyword,moleculeNamesTable,false);
 		MechanismReactionListData reactionList = createReactionList.create(mechanism.getReactionList(), transaction);
 		
-		ChemicalMechanismData data = new ChemicalMechanismData(elementList, reactionMoleculeList, reactionList);
+		ChemicalMechanismData data = new ChemicalMechanismData(elementList, moleculeList, reactionList);
 			
 		return data;
 	}

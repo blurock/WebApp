@@ -169,6 +169,7 @@ public class StoreObject {
 	 */
 	protected void storeObject() {
 		if (storeObject) {
+			System.out.println("Store: " + object.toString());
 			store(object);
 		}
 	}

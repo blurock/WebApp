@@ -54,6 +54,7 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 			ChemicalMechanismData data = create.create(keyword, mechanism, transaction);
 			System.out.println("processUploadedMechanism: StoreChemkinMechanismData store");
 			StoreChemkinMechanismData store = new StoreChemkinMechanismData(keyword,data,transaction,true);
+			store.finish();
 			System.out.println("processUploadedMechanism: Done");
 		}
 		return ans;

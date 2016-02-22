@@ -17,6 +17,9 @@ public class MechanismMoleculeListData extends DatabaseObject {
 
 	public MechanismMoleculeListData(ArrayList<MechanismMoleculeData> molecules) {
 		super();
+		System.out.println("MechanismMoleculeListData");
+		System.out.println("MechanismMoleculeListData + " + molecules.size());
+		System.out.println("MechanismMoleculeListData + " + molecules);
 		this.molecules = molecules;
 	}
 

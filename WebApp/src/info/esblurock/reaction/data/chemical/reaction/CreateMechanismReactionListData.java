@@ -46,7 +46,7 @@ public class CreateMechanismReactionListData {
 			lst.add(rxndata);
 		}
 		MechanismReactionListData data = new MechanismReactionListData(lst);
-		return null;
+		return data;
 	}
 
 }

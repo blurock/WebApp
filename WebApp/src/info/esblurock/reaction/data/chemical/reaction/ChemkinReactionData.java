@@ -11,6 +11,7 @@ import info.esblurock.reaction.client.data.DatabaseObject;
 @PersistenceCapable
 public class ChemkinReactionData extends DatabaseObject  {
 
+	private static final long serialVersionUID = 1L;
 	@Persistent
 	public ArrayList<String> ReactantNames;
 	@Persistent
