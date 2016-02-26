@@ -92,7 +92,6 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public List<TransactionInfo> getTransactions(String user, String keyword,
 			String objecttype) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -119,7 +118,6 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public Set<String> getKeywordSet() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -128,8 +126,13 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public Set<String> getObjectTypeSet() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String removeTransactionWithTypeAndKeyword(String objecttype, String keyword) throws Exception {
+		DeleteTransactionInfoAndObject delete = new DeleteTransactionInfoAndObject();
+		return delete.deleteFromTypeAndKeyword(objecttype,keyword);
 	}
 
 }

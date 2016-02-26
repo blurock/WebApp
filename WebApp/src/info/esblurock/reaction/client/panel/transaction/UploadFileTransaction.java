@@ -32,6 +32,7 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialModalContent;
 import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.MaterialModal.TYPE;
 import info.esblurock.reaction.client.ReactionProcessUploadedLines;
 import info.esblurock.reaction.client.ReactionProcessUploadedLinesAsync;
 import info.esblurock.reaction.client.panel.description.DataDescriptionAsRows;
@@ -186,10 +187,15 @@ public class UploadFileTransaction extends Composite implements HasText {
 
 			@Override
 			public void update(int index, InputTextSource object, MaterialButton value) {
+				/*
 				MaterialToast.alert("Process Data: " + object.getTextType());
 				ProcessUploadFiles process = ProcessUploadFiles.valueOf(object.getTextType());
 				DescriptionDataData description = data.getDescription();
 				process.process(description,object.getID(), object.getTextname(), true);
+				*/
+				
+				UploadFileProcessModal modal = new UploadFileProcessModal(data,object);
+				MaterialModal.showModal(modal, TYPE.FIXED_FOOTER);
 			}
 		});
 		return processbutton;

@@ -10,7 +10,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface TransactionService.
  */
@@ -65,7 +64,19 @@ public interface TransactionService extends RemoteService {
    	 */
    	List<TransactionInfo> getTransactions(String user, String keyword,
 			String objecttype);
-	   
+
+   	/**
+	    * Removes the transaction with type and keyword.
+	    * 
+	    * The object type and the keyword are used to search for the proper {@link TransactionInfo}
+	    *
+	    * @param objecttype the object type (as in the {@link TransactionInfo})
+	    * @param keyword the keyword of the object
+	    * @return the string
+	    * @throws Exception the exception
+	    */
+	   String removeTransactionWithTypeAndKeyword(String objecttype, String keyword) throws Exception;
+
    	/**
    	 * Removes the associated {@link TransactionInfo} associated with the object given by the key
    	 * The object (and it associated subobject, if any, are deleted).

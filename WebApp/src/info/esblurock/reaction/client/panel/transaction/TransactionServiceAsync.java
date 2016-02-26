@@ -25,4 +25,6 @@ public interface TransactionServiceAsync {
 
 	void getAllUploadTransactions(AsyncCallback<List<TextSetUploadData>> callback);
 
+	void removeTransactionWithTypeAndKeyword(String objecttype, String keyword, AsyncCallback<String> callback);
+
 }

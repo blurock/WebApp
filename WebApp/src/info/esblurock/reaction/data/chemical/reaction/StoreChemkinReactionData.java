@@ -25,6 +25,7 @@ public class StoreChemkinReactionData  extends StoreObject {
 			for(String name : data.getProductKeys()) {
 				storeStringRDF(isAProduct,name);
 			}
+			
 		}
 		
 		protected void storeObject() {

@@ -14,6 +14,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
@@ -34,6 +35,25 @@ public class DeleteTransactionInfoAndObject {
 	/** The persistence manager. */
 	protected PersistenceManager pm = PMF.get().getPersistenceManager();
 
+	/** deleteFromObjectKey
+	 * 
+	 * This is the delete routine that should be called by all objects to ensure that all associated objects are deleted.
+	 * 
+	 * Delete transaction info and the object from object key
+	 * 
+	 * The {@link TransactionInfo} is found using the object key (getTransactionFromObjectKey) and
+	 * then the {@link TransactionInfo} is delete (which also deletes the object.
+	 *
+	 * @param key the key of the object to be deleted
+	 * @return the string from the delete
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws  
+	 */
+	public String deleteFromTypeAndKeyword(String objectType, String keyword) throws IOException {
+		TransactionInfo info = getTransactionFromTypeAndKeyword(objectType, keyword);
+		String ans = this.delete(info);
+		return ans;
+	}
 	/** deleteFromObjectKey
 	 * 
 	 * This is the delete routine that should be called by all objects to ensure that all associated objects are deleted.
@@ -111,7 +131,7 @@ public class DeleteTransactionInfoAndObject {
 		build.append("ERROR:  TransactionInfo: \n");
 		for (String objkey : transaction.getRdfKeyWords()) {
 			try {
-				System.out.println("RDF: " + objkey);
+				System.out.println("Delete RDF: " + objkey);
 				KeywordRDF rdf = pm.getObjectById(KeywordRDF.class, objkey);
 				pm.deletePersistent(rdf);
 			} catch (JDOObjectNotFoundException ex) {
@@ -119,7 +139,7 @@ public class DeleteTransactionInfoAndObject {
 				build.append("RDF not found: " + objkey + "\n");
 			}
 		}
-		System.out.println("Done RDF");
+		System.out.println("Done Deleting RDF");
 
 		if (transaction.getStoredObjectKey() != null) {
 			String fullclassname = transaction.getTransactionObjectType();
@@ -137,8 +157,6 @@ public class DeleteTransactionInfoAndObject {
 
 		return ans;
 	}
-	
-	
 	/**
 	 *  getTransaction
 	 * From the object key find the TransactionInfo  (from storedObjectKey).
@@ -148,31 +166,70 @@ public class DeleteTransactionInfoAndObject {
 	 * @throws IOException 
 	 */
 	private TransactionInfo getTransactionFromObjectKey(String key) throws IOException {
-			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		TransactionInfo info = null;
+		Filter keyfilter =
+				  new FilterPredicate("transactionObjectType",FilterOperator.EQUAL,key);
+		Query q = new Query("TransactionInfo").setKeysOnly();
+		q.setFilter(keyfilter);
+		PreparedQuery pq = datastore.prepare(q);
+		boolean haselement = pq.asIterable().iterator().hasNext();
+		System.out.println("getTransactionFromTypeAndKeyword" + haselement);
+		for(Entity entity : pq.asIterable()) {
 			
-			TransactionInfo info = null;
-			System.out.println("getTransactionFromObjectKey: " + key);
-			Filter subjectfilter =
-					  new FilterPredicate("storedObjectKey",FilterOperator.EQUAL,key);
-			Query q = new Query("TransactionInfo").setKeysOnly();
-			q.setFilter(subjectfilter);
-			PreparedQuery pq = datastore.prepare(q);
-			boolean haselement = pq.asIterable().iterator().hasNext();
-			System.out.println("getTransactionFromObjectKey" + haselement);
-			for(Entity entity : pq.asIterable()) {
-				
-				System.out.println("Entity Properties" + entity.getProperties().keySet());
-				Key transactioninfokey = entity.getKey();
-				System.out.println("TransactionInfo key: " + transactioninfokey);
-				info = pm.getObjectById(TransactionInfo.class,transactioninfokey);
-			}
-			if(info == null) {
-				throw new IOException("TransactionInfo not found with object key: " + key);
-			} else {
-				
-			}
-			return info;
+			System.out.println("Entity Properties" + entity.getProperties().keySet());
+			Key transactioninfokey = entity.getKey();
+			System.out.println("TransactionInfo key: " + transactioninfokey);
+			info = pm.getObjectById(TransactionInfo.class,transactioninfokey);
 		}
+		if(info == null) {
+			throw new IOException("TransactionInfo not found with object key: " + key);
+		} else {
+			
+		}
+		return info;
+	}
+	/**
+	 *  getTransaction
+	 * From the object key find the TransactionInfo  (from storedObjectKey).
+	 *
+	 * @param key the key of the object
+	 * @return the associated transaction
+	 * @throws IOException 
+	 */
+	private TransactionInfo getTransactionFromTypeAndKeyword(String objectType, String keyword) throws IOException {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		TransactionInfo info = null;
+		System.out.println("getTransactionFromTypeAndKeyword: " + keyword + ","  + objectType);
+		Filter typefilter =
+				  new FilterPredicate("transactionObjectType",FilterOperator.EQUAL,objectType);
+		Filter keywordfilter =
+				  new FilterPredicate("keyword",FilterOperator.EQUAL,keyword);
+		Filter andfilter =
+				  CompositeFilterOperator.and(typefilter, keywordfilter);
+
+		
+		Query q = new Query("TransactionInfo").setKeysOnly();
+		q.setFilter(andfilter);
+		PreparedQuery pq = datastore.prepare(q);
+		boolean haselement = pq.asIterable().iterator().hasNext();
+		System.out.println("getTransactionFromTypeAndKeyword" + haselement);
+		for(Entity entity : pq.asIterable()) {
+			
+			System.out.println("Entity Properties" + entity.getProperties().keySet());
+			Key transactioninfokey = entity.getKey();
+			System.out.println("TransactionInfo key: " + transactioninfokey);
+			info = pm.getObjectById(TransactionInfo.class,transactioninfokey);
+		}
+		if(info == null) {
+			throw new IOException("TransactionInfo not found with object key: " + keyword + ","  + objectType);
+		} else {
+			
+		}
+		return info;
+	}
 
 
 }

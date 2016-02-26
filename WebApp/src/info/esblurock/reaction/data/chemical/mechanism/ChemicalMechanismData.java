@@ -1,7 +1,5 @@
 package info.esblurock.reaction.data.chemical.mechanism;
 
-import java.util.ArrayList;
-
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
@@ -21,15 +19,15 @@ public class ChemicalMechanismData extends DatabaseObject {
 
 
 	/** The element list. */
-	@Persistent
+	@Persistent(dependent="true")
 	ChemicalElementListData  elementList;
 	
 	/** The molecule list. */
-	@Persistent
+	@Persistent(dependent="true")
 	MechanismMoleculeListData  moleculeList;
 	
 	/** The reaction list. */
-	@Persistent
+	@Persistent(dependent="true")
 	MechanismReactionListData reactionList;
 
 	/**

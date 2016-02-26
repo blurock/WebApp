@@ -17,7 +17,7 @@ public class CreateMechanismMoleculeData {
 	
 	public MechanismMoleculeData create(ChemkinMolecule molecule, TransactionInfo transaction) {
 		System.out.println("CreateMechanismMoleculeData: base: " + keywordBase + "mol: " + molecule.getLabel());
-		String keyword = keywordBase + delimitor + molecule.getLabel();
+		keyword = keywordBase + delimitor + molecule.getLabel();
 		MechanismMoleculeData data = new MechanismMoleculeData(molecule.getLabel(),keywordBase);		
 		return data;
 	}

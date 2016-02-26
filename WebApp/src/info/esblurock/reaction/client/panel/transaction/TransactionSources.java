@@ -99,8 +99,8 @@ public class TransactionSources extends Composite {
 	private DataGrid<UploadFileTransaction> createDatagrid() {
 
 		// ACTION BUTTON
-		Column<UploadFileTransaction, MaterialButton> processbutton = new Column<UploadFileTransaction, MaterialButton>(
-				new MaterialButtonCell()) {
+		Column<UploadFileTransaction, MaterialButton> processbutton 
+			= new Column<UploadFileTransaction, MaterialButton>(new MaterialButtonCell()) {
 			@Override
 			public MaterialButton getValue(UploadFileTransaction object) {
 

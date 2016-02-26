@@ -2,9 +2,13 @@ package info.esblurock.reaction.data.delete;
 
 import java.io.IOException;
 
+import javax.jdo.PersistenceManager;
+
 import com.ibm.icu.util.StringTokenizer;
 
+import info.esblurock.reaction.data.chemical.mechanism.ChemicalMechanismData;
 import info.esblurock.reaction.data.upload.DeleteTextSetUploadData;
+import info.esblurock.reaction.server.datastore.PMF;
 
 public enum DeleteDataStructures {
 
@@ -15,6 +19,20 @@ public enum DeleteDataStructures {
 			String ans = delete.delete(key);
 			return ans;
 		}
+	},
+	ChemkinMechanism {
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			ChemicalMechanismData mech = pm.getObjectById(ChemicalMechanismData.class, key);
+			if(mech != null) {
+				pm.deletePersistent(mech);
+			} else {
+				throw new IOException("ChemkinMechanismData deleteStructure fail with key: " + key);
+			}
+			return key;
+		}
+		
 	};
 
 	public abstract String deleteStructure(String key) throws IOException;

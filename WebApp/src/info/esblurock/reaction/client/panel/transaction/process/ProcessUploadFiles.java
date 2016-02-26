@@ -17,6 +17,10 @@ public enum ProcessUploadFiles {
 			ReactionProcessUploadedLinesAsync async = ReactionProcessUploadedLines.Util.getInstance();
 			async.processUploadedMechanism(description, key, file, process, callback);				
 		}
+		@Override
+		public String getFullTypeName() {
+			return "info.esblurock.react.mechanisms.chemkin.ChemkinMechanism";
+		}
 	},
 	TransportConstants {
 
@@ -26,6 +30,12 @@ public enum ProcessUploadFiles {
 				Window.alert("Process Transport Constants:    Key=" + key + "    filename='" + filename + "'");
 			else
 				Window.alert("Test    Transport Constants:    Key=" + key + "    filename='" + filename + "'");
+		}
+
+		@Override
+		public String getFullTypeName() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 		
 	},
@@ -38,10 +48,17 @@ public enum ProcessUploadFiles {
 			else
 				Window.alert("Test    NASAPolynomials:    Key=" + key + "    filename='" + filename + "'");
 		}
+
+		@Override
+		public String getFullTypeName() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 		
 	};
 	
 	
 	public abstract void process(DescriptionDataData description, String key, String filename, boolean process);
+	public abstract String getFullTypeName();
 
 }
