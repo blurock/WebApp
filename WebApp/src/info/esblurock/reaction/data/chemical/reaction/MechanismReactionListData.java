@@ -20,4 +20,8 @@ public class MechanismReactionListData extends DatabaseObject {
 		this.reactionSet = reactionSet;
 	}
 
+	public ArrayList<ChemkinReactionData> getReactionSet() {
+		return reactionSet;
+	}
+
 }

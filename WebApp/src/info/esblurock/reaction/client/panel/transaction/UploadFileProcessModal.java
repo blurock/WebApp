@@ -77,7 +77,7 @@ public class UploadFileProcessModal extends Composite implements HasText {
 		ProcessUploadFiles process = ProcessUploadFiles.valueOf(object.getTextType());
 		String transactionType = process.getFullTypeName();
 		DescriptionDataData description = data.getDescription();
-		String keyword = description.getSourcekey()+ "-" + description.getKeyword();
+		String keyword = description.getSourcekey()+ "#" + description.getKeyword();
 		
 		TransactionServiceAsync async = TransactionService.Util.getInstance();
 		String deleteS = "Operation Delete(" + transactionType + "," + keyword + "): \n";

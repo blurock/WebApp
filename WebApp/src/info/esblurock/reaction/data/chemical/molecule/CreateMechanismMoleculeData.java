@@ -5,19 +5,22 @@ import info.esblurock.reaction.data.transaction.TransactionInfo;
 
 public class CreateMechanismMoleculeData {
 	
-	String delimitor = "#";
+	static String delimitor = "#";
 
 	String keywordBase;
 	String keyword;
 
+	static public String createMoleculeKey(String base, String label) {
+		String key = base + delimitor + label;
+		return key;
+	}
 	public CreateMechanismMoleculeData(String keywordBase) {
 		super();
 		this.keywordBase = keywordBase;
 	};
 	
 	public MechanismMoleculeData create(ChemkinMolecule molecule, TransactionInfo transaction) {
-		System.out.println("CreateMechanismMoleculeData: base: " + keywordBase + "mol: " + molecule.getLabel());
-		keyword = keywordBase + delimitor + molecule.getLabel();
+		keyword = createMoleculeKey(keywordBase,molecule.getLabel() );
 		MechanismMoleculeData data = new MechanismMoleculeData(molecule.getLabel(),keywordBase);		
 		return data;
 	}

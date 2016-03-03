@@ -25,4 +25,5 @@ public class MechanismMoleculeListData extends DatabaseObject {
 	public ArrayList<MechanismMoleculeData> getMolecules() {
 		return molecules;
 	}
+	
 }

@@ -24,5 +24,7 @@
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/datanucleus-appengine-2.1.2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/datanucleus-core-3.1.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/JReaction.jar"/>
+	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/JThermodynamicData.jar"/>
+	<classpathentry exported="true" kind="lib" path="/JThermodynamicData/jars/cdk-1.4.19.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

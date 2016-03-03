@@ -84,7 +84,7 @@ public class StoreObject {
 	}
 
 	/**
-	 * Common routine for the constructors
+	 * Common routine for the constructors.
 	 *
 	 * @param keyword the keyword base for the RDF information
 	 * @param object the data class object
@@ -96,12 +96,17 @@ public class StoreObject {
 		this.object = object;
 		this.transaction = transaction;
 		this.storeObject = storeObject;
-		storeRDF();
 		storeObject();
+		storeRDF();
 	}
 	
 	/**
 	 * Finish: to be called if all the transactions are done.
+	 * 
+	 * From the classes that override this method, the procedure 
+	 * should do operations that occur after the object has been stored
+	 * (this is meant mainly when the main object has dependent objects within it).
+	 * 
 	 * <ul>
 	 * <li> RDFs:  enteredby and creationdata
 	 * <li> Finalize the transaction by entering the object key and storing the {@link TransactionInfo}
@@ -116,7 +121,7 @@ public class StoreObject {
 	}
 
 	/**
-	 * Store if the object has not been stored yet (checking if key is null)
+	 * Store if the object has not been stored yet (checking if key is null).
 	 *
 	 * @param object the object
 	 */
@@ -133,7 +138,7 @@ public class StoreObject {
 	 * The String refers to that the object is a string value
 	 * 
 	 * The 'global' keyword of the class is the subject
-	 * The predicate and the object (description) is supplied
+	 * The predicate and the object (description) is supplied.
 	 *
 	 * @param predicate the predicate relation between subject and object
 	 * @param description the object description of the subject
@@ -155,17 +160,29 @@ public class StoreObject {
 	 * @param object the object itself (which has already been stored in the database and has a key
 	 */
 	protected void storeObjectRDF(DatabaseObject object) {
-		store(object);
+		storeObjectRDF(keyword,object);
+	}
+
+	/**
+	 * The subject is the keyword given
+	 * The predicate is the object predicate objectPredicate (a constant of the class).
+	 * The object is the key to the object
+	 *
+	 * @param objectkey the Object keyword to use
+	 * @param object the object
+	 */
+	protected void storeObjectRDF(String objectkey, DatabaseObject object) {
+		//store(object);
 		String key = object.getKey();
 		String classname = object.getClass().getName();
 		String typepredicate = classname + typeDelimiter + objectPredicate;
-		KeywordRDF objectrdf = new KeywordRDF(keyword, typepredicate, key.toString());
+		KeywordRDF objectrdf = new KeywordRDF(objectkey, typepredicate, key);
 		store(objectrdf);
 		transaction.addRDFKey(objectrdf.getKey());
 	}
 
 	/**
-	 * Store object if storeObject is true
+	 * Store object if storeObject is true.
 	 */
 	protected void storeObject() {
 		if (storeObject) {

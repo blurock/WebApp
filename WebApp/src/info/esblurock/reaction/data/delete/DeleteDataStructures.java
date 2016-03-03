@@ -7,6 +7,7 @@ import javax.jdo.PersistenceManager;
 import com.ibm.icu.util.StringTokenizer;
 
 import info.esblurock.reaction.data.chemical.mechanism.ChemicalMechanismData;
+import info.esblurock.reaction.data.chemical.thermo.SetOfNASAPolynomialData;
 import info.esblurock.reaction.data.upload.DeleteTextSetUploadData;
 import info.esblurock.reaction.server.datastore.PMF;
 
@@ -33,7 +34,23 @@ public enum DeleteDataStructures {
 			return key;
 		}
 		
+	},
+	SetOfNASAPolynomialData {
+
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			SetOfNASAPolynomialData nasa = pm.getObjectById(SetOfNASAPolynomialData.class, key);
+			if(nasa != null) {
+				pm.deletePersistent(nasa);
+			} else {
+				throw new IOException("SetOfNASAPolynomialData deleteStructure fail with key: " + key);
+			}
+			return key;
+		}
+		
 	};
+	
 
 	public abstract String deleteStructure(String key) throws IOException;
 	

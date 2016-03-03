@@ -14,6 +14,8 @@ import info.esblurock.reaction.data.transaction.TransactionInfo;
 
 public class CreateChemicalMechanismData {
 	
+	public static String delimitor = "#";
+	
 	GenerateMoleculeKeywords generateKeywords;
 	String mechanismKeyword;
 	HashMap<String,String> moleculeNamesTable;
@@ -21,7 +23,13 @@ public class CreateChemicalMechanismData {
 	
 	CreateMechanismMoleculeListData createMoleculeList;
 	CreateMechanismReactionListData createReactionList;
+	StoreChemkinMechanismData storeMechanism;
+	ChemicalMechanismData mechanismData;
 	
+	static public String createMechanismName(String source,String keyword) {
+		String name = source + delimitor + keyword;
+		return name;
+	}
 	
 	public CreateChemicalMechanismData(String keywordBase) {
 		this.keywordBase = keywordBase;
@@ -42,12 +50,17 @@ public class CreateChemicalMechanismData {
 		createReactionList = new CreateMechanismReactionListData(mechanismKeyword,moleculeNamesTable,false);
 		MechanismReactionListData reactionList = createReactionList.create(mechanism.getReactionList(), transaction);
 		
-		ChemicalMechanismData data = new ChemicalMechanismData(elementList, moleculeList, reactionList);
-			
-		return data;
+		mechanismData = new ChemicalMechanismData(elementList, moleculeList, reactionList);
+
+		storeMechanism = new StoreChemkinMechanismData(mechanismKeyword,mechanismData,transaction,true);
+		
+
+		return mechanismData;
 	}
 
-
+	public void finish() {
+		storeMechanism.finish();
+	}
 
 
 

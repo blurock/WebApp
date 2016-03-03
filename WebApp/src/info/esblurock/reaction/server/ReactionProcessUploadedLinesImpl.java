@@ -11,6 +11,7 @@ import info.esblurock.reaction.data.chemical.mechanism.ChemicalMechanismData;
 import info.esblurock.reaction.data.chemical.mechanism.CreateChemicalMechanismData;
 import info.esblurock.reaction.data.chemical.mechanism.StoreChemkinMechanismData;
 import info.esblurock.reaction.data.chemical.reaction.CreateChemkinReactionData;
+import info.esblurock.reaction.data.chemical.thermo.ProcessNASAPolynomialUpload;
 import info.esblurock.reaction.data.contact.entities.OrganizationDescriptionData;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
@@ -42,32 +43,26 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 	public String processUploadedMechanism(DescriptionDataData description, 
 			String key, String filename, boolean process) throws IOException {
 		ChemkinStringFromStoredFile chemkinstring = new ChemkinStringFromStoredFile(key,filename,commentString);
-		String mechname = description.getSourcekey() + "." + description.getKeyword();
 		ChemkinMechanism mechanism = new ChemkinMechanism();
 		mechanism.parse(chemkinstring, commentString);
 		String ans = mechanism.toString();
 		if(process) {
-			String keyword = description.getSourcekey() + "-" + description.getKeyword();
-			TransactionInfo transaction = new TransactionInfo(description.getInputkey(),keyword,mechanism.getClass().getName());
-			
+			String keyword = CreateChemicalMechanismData.createMechanismName(description.getSourcekey(),description.getKeyword());
+			TransactionInfo transaction = new TransactionInfo(description.getInputkey(),keyword,ChemicalMechanismData.class.getName());
 			CreateChemicalMechanismData create = new CreateChemicalMechanismData(keyword);
-			ChemicalMechanismData data = create.create(keyword, mechanism, transaction);
-			System.out.println("processUploadedMechanism: StoreChemkinMechanismData store");
-			StoreChemkinMechanismData store = new StoreChemkinMechanismData(keyword,data,transaction,true);
-			store.finish();
-			System.out.println("processUploadedMechanism: Done");
+			create.create(keyword, mechanism, transaction);
+			create.finish();
 		}
 		return ans;
 	}
+	public String processUploadedSetOfNASAPolynomial(DescriptionDataData description, 
+			String key, String filename, boolean process) throws IOException {
+		ProcessNASAPolynomialUpload processNASA = new ProcessNASAPolynomialUpload();
+		String ans = processNASA.processUploadedNASAPolynomials(description, key, filename, process);
+		return ans;
+	}
 	
-	/**
-	 * Delete uploaded mechanism.
-	 *
-	 * @param key the key
-	 * @return the string
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-	public String deleteUploadedMechanism(String key)  throws IOException {
+	public String deleteTextSetUploadData(String key)  throws IOException {
 		String ans = "";
 		try {
 			TextSetUploadData object = pm.getObjectById(TextSetUploadData.class, key);

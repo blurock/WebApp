@@ -15,7 +15,6 @@ public class StoreMechanismMoleculeData  extends StoreObject {
 		super(keyword, object, transaction,storeObject);
 	}
 	protected void storeObject() {
-		System.out.println("StoreMechanismMoleculeData::storeObject()" + this.storeObject);
 		super.storeObject();
 	}
 	
