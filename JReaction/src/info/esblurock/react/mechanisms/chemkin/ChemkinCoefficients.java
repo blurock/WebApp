@@ -37,6 +37,7 @@ public class ChemkinCoefficients {
 	}
 
 	public boolean parseReverse(String trimmed) throws IOException {
+		System.out.println("parseReverse");
 		boolean reverse = false;
 		if(trimmed.toUpperCase().startsWith(reverseCoeffsS)) {
 			forward = false;
@@ -46,10 +47,12 @@ public class ChemkinCoefficients {
 			System.out.println(trimmed.substring(pos1+1,pos2));
 			parseCoeffs(trimmed.substring(pos1+1,pos2));
 		}
+		System.out.println("parseReverse" + reverse);
 		return reverse;
 	}
 
 	public boolean parseLow(String trimmed) throws IOException {
+		System.out.println("parseLow");
 		low = false;
 		if(trimmed.toUpperCase().startsWith(lowCoeffsS)) {
 			low = true;
@@ -58,10 +61,12 @@ public class ChemkinCoefficients {
 			System.out.println(trimmed.substring(pos1+1,pos2));
 			parseCoeffs(trimmed.substring(pos1+1,pos2));
 		}
+		System.out.println("parseLow" + low);
 		return low;
 	}
 
 	public boolean parseTroe(String trimmed)  throws IOException {
+		System.out.println("parseTroe");
 		troe = false;
 		if(trimmed.toUpperCase().startsWith(troeCoeffsS)) {
 			troe = true;
@@ -78,6 +83,7 @@ public class ChemkinCoefficients {
 				throw new IOException("Illegal TROE: " + trimmed);
 			}
 		}
+		System.out.println("parseTroe" + troe);
 		return troe;
 	}
     public void parseCoeffs(String line) throws IOException {

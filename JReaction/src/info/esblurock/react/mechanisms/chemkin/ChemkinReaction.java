@@ -86,7 +86,9 @@ public class ChemkinReaction {
 				next = parseThirdBodyCoeffs();
 			} else if(lines.nextToken() != null){
 				ChemkinCoefficients reverse = new ChemkinCoefficients();
-				if(reverse.parseReverse(lines.getCurrent())) {
+				String l = lines.getCurrent().trim();
+				System.out.println("process reverse: '" + l + "'");
+				if(reverse.parseReverse(l)) {
 					reverseCoefficients = reverse;
 					lines.nextToken();
 				}
@@ -197,14 +199,20 @@ public class ChemkinReaction {
 			if (rxn != null) {
 				int pos = rxn.indexOf("!");
 				String next;
-				if (pos > 0)
+				if (pos >= 0) {
 					next = rxn.substring(0, pos);
-				else
+				if(comment == null) 
+					comment = new String();
+					comment += rxn.substring(pos) + "\n";
+				} else
 					next = rxn;
 
 				String trimmed = next.trim();
+				System.out.println("parseThirdBodyCoeffs(): " + trimmed);
 				ChemkinCoefficients coefficients = new ChemkinCoefficients();
-				if (coefficients.parseReverse(trimmed)) {
+				if(pos == 0) {
+					System.out.println("Commented out " );
+				} else if (coefficients.parseReverse(trimmed)) {
 					reverseCoefficients = coefficients;
 				} else if (coefficients.parseLow(trimmed)) {
 					lowCoefficients = coefficients;

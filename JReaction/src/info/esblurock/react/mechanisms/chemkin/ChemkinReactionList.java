@@ -39,7 +39,7 @@ public class ChemkinReactionList  extends ArrayList<ChemkinReaction> {
 				ChemkinReaction rxn = new ChemkinReaction(lines, molecules);
 				rxn.setComment(commentString);
 				next = rxn.parse();
-				if (next.toUpperCase().startsWith("DUP")) {
+				if (next.trim().toUpperCase().startsWith("DUP")) {
 					if (duplicatesAllowed) {
 						rxn.setMarkedAsDuplicate(true);
 					}
