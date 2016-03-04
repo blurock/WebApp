@@ -79,6 +79,7 @@ public class ChemkinMechanism {
 			if (next.startsWith(commentChar)) {
 				builder.append(next);
 				builder.append("\n");
+				next = lines.nextToken();
 			} else {
 				notdone = false;
 			}

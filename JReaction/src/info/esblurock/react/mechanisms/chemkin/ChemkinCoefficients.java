@@ -38,7 +38,7 @@ public class ChemkinCoefficients {
 
 	public boolean parseReverse(String trimmed) throws IOException {
 		boolean reverse = false;
-		if(trimmed.startsWith(reverseCoeffsS)) {
+		if(trimmed.toUpperCase().startsWith(reverseCoeffsS)) {
 			forward = false;
 			reverse = true;
 			int pos1 = trimmed.indexOf("/");
@@ -51,7 +51,7 @@ public class ChemkinCoefficients {
 
 	public boolean parseLow(String trimmed) throws IOException {
 		low = false;
-		if(trimmed.startsWith(lowCoeffsS)) {
+		if(trimmed.toUpperCase().startsWith(lowCoeffsS)) {
 			low = true;
 			int pos1 = trimmed.indexOf("/");
 			int pos2 = trimmed.indexOf("/",pos1+1);
@@ -63,7 +63,7 @@ public class ChemkinCoefficients {
 
 	public boolean parseTroe(String trimmed)  throws IOException {
 		troe = false;
-		if(trimmed.startsWith(troeCoeffsS)) {
+		if(trimmed.toUpperCase().startsWith(troeCoeffsS)) {
 			troe = true;
 			int pos1 = trimmed.indexOf("/");
 			int pos2 = trimmed.indexOf("/",pos1+1);
