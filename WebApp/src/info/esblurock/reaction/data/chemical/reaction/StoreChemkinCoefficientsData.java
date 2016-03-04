@@ -11,6 +11,7 @@ import info.esblurock.reaction.data.transaction.TransactionInfo;
 public class StoreChemkinCoefficientsData  extends StoreObject  {
 	
 	static public String forward = "ForwardCoefficients";
+	static public String reverse = "ReverseCoefficients";
 	static public String troe = "TroeCoefficients";
 	static public String low = "LowPressureCoefficients";
 
@@ -23,12 +24,12 @@ public class StoreChemkinCoefficientsData  extends StoreObject  {
 	
 	protected void storeObject() {
 		ChemkinCoefficientsData data = (ChemkinCoefficientsData) object;
+		DecimalFormat formatterExp  = new DecimalFormat("0.####E00");
 		
+		if(!data.troe) {
 		double A = Double.parseDouble(data.getA());
 		double n = Double.parseDouble(data.getN());
 		double Ea = Double.parseDouble(data.getEa());
-		
-		DecimalFormat formatterExp  = new DecimalFormat("0.####E00");
 		DecimalFormat formatterSimp  = new DecimalFormat("#");
 		formatterSimp.setMaximumFractionDigits(3);
 		String AS = formatterExp.format(A);
@@ -41,9 +42,20 @@ public class StoreChemkinCoefficientsData  extends StoreObject  {
 		if(data.forward)
 			storeStringRDF(forward,coeffS);
 		else if(data.troe)
-			storeStringRDF(troe,coeffS);
+			storeStringRDF(reverse,coeffS);
 		else if(data.low)
 			storeStringRDF(low,coeffS);
+		} else {
+			StringBuilder build = new StringBuilder();
+			for(String coef : data.getTroeCoeffs()) {
+				double c = Double.parseDouble(coef);
+				String cS = formatterExp.format(c);
+				build.append(cS);
+				build.append(" ");
+			}
+			String troeS = build.toString();
+			storeStringRDF(troe,troeS);
+		}
 	}
 
 }

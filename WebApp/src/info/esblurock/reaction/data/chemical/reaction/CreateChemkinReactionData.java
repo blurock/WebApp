@@ -71,7 +71,6 @@ public class CreateChemkinReactionData {
 	 * @return the chemkin reaction data
 	 */
 	public ChemkinReactionData create(ChemkinReaction reaction, TransactionInfo transaction) {
-		System.out.println("CreateChemkinReactionData create");
 		ArrayList<String> reactantNames = createMoleculeArrayList(reaction.getReactants());
 		ArrayList<String> productNames = createMoleculeArrayList(reaction.getProducts());
 

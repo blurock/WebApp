@@ -33,21 +33,23 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 			System.out.println("UploadFileTransaction not found with key: " + key);
 		}
 	}
+
 	public String getCurrent() {
 		String key = lines.get(count);
 		System.out.println("getCurrent(" + count + "): " + key);
 		FileUploadLines lineE = pm.getObjectById(FileUploadLines.class, key);
 		String line = lineE.getLine();
 		System.out.println("getCurrent(): " + line);
-		return line;		
+		return line;
 	}
+
 	public String nextToken() {
 		String line;
-		if(count < lines.size()) {
-		String key = lines.get(++count);
-		FileUploadLines lineE = pm.getObjectById(FileUploadLines.class, key);
-		line = lineE.getLine();
-		System.out.println("nextToken(" + count + "): " + line);
+		if (count < lines.size()) {
+			String key = lines.get(++count);
+			FileUploadLines lineE = pm.getObjectById(FileUploadLines.class, key);
+			line = lineE.getLine();
+			System.out.println("nextToken(" + count + "): " + line);
 		} else {
 			line = null;
 		}
