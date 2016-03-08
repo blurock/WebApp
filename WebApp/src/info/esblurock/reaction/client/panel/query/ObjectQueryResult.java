@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
+import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTextArea;
@@ -32,17 +33,21 @@ public class ObjectQueryResult extends Composite implements HasText {
 	@UiField
 	MaterialLink textarea;
 	@UiField
+	MaterialLink classname;
+	@UiField
 	MaterialLink actions;
 	@UiField
 	MaterialCollapsibleItem item;
 
 	QueryPath path;
 
-	public ObjectQueryResult(QueryPath path, String result) {
+	public ObjectQueryResult(QueryPath path, String classnameS, String result) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.path = path;
+		
+		classname.setText(shortClassname(classnameS));
 		textarea.setText(result);
-		textarea.setTooltip(path.toString());
+		classname.setTooltip(path.toString());
 	}
 
 	@UiHandler("actions")
@@ -53,6 +58,16 @@ public class ObjectQueryResult extends Composite implements HasText {
 		QueryPath path = new QueryPath(textarea.getText());
 		async.objectSearch(textarea.getText(), new BasicObjectSearchCallback(path,item ));
 		
+	}
+	
+	private String shortClassname(String classname) {
+		int index = 0;
+		String shortname = classname;
+		while(index >=0) {
+			shortname = shortname.substring(index+1);
+			index = shortname.indexOf('.');
+		}
+		return shortname;
 	}
 	public void setText(String text) {
 		textarea.setText(text);

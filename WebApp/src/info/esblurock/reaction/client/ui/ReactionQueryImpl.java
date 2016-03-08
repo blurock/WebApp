@@ -38,14 +38,14 @@ public class ReactionQueryImpl extends UiImplementationBase implements ReactionQ
 	public ReactionQueryImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		query = new QueryAndResultPanel();
-		navbar = new QueryNavBar(query.getQueryTop());
+		navbar = new QueryNavBar(query);
 		init(query,navbar);
 	}
 
 	public ReactionQueryImpl(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
 		query = new QueryAndResultPanel(firstName);
-		navbar = new QueryNavBar(firstName, query.getQueryTop());
+		navbar = new QueryNavBar(firstName, query);
 		init(query,navbar);
 	}
 

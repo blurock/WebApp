@@ -73,8 +73,8 @@ public class ObjectQueryKeyResultSet extends Composite implements HasText {
 			HashSet<String> strings = getUniqueKeys();
 			for (String ans : strings) {
 				QueryPath next = topPath.addToNewPath(key, stringKey);
-				StringQueryResult subtext = new StringQueryResult(next, ans);
-				collapse.addItem(subtext);
+				//StringQueryResult subtext = new StringQueryResult(next, ans);
+				//collapse.addItem(subtext);
 			}
 		}
 	}

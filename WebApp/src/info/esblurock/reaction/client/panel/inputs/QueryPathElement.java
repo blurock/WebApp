@@ -15,12 +15,9 @@ public class QueryPathElement implements Serializable{
 	}
 	public String toString() {
 		StringBuilder build = new StringBuilder();
-		build.append(elementType);
-		build.append("(");
 		build.append(keyword);
 		build.append(":");
 		build.append(predicate);
-		build.append(")");
 		
 		return build.toString();
 	}

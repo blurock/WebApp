@@ -32,24 +32,24 @@ public class BasicObjectSearchCallback implements AsyncCallback<RDFBySubjectSet>
 		MaterialCollapsible collapse = new MaterialCollapsible();
 		collapse.setType("Popout");
 		toppanel.add(collapse);
-
 		for (String key : answers.keySet()) {
 			SetOfKeywordQueryAnswers result = answers.get(key);
 			if (result != null) {
-
 				String stringKey = "String";
 				RDFQueryToStringSet stringset = result.get(stringKey);
 				String objectKey = "Object";
 				RDFQueryToStringSet objectset = result.get(objectKey);
 
+				//Window.alert("String: " + Integer.toString(stringset.size()));
 				if (stringset.size() > 0) {
 					QueryStringSet stringitem = new QueryStringSet(stringKey, stringset, topPath, collapse);
-					collapse.addItem(stringitem);
+					//collapse.addItem(stringitem);
 				}
 
+				//Window.alert("Object: " + Integer.toString(objectset.size()));
 				if (objectset.size() > 0) {
 					QueryObjectSet objectitem = new QueryObjectSet(objectKey, objectset, topPath, collapse);
-					collapse.addItem(objectitem);
+					//collapse.addItem(objectitem);
 				}
 			}
 		}

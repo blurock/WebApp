@@ -1,5 +1,6 @@
 package info.esblurock.reaction.client.panel;
 
+import info.esblurock.reaction.client.panel.query.BasicObjectSearchCallback;
 import info.esblurock.reaction.client.panel.query.BasicSearchCallback;
 import info.esblurock.reaction.client.panel.query.QueryPath;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
@@ -8,6 +9,7 @@ import info.esblurock.reaction.client.ui.ReactionQueryView.Presenter;
 import info.esblurock.reaction.client.ui.login.UserDTO;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
+import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialNavBar;
@@ -18,6 +20,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.TextBox;
@@ -44,21 +47,25 @@ public class QueryNavBar extends Composite implements HasText {
 	MaterialLink navuser;
 	
 	MaterialCollapsibleItem search0;
+	QueryAndResultPanel qrpanel;
 	Presenter listener;
 	QueryLinks links;
 	String name;
 	UserDTO user;
 	
-	public QueryNavBar(MaterialCollapsibleItem search0) {
+	
+	public QueryNavBar(QueryAndResultPanel qrpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
-		this.search0 = search0;
+		this.search0 = qrpanel.getQueryTop();
+		this.qrpanel = qrpanel;
 		links = new QueryLinks();
 		
 	}
-	public QueryNavBar(String firstName, MaterialCollapsibleItem search0) {
+	public QueryNavBar(String firstName, QueryAndResultPanel qrpanel) {
 		initWidget(uiBinder.createAndBindUi(this));
 		name = firstName;
-		this.search0 = search0;
+		this.search0 = qrpanel.getQueryTop();
+		this.qrpanel = qrpanel;
 		links = new QueryLinks();
 	}
 
@@ -73,11 +80,22 @@ public class QueryNavBar extends Composite implements HasText {
 	}
 	@UiHandler("submittopquery")
 	void onClick(ClickEvent e) {
+		/*
 		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
 		String title = "Keyword Search: " + search.getText();
 		search0.setTitle(title);
 		QueryPath path = new QueryPath(search.getText());
 		async.basicSearch(search.getText(), new BasicSearchCallback(path, search0));
+		*/
+		
+		Window.alert("Query");
+		
+		qrpanel.setText(search.getText());
+		QueryPath path = new QueryPath(search.getText());
+		BasicObjectSearchCallback callback = new BasicObjectSearchCallback(path, search0);
+		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
+		async.singleKeyQuery(search.getText(), callback);
+
 	}
 
 	@UiHandler("linkmenu")

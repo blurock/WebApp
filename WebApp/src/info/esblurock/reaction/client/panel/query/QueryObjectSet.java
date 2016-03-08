@@ -1,5 +1,7 @@
 package info.esblurock.reaction.client.panel.query;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
@@ -48,16 +50,31 @@ public class QueryObjectSet extends Composite implements HasText {
 		this.parent = parent;
 		
 		objectlabel.setText(stringKey);
-		
 		Set<String> stringkeys = objectset.keySet();
+		HashSet<String> uniqueset = getUniqueKeys(stringkeys);
 		for (String key : stringkeys) {
-			if(objectset.size() > 0) {
-				ObjectQueryKeyResultSet item = new ObjectQueryKeyResultSet(stringKey, key, objectset, topPath, this);
-				stringsetcollapse.addItem(item);
+			for (String subkey : uniqueset) {
+				QueryPath next = topPath.addToNewPath(key, stringKey);
+				ObjectQueryResult subtext = new ObjectQueryResult(next, key, subkey);
+				parent.addItem(subtext);
 			}
 		}
 	}
 
+	HashSet<String> getUniqueKeys(Set<String> stringkeys) {
+		HashSet<String> uniqueset = new HashSet<String>();
+		if (objectset.size() > 0) {
+			for (String key : stringkeys) {
+				ArrayList<String> lst = objectset.get(key);
+				for (String subkey : lst) {
+					uniqueset.add(subkey);
+				}
+			}
+		}
+		return uniqueset;
+	}
+
+	
 	public void removeItem(ObjectQueryKeyResultSet item) {
 		stringsetcollapse.remove(item);
 	}

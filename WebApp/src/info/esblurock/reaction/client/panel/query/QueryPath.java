@@ -25,12 +25,14 @@ public class QueryPath  implements Serializable{
 		boolean nexttime = false;
 		for(QueryPathElement element : path) {
 			if(nexttime) {
-				build.append("->");
+				build.append(" -> ");
 			} else {
 				nexttime = true;
 			}
 			build.append(element.toString());
 		}
+		build.append(" -> ");
+		build.append(nextKeyword);
 		return build.toString();
 	}
 	protected QueryPath(QueryPath original) {

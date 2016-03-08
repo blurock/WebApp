@@ -13,9 +13,7 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
-import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialTextBox;
 
 public class StringQueryResult extends Composite implements HasText {
 
@@ -30,6 +28,8 @@ public class StringQueryResult extends Composite implements HasText {
 	}
 
 	@UiField
+	MaterialLink predicate;
+	@UiField
 	MaterialLink textarea;
 	@UiField
 	MaterialLink actions;
@@ -38,16 +38,18 @@ public class StringQueryResult extends Composite implements HasText {
 	
 	QueryPath path;
 	
-	public StringQueryResult(QueryPath path, String result) {
+	public StringQueryResult(QueryPath path, String p, String result) {
 		initWidget(uiBinder.createAndBindUi(this));
 			this.path = path;
+			predicate.setText(p);
+			
 			if(result.length() < 60) {
 				textarea.setText(result);
 			} else {
 				String substring = result.substring(0,56) + "...";
 				textarea.setText(substring);
 			}
-			textarea.setTooltip(path.toString());			
+			predicate.setTooltip(path.toString());			
 	}
 
 	

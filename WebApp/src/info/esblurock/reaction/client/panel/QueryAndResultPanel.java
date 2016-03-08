@@ -41,13 +41,12 @@ public class QueryAndResultPanel extends UiImplementationBase implements HasText
 	
 	@Override
 	public void setText(String text) {
-		//submittopquery.setText(text);
+		searchlabel.setText(text);
 	}
 
 	@Override
 	public String getText() {
-		//return submittopquery.getText();
-		return null;
+		return searchlabel.getText();
 	}
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;

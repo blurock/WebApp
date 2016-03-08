@@ -27,5 +27,6 @@
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/JThermodynamicData.jar"/>
 	<classpathentry exported="true" kind="lib" path="/JThermodynamicData/jars/cdk-1.4.19.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JReaction"/>
+	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/gwt-material-1.4.1.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -1,5 +1,7 @@
 package info.esblurock.reaction.client.panel.query;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
@@ -8,7 +10,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
@@ -38,26 +39,42 @@ public class QueryStringSet extends Composite implements HasText {
 	MaterialCollapsible stringsetcollapse;
 	@UiField
 	MaterialLink remove;
-	
+
 	RDFQueryToStringSet stringset;
 	MaterialCollapsible parent;
-	
-	public QueryStringSet(String stringKey, RDFQueryToStringSet stringset, QueryPath topPath, MaterialCollapsible parent) {
+
+	public QueryStringSet(String stringKey, RDFQueryToStringSet stringset, QueryPath topPath,
+			MaterialCollapsible parent) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.stringset = stringset;
 		this.parent = parent;
-		
 		stringlabel.setText(stringKey);
 
 		Set<String> stringkeys = stringset.keySet();
-
 		for (String key : stringkeys) {
-			if (stringset.size() > 0) {
-				StringQueryKeyResultSet item = new StringQueryKeyResultSet(stringKey, key, stringset, topPath,this);
-				stringsetcollapse.addItem(item);
+			HashSet<String> uniqueset = new HashSet<String>();
+			ArrayList<String> lst = stringset.get(key);
+			for (String subkey : lst) {
+				uniqueset.add(subkey);
+			}
+			for (String subkey : uniqueset) {
+				QueryPath next = topPath.addToNewPath(key, stringKey);
+				StringQueryResult subtext = new StringQueryResult(next, key, subkey);
+				parent.addItem(subtext);
 			}
 		}
-
+	}
+	HashSet<String> getUniqueKeys(Set<String> stringkeys) {
+		HashSet<String> uniqueset = new HashSet<String>();
+		if (stringset.size() > 0) {
+			for (String key : stringkeys) {
+				ArrayList<String> lst = stringset.get(key);
+				for (String subkey : lst) {
+					uniqueset.add(subkey);
+				}
+			}
+		}
+		return uniqueset;
 	}
 
 	@UiHandler("remove")

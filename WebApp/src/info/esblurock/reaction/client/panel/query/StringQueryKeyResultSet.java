@@ -59,11 +59,10 @@ public class StringQueryKeyResultSet extends Composite implements HasText {
 		HashSet<String> strings = getUniqueKeys();
 		for(String ans : strings) {
 			QueryPath next = topPath.addToNewPath(key, stringKey);
-			StringQueryResult subtext = new StringQueryResult(next,ans);
-			set.addItem(subtext);
+			//StringQueryResult subtext = new StringQueryResult(next,ans);
+			//set.addItem(subtext);
 		}
 	}
-
 	private HashSet<String> getUniqueKeys() {
 		HashSet<String> set = new HashSet<String>();
 		for(String ans : stringset.get(key)) {
@@ -71,6 +70,7 @@ public class StringQueryKeyResultSet extends Composite implements HasText {
 		}
 		return set;
 	}
+
 	
 	@UiHandler("remove")
 	public void onRemoveClick(ClickEvent e) {
