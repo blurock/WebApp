@@ -5,32 +5,56 @@ import java.util.StringTokenizer;
 
 public class ChemkinCoefficients {
 	private boolean forward;
+	private boolean reverse;
 	private boolean low;
 	private boolean troe;
-	
-	private String A,n,Ea;
-	private String[] troeCoeffs;
-	
+	private boolean high;
+	private boolean plog;
+	private boolean sri;
+
+	private String A, n, Ea;
+	private String[] coeffs;
+
 	private String forwardS;
 	private String reverseS;
-	
+
 	private String reverseCoeffsS;
 	private String troeCoeffsS;
 	private String lowCoeffsS;
+	private String highCoeffsS;
+	private String plogCoeffsS;
+	private String sriCoeffsS;
 	
-	
+	private String comments = "";
+
 	private void init() {
 		forwardS = "Forward:";
 		reverseS = "Reverse:";
 		reverseCoeffsS = "REV";
 		troeCoeffsS = "TROE";
 		lowCoeffsS = "LOW";
-	
+		highCoeffsS = "HIGH";
+		plogCoeffsS = "PLOG";
+		sriCoeffsS = "SRI";
+		coeffs = null;
+		A = null;
+		n = null;
+		Ea = null;
+
+		forward = false;
+		reverse = false;
+		low = false;
+		troe = false;
+		high = false;
+		plog = false;
+		sri = false;
+
 	}
+
 	public ChemkinCoefficients() {
 		init();
-		forward = true;
 	}
+
 	public ChemkinCoefficients(boolean forward) {
 		init();
 		this.forward = forward;
@@ -38,135 +62,211 @@ public class ChemkinCoefficients {
 
 	public boolean parseReverse(String trimmed) throws IOException {
 		System.out.println("parseReverse");
-		boolean reverse = false;
-		if(trimmed.toUpperCase().startsWith(reverseCoeffsS)) {
-			forward = false;
+		reverse = false;
+		if (trimmed.toUpperCase().startsWith(reverseCoeffsS)) {
 			reverse = true;
 			int pos1 = trimmed.indexOf("/");
-			int pos2 = trimmed.indexOf("/",pos1+1);
-			System.out.println(trimmed.substring(pos1+1,pos2));
-			parseCoeffs(trimmed.substring(pos1+1,pos2));
+			int pos2 = trimmed.indexOf("/", pos1 + 1);
+			System.out.println(trimmed.substring(pos1 + 1, pos2));
+			parseCoeffs(trimmed.substring(pos1 + 1, pos2));
 		}
-		System.out.println("parseReverse" + reverse);
+		System.out.println("parseReverse: " + reverse);
 		return reverse;
 	}
 
 	public boolean parseLow(String trimmed) throws IOException {
 		System.out.println("parseLow");
 		low = false;
-		if(trimmed.toUpperCase().startsWith(lowCoeffsS)) {
+		if (trimmed.toUpperCase().startsWith(lowCoeffsS)) {
 			low = true;
 			int pos1 = trimmed.indexOf("/");
-			int pos2 = trimmed.indexOf("/",pos1+1);
-			System.out.println(trimmed.substring(pos1+1,pos2));
-			parseCoeffs(trimmed.substring(pos1+1,pos2));
+			int pos2 = trimmed.indexOf("/", pos1 + 1);
+			System.out.println(trimmed.substring(pos1 + 1, pos2));
+			parseCoeffs(trimmed.substring(pos1 + 1, pos2));
 		}
-		System.out.println("parseLow" + low);
+		System.out.println("parseLow: " + low);
 		return low;
 	}
 
-	public boolean parseTroe(String trimmed)  throws IOException {
+	public boolean parseHigh(String trimmed) throws IOException {
+		System.out.println("parseHigh");
+		high = false;
+		if (trimmed.toUpperCase().startsWith(highCoeffsS)) {
+			high = true;
+			int pos1 = trimmed.indexOf("/");
+			int pos2 = trimmed.indexOf("/", pos1 + 1);
+			System.out.println(trimmed.substring(pos1 + 1, pos2));
+			parseCoeffs(trimmed.substring(pos1 + 1, pos2));
+		}
+		System.out.println("parseHigh: " + high);
+		return high;
+	}
+
+	public boolean parsePlog(String trimmed) throws IOException {
+		System.out.println("parsePLOG");
+		plog = false;
+		if (trimmed.toUpperCase().startsWith(plogCoeffsS)) {
+			plog = true;
+			coeffs = parseConstants(trimmed, plogCoeffsS);
+		}
+		System.out.println("parsePLOG: " + plog);
+		return plog;
+	}
+
+	public boolean parseSRI(String trimmed) throws IOException {
+		System.out.println("parseSRI");
+		sri = false;
+		if (trimmed.toUpperCase().startsWith(sriCoeffsS)) {
+			sri = true;
+			coeffs = parseConstants(trimmed, sriCoeffsS);
+		}
+		System.out.println("parseSRI: " + sri);
+		return sri;
+	}
+
+	public boolean parseTroe(String trimmed) throws IOException {
 		System.out.println("parseTroe");
 		troe = false;
-		if(trimmed.toUpperCase().startsWith(troeCoeffsS)) {
+		if (trimmed.toUpperCase().startsWith(troeCoeffsS)) {
 			troe = true;
-			int pos1 = trimmed.indexOf("/");
-			int pos2 = trimmed.indexOf("/",pos1+1);
-			StringTokenizer tok = new StringTokenizer(trimmed.substring(pos1+1,pos2)," ");
-			if(tok.countTokens() > 0) {
-				troeCoeffs = new String[tok.countTokens()];
-				int i = 0;
-				while(tok.hasMoreTokens()) {
-					troeCoeffs[i++] = tok.nextToken();
-				}
-			} else {
-				throw new IOException("Illegal TROE: " + trimmed);
-			}
+			coeffs = parseConstants(trimmed, troeCoeffsS);
 		}
-		System.out.println("parseTroe" + troe);
+		System.out.println("parseTroe: " + troe);
 		return troe;
 	}
-    public void parseCoeffs(String line) throws IOException {
-    	StringTokenizer tok = new StringTokenizer(line," ");
-    	parseCoeffs(tok);
-    }
+
+	public String[] parseConstants(String trimmed, String type) throws IOException {
+
+		int pos1 = trimmed.indexOf("/");
+		int pos2 = trimmed.indexOf("/", pos1 + 1);
+		StringTokenizer tok = new StringTokenizer(trimmed.substring(pos1 + 1, pos2), " ");
+		String[] constants = new String[tok.countTokens()];
+		if (tok.countTokens() > 0) {
+			constants = new String[tok.countTokens()];
+			int i = 0;
+			while (tok.hasMoreTokens()) {
+				constants[i++] = tok.nextToken();
+			}
+		} else {
+			throw new IOException("Illegal " + type + ": " + trimmed);
+		}
+		return constants;
+	}
+
+	public void parseCoeffs(String line) throws IOException {
+		StringTokenizer tok = new StringTokenizer(line, " ");
+		parseCoeffs(tok);
+	}
+
+	public void parseCoeffs(StringTokenizer tok) throws IOException {
+		if (tok.countTokens() == 3) {
+			A = tok.nextToken();
+			n = tok.nextToken();
+			Ea = tok.nextToken();
+		} else {
+			throw new IOException("Coefficient Parse Error: " + tok.countTokens() + " fields");
+		}
+	}
+
+	public void addCommentLine(String line) {
+		comments += line + "\n";
+	}
 	
-    public void parseCoeffs(StringTokenizer tok) throws IOException {
-        if(tok.countTokens() == 3) {
-            A = tok.nextToken();
-            n = tok.nextToken();
-            Ea = tok.nextToken();
-        } else {
-            throw new IOException("Coefficient Parse Error:" + tok.countTokens() + "fields");
-        }
-    }
-    
-    public String toString() {
-    	StringBuilder build = new StringBuilder();
-    	if(troe) {
-    		build.append("TROE: ");
-    		for(int i=0;i<troeCoeffs.length;i++) {
-    			build.append("\t");
-    			build.append(troeCoeffs[i]);
-    			build.append("\n");
-    		}
-    	} else {
-    		if(low) {
-    			build.append(lowCoeffsS);
-    			build.append("\n");
-    		} else if(forward) {
-    			build.append(forwardS);
-    			build.append("\n");
-    		} else {
-    			build.append(reverseS);
-    			build.append("\n");
-    		}
-    	build.append("\tA=");
-    	build.append(A);
-    	build.append(",\tn=");
-    	build.append(n);
-    	build.append(",\tEa=");
-    	build.append(Ea);
-    	build.append("\n");
-    	}
-   	return build.toString();
-    }
-    
+	public String toString() {
+		StringBuilder build = new StringBuilder();
+		build.append("Forward: " + forward + ", Reverse: " + reverse + ", Low: " + low + ", High: " + high + ", Troe: "
+				+ troe + ", SRI: " + sri + "\n");
+		if (troe) {
+			build.append(troeCoeffsS + ": ");
+			build.append(constantsToString());
+		} else if (low) {
+			build.append(lowCoeffsS + ": ");
+			build.append(coeffsToString());
+		} else if (high) {
+			build.append(highCoeffsS + ": ");
+			build.append(coeffsToString());
+		} else if (sri) {
+			build.append(sriCoeffsS + ": ");
+			build.append(coeffsToString());
+		} else if (forward) {
+			build.append(forwardS + ": ");
+			build.append(coeffsToString());
+		} else if(reverse) {
+			build.append(reverseS + ": ");
+			build.append(coeffsToString());
+		} else if(plog) {
+			build.append(plogCoeffsS + ": ");
+			build.append(coeffsToString());
+		}
+		return build.toString();
+	}
+
+	private String coeffsToString() {
+		StringBuilder build = new StringBuilder();
+		build.append("\tA=");
+		build.append(A);
+		build.append(",\tn=");
+		build.append(n);
+		build.append(",\tEa=");
+		build.append(Ea);
+		build.append("\n");
+		return build.toString();
+	}
+
+	private String constantsToString() {
+		StringBuilder build = new StringBuilder();
+		for (int i = 0; i < coeffs.length; i++) {
+			build.append("\t");
+			build.append(coeffs[i]);
+			build.append("\n");
+		}
+		return build.toString();
+	}
+
 	public String getA() {
 		return A;
 	}
-	public void setA(String a) {
-		A = a;
-	}
+
 	public String getN() {
 		return n;
 	}
-	public void setN(String n) {
-		this.n = n;
-	}
+
 	public String getEa() {
 		return Ea;
 	}
-	public void setEa(String ea) {
-		Ea = ea;
-	}
+
 	public boolean isForward() {
 		return forward;
 	}
-	public void setForward() {
-		this.forward = true;
+
+	public boolean isReverse() {
+		return reverse;
 	}
-	public void setReverse() {
-		this.forward = false;
-	}
+
 	public boolean isLow() {
 		return low;
 	}
+
 	public boolean isTroe() {
 		return troe;
 	}
-	public String[] getTroeCoeffs() {
-		return troeCoeffs;
+
+	public boolean isHigh() {
+		return high;
 	}
 
+	public boolean isPlog() {
+		return plog;
+	}
+
+	public boolean isSri() {
+		return sri;
+	}
+
+	public String[] getCoeffs() {
+		return coeffs;
+	}
+	public String getComments() {
+		return comments;
+	}
 }

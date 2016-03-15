@@ -21,11 +21,11 @@ public class ChemkinReactionList  extends ArrayList<ChemkinReaction> {
 			if(lines.getCurrent() == null) 
 				throw new IOException("Reaction with no END statement");
 			else {
-				next = lines.getCurrent().trim();
+				next = currentNonBlank(lines);
 			}
 			System.out.println("Current: " + next);
 			while(next.startsWith(commentString)) {
-				next = lines.nextToken();
+				next = nextNonBlank(lines);
 				if(next == null)
 					throw new IOException("End of reactions encountered unexpectedly");
 			}
@@ -43,13 +43,26 @@ public class ChemkinReactionList  extends ArrayList<ChemkinReaction> {
 					if (duplicatesAllowed) {
 						rxn.setMarkedAsDuplicate(true);
 					}
-					next = lines.nextToken();
+					next = nextNonBlank(lines);
 				}
 				this.add(rxn);
 			}
 		}
 		return done;
 	}
+	
+	private String currentNonBlank(ChemkinString lines) {
+		String next = lines.getCurrent().trim();
+		while(next.length() == 0) {
+			next = lines.nextToken().trim();
+		}
+		return next;
+	}
+	private String nextNonBlank(ChemkinString lines) {
+		lines.nextToken();
+		return currentNonBlank(lines);
+	}
+	
 	public String toString() {
 		StringBuilder build = new StringBuilder();
 		build.append("\nREACTIONS=================================================\n");

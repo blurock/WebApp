@@ -73,6 +73,29 @@ public class ChemkinString implements Serializable{
 		return element.toUpperCase().startsWith(token.toUpperCase());
 	}
 
+	public String currentNonBlank() {
+		String next = getCurrent().trim();
+		while(next.length() == 0) {
+			next = nextToken().trim();
+		}
+		return next;
+	}
+	public String nextNonBlank() {
+		nextToken();
+		return currentNonBlank();
+	}
+	public String skipOverComments() {
+		String comments = "";
+		String next = currentNonBlank();
+		while(next.trim().startsWith(commentChar)) {
+			comments += next;
+			next = nextNonBlank();
+		}
+		return comments;
+	}
+
+
+	
 	String getLastComment() {
 		return lastComment.toString();
 	}

@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 public class ChemkinElementList extends HashMap<String,ChemkinElement>  {
 	private ChemkinString lines;
 	private String endS = "END";
+	private String elementsS = "ELEMENTS";
 	private int modulocount = 5;
 	
 	
@@ -22,15 +23,20 @@ public class ChemkinElementList extends HashMap<String,ChemkinElement>  {
 		while(notdone) {
 			next = next.trim();
 			if(next != null) {
-				if(isEND(next)) {
+				if(isEND(next.toUpperCase())) {
 					notdone = false;
 				} else if(next.startsWith(lines.getCommentChar())) {
 					
 				} else {
 					StringTokenizer tok = new StringTokenizer(next);
-					while(tok.hasMoreTokens()) {
+					notdone = true;
+					while(tok.hasMoreTokens() && notdone) {
 						String molS = tok.nextToken();
-						this.put(molS, new ChemkinElement(molS));
+						if(isEND(molS)) {
+							notdone = false;
+						}
+						if(!isELEMENTS(molS))
+							this.put(molS, new ChemkinElement(molS));
 					}
 				}
 			} else {
@@ -42,6 +48,10 @@ public class ChemkinElementList extends HashMap<String,ChemkinElement>  {
 	public boolean isEND(String line) {
 		String l = line.trim().toUpperCase();
 		return l.startsWith(endS);
+	}
+	public boolean isELEMENTS(String line) {
+		String l = line.trim().toUpperCase();
+		return l.startsWith(elementsS);
 	}
 	public String toString() {
 		StringBuilder build = new StringBuilder();
