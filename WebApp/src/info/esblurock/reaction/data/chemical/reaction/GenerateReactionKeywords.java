@@ -39,7 +39,7 @@ public class GenerateReactionKeywords {
 			build.append("+");
 		}
 		String appendname = build.toString();
-		String endmol = appendname.substring(0, appendname.length()-2);
+		String endmol = appendname.substring(0, appendname.length()-1);
 		return endmol;
 	}
 	

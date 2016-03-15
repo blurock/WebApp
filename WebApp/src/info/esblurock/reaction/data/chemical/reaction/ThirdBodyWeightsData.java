@@ -14,6 +14,12 @@ public class ThirdBodyWeightsData extends DatabaseObject  {
 	@Persistent
 	double weight;
 
+	
+	
+	public ThirdBodyWeightsData() {
+		super();
+	}
+
 	public ThirdBodyWeightsData(String moleculeKey, double weight) {
 		super();
 		this.moleculeKey = moleculeKey;

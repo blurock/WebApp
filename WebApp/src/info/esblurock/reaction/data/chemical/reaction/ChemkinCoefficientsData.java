@@ -14,9 +14,17 @@ public class ChemkinCoefficientsData extends DatabaseObject  {
 	@Persistent
 	public boolean forward;
 	@Persistent
+	public boolean reverse;
+	@Persistent
 	public boolean low;
 	@Persistent
 	public boolean troe;
+	@Persistent
+	public boolean high;
+	@Persistent
+	public boolean plog;
+	@Persistent
+	public boolean sri;
 	
 	@Persistent
 	public String A;
@@ -25,19 +33,28 @@ public class ChemkinCoefficientsData extends DatabaseObject  {
 	@Persistent
 	public String Ea;
 	@Persistent
-	public ArrayList<String> troeCoeffs;
+	public ArrayList<String> coeffs;
 	
 	
-	public ChemkinCoefficientsData(boolean forward, boolean low, boolean troe, String a, String n, String ea,
-			ArrayList<String> troeCoeffs) {
+	public ChemkinCoefficientsData() {
+		super();
+	}
+	public ChemkinCoefficientsData(boolean forward, boolean reverse, boolean low, 
+			boolean troe, boolean high, boolean plog, boolean sri,
+			String a, String n, String ea,
+			ArrayList<String> coeffs) {
 		super();
 		this.forward = forward;
+		this.reverse = reverse;
 		this.low = low;
 		this.troe = troe;
+		this.plog = plog;
+		this.high = high;
+		this.sri = sri;
 		A = a;
 		this.n = n;
 		Ea = ea;
-		this.troeCoeffs = troeCoeffs;
+		this.coeffs = coeffs;
 	}
 	public boolean isForward() {
 		return forward;
@@ -57,9 +74,19 @@ public class ChemkinCoefficientsData extends DatabaseObject  {
 	public String getEa() {
 		return Ea;
 	}
-	public ArrayList<String> getTroeCoeffs() {
-		return troeCoeffs;
+	public ArrayList<String> getCoeffs() {
+		return coeffs;
 	}
-
-	
+	public boolean isReverse() {
+		return reverse;
+	}
+	public boolean isHigh() {
+		return high;
+	}
+	public boolean isPlog() {
+		return plog;
+	}
+	public boolean isSri() {
+		return sri;
+	}
 }

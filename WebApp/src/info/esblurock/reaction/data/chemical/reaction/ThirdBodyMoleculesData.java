@@ -16,6 +16,12 @@ public class ThirdBodyMoleculesData extends DatabaseObject  {
 	@Element(dependent = "true")
 	public ArrayList<ThirdBodyWeightsData> thirdBodyMoleculeKeys;
 
+	
+	
+	public ThirdBodyMoleculesData() {
+		super();
+	}
+
 	public ThirdBodyMoleculesData(ArrayList<ThirdBodyWeightsData> thirdBodyMoleculeKeys) {
 		super();
 		this.thirdBodyMoleculeKeys = thirdBodyMoleculeKeys;

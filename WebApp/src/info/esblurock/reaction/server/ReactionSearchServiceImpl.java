@@ -1,13 +1,10 @@
 package info.esblurock.reaction.server;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
-
+import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.data.rdf.CreateSetOfKeywordQueryAnswers;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
-import info.esblurock.reaction.data.rdf.RDFQueryToStringSet;
 import info.esblurock.reaction.data.rdf.SetOfKeywordQueryAnswers;
 import info.esblurock.reaction.server.datastore.PMF;
 
@@ -72,5 +69,19 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		}
 		System.out.println("Final\n" + set.toString());
 		return set;
+	}
+
+	@Override
+	public DatabaseObject getObjectFromKey(String clsName, String key) throws Exception {
+		Class<?> cls;
+		DatabaseObject object = null;
+		try {
+			cls = Class.forName(clsName);
+			object = (DatabaseObject) pm.getObjectById(cls,key);
+		} catch (ClassNotFoundException e) {
+			throw new Exception(e.toString());
+		}
+		DatabaseObject ans = pm.detachCopy(object);
+		return ans;
 	}
 }

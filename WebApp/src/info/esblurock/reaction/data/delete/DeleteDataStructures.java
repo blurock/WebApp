@@ -21,7 +21,7 @@ public enum DeleteDataStructures {
 			return ans;
 		}
 	},
-	ChemkinMechanism {
+	ChemicalMechanismData {
 		@Override
 		public String deleteStructure(String key) throws IOException {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -70,7 +70,9 @@ public enum DeleteDataStructures {
 	}
 	
 	public static String deleteObject(String fullclassname, String key) throws IOException {
+		System.out.println("DeleteDataStructure: " + fullclassname);
 		String root = findKeyRoot(fullclassname);
+		System.out.println("DeleteDataStructure: " + root);
 		String ans = valueOf(root).deleteStructure(key);
 		return ans;
 	}

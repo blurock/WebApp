@@ -127,10 +127,14 @@ public class UploadFileTransaction extends Composite implements HasText {
 
 	@UiHandler("delete")
 	void onDelete(ClickEvent e) {
+		
 		String key = data.getKey();
 		RemoveTransactionCallback callback = new RemoveTransactionCallback();
 		TransactionServiceAsync async = TransactionService.Util.getInstance();
-		async.removeTransaction(key, callback);
+		//async.removeTransaction(key, callback);
+		async.removeTransactionOfObject(key,callback);
+		
+		
 	}
 
 	public void setGrid(List<InputTextSource> orders) {

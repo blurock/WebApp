@@ -28,7 +28,8 @@ public class CreateMechanismMoleculeListData {
 			MechanismMoleculeData mol = createMolecule.create(molecule, transaction);
 			StoreMechanismMoleculeData store 
 				= new StoreMechanismMoleculeData(createMolecule.getKeyword(), mol,transaction, false);
-			moleculeMap.put(mol.getMoleculeName(), mol.getMechanismKeyword());
+			String molname = CreateMechanismMoleculeData.createMoleculeKey(mol.getMechanismKeyword(), mol.getMoleculeName());
+			moleculeMap.put(mol.getMoleculeName(), molname);
 			molecules.add(mol);
 		}
 		MechanismMoleculeListData mollistdata = new MechanismMoleculeListData(molecules);

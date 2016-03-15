@@ -28,21 +28,30 @@ public class CreateChemkinCoefficientsData {
 	 * @return the chemkin coefficients data
 	 */
 	public ChemkinCoefficientsData create(ChemkinCoefficients coeffs, TransactionInfo transaction) {
-		ArrayList<String> troecoeffs = null;
-		if (coeffs.getTroeCoeffs() != null) {
-			troecoeffs = new ArrayList<String>();
-			String[] tcoeffs = coeffs.getTroeCoeffs();
-			for (int i = 0; i < tcoeffs.length; i++) {
-				troecoeffs.add(tcoeffs[i]);
-			}
-		}
+		ArrayList<String> coeffvalues = transferConstants(coeffs.getCoeffs());
 
-		ChemkinCoefficientsData data = new ChemkinCoefficientsData(coeffs.isForward(), coeffs.isLow(), coeffs.isTroe(),
-				coeffs.getA(), coeffs.getN(), coeffs.getEa(), troecoeffs);
+		System.out.println("CreateChemkinCoefficientsData: " + coeffs.toString());
+		ChemkinCoefficientsData data = new ChemkinCoefficientsData(coeffs.isForward(), coeffs.isReverse(),
+				coeffs.isLow(), coeffs.isTroe(),
+				coeffs.isHigh(), coeffs.isPlog(),coeffs.isSri(),
+				coeffs.getA(), coeffs.getN(), coeffs.getEa(), 
+				coeffvalues);
 		StoreChemkinCoefficientsData store = new StoreChemkinCoefficientsData(reactionKeyword, data, transaction);
 		return data;
 	}
 
+	private ArrayList<String> transferConstants(String[] original) {
+		ArrayList<String> coeffs = null;
+		if (original != null) {
+			coeffs = new ArrayList<String>();
+			String[] tcoeffs = original;
+			for (int i = 0; i < tcoeffs.length; i++) {
+				coeffs.add(tcoeffs[i]);
+			}
+		}
+		return coeffs;
+	}
+	
 	public String getReactionKeyword() {
 		return reactionKeyword;
 	}

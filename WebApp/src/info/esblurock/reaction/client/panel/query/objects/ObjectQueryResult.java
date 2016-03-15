@@ -1,4 +1,4 @@
-package info.esblurock.reaction.client.panel.query;
+package info.esblurock.reaction.client.panel.query.objects;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -18,6 +18,12 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
+import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.client.panel.query.BasicObjectSearchCallback;
+import info.esblurock.reaction.client.panel.query.QueryPath;
+import info.esblurock.reaction.client.panel.query.ReactionSearchService;
+import info.esblurock.reaction.client.panel.query.ReactionSearchServiceAsync;
+import info.esblurock.reaction.client.panel.query.ReactionSearchService.Util;
 
 public class ObjectQueryResult extends Composite implements HasText {
 
@@ -40,27 +46,10 @@ public class ObjectQueryResult extends Composite implements HasText {
 	MaterialCollapsibleItem item;
 
 	QueryPath path;
+	DatabaseObject object = null;
+	String objectKey;
 
-	public ObjectQueryResult(QueryPath path, String classnameS, String result) {
-		initWidget(uiBinder.createAndBindUi(this));
-		this.path = path;
-		
-		classname.setText(shortClassname(classnameS));
-		textarea.setText(result);
-		classname.setTooltip(path.toString());
-	}
-
-	@UiHandler("actions")
-	public void actionClick(ClickEvent e) {
-		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
-		String title = "Object Search: " + textarea.getText();
-		MaterialToast.alert(title);
-		QueryPath path = new QueryPath(textarea.getText());
-		async.objectSearch(textarea.getText(), new BasicObjectSearchCallback(path,item ));
-		
-	}
-	
-	private String shortClassname(String classname) {
+	static public String shortClassname(String classname) {
 		int index = 0;
 		String shortname = classname;
 		while(index >=0) {
@@ -69,6 +58,33 @@ public class ObjectQueryResult extends Composite implements HasText {
 		}
 		return shortname;
 	}
+
+	public ObjectQueryResult(QueryPath path, String classnameS, String result) {
+		initWidget(uiBinder.createAndBindUi(this));
+		this.path = path;
+		this.objectKey = result;
+		
+		classname.setText(shortClassname(classnameS));
+		textarea.setText("(key)");
+		classname.setTooltip(path.toString());
+		actions.setActive(true);
+		
+		GetDataObjectCallback callback = new GetDataObjectCallback(this);
+		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
+		async.getObjectFromKey(classnameS, objectKey, callback);
+
+	}
+
+	@UiHandler("actions")
+	public void actionClick(ClickEvent e) {
+		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
+		String title = "Object Search: " + objectKey;
+		MaterialToast.alert(title);
+		QueryPath path = new QueryPath(textarea.getText());
+		async.objectSearch(objectKey, new BasicObjectSearchCallback(path,item ));
+		
+	}
+	
 	public void setText(String text) {
 		textarea.setText(text);
 	}
@@ -77,4 +93,30 @@ public class ObjectQueryResult extends Composite implements HasText {
 		return textarea.getText();
 	}
 
+	public MaterialLink getTextarea() {
+		return textarea;
+	}
+
+	public MaterialLink getClassname() {
+		return classname;
+	}
+
+	public MaterialCollapsibleItem getItem() {
+		return item;
+	}
+
+	public QueryPath getPath() {
+		return path;
+	}
+
+	public DatabaseObject getObject() {
+		return object;
+	}
+
+	public void setObject(DatabaseObject object) {
+		this.object = object;
+	}
+	public void activateActions() {
+		actions.setActive(true);
+	}
 }

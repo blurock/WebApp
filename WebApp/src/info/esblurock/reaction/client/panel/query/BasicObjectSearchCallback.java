@@ -6,6 +6,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
+import info.esblurock.reaction.client.panel.query.objects.QueryObjectSet;
+import info.esblurock.reaction.client.panel.query.strings.QueryStringSet;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
 import info.esblurock.reaction.data.rdf.RDFQueryToStringSet;
 import info.esblurock.reaction.data.rdf.SetOfKeywordQueryAnswers;

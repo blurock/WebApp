@@ -13,6 +13,10 @@ public class IsomerData extends DatabaseObject {
 	@Persistent
 	Map<String,Integer> atomCounts;
 
+	
+	public IsomerData() {
+		super();
+	}
 	public IsomerData(Map<String, Integer> atomCounts) {
 		super();
 		this.atomCounts = atomCounts;

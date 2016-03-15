@@ -104,7 +104,7 @@ public class ObjectTransactionActions extends Composite implements HasText {
 		MaterialModal.closeModal();
 		TransactionServiceAsync async = TransactionService.Util.getInstance();
 		RemoveTransactionCallback callback = new RemoveTransactionCallback();
-		async.removeTransaction(source.getKey(), callback);
+		async.deleteTransactionInfoFromKey(source.getKey(), callback);
 		MaterialToast.alert("Delete: "  + source.getTransactionObjectType());
 	}
 

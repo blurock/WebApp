@@ -170,7 +170,7 @@ public class DeleteTransactionInfoAndObject {
 		
 		TransactionInfo info = null;
 		Filter keyfilter =
-				  new FilterPredicate("transactionObjectType",FilterOperator.EQUAL,key);
+				  new FilterPredicate("storedObjectKey",FilterOperator.EQUAL,key);
 		Query q = new Query("TransactionInfo").setKeysOnly();
 		q.setFilter(keyfilter);
 		PreparedQuery pq = datastore.prepare(q);
@@ -202,7 +202,7 @@ public class DeleteTransactionInfoAndObject {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		
 		TransactionInfo info = null;
-		System.out.println("getTransactionFromTypeAndKeyword: " + keyword + ","  + objectType);
+		System.out.println("getTransactionFromTypeAndKeyword: '" + keyword + "' ,´\n'"  + objectType + "");
 		Filter typefilter =
 				  new FilterPredicate("transactionObjectType",FilterOperator.EQUAL,objectType);
 		Filter keywordfilter =
@@ -215,7 +215,7 @@ public class DeleteTransactionInfoAndObject {
 		q.setFilter(andfilter);
 		PreparedQuery pq = datastore.prepare(q);
 		boolean haselement = pq.asIterable().iterator().hasNext();
-		System.out.println("getTransactionFromTypeAndKeyword" + haselement);
+		System.out.println("getTransactionFromTypeAndKeyword: " + haselement);
 		for(Entity entity : pq.asIterable()) {
 			
 			System.out.println("Entity Properties" + entity.getProperties().keySet());
@@ -224,6 +224,8 @@ public class DeleteTransactionInfoAndObject {
 			info = pm.getObjectById(TransactionInfo.class,transactioninfokey);
 		}
 		if(info == null) {
+			System.out.println("Keyword:   '" + keyword + "´");
+			System.out.println("Classname: '" + objectType + "'");
 			throw new IOException("TransactionInfo not found with object key: " + keyword + ","  + objectType);
 		} else {
 			

@@ -16,6 +16,12 @@ public class MechanismReactionListData extends DatabaseObject {
 	@Element(dependent = "true")
 	ArrayList<ChemkinReactionData> reactionSet;
 	
+	
+	
+	public MechanismReactionListData() {
+		super();
+	}
+
 	public MechanismReactionListData(ArrayList<ChemkinReactionData> reactionSet) {
 		this.reactionSet = reactionSet;
 	}

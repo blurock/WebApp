@@ -22,6 +22,8 @@ import info.esblurock.reaction.server.datastore.PMF;
  * 
  */
 public class StoreObject {
+	final static String isAS = "isA";
+
 	
 	/** The persistence manager from JDO. */
 	PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -120,6 +122,9 @@ public class StoreObject {
 		Key = transaction.getKey();
 	}
 
+	public void isA(String objectS) {
+		storeStringRDF(isAS, objectS);
+	}
 	/**
 	 * Store if the object has not been stored yet (checking if key is null).
 	 *

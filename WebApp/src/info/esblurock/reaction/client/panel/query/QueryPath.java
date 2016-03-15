@@ -3,20 +3,21 @@ package info.esblurock.reaction.client.panel.query;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import info.esblurock.reaction.client.panel.inputs.QueryPathElement;
-
 public class QueryPath  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	ArrayList<QueryPathElement> path;
 	String nextKeyword;
+	boolean objectAsKey;
 	
 	public QueryPath(String keyword) {
 		path = new ArrayList<QueryPathElement>();
 		nextKeyword = keyword;
+		objectAsKey = false;
 	}
-	public QueryPath addToNewPath(String predicate, String elementtype) {
-		QueryPathElement element = new QueryPathElement(nextKeyword,predicate,elementtype);
+	public QueryPath addToNewPath(String predicate, String object, boolean objectaskey) {
+		QueryPathElement element = new QueryPathElement(nextKeyword,predicate);
 		QueryPath newpath = new QueryPath(this);
+		newpath.setNextKeyword(object,objectaskey);
 		newpath.add(element);
 		return newpath;
 	}
@@ -32,7 +33,10 @@ public class QueryPath  implements Serializable{
 			build.append(element.toString());
 		}
 		build.append(" -> ");
-		build.append(nextKeyword);
+		if(objectAsKey)
+			build.append("(key)");
+		else
+			build.append(nextKeyword);
 		return build.toString();
 	}
 	protected QueryPath(QueryPath original) {
@@ -46,6 +50,13 @@ public class QueryPath  implements Serializable{
 	}
 	protected ArrayList<QueryPathElement> getPath() {
 		return path;
+	}
+	public String getNextKeyword() {
+		return nextKeyword;
+	}
+	public void setNextKeyword(String nextKeyword, boolean objectaskey) {
+		this.nextKeyword = nextKeyword;
+		this.objectAsKey = objectaskey;
 	}
 	
 }

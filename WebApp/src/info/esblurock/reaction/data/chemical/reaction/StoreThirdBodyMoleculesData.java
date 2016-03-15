@@ -5,7 +5,8 @@ import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
 public class StoreThirdBodyMoleculesData extends StoreObject {
-	String reactionThirdBodyMolelcule = "ThirdBodyMolecule";
+	
+	final String reactionThirdBodyMolelculeS = "ThirdBodyMolecule";
 
 	public StoreThirdBodyMoleculesData(String keyword, DatabaseObject object, TransactionInfo transaction) {
 		super(keyword, object, transaction);
@@ -25,7 +26,7 @@ public class StoreThirdBodyMoleculesData extends StoreObject {
 			build.append(" ");
 		}
 		build.append("]");
-		storeStringRDF(reactionThirdBodyMolelcule,build.toString());
+		storeStringRDF(reactionThirdBodyMolelculeS,build.toString());
 	}
 
 }

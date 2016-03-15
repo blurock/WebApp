@@ -1,4 +1,4 @@
-package info.esblurock.reaction.client.panel.query;
+package info.esblurock.reaction.client.panel.query.strings;
 
 import java.util.HashSet;
 
@@ -13,7 +13,13 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
+import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
+import info.esblurock.reaction.client.panel.query.BasicObjectSearchCallback;
+import info.esblurock.reaction.client.panel.query.QueryPath;
+import info.esblurock.reaction.client.panel.query.ReactionSearchService;
+import info.esblurock.reaction.client.panel.query.ReactionSearchServiceAsync;
+import info.esblurock.reaction.client.panel.query.ReactionSearchService.Util;
 
 public class StringQueryResult extends Composite implements HasText {
 
@@ -35,13 +41,20 @@ public class StringQueryResult extends Composite implements HasText {
 	MaterialLink actions;
 	@UiField
 	MaterialCollapsibleItem item;
+	@UiField
+	MaterialIcon actionicon;
 	
 	QueryPath path;
+	boolean keysAsObject = true;
 	
-	public StringQueryResult(QueryPath path, String p, String result) {
+	public StringQueryResult(QueryPath path, String p, String result,boolean keysAsObject) {
 		initWidget(uiBinder.createAndBindUi(this));
 			this.path = path;
+			this.keysAsObject = keysAsObject;
 			predicate.setText(p);
+			
+			if(!keysAsObject) 
+				actionicon.setIcon("mdi-navigation-arrow-back");
 			
 			if(result.length() < 60) {
 				textarea.setText(result);

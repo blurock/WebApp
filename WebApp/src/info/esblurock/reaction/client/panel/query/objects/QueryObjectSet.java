@@ -1,4 +1,4 @@
-package info.esblurock.reaction.client.panel.query;
+package info.esblurock.reaction.client.panel.query.objects;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -9,16 +9,14 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
-import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
+import info.esblurock.reaction.client.panel.query.QueryPath;
 import info.esblurock.reaction.data.rdf.RDFQueryToStringSet;
 
 public class QueryObjectSet extends Composite implements HasText {
@@ -54,7 +52,7 @@ public class QueryObjectSet extends Composite implements HasText {
 		HashSet<String> uniqueset = getUniqueKeys(stringkeys);
 		for (String key : stringkeys) {
 			for (String subkey : uniqueset) {
-				QueryPath next = topPath.addToNewPath(key, stringKey);
+				QueryPath next = topPath.addToNewPath(ObjectQueryResult.shortClassname(key), subkey,true);
 				ObjectQueryResult subtext = new ObjectQueryResult(next, key, subkey);
 				parent.addItem(subtext);
 			}
@@ -74,10 +72,6 @@ public class QueryObjectSet extends Composite implements HasText {
 		return uniqueset;
 	}
 
-	
-	public void removeItem(ObjectQueryKeyResultSet item) {
-		stringsetcollapse.remove(item);
-	}
 	@UiHandler("remove")
 	void onClick(ClickEvent e) {
 		parent.remove(this);

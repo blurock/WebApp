@@ -1,4 +1,4 @@
-package info.esblurock.reaction.client.panel.inputs;
+package info.esblurock.reaction.client.panel.query;
 
 import java.io.Serializable;
 
@@ -6,12 +6,10 @@ public class QueryPathElement implements Serializable{
 	private static final long serialVersionUID = 1L;
 	String keyword;
 	String predicate;
-	String elementType;
 	
-	public QueryPathElement(String keyword, String predicate, String elementtype) {
+	public QueryPathElement(String keyword, String predicate) {
 		this.keyword = keyword;
 		this.predicate = predicate;
-		this.elementType = elementtype;
 	}
 	public String toString() {
 		StringBuilder build = new StringBuilder();

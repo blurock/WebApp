@@ -1,5 +1,7 @@
 package info.esblurock.reaction.data.chemical.mechanism;
 
+import org.hamcrest.core.IsAnything;
+
 import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
@@ -15,7 +17,7 @@ import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
  */
 public class StoreChemkinMechanismData  extends StoreObject  {
 	
-	
+	final static String mechanismS = "Mechanism";
 
 	/**
 	 * Instantiates a new store chemkin mechanism data.
@@ -33,7 +35,8 @@ public class StoreChemkinMechanismData  extends StoreObject  {
 	 * @see info.esblurock.reaction.data.StoreObject#storeRDF()
 	 */
 	protected void storeRDF() {
-		super.storeRDF();		
+		super.storeRDF();
+		isA(mechanismS);
 	}
 	
 	/* (non-Javadoc)

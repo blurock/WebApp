@@ -24,8 +24,6 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 		super(key, commentString);
 		count = 0;
 		datastore = DatastoreServiceFactory.getDatastoreService();
-		System.out.println("Key: " + key);
-
 		UploadFileTransaction transaction = pm.getObjectById(UploadFileTransaction.class, key);
 		if (transaction != null) {
 			lines = transaction.getSetOfLinesKeys();
@@ -36,10 +34,8 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 
 	public String getCurrent() {
 		String key = lines.get(count);
-		System.out.println("getCurrent(" + count + "): " + key);
 		FileUploadLines lineE = pm.getObjectById(FileUploadLines.class, key);
 		String line = lineE.getLine();
-		System.out.println("getCurrent(): " + line);
 		return line;
 	}
 
@@ -49,7 +45,6 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 			String key = lines.get(++count);
 			FileUploadLines lineE = pm.getObjectById(FileUploadLines.class, key);
 			line = lineE.getLine();
-			System.out.println("nextToken(" + count + "): " + line);
 		} else {
 			line = null;
 		}

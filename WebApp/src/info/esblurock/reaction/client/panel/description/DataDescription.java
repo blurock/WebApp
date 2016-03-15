@@ -28,9 +28,9 @@ public class DataDescription extends Composite implements HasText {
 	interface DataDescriptionUiBinder extends UiBinder<Widget, DataDescription> {
 	}
 	
-	int maxKeywordSize = 10;
+	int maxKeywordSize = 20;
 	int maxOnlineSize = 80;
-	int maxFullDescriptionSize = 1500;
+	int maxFullDescriptionSize = 1495;
 	
 	DescriptionConstants descriptionConstants = GWT.create(DescriptionConstants.class);
 	
@@ -151,10 +151,10 @@ public class DataDescription extends Composite implements HasText {
 	@UiHandler("description")
 	void onDescription(KeyPressEvent e) {
 		
-		String text = oneline.getText();
+		String text = description.getText();
 		if(text.length() >= maxFullDescriptionSize) {
 			MaterialToast.alert(descriptionConstants.descriptionlimit());
-			oneline.setText(text.substring(0,maxFullDescriptionSize-1));
+			description.setText(text.substring(0,maxFullDescriptionSize-1));
 		}
 		
 	}

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyMolecules;
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyWeight;
+import info.esblurock.reaction.data.chemical.molecule.CreateMechanismMoleculeData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
 public class CreateThirdBodyMoleculesData {
@@ -67,8 +68,8 @@ public class CreateThirdBodyMoleculesData {
 	 */
 	private ThirdBodyWeightsData storeThirdBodyWeightsData(ThirdBodyWeight thirdbody, TransactionInfo transaction) {
 		double weight = thirdbody.getWeight();
-		String moleculename = moleculeNamesTable.get(thirdbody.getMolecule().getLabel());
-		ThirdBodyWeightsData data = new ThirdBodyWeightsData(moleculename, weight);
+		//String moleculename = moleculeNamesTable.get(thirdbody.getMolecule().getLabel());
+		ThirdBodyWeightsData data = new ThirdBodyWeightsData(thirdbody.getMolecule().getLabel(), weight);
 		StoreThirdBodyWeightsData store = new StoreThirdBodyWeightsData(reactionKeyword, data, transaction);
 		return data;
 	}

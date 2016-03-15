@@ -42,6 +42,9 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 	@Override
 	public String processUploadedMechanism(DescriptionDataData description, 
 			String key, String filename, boolean process) throws IOException {
+		
+		System.out.println("processUploadedMechanism: " + key);
+		System.out.println("processUploadedMechanism: " + filename);
 		ChemkinStringFromStoredFile chemkinstring = new ChemkinStringFromStoredFile(key,filename,commentString);
 		ChemkinMechanism mechanism = new ChemkinMechanism();
 		mechanism.parse(chemkinstring, commentString);

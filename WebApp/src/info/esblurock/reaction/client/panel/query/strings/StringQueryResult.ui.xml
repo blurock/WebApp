@@ -21,13 +21,13 @@
 				<m:MaterialRow>
 					<m:MaterialColumn grid="s1">
 						<m:MaterialLink ui:field="actions" styleName="{style.customlink}">
-						<m:MaterialIcon   icon="mdi-navigation-arrow-forward" styleName="{style.customicon}"/> 
+						<m:MaterialIcon  ui:field="actionicon" icon="mdi-navigation-arrow-forward" styleName="{style.customicon}"/> 
 						</m:MaterialLink>
 					</m:MaterialColumn>
-					<m:MaterialColumn grid="s2">
+					<m:MaterialColumn grid="s3">
 						<m:MaterialLink  ui:field="predicate" styleName="{style.customlink} "/>
 					</m:MaterialColumn>
-					<m:MaterialColumn grid="s9">
+					<m:MaterialColumn grid="s8">
 						<m:MaterialLink ui:field="textarea" styleName="{style.customlink}" />
 					</m:MaterialColumn>
 				</m:MaterialRow>

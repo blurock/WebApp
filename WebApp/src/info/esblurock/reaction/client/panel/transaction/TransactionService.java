@@ -1,5 +1,7 @@
 package info.esblurock.reaction.client.panel.transaction;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -65,6 +67,7 @@ public interface TransactionService extends RemoteService {
    	List<TransactionInfo> getTransactions(String user, String keyword,
 			String objecttype);
 
+   	String deleteTransactionInfoFromKey(String transactionkey)  throws IOException;
    	/**
 	    * Removes the transaction with type and keyword.
 	    * 
@@ -85,7 +88,7 @@ public interface TransactionService extends RemoteService {
    	 * @return the output of the deletion
    	 * @throws Exception the exception
    	 */
-   	String removeTransaction(String key) throws Exception;
+   	String removeTransactionOfObject(String key) throws Exception;
 	   
    	/**
    	 * Gets the user set.
@@ -107,4 +110,12 @@ public interface TransactionService extends RemoteService {
    	 * @return the object type set
    	 */
    	Set<String> getObjectTypeSet();
+   	
+   	/**
+	    * Removes KeywordRDF entries from specified date
+	    *
+	    * @param date The date from which and including to delete
+	    * @return the result
+	    */
+	   public String removeFromRDFsFromDate(Date date);
 }

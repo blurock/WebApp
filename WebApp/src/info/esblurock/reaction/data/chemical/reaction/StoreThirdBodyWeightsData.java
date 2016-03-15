@@ -5,8 +5,8 @@ import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
 public class StoreThirdBodyWeightsData  extends StoreObject {
-	String delimiter = ":";
-	String mechanismMoleculeWeight = "MechanismMoleculeWeight";
+	final String delimiter = ":";
+	final String mechanismMoleculeWeight = "ThirdBodyMoleculeWeight";
 
 	public StoreThirdBodyWeightsData(String keyword, DatabaseObject object, TransactionInfo transaction) {
 		super(keyword, object, transaction);

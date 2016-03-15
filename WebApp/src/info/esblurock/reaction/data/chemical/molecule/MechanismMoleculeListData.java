@@ -17,6 +17,9 @@ public class MechanismMoleculeListData extends DatabaseObject {
 	@Element(dependent = "true")
 	ArrayList<MechanismMoleculeData> molecules;
 
+	public MechanismMoleculeListData() {
+		super();
+	}
 	public MechanismMoleculeListData(ArrayList<MechanismMoleculeData> molecules) {
 		super();
 		this.molecules = molecules;

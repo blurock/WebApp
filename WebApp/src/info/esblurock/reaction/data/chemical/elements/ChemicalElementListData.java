@@ -15,6 +15,10 @@ public class ChemicalElementListData extends DatabaseObject {
 	@Persistent
 	ArrayList<String> elementList;
 
+	public ChemicalElementListData() {
+		super();
+	}
+	
 	public ChemicalElementListData(ArrayList<String> elementList) {
 		super();
 		this.elementList = elementList;

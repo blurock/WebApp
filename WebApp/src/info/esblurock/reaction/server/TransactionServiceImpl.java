@@ -1,6 +1,8 @@
 package info.esblurock.reaction.server;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -15,8 +17,16 @@ import info.esblurock.reaction.data.upload.InputTextSource;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 import info.esblurock.reaction.server.datastore.PMF;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 // TODO: Auto-generated Javadoc
@@ -99,7 +109,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#removeTransaction(java.lang.String)
 	 */
 	@Override
-	public String removeTransaction(String key) throws Exception {
+	public String removeTransactionOfObject(String key) throws Exception {
 		DeleteTransactionInfoAndObject delete = new DeleteTransactionInfoAndObject();
 		return delete.deleteFromObjectKey(key);
 	}
@@ -135,4 +145,36 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		return delete.deleteFromTypeAndKeyword(objecttype,keyword);
 	}
 
+	@Override
+	public String deleteTransactionInfoFromKey(String transactionkey) throws IOException {
+		DeleteTransactionInfoAndObject delete = new DeleteTransactionInfoAndObject();
+		return delete.deleteTransactionInfoFromKey(transactionkey);
+		
+	}
+	public String removeFromRDFsFromDate(Date date) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter subjectfilter =
+				  new FilterPredicate("creationDate",FilterOperator.GREATER_THAN_OR_EQUAL,date);
+		Query q = new Query("KeywordRDF").setFilter(subjectfilter).setKeysOnly();
+		PreparedQuery pq = datastore.prepare(q);
+		boolean haselement = pq.asIterable().iterator().hasNext();
+		System.out.println("removeFromRDFsFromDate" + haselement);
+		String delete = "Delete KeywordRDF  from " + date.toString();
+		if(haselement) {
+		int count = 0;
+		for(Entity entity : pq.asIterable()) {
+			System.out.println("Entity Properties" + entity.getProperties().keySet());
+			Key rdfkey = entity.getKey();
+			System.out.println("TransactionInfo key: " + rdfkey);
+			KeywordRDF rdf = pm.getObjectById(KeywordRDF.class,rdfkey);
+			pm.deletePersistent(rdf);
+			count++;
+		}
+		Integer countI = new Integer(count);
+		delete = delete + ":   Deleted " + countI.toString() + "records";
+		} else {
+			delete = delete + ": no records found";
+		}
+		return delete;
+	}
 }

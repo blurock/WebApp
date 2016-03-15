@@ -30,6 +30,10 @@ public class ChemicalMechanismData extends DatabaseObject {
 	@Persistent(dependent="true")
 	MechanismReactionListData reactionList;
 
+	
+	public ChemicalMechanismData() {
+		super();
+	}
 	/**
 	 * Instantiates a new chemical mechanism data.
 	 *

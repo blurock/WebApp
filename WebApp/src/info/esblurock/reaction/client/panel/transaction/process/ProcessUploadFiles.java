@@ -22,7 +22,7 @@ public enum ProcessUploadFiles {
 		}
 		@Override
 		public String getFullTypeName() {
-			return "info.esblurock.react.mechanisms.chemkin.ChemkinMechanism";
+			return "info.esblurock.reaction.data.chemical.mechanism.ChemicalMechanismData";
 		}
 	},
 	NASAPolynomials {
