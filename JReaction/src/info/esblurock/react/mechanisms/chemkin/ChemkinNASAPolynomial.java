@@ -253,13 +253,12 @@ public class ChemkinNASAPolynomial implements ThermodynamicInformation {
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        Formatter f = new Formatter();
-        if(name != null)
-            buf.append(f.format("%-24s", name));
-        else
-            buf.append("                        ");
 
-        if (atoms != null) {
+        buf.append(writeFormatedName(name));
+        
+        
+        Formatter f = new Formatter();
+                if (atoms != null) {
             for (int i = 0; i < 4; i++) {
                 f = new Formatter();
                 if (atoms[i] != null && atoms[i].length() > 0) {
@@ -285,6 +284,17 @@ public class ChemkinNASAPolynomial implements ThermodynamicInformation {
                 lower[3], lower[4], lower[5], lower[6]));
         return buf.toString();
     }
+    
+    protected String writeFormatedName(String molname) {
+    	StringBuilder buf = new StringBuilder();
+        Formatter f = new Formatter();
+        if(molname != null)
+            buf.append(f.format("%-24s", molname));
+        else
+            buf.append("                        ");
+    	return buf.toString();
+    }
+    
     void fillInMoleculeProperties(Molecule mol) {
         AtomCounts counts = new AtomCounts(mol);
         atoms = counts.getAtomStringArray(4);
