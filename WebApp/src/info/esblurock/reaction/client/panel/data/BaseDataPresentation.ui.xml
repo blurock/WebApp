@@ -1,18 +1,21 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:m="urn:import:gwt.material.design.client.ui" 
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:m="urn:import:gwt.material.design.client.ui" xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
 	.important {
 		font-weight: bold;
 	}
 	</ui:style>
 	<g:HTMLPanel>
-		<m:MaterialModalContent ui:field="content" title="Pages">
+		<m:MaterialModalContent ui:field="modalcontent">
+			<m:MaterialTitle ui:field="title" />
 		</m:MaterialModalContent>
 
-		<m:MaterialModalFooter>
-			<m:MaterialButton ui:field="close" text="Close" />
+		<m:MaterialModalFooter align="right">
+			<m:MaterialButton ui:field="close" waves="green"
+				type="flat" text="Close" />
+			<m:MaterialButton ui:field="basket" waves="green"
+				type="flat" text="Save" tooltip="Save to set" />
 		</m:MaterialModalFooter>
 	</g:HTMLPanel>
 </ui:UiBinder> 

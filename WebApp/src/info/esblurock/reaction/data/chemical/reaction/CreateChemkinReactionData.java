@@ -9,6 +9,7 @@ import info.esblurock.react.mechanisms.chemkin.ChemkinMolecule;
 import info.esblurock.react.mechanisms.chemkin.ChemkinReaction;
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyMolecules;
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyWeight;
+import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
 // TODO: Auto-generated Javadoc
@@ -17,6 +18,7 @@ import info.esblurock.reaction.data.transaction.TransactionInfo;
  * 
  */
 public class CreateChemkinReactionData {
+
 
 	/** The molecule keys table. */
 	// moleculeName (label in ChemkinMolecule) -> full molecule name
@@ -74,13 +76,25 @@ public class CreateChemkinReactionData {
 		ArrayList<String> reactantNames = createMoleculeArrayList(reaction.getReactants());
 		ArrayList<String> productNames = createMoleculeArrayList(reaction.getProducts());
 
-		String reactionKeyword = keywordGenerator.getReactionName(reactantNames, productNames);
-		String keyword = keywordBase + ":" + reactionKeyword;
+		String reactionEquation = keywordGenerator.getReactionName(reactantNames, productNames);
+		String keyword = keywordGenerator.getReactionFullName(reactionEquation);
 		
 		System.out.println("Reaction Keyword: " + keyword);
 		createCoeffData = new CreateChemkinCoefficientsData(keyword);
 		createThirdBody = new CreateThirdBodyMoleculesData(keyword, moleculeNamesTable);
 
+		GenerateMoleculeKeywords molKeywords = new GenerateMoleculeKeywords(keyword);
+		ArrayList<String> reactantReactionNames = new ArrayList<String>();
+		for(String name : reactantNames) {
+			String rxnmolname = moleculeNamesTable.get(name);
+			reactantReactionNames.add(rxnmolname);
+		}
+		ArrayList<String> productReactionNames = new ArrayList<String>();
+		for(String name : productNames) {
+			String rxnmolname = moleculeNamesTable.get(name);
+			productReactionNames.add(rxnmolname);
+		}
+		
 		ChemkinCoefficientsData forwardCoefficients = null;
 		if (reaction.getForwardCoefficients() != null) {
 			String forwardS = keyword + ":" + StoreChemkinCoefficientsData.forward;
@@ -143,7 +157,7 @@ public class CreateChemkinReactionData {
 			thirdBodyMolecules = createThirdBody.create(reaction.getThirdBodyMolecules(), transaction);
 		}
 
-		ChemkinReactionData data = new ChemkinReactionData(reactantNames, productNames, 
+		ChemkinReactionData data = new ChemkinReactionData(reactantReactionNames, productReactionNames, 
 				forwardCoefficients,reverseCoefficients, 
 				lowCoefficients, highCoefficients, 
 				troeCoefficients, sriCoefficients, 

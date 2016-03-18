@@ -34,7 +34,7 @@
 				</m:MaterialRow>
 				<m:MaterialRow>
 					<m:MaterialColumn grid="s4">
-						<m:MaterialDatePicker ui:field="date" />
+						<m:MaterialDatePicker ui:field="date" selectionType="YEAR"/>
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s4">
 						<m:MaterialTextBox ui:field="sourcekey" />

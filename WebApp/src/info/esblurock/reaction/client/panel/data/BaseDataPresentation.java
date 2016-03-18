@@ -11,7 +11,12 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
-import info.esblurock.reaction.client.panel.query.objects.ObjectQueryResult;
+import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialCardTitle;
+import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialModalContent;
+import gwt.material.design.client.ui.MaterialTitle;
 
 public class BaseDataPresentation extends Composite implements HasText {
 
@@ -20,22 +25,37 @@ public class BaseDataPresentation extends Composite implements HasText {
 	interface BaseDataPresentationUiBinder extends UiBinder<Widget, BaseDataPresentation> {
 	}
 
+	@UiField
+	MaterialTitle title;
+	@UiField
+	MaterialButton close;
+	@UiField
+	MaterialModalContent modalcontent;
 	
-	String title; 
 	
-	public BaseDataPresentation(String title) {
+	public BaseDataPresentation() {
 		initWidget(uiBinder.createAndBindUi(this));
-		this.title = title;
 	}
 
-	@Override
-	public String getText() {
-		return title;
+	public BaseDataPresentation(String text, String description) {
+		initWidget(uiBinder.createAndBindUi(this));
+		title.setTitle(text);
+		title.setDescription(description);
 	}
 
-	@Override
+	@UiHandler("close")
+	void onClick(ClickEvent e) {
+		MaterialModal.closeModal();
+	}
+
 	public void setText(String text) {
-		title = text;
+		title.setTitle(text);
 	}
 
+	public String getText() {
+		return title.getTitle();
+	}
+	public MaterialModalContent getModalContent() {
+		return modalcontent;
+	}
 }

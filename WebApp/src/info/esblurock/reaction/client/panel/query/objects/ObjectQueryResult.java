@@ -5,25 +5,20 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
-import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialTextArea;
-import gwt.material.design.client.ui.MaterialTextBox;
-import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialModal.TYPE;
 import info.esblurock.reaction.client.data.DatabaseObject;
-import info.esblurock.reaction.client.panel.query.BasicObjectSearchCallback;
+import info.esblurock.reaction.client.panel.data.BaseDataPresentation;
+import info.esblurock.reaction.client.panel.data.DataPresentation;
 import info.esblurock.reaction.client.panel.query.QueryPath;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.client.panel.query.ReactionSearchServiceAsync;
-import info.esblurock.reaction.client.panel.query.ReactionSearchService.Util;
 
 public class ObjectQueryResult extends Composite implements HasText {
 
@@ -48,6 +43,7 @@ public class ObjectQueryResult extends Composite implements HasText {
 	QueryPath path;
 	DatabaseObject object = null;
 	String objectKey;
+	String fullClassName;
 
 	static public String shortClassname(String classname) {
 		int index = 0;
@@ -63,7 +59,7 @@ public class ObjectQueryResult extends Composite implements HasText {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.path = path;
 		this.objectKey = result;
-		
+		this.fullClassName = classnameS;
 		classname.setText(shortClassname(classnameS));
 		textarea.setText("(key)");
 		classname.setTooltip(path.toString());
@@ -77,12 +73,10 @@ public class ObjectQueryResult extends Composite implements HasText {
 
 	@UiHandler("actions")
 	public void actionClick(ClickEvent e) {
-		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
-		String title = "Object Search: " + objectKey;
-		MaterialToast.alert(title);
-		QueryPath path = new QueryPath(textarea.getText());
-		async.objectSearch(objectKey, new BasicObjectSearchCallback(path,item ));
-		
+		String classnameS = getClassname().getText();		
+		DataPresentation presentation = DataPresentation.valueOf(classnameS);
+		BaseDataPresentation popup = presentation.asDisplayObject(getObject());
+		MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
 	}
 	
 	public void setText(String text) {
@@ -119,4 +113,5 @@ public class ObjectQueryResult extends Composite implements HasText {
 	public void activateActions() {
 		actions.setActive(true);
 	}
+	
 }

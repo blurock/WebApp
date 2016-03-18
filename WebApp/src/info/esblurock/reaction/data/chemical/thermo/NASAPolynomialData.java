@@ -28,17 +28,25 @@ public class NASAPolynomialData extends DatabaseObject {
    	@Persistent
 	   String phase;
    
-	   /** The lower t. */
+	   /** The lower bound temperature. */
    	@Persistent
 	   Double lowerT;
 	   
-   	/** The middle t. */
+   	/** The middle (common) temperature between low and high temperature sets. */
    	@Persistent
 	   Double middleT;
 	   
-   	/** The upper t. */
+   	/** The upper temperature of range. */
    	@Persistent
 	   Double upperT;
+	
+   	/** The computed standard enthaply. */
+   	@Persistent
+	   Double standardEnthalpy;
+	
+   	/** The computed standard entropy. */
+   	@Persistent
+	   Double standardEntropy;
 	
 	   /** The upper. */
    	@Persistent
@@ -48,6 +56,9 @@ public class NASAPolynomialData extends DatabaseObject {
    	@Persistent
 	   ArrayList<Double> lower;
 
+   	
+   	public NASAPolynomialData() {
+   	}
 	/**
 	 * Instantiates a new NASA polynomial data.
 	 *
@@ -56,21 +67,31 @@ public class NASAPolynomialData extends DatabaseObject {
 	 * @param lowerT the lower temperature
 	 * @param middleT the middle temperature
 	 * @param upperT the upper temperature
+	 * @param enthalpy the computed standard enthalpy (298 C)
+	 * @param entropy the computed standard entropy (298 C)
 	 * @param upper the set of coefficients for the upper range
 	 * @param lower the set of coefficients for the lower range
 	 * @param phase the phase (as listed on the NASA polynomial
 	 */
-	public NASAPolynomialData(String moleculeName, IsomerData isomer, Double lowerT, Double middleT, Double upperT,
+	public NASAPolynomialData(String moleculeName, IsomerData isomer, 
+			Double lowerT, Double middleT, Double upperT,
+			Double enthalpy, double entropy,
 			ArrayList<Double> upper, ArrayList<Double> lower, String phase) {
 		super();
+		System.out.println("NASAPolynomialData: " + isomer.getAtomCounts().toString());
 		this.moleculeComposition = isomer;
+		
 		this.moleculeName = moleculeName;
 		this.lowerT = lowerT;
 		this.middleT = middleT;
 		this.upperT = upperT;
+		this.standardEnthalpy = enthalpy;
+		this.standardEntropy = entropy;
 		this.upper = upper;
 		this.lower = lower;
 		this.phase = phase;
+		System.out.println("NASAPolynomialData: " + moleculeComposition.getAtomCounts().toString());
+		System.out.println("NASAPolynomialData: " + isomer.getAtomCounts().toString());
 	}
 
 	/**
@@ -139,7 +160,10 @@ public class NASAPolynomialData extends DatabaseObject {
 	public IsomerData getMoleculeComposition() {
 		return moleculeComposition;
 	}
-
-	   
-
+	public Double getStandardEnthalpy() {
+		return standardEnthalpy;
+	}
+	public Double getStandardEntropy() {
+		return standardEntropy;
+	}
 }

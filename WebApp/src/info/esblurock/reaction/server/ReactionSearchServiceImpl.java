@@ -8,10 +8,12 @@ import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
 import info.esblurock.reaction.data.rdf.SetOfKeywordQueryAnswers;
 import info.esblurock.reaction.server.datastore.PMF;
 
+import javax.jdo.FetchGroup;
 import javax.jdo.PersistenceManager;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -75,12 +77,15 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 	public DatabaseObject getObjectFromKey(String clsName, String key) throws Exception {
 		Class<?> cls;
 		DatabaseObject object = null;
+		pm.getFetchPlan().setGroup(FetchGroup.ALL);
 		try {
+			System.out.println("getObjectFromKey: " + clsName + ", Key='" + key + "'");
 			cls = Class.forName(clsName);
 			object = (DatabaseObject) pm.getObjectById(cls,key);
 		} catch (ClassNotFoundException e) {
 			throw new Exception(e.toString());
 		}
+		pm.retrieve(object,true);
 		DatabaseObject ans = pm.detachCopy(object);
 		return ans;
 	}

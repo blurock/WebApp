@@ -53,6 +53,7 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 			String keyword = CreateChemicalMechanismData.createMechanismName(description.getSourcekey(),description.getKeyword());
 			TransactionInfo transaction = new TransactionInfo(description.getInputkey(),keyword,ChemicalMechanismData.class.getName());
 			CreateChemicalMechanismData create = new CreateChemicalMechanismData(keyword);
+			System.out.println("Mechanism Keyword: " + keyword);
 			create.create(keyword, mechanism, transaction);
 			create.finish();
 		}

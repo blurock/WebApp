@@ -25,7 +25,7 @@ public class GetDataObjectCallback implements AsyncCallback<DatabaseObject> {
 	@Override
 	public void onSuccess(DatabaseObject result) {
 		String classname = displayLine.getClassname().getText();		
-		DataPresentation presentation = DataPresentation.valueOf(classname);		
+		DataPresentation presentation = DataPresentation.valueOf(classname);
 		String oneline = presentation.asOnLine(result);
 		displayLine.setObject(result);
 		displayLine.getTextarea().setText(oneline);

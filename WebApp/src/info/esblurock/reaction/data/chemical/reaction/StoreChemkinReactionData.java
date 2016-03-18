@@ -20,8 +20,9 @@ public class StoreChemkinReactionData  extends StoreObject {
 		protected void storeRDF() {
 			generateReactions = new GenerateReactionKeywords(keyword);
 			ChemkinReactionData data = (ChemkinReactionData) object;
-			String rxnS = generateReactions.getReactionName(data.getReactantKeys(),data.getProductKeys());
+			String rxnS = generateReactions.getReactionSimpleName(data);
 			storeStringRDF(reactionS,rxnS);
+
 			for(String name : data.getReactantKeys()) {
 				storeStringRDF(isAReactant,name);
 			}

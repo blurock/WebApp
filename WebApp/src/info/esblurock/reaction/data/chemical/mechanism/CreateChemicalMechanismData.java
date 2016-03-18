@@ -36,7 +36,7 @@ public class CreateChemicalMechanismData {
 	}
 	
 	public ChemicalMechanismData create(String mechanismKeyword, ChemkinMechanism mechanism, TransactionInfo transaction) {
-		
+		this.mechanismKeyword = mechanismKeyword;
 		System.out.println("CreateChemicalMechanismData Create/Store: ChemicalElementListData");
 		CreateChemicalElementListData createElementList = new CreateChemicalElementListData();
 		ChemicalElementListData   elementList = createElementList.create(mechanism.getElementList());

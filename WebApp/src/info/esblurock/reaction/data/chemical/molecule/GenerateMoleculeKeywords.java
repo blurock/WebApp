@@ -1,17 +1,14 @@
 package info.esblurock.reaction.data.chemical.molecule;
 
-import info.esblurock.react.mechanisms.chemkin.ChemkinMolecule;
-
 public class GenerateMoleculeKeywords {
-	String delimitor = "#";
+	static public String delimitor = "#";
 	String keywordBase;
 
 	public GenerateMoleculeKeywords(String keywordBase) {
 		this.keywordBase = keywordBase;
 	}
-	
-	public String getKeyword(ChemkinMolecule molecule) {
-		String key = keywordBase + delimitor + molecule.getLabel();
+	public String getDataKeyword(MechanismMoleculeData molecule) {
+		String key = CreateMechanismMoleculeData.createMoleculeKey(molecule.getMechanismKeyword(), molecule.getMoleculeName());
 		return key;
 	}
 }

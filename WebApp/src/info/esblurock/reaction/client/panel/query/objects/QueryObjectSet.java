@@ -49,9 +49,10 @@ public class QueryObjectSet extends Composite implements HasText {
 		
 		objectlabel.setText(stringKey);
 		Set<String> stringkeys = objectset.keySet();
-		HashSet<String> uniqueset = getUniqueKeys(stringkeys);
+
 		for (String key : stringkeys) {
-			for (String subkey : uniqueset) {
+			ArrayList<String>  keyset = objectset.get(key);
+			for (String subkey : keyset) {
 				QueryPath next = topPath.addToNewPath(ObjectQueryResult.shortClassname(key), subkey,true);
 				ObjectQueryResult subtext = new ObjectQueryResult(next, key, subkey);
 				parent.addItem(subtext);

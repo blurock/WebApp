@@ -9,6 +9,7 @@ import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywords;
 import info.esblurock.reaction.data.chemical.reaction.MechanismReactionListData;
 import info.esblurock.reaction.data.chemical.reaction.ThirdBodyWeightsData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
+import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
 
 // TODO: Auto-generated Javadoc
@@ -18,6 +19,7 @@ import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
 public class StoreChemkinMechanismData  extends StoreObject  {
 	
 	final static String mechanismS = "Mechanism";
+	final static String mechanismReaction = "MechanismReaction";
 
 	/**
 	 * Instantiates a new store chemkin mechanism data.
@@ -53,18 +55,23 @@ public class StoreChemkinMechanismData  extends StoreObject  {
 	 */
 	public void finish() {
 		ChemicalMechanismData data = (ChemicalMechanismData) object;
+		GenerateMoleculeKeywords genMoleculeName = new GenerateMoleculeKeywords(keyword);
 		for(MechanismMoleculeData molecule : data.getMoleculeList().getMolecules()) {
-			// Associate the object with simple name
-			String molname = molecule.getMoleculeName().toLowerCase();
-			this.storeObjectRDF(molname, molecule);
 			// Associate molecule with mechanism name
-			this.storeObjectRDF(molecule);
+			//storeObjectRDF(molecule);
+			// Associate the object with simple name
+			//String molname = molecule.getMoleculeName().toLowerCase();
+			String molname = genMoleculeName.getDataKeyword(molecule);
+			System.out.println("StoreChemkinMechanismData: Molecule name: " + molname);
+			System.out.println("StoreChemkinMechanismData: Molecule name: " + molecule.getKey());
+			storeObjectRDF(molname, molecule);
 		}
 		GenerateReactionKeywords generatekeyword = new GenerateReactionKeywords(keyword);
 		for(ChemkinReactionData reaction: data.getReactionList().getReactionSet()) {
-			this.storeObjectRDF(reaction);
-			String name = generatekeyword.getReactionName(reaction.getReactantKeys(), reaction.getProductKeys());
-			this.storeObjectRDF(name, reaction);
+			//storeObjectRDF(reaction);
+			String name = generatekeyword.getReactionFullName(reaction);
+			storeStringRDF(mechanismReaction, name);
+			storeObjectRDF(name, reaction);
 		}
 		super.finish();
 	}

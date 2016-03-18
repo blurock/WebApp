@@ -80,16 +80,6 @@ public class QueryNavBar extends Composite implements HasText {
 	}
 	@UiHandler("submittopquery")
 	void onClick(ClickEvent e) {
-		/*
-		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
-		String title = "Keyword Search: " + search.getText();
-		search0.setTitle(title);
-		QueryPath path = new QueryPath(search.getText());
-		async.basicSearch(search.getText(), new BasicSearchCallback(path, search0));
-		*/
-		
-		Window.alert("Query");
-		
 		qrpanel.setText(search.getText());
 		QueryPath path = new QueryPath(search.getText());
 		BasicObjectSearchCallback callback = new BasicObjectSearchCallback(path, search0);
