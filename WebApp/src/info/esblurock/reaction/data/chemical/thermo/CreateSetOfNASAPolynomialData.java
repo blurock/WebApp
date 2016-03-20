@@ -20,19 +20,13 @@ public class CreateSetOfNASAPolynomialData {
 	
 	public SetOfNASAPolynomialData create(String setBaseName, SetOfThermodynamicInformation set,  TransactionInfo transaction) {
 		SetOfNASAPolynomialData thermoset = new SetOfNASAPolynomialData();
-		System.out.println("SetOfNASAPolynomialData create start");
 		for(ThermodynamicInformation thermo : set) {
 			NASAPolynomial nasa = (NASAPolynomial) thermo;
 			NASAPolynomialData nasadata = create(nasa);
 			thermoset.addThermo(nasadata);
 			String molname = CreateMechanismMoleculeData.createMoleculeKey(setBaseName, nasadata.getMoleculeName());
-			System.out.println("StoreNASAPolynomialData: Store");
-			System.out.println("StoreNASAPolynomialData: " + nasadata.getMoleculeComposition().getAtomCounts().toString());
 			StoreNASAPolynomialData store = new StoreNASAPolynomialData(molname, nasadata, transaction, false);
-			System.out.println("StoreNASAPolynomialData: " + nasadata.getMoleculeComposition().getAtomCounts().toString());
-			System.out.println("StoreNASAPolynomialData: Done Store");
 		}
-		System.out.println("SetOfNASAPolynomialData create start");
 		return thermoset;
 	}
 	
@@ -53,12 +47,10 @@ public class CreateSetOfNASAPolynomialData {
 		
 		
 		String moleculeName = nasa.getName();
-		System.out.println("NASAPolynomialData create: " + moleculeName);
 		String phase = nasa.phase;
 		Double lowerT = new Double(nasa.lowerT);
 		Double middleT = new Double(nasa.middleT);
 		Double upperT = new Double(nasa.upperT);
-		System.out.println("NASAPolynomialData create: " + isomer.getAtomCounts().toString());
 		
 		ArrayList<Double> upper = new ArrayList<Double>();
 		for(int i=0;i<7;i++) {
@@ -70,14 +62,11 @@ public class CreateSetOfNASAPolynomialData {
 			Double c = new Double(nasa.lower[i]);
 			lower.add(c);
 		}
-		System.out.println("NASAPolynomialData create: " + isomer.getAtomCounts().toString());
 		
 		NASAPolynomialData NASA = new NASAPolynomialData(moleculeName, isomer, 
 				lowerT, middleT, upperT,
 				enthalpy, entropy,
 				upper, lower, phase);
-		System.out.println("NASAPolynomialData create: " + NASA.getMoleculeComposition().toString());
-		System.out.println("NASAPolynomialData create: " + NASA.getMoleculeComposition().getAtomCounts().toString());
 		return NASA;	
 	}
 }

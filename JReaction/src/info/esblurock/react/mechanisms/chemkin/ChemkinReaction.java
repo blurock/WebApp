@@ -303,9 +303,12 @@ public class ChemkinReaction {
 	}
 
 	private String currentNonBlank(ChemkinString lines) {
-		String next = lines.getCurrent().trim();
+		String next = lines.getCurrent();
+		if(next != null) {
+		next = next.trim();
 		while (next.length() == 0) {
 			next = lines.nextToken().trim();
+		}
 		}
 		return next;
 	}

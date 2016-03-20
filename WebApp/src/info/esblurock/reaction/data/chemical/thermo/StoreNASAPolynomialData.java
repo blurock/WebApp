@@ -16,25 +16,17 @@ public class StoreNASAPolynomialData extends StoreObject {
 	}
 
 	protected void storeObject() {
-		System.out.println("StoreNASAPolynomialData: store " + storeObject);
 		super.storeObject();
-		System.out.println("StoreNASAPolynomialData: store");
 	}
 	
 	protected void storeRDF() {
 		NASAPolynomialData data = (NASAPolynomialData) object;
-		System.out.println("StoreNASAPolynomialData: isomerPredicate");
 		String standard = CreateIsomerData.standardIsomerName(data.getMoleculeComposition());
-		System.out.println("StoreNASAPolynomialData:" + isomerPredicate);
-		System.out.println("StoreNASAPolynomialData:" + data.getMoleculeComposition());
-		System.out.println("StoreNASAPolynomialData:" + data.getMoleculeComposition().getAtomCounts().toString());
-		System.out.println("StoreNASAPolynomialData:" + standard);
 		storeStringRDF(isomerPredicate, standard);
 		if(data.getStandardEnthalpy() != null)
 		storeStringRDF(standardEnthalpy, data.getStandardEnthalpy().toString());
 		if(data.getStandardEntropy() != null)
 		storeStringRDF(standardEntropy, data.getStandardEntropy().toString());
-		System.out.println("StoreNASAPolynomialData: Done");
 	}
 
 	

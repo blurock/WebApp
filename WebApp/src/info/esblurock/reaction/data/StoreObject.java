@@ -1,11 +1,16 @@
 package info.esblurock.reaction.data;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.jdo.PersistenceManager;
 
+import info.esblurock.reaction.client.callback.StandardStringReturnCallback;
 import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.client.panel.transaction.TransactionService;
+import info.esblurock.reaction.client.panel.transaction.TransactionServiceAsync;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
+import info.esblurock.reaction.data.transaction.SetOfTransactionKeys;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.server.datastore.PMF;
 
@@ -152,9 +157,17 @@ public class StoreObject {
 		String typepredicate = predicate + typeDelimiter + stringType;
 		KeywordRDF objectrdf = new KeywordRDF(keyword, typepredicate, description);
 		DatabaseObject o = pm.makePersistent(objectrdf);
-		transaction.addRDFKey(o.getKey());
+		if(transaction.addRDFKey(o.getKey())) {
+			storeTransactionSet();
+		}
 	}
 
+	
+	void storeTransactionSet() {
+		SetOfTransactionKeys keyset = transaction.replaceKeySet();
+		pm.makePersistent(keyset);
+		transaction.addKeyToKeySet(keyset.getKey());
+	}
 	/**
 	 * Store object rdf.
 	 *
@@ -184,6 +197,9 @@ public class StoreObject {
 		KeywordRDF objectrdf = new KeywordRDF(objectkey, typepredicate, key);
 		store(objectrdf);
 		transaction.addRDFKey(objectrdf.getKey());
+		if(transaction.addRDFKey(objectrdf.getKey())) {
+			storeTransactionSet();
+		}
 	}
 
 	/**

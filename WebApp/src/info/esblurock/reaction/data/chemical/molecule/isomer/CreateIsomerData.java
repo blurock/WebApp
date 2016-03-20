@@ -19,18 +19,14 @@ public class CreateIsomerData {
 
 	public IsomerData create(NASAPolynomial nasa) {
 		HashMap<String, Integer> atomcount = new HashMap<String, Integer>();
-		System.out.println("Fill in IsomerData");
 		for (int i = 0; i < 4; i++) {
 			String atomS = nasa.atoms[i].toLowerCase().trim();
 			int atomcnt = nasa.atomcnt[i];
-			System.out.println("CreateIsomerData: '" + atomS + "'(" + atomcnt + ")");
 			if (atomcnt != 0) {
 				atomcount.put(atomS, atomcnt);
 			}
 		}
-		System.out.println("CreateIsomerData: " + atomcount.toString());
 		IsomerData isomer = new IsomerData(atomcount);
-		System.out.println("CreateIsomerData: Standard Isomer name: " + standardIsomerName(isomer));
 		return isomer;
 	}
 

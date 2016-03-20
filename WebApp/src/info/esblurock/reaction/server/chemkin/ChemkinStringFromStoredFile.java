@@ -33,16 +33,20 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 	}
 
 	public String getCurrent() {
-		String key = lines.get(count);
-		FileUploadLines lineE = pm.getObjectById(FileUploadLines.class, key);
-		String line = lineE.getLine();
+		String line = null;
+		if (count < lines.size()) {
+			String key = lines.get(count);
+			FileUploadLines lineE = pm.getObjectById(FileUploadLines.class, key);
+			line = lineE.getLine();
+		}
 		return line;
 	}
 
 	public String nextToken() {
-		String line;
+		String line = null;
+		count++;
 		if (count < lines.size()) {
-			String key = lines.get(++count);
+			String key = lines.get(count);
 			FileUploadLines lineE = pm.getObjectById(FileUploadLines.class, key);
 			line = lineE.getLine();
 		} else {

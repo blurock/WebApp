@@ -12,6 +12,7 @@ import javax.jdo.PersistenceManager;
 import info.esblurock.reaction.client.panel.transaction.TransactionService;
 import info.esblurock.reaction.data.delete.DeleteTransactionInfoAndObject;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
+import info.esblurock.reaction.data.transaction.SetOfTransactionKeys;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.InputTextSource;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
@@ -93,7 +94,11 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		}
 		System.out.println("getAllUploadTransactions(): Done");
 		return lst;
-		
+	}
+	
+	public String storeSetOfTransactionKeys(SetOfTransactionKeys keyset) {
+		pm.makePersistent(keyset);
+		return keyset.getKey();
 	}
 	
 	/* (non-Javadoc)

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import info.esblurock.reaction.data.transaction.SetOfTransactionKeys;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 
@@ -118,4 +119,6 @@ public interface TransactionService extends RemoteService {
 	    * @return the result
 	    */
 	   public String removeFromRDFsFromDate(Date date);
+	   
+		public String storeSetOfTransactionKeys(SetOfTransactionKeys keyset);
 }
