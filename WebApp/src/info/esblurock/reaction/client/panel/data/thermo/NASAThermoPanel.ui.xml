@@ -1,0 +1,140 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:d="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+		color: red;
+		font-family: monospace !important;
+	}
+	.nasa {
+		font-weight: bold;
+		color: red;
+		font-family: monospace !important;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<d:MaterialRow>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="ethalpyLabel" text="Ethalpy (cal/K mol)"  />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="enthalpy" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="entropyLabel" text="Entropy (cal/K mol)" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="entropy" />
+			</d:MaterialColumn>
+		</d:MaterialRow>
+		<d:MaterialRow>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="lowerLabel" text="Lower Coeffs:" stylePrimaryName="style.important"/>
+			</d:MaterialColumn>
+		</d:MaterialRow>
+		<d:MaterialRow>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="lower1"/>
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="lower2" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="lower3" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="lower4" />
+			</d:MaterialColumn>
+		</d:MaterialRow>
+		<d:MaterialRow>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="lower5" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="lower6" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="lower7" />
+			</d:MaterialColumn>
+		</d:MaterialRow>
+		<d:MaterialRow>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="upperLabel" text="Upper Coeffs:" />
+			</d:MaterialColumn>
+		</d:MaterialRow>
+		<d:MaterialRow>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="upper1" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="upper2" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="upper3" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="upper4" />
+			</d:MaterialColumn>
+		</d:MaterialRow>
+		<d:MaterialRow>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="upper5" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="upper6" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="upper7" />
+			</d:MaterialColumn>
+		</d:MaterialRow>
+		<d:MaterialRow>
+			<d:MaterialColumn grid="s4">
+				<d:MaterialButton ui:field="calculateEnthalpy"
+					text="Enthalpy" tooltip="Calculate Enthalpy at the temperature" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s4">
+				<d:MaterialLink ui:field="enthalpyTemperature" text="298.0"
+					title="Temperature" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s4">
+				<d:MaterialLabel ui:field="enthalpyAnswer" text="30000.0"
+					title="cal/mole" />
+			</d:MaterialColumn>
+		</d:MaterialRow>
+		<d:MaterialRow>
+			<d:MaterialColumn grid="s4">
+				<d:MaterialButton ui:field="calculateEntropy" text="Entropy"
+					tooltip="Calculate Entropy at the temperature" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s4">
+				<d:MaterialLink ui:field="entropyTemperature" text="298.0"
+					title="Temperature" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s4">
+				<d:MaterialLabel ui:field="entropyAnswer" text="30000.0"
+					title="cal/mole" />
+			</d:MaterialColumn>
+		</d:MaterialRow>
+		<MaterialRow>
+			<d:MaterialColumn grid="s12">
+				<d:MaterialLabel ui:field="line1"   styleName="style.nasa" text=""/>
+			</d:MaterialColumn>
+		</MaterialRow>
+		<MaterialRow>
+			<d:MaterialColumn grid="s12">
+				<d:MaterialLabel ui:field="line2"   stylePrimaryName="style.nasa" text=""/>
+			</d:MaterialColumn>
+		</MaterialRow>
+		<MaterialRow>
+			<d:MaterialColumn grid="s12">
+				<d:MaterialLabel ui:field="line3"  text=""/>
+			</d:MaterialColumn>
+		</MaterialRow>
+		<MaterialRow>
+			<d:MaterialColumn grid="s12">
+				<d:MaterialLabel ui:field="line4"  text=""  />
+			</d:MaterialColumn>
+		</MaterialRow>
+	</g:HTMLPanel>
+</ui:UiBinder> 

@@ -52,8 +52,9 @@ public class ProcessNASAPolynomialUpload {
         boolean notdone = true;
         while (notdone) {
             String line1 = tok.nextToken();
-            
-            if (!line1.toLowerCase().startsWith(endS)) {
+            if(line1 == null) {
+            	notdone = false;
+            } else if (!line1.toLowerCase().startsWith(endS)) {
                 String line2 = tok.nextToken();
                 String line3 = tok.nextToken();
                 String line4 = tok.nextToken();

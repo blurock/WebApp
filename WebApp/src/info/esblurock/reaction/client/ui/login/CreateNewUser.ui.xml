@@ -23,6 +23,11 @@
 				</m:MaterialRow>
 				<m:MaterialRow>
 					<m:MaterialColumn grid="s12">
+						<m:MaterialTextBox ui:field="emailaddress" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s12">
 						<m:MaterialTextBox ui:field="password" />
 					</m:MaterialColumn>
 				</m:MaterialRow>

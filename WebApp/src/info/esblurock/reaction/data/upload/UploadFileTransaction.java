@@ -20,6 +20,9 @@ public class UploadFileTransaction extends DatabaseObject {
     String filename;
     
     @Persistent
+    String fileCode;
+    
+    @Persistent
     String sourceType;
     
     @Persistent(serialized="true")
@@ -28,13 +31,14 @@ public class UploadFileTransaction extends DatabaseObject {
 	public UploadFileTransaction() {
 	}
 
-	public UploadFileTransaction(String user, String filename,
+	public UploadFileTransaction(String user, String filename, String fileCode,
 			String sourceType, ArrayList<String> setOfLinesKeys) {
 		super();
 		this.user = user;
 		this.filename = filename;
 		this.sourceType = sourceType;
 		this.setOfLinesKeys = setOfLinesKeys;
+		this.fileCode = fileCode;
 	}
 
 	public String getUser() {
@@ -52,6 +56,8 @@ public class UploadFileTransaction extends DatabaseObject {
 	public ArrayList<String> getSetOfLinesKeys() {
 		return setOfLinesKeys;
 	}
-    
+    public String getFileCode() {
+    	return fileCode;
+    }
     
 }

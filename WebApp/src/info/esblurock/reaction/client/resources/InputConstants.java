@@ -268,6 +268,24 @@ public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   String documentText();
 
   /**
+   * Translated "email address".
+   * 
+   * @return translated "email address"
+   */
+  @DefaultMessage("email address")
+  @Key("emailaddress")
+  String emailaddress();
+
+  /**
+   * Translated "Enter a valid email address".
+   * 
+   * @return translated "Enter a valid email address"
+   */
+  @DefaultMessage("Enter a valid email address")
+  @Key("emailaddressplaceholder")
+  String emailaddressplaceholder();
+
+  /**
    * Translated "Government".
    * 
    * @return translated "Government"

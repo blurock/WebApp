@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
  *
  * @author reaction
  */
-public class ChemkinString implements Serializable{
+public class ChemkinString implements Serializable {
 	/**
 	 * 
 	 */
@@ -39,9 +39,9 @@ public class ChemkinString implements Serializable{
 		lastComment = new StringBuffer();
 		if (tok.hasMoreTokens()) {
 			next = tok.nextToken();
-			if(trim)
+			if (trim)
 				next = next.trim();
-			if(next == null) {
+			if (next == null) {
 				System.out.println("token is null");
 			}
 			if (next.startsWith(commentChar) || next.length() == 0) {
@@ -55,47 +55,51 @@ public class ChemkinString implements Serializable{
 
 	public String nextNLines(int n) throws IOException {
 		StringBuilder build = new StringBuilder();
-		int count = n-1;
+		int count = n - 1;
 		build.append(getCurrent());
-		while(tok.hasMoreTokens() && count-- > 0) {
+		while (tok.hasMoreTokens() && count-- > 0) {
 			build.append(nextToken());
 			build.append("\n");
 		}
-		if(count > 0) {
-			int rest = n-count;
+		if (count > 0) {
+			int rest = n - count;
 			String ex = "Expected " + n + "lines got only " + rest;
 			throw new IOException(ex);
 		}
-			
+
 		return build.toString();
 	}
+
 	public boolean tokenMatch(String element, String token) {
 		return element.toUpperCase().startsWith(token.toUpperCase());
 	}
 
 	public String currentNonBlank() {
-		String next = getCurrent().trim();
-		while(next.length() == 0) {
-			next = nextToken().trim();
+		String next = null;
+		if (getCurrent() != null) {
+			next = getCurrent().trim();
+			while (next.length() == 0) {
+				next = nextToken().trim();
+			}
 		}
 		return next;
 	}
+
 	public String nextNonBlank() {
 		nextToken();
 		return currentNonBlank();
 	}
+
 	public String skipOverComments() {
 		String comments = "";
 		String next = currentNonBlank();
-		while(next.trim().startsWith(commentChar)) {
+		while (next.trim().startsWith(commentChar)) {
 			comments += next;
 			next = nextNonBlank();
 		}
 		return comments;
 	}
 
-
-	
 	String getLastComment() {
 		return lastComment.toString();
 	}

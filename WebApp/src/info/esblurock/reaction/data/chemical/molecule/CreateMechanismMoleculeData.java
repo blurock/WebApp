@@ -1,9 +1,10 @@
 package info.esblurock.reaction.data.chemical.molecule;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinMolecule;
+import info.esblurock.reaction.data.CreateData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
-public class CreateMechanismMoleculeData {
+public class CreateMechanismMoleculeData extends CreateData {
 	
 	static String delimitor = "#";
 

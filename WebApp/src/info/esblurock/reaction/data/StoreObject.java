@@ -14,89 +14,106 @@ import info.esblurock.reaction.data.transaction.SetOfTransactionKeys;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.server.datastore.PMF;
 
-
 /**
- * The Class StoreObject. this is the base object for the storage of objects in the database
- * There are basically two parts:
+ * The Class StoreObject. this is the base object for the storage of objects in
+ * the database There are basically two parts:
  * <ul>
- * <li> Storage of the object itself
- * <li> Storage of the RDF information
+ * <li>Storage of the object itself
+ * <li>Storage of the RDF information
  * <ul>
  * 
- * This provides the basic operations for storage which includes the updating of the {@link TransactionInfo} data.
+ * This provides the basic operations for storage which includes the updating of
+ * the {@link TransactionInfo} data.
  * 
  */
 public class StoreObject {
 	final static String isAS = "isA";
 
-	
 	/** The persistence manager from JDO. */
 	PersistenceManager pm = PMF.get().getPersistenceManager();
 
-	/** The type delimiter. Used to separate the 'type' code (Object or String) and the keyword/info*/
+	/**
+	 * The type delimiter. Used to separate the 'type' code (Object or String)
+	 * and the keyword/info
+	 */
 	public static String typeDelimiter = "#";
-	
+
 	/** RDF predicate: The creation date. */
 	public static String creationDate = "InputDate";
-	
+
 	/** RDF predicate: The date type. */
 	public static String dateType = "Date";
-	
+
 	/** RDF predicate: The entered by. */
 	public static String enteredBy = "EnteredBy";
 
-	/** The object predicate. An class object key is stored in the object*/
+	/** The object predicate. An class object key is stored in the object */
 	public static String objectPredicate = "Object";
-	
-	/** The string type. String information is stored in the object*/
+
+	/** The string type. String information is stored in the object */
 	public static String stringType = "String";
-	
 
 	/** The keyword. */
 	protected String keyword;
-	
+
 	/** The object. */
 	protected DatabaseObject object;
-	
+
 	/** The transaction. */
 	protected TransactionInfo transaction;
-	
+
 	/** The Key. */
 	private String Key;
-	
+
 	/** The store object. */
 	protected boolean storeObject;
+
+	final static public int maxStored = 500;
+	ArrayList<DatabaseObject> toBeStored;
 
 	/**
 	 * Instantiates a new store object.
 	 *
-	 * @param keyword the keyword base for the RDF information
-	 * @param object the data class object
-	 * @param transaction the accumulated transaction information
-	 * @param storeObject the store object true if the object should be stored
+	 * @param keyword
+	 *            the keyword base for the RDF information
+	 * @param object
+	 *            the data class object
+	 * @param transaction
+	 *            the accumulated transaction information
+	 * @param storeObject
+	 *            the store object true if the object should be stored
 	 */
 	public StoreObject(String keyword, DatabaseObject object, TransactionInfo transaction, boolean storeObject) {
-		start(keyword,object,transaction,storeObject);
+		toBeStored = new ArrayList<DatabaseObject>();
+		start(keyword, object, transaction, storeObject);
 	}
 
 	/**
 	 * Instantiates a new store object.
 	 *
-	 * @param keyword the keyword base for the RDF information
-	 * @param object the data class object
-	 * @param transaction the accumulated transaction information
+	 * @param keyword
+	 *            the keyword base for the RDF information
+	 * @param object
+	 *            the data class object
+	 * @param transaction
+	 *            the accumulated transaction information
 	 */
 	public StoreObject(String keyword, DatabaseObject object, TransactionInfo transaction) {
-		start(keyword,object,transaction,true);
+		toBeStored = new ArrayList<DatabaseObject>();
+		start(keyword, object, transaction, true);
 	}
 
 	/**
 	 * Common routine for the constructors.
 	 *
-	 * @param keyword the keyword base for the RDF information
-	 * @param object the data class object
-	 * @param transaction the accumulated transaction information
-	 * @param storeObject the store object true if the object should be stored
+	 * @param keyword
+	 *            the keyword base for the RDF information
+	 * @param object
+	 *            the data class object
+	 * @param transaction
+	 *            the accumulated transaction information
+	 * @param storeObject
+	 *            the store object true if the object should be stored
 	 */
 	protected void start(String keyword, DatabaseObject object, TransactionInfo transaction, boolean storeObject) {
 		this.keyword = keyword;
@@ -106,21 +123,25 @@ public class StoreObject {
 		storeObject();
 		storeRDF();
 	}
-	
+
 	/**
 	 * Finish: to be called if all the transactions are done.
 	 * 
-	 * From the classes that override this method, the procedure 
-	 * should do operations that occur after the object has been stored
-	 * (this is meant mainly when the main object has dependent objects within it).
+	 * From the classes that override this method, the procedure should do
+	 * operations that occur after the object has been stored (this is meant
+	 * mainly when the main object has dependent objects within it).
 	 * 
 	 * <ul>
-	 * <li> RDFs:  enteredby and creationdata
-	 * <li> Finalize the transaction by entering the object key and storing the {@link TransactionInfo}
+	 * <li>RDFs: enteredby and creationdata
+	 * <li>Finalize the transaction by entering the object key and storing the
+	 * {@link TransactionInfo}
 	 */
 	public void finish() {
 		storeStringRDF(enteredBy, transaction.getUser());
 		storeStringRDF(creationDate, DateAsString.dateAsString(transaction.getCreationDate()));
+		System.out.println("Store Object finish flush");
+		flushStore();
+		System.out.println("Store Object finish after flush");
 		transaction.setStoredObjectKey(object.getKey());
 		pm.makePersistent(transaction);
 		pm.detachCopy(transaction);
@@ -130,16 +151,36 @@ public class StoreObject {
 	public void isA(String objectS) {
 		storeStringRDF(isAS, objectS);
 	}
+
 	/**
 	 * Store if the object has not been stored yet (checking if key is null).
 	 *
-	 * @param object the object
+	 * @param object
+	 *            the object
 	 */
-	protected void store(DatabaseObject object) {
+	public void store(DatabaseObject object) {
 		String key = object.getKey();
 		if (key == null) {
-			DatabaseObject o = pm.makePersistent(object);
+			toBeStored.add(object);
+			if (toBeStored.size() > maxStored) {
+				System.out.println("Max Reached: " + toBeStored.size());
+				flushStore();
+			}
 		}
+	}
+
+	public void flushStore() {
+		System.out.println("flush: " + toBeStored.size());
+		pm.makePersistentAll(toBeStored);
+		for (DatabaseObject o : toBeStored) {
+			if (o instanceof KeywordRDF) {
+				if (transaction.addRDFKey(o.getKey())) {
+					storeTransactionSet();
+				}
+			}
+		}
+
+		toBeStored = new ArrayList<DatabaseObject>();
 	}
 
 	/**
@@ -147,59 +188,58 @@ public class StoreObject {
 	 * 
 	 * The String refers to that the object is a string value
 	 * 
-	 * The 'global' keyword of the class is the subject
-	 * The predicate and the object (description) is supplied.
+	 * The 'global' keyword of the class is the subject The predicate and the
+	 * object (description) is supplied.
 	 *
-	 * @param predicate the predicate relation between subject and object
-	 * @param description the object description of the subject
+	 * @param predicate
+	 *            the predicate relation between subject and object
+	 * @param description
+	 *            the object description of the subject
 	 */
 	protected void storeStringRDF(String predicate, String description) {
 		String typepredicate = predicate + typeDelimiter + stringType;
 		KeywordRDF objectrdf = new KeywordRDF(keyword, typepredicate, description);
-		DatabaseObject o = pm.makePersistent(objectrdf);
-		if(transaction.addRDFKey(o.getKey())) {
-			storeTransactionSet();
-		}
+		store(objectrdf);
 	}
 
-	
 	void storeTransactionSet() {
 		SetOfTransactionKeys keyset = transaction.replaceKeySet();
 		pm.makePersistent(keyset);
 		transaction.addKeyToKeySet(keyset.getKey());
 	}
+
 	/**
 	 * Store object rdf.
 	 *
-	 * The subject is the keyword of the object
-	 * The predicate is the object predicate objectPredicate (a constant of the class).
-	 * The object is the key to the object
+	 * The subject is the keyword of the object The predicate is the object
+	 * predicate objectPredicate (a constant of the class). The object is the
+	 * key to the object
 	 * 
-	 * @param object the object itself (which has already been stored in the database and has a key
+	 * @param object
+	 *            the object itself (which has already been stored in the
+	 *            database and has a key
 	 */
 	protected void storeObjectRDF(DatabaseObject object) {
-		storeObjectRDF(keyword,object);
+		storeObjectRDF(keyword, object);
 	}
 
 	/**
-	 * The subject is the keyword given
-	 * The predicate is the object predicate objectPredicate (a constant of the class).
-	 * The object is the key to the object
+	 * The subject is the keyword given The predicate is the object predicate
+	 * objectPredicate (a constant of the class). The object is the key to the
+	 * object
 	 *
-	 * @param objectkey the Object keyword to use
-	 * @param object the object
+	 * @param objectkey
+	 *            the Object keyword to use
+	 * @param object
+	 *            the object
 	 */
 	protected void storeObjectRDF(String objectkey, DatabaseObject object) {
-		//store(object);
+		// store(object);
 		String key = object.getKey();
 		String classname = object.getClass().getName();
 		String typepredicate = classname + typeDelimiter + objectPredicate;
 		KeywordRDF objectrdf = new KeywordRDF(objectkey, typepredicate, key);
 		store(objectrdf);
-		transaction.addRDFKey(objectrdf.getKey());
-		if(transaction.addRDFKey(objectrdf.getKey())) {
-			storeTransactionSet();
-		}
 	}
 
 	/**
@@ -213,8 +253,7 @@ public class StoreObject {
 	}
 
 	/**
-	 * Store base RDF storage.
-	 * The creation date is stored
+	 * Store base RDF storage. The creation date is stored
 	 */
 	protected void storeRDF() {
 		Date date = new Date();
@@ -230,9 +269,7 @@ public class StoreObject {
 		return Key;
 	}
 
-	/**
-	 * Removes the.
-	 */
-	public void remove() {
+	public ArrayList<DatabaseObject> getToBeStored() {
+		return toBeStored;
 	}
 }

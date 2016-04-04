@@ -18,6 +18,10 @@ public class StoreDescriptionData extends StoreObject {
 			TransactionInfo transaction) {
 		super(keyword,object,transaction);
 	}
+	public StoreDescriptionData(String keyword, DatabaseObject object,
+			TransactionInfo transaction, boolean storeObject) {
+		super(keyword,object,transaction,storeObject);
+	}
 	
 	protected void storeObject() {
 		super.storeObject();

@@ -20,7 +20,8 @@ public class StoreTextSetUploadData  extends StoreObject {
 		TextSetUploadData data = (TextSetUploadData) object;
 		data.getDescription().setParentKey(data.getKey());
 		StoreDescriptionData description = new StoreDescriptionData(data.getDescription().getKeyword(),
-				data.getDescription(), transaction);
+				data.getDescription(), transaction,false);
+		flushStore();
 	}
 	protected void storeRDF() {
 		TextSetUploadData data = (TextSetUploadData) object;

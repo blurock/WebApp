@@ -1,5 +1,7 @@
 package info.esblurock.reaction.client.ui.login;
 
+import java.io.IOException;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -26,7 +28,7 @@ public interface LoginService extends RemoteService {
        }
    }
 
-   public UserDTO loginServer(String name, String password) throws Exception;
+   public UserDTO loginServer(String name, String password) throws IOException;
 
    public UserDTO loginFromSessionServer();
     

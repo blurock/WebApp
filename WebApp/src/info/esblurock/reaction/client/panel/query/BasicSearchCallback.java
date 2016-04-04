@@ -37,11 +37,9 @@ public class BasicSearchCallback implements AsyncCallback<RDFBySubjectSet> {
 		Set<String> keys = answer.keySet();
 
 		HTMLPanel toppanel = new HTMLPanel("");
-		//topSearch.addContent(toppanel);
 
 		MaterialCollapsible collapse = new MaterialCollapsible();
 		collapse.setType("Popout");
-		//toppanel.add(collapse);
 		topSearch.addContent(collapse);
 
 		for (String key : keys) {
@@ -56,7 +54,6 @@ public class BasicSearchCallback implements AsyncCallback<RDFBySubjectSet> {
 			RDFQueryToStringSet objectset = result.get(objectKey);
 			if (objectset.size() > 0) {
 				QueryObjectSet objectitem = new QueryObjectSet(objectKey, objectset, topPath,collapse);
-				//collapse.addItem(objectitem);
 			}
 		}
 	}

@@ -40,26 +40,22 @@
 	}
 	</ui:style>
 	<g:HTMLPanel>
-		<m:MaterialNavBar ui:field="navbar" wave="light"
-			color="brown" align="right">
+		<m:MaterialNavBar ui:field="navbar" wave="light" color="white">		
 			<m:nav>
-				<m:MaterialLink ui:field="toplogin" text="login" icon="mdi-action-lock-open"
-					textColor="white" />
+				<m:MaterialLink ui:field="toplogin" textColor="black" text="login" icon="mdi-action-lock-open" />
 			</m:nav>
 			<m:nav>
-				<m:MaterialLink ui:field="toplogout" text="logout" icon="mdi-action-lock-open"
-					textColor="white" />
+				<m:MaterialLink ui:field="toplogout"  textColor="black" text="logout" icon="mdi-action-lock-open" />
 			</m:nav>
 			<m:nav>
-				<m:MaterialLink ui:field="linkmenu" icon="mdi-action-list"
-					textColor="white" />
-			</m:nav>
-			<m:nav>
-				<m:MaterialLink icon="mdi-navigation-more-vert"
-					textColor="white" />
+				<m:MaterialLink ui:field="linkmenu"  textColor="black" icon="mdi-action-list" />
 			</m:nav>
 		</m:MaterialNavBar>
-		<m:MaterialParallax ui:field="firstfield"
+		<m:MaterialTitle 
+		title="ChemConnect" 
+		description="Connecting chemical kinetic and thermodynamic data for searching and evaluation. 
+		Login and search through the detailed informatin available."></m:MaterialTitle>
+		<m:MaterialParallax ui:field="firstfield" height="200"
 			resource="{res.blackboardbackground}">
 			<m:content>
 				<m:MaterialSlide fullScreen="false">
@@ -83,11 +79,30 @@
 				</m:MaterialSlide>
 			</m:content>
 		</m:MaterialParallax>
-		<m:MaterialParallax
+		<m:MaterialParallax height="200"
 			url="http://atm.ulb.ac.be/wp-content/uploads/2014/11/isoLLNL874-eps-converted-to.png">
 			<m:content>
-				<m:MaterialTitle ui:field="firstdescription">
+				<m:MaterialTitle ui:field="firstdescription"/>
+			</m:content>
+		</m:MaterialParallax>
+		<m:MaterialParallax height="200"
+			url="http://impactcity.nl/wp-content/uploads/2016/02/big-data-word-cloud.jpg">
+			<m:content>
+				<m:MaterialTitle ui:field="seconddescription">
 				</m:MaterialTitle>
+			</m:content>
+			</m:MaterialParallax>
+		<m:MaterialParallax height="200"
+			url="http://impactcity.nl/wp-content/uploads/2016/02/big-data-word-cloud.jpg">
+			<m:content>
+				<m:MaterialRow>
+				<m:MaterialColumn grid="s6">
+				<m:MaterialLabel  text="Contact: Edward Blurock, Blurock Consulting AB, Sweden"/>
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s6">
+				<m:MaterialLabel  text="email: edward.blurock@gmail.com"/>
+				</m:MaterialColumn>
+				</m:MaterialRow>
 			</m:content>
 		</m:MaterialParallax>
 

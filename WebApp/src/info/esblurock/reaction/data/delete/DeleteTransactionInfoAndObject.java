@@ -1,6 +1,7 @@
 package info.esblurock.reaction.data.delete;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
@@ -17,6 +18,7 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 
 import info.esblurock.reaction.data.rdf.KeywordRDF;
+import info.esblurock.reaction.data.transaction.SetOfTransactionKeys;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.server.datastore.PMF;
 
@@ -127,16 +129,16 @@ public class DeleteTransactionInfoAndObject {
 	 */
 	private String delete(TransactionInfo transaction) throws IOException {
 		StringBuilder build = new StringBuilder();
-		boolean error = false;
 		build.append("ERROR:  TransactionInfo: \n");
-		for (String objkey : transaction.getRdfKeyWords()) {
+		boolean error = deleteArrayOfKeys(transaction.getRdfKeyWords(), build);
+		for (String key : transaction.getKeySet()) {
 			try {
-				System.out.println("Delete RDF: " + objkey);
-				KeywordRDF rdf = pm.getObjectById(KeywordRDF.class, objkey);
-				pm.deletePersistent(rdf);
+				SetOfTransactionKeys keys = pm.getObjectById(SetOfTransactionKeys.class, key);
+				boolean e = deleteSetOfTransactionKeys(keys,build);
+				error = error || e;
 			} catch (JDOObjectNotFoundException ex) {
 				error = true;
-				build.append("RDF not found: " + objkey + "\n");
+				build.append("SetOfTransactionKeys not found: " + key + "\n");
 			}
 		}
 		System.out.println("Done Deleting RDF");
@@ -156,6 +158,25 @@ public class DeleteTransactionInfoAndObject {
 		}
 
 		return ans;
+	}
+	private boolean deleteSetOfTransactionKeys(SetOfTransactionKeys transkeys, StringBuilder build) {
+		boolean error = deleteArrayOfKeys(transkeys.getRdfKeyWords(),build);
+		pm.deletePersistent(transkeys);
+		return error;
+	}
+	private boolean deleteArrayOfKeys(ArrayList<String> keys, StringBuilder build) {
+		boolean error = false;
+		for(String key : keys) {
+			try {
+			System.out.println("Delete RDF: " + key);
+			KeywordRDF rdf = pm.getObjectById(KeywordRDF.class, key);
+			pm.deletePersistent(rdf);
+		} catch (JDOObjectNotFoundException ex) {
+			error = true;
+			build.append("SetOfTransactionKeys not found: " + key + "\n");
+		}
+		}
+		return error;
 	}
 	/**
 	 *  getTransaction

@@ -13,6 +13,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import info.esblurock.reaction.client.TextToDatabase;
+import info.esblurock.reaction.data.description.StoreDescriptionData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.StoreTextSetUploadData;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
@@ -94,6 +95,7 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 		verify(uploadText,TaskTypes.dataInput);
 		TransactionInfo transaction = new TransactionInfo(userKey,keyword,data.getClass().getName());
 		StoreTextSetUploadData store = new StoreTextSetUploadData(keyword, data, transaction);
+		System.out.println("TextToDatabaseImpl  StoreTextSetUploadData");
 		store.finish();
 		return store.getKey();
 	}

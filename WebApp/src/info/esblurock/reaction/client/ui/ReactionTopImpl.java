@@ -5,6 +5,7 @@ import java.util.Date;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialNavBar;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialSlideItem;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
@@ -26,6 +27,8 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ReactionTopImpl extends UiImplementationBase implements ReactionTopView {
@@ -38,8 +41,10 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 
 	@UiField
 	MaterialTitle firstdescription;
-	
 
+	@UiField
+	MaterialTitle seconddescription;
+		
 	@UiField
 	MaterialNavBar navbar;
 	@UiField
@@ -59,6 +64,8 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	
 	@UiField
 	MaterialLink toplogout;
+	
+	MaterialPanel mpanel;
 
 	private Presenter listener;
 	private ClientLogout logout = new ClientLogout();
@@ -99,10 +106,16 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 			setLoggedOut();
 		}
 
-		String descriptiontext = ReactionTopViewResources.INSTANCE.firstdescription().getText();
-		String title = "REACTION: The Very Open Data Project (VODP)";
-		firstdescription.setDescription(descriptiontext);
+		String descriptiontext = ReactionTopViewResources.INSTANCE.chemconnectdescription().getText();
+		String title = "ChemConnect: Interconnecting Chemical Data";
 		firstdescription.setTitle(title);
+		firstdescription.setDescription(descriptiontext);
+
+		String description2text = ReactionTopViewResources.INSTANCE.firstdescription().getText();
+		String title2 = "The Very Open Data Project";
+		seconddescription.setDescription(description2text);
+		seconddescription.setTitle(title2);
+		
 	}
 	public void setLoggedIn() {
 		toplogout.setVisible(true);

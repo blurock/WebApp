@@ -37,7 +37,7 @@ public class CreateSetOfKeywordQueryAnswers {
 			SetOfKeywordQueryAnswers set = hierarchy.get(key);
 			if(set == null) {
 				set = createStandardObjectsSet();
-				hierarchy.put(subject, set);
+				hierarchy.put(key, set);
 			}
 			if(subjecttop)
 				insertRDF(set,subject,predicate,object);

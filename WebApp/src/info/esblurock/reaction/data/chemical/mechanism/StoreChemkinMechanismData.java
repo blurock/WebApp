@@ -57,13 +57,7 @@ public class StoreChemkinMechanismData  extends StoreObject  {
 		ChemicalMechanismData data = (ChemicalMechanismData) object;
 		GenerateMoleculeKeywords genMoleculeName = new GenerateMoleculeKeywords(keyword);
 		for(MechanismMoleculeData molecule : data.getMoleculeList().getMolecules()) {
-			// Associate molecule with mechanism name
-			//storeObjectRDF(molecule);
-			// Associate the object with simple name
-			//String molname = molecule.getMoleculeName().toLowerCase();
 			String molname = genMoleculeName.getDataKeyword(molecule);
-			System.out.println("StoreChemkinMechanismData: Molecule name: " + molname);
-			System.out.println("StoreChemkinMechanismData: Molecule name: " + molecule.getKey());
 			storeObjectRDF(molname, molecule);
 		}
 		GenerateReactionKeywords generatekeyword = new GenerateReactionKeywords(keyword);

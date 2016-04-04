@@ -50,7 +50,6 @@ public class GenerateReactionKeywords {
 			simpleProductNames.add(parseOutSimpleMoleculeName(name));
 		}
 		String rxn = getReactionName(simpleReactantNames,simpleProductNames);
-		System.out.println("GenerateReactionKeywords: getReactionFullName" + rxn);
 		return rxn;
 	}
 	

@@ -1,0 +1,42 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:d="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<d:MaterialRow>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialLabel ui:field="coefficientType"  />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s3">
+				<d:MaterialButton ui:field="saveButton"  />
+			</d:MaterialColumn>
+		</d:MaterialRow>
+		<d:MaterialRow ui:field="arrheniusRow">
+			<d:MaterialColumn grid="s1">
+				<d:MaterialLabel ui:field="ALabel" text="A"/>
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s2">
+				<d:MaterialLabel ui:field="A" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="1">
+				<d:MaterialLabel ui:field="nLabel" text="n"/>
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s2">
+				<d:MaterialLabel ui:field="n" />
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s1">
+				<d:MaterialLabel ui:field="EaLabel" text="Ea"/>
+			</d:MaterialColumn>
+			<d:MaterialColumn grid="s2">
+				<d:MaterialLabel ui:field="Ea" />
+			</d:MaterialColumn>
+		</d:MaterialRow>
+		<d:MaterialRow ui:field="coefficientsRow">
+		</d:MaterialRow>
+	</g:HTMLPanel>
+</ui:UiBinder> 

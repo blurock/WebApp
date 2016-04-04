@@ -3,6 +3,7 @@ package info.esblurock.reaction.data.chemical.mechanism;
 import java.util.HashMap;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinMechanism;
+import info.esblurock.reaction.data.CreateData;
 import info.esblurock.reaction.data.chemical.elements.ChemicalElementListData;
 import info.esblurock.reaction.data.chemical.elements.CreateChemicalElementListData;
 import info.esblurock.reaction.data.chemical.molecule.CreateMechanismMoleculeListData;
@@ -12,7 +13,7 @@ import info.esblurock.reaction.data.chemical.reaction.CreateMechanismReactionLis
 import info.esblurock.reaction.data.chemical.reaction.MechanismReactionListData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
-public class CreateChemicalMechanismData {
+public class CreateChemicalMechanismData extends CreateData {
 	
 	public static String delimitor = "#";
 	
@@ -40,18 +41,21 @@ public class CreateChemicalMechanismData {
 		System.out.println("CreateChemicalMechanismData Create/Store: ChemicalElementListData");
 		CreateChemicalElementListData createElementList = new CreateChemicalElementListData();
 		ChemicalElementListData   elementList = createElementList.create(mechanism.getElementList());
+		this.merge(createElementList);
 		
 		System.out.println("CreateChemicalMechanismData Create/Store: MechanismMoleculeListData");
 		createMoleculeList = new CreateMechanismMoleculeListData(mechanismKeyword);
 		MechanismMoleculeListData moleculeList = createMoleculeList.create(mechanism.getSpeciesList(),transaction);
 		moleculeNamesTable = createMoleculeList.getMoleculeMap();
+		this.merge(createMoleculeList);
 		
 		System.out.println("CreateChemicalMechanismData Create/Store: MechanismReactionListData");
 		createReactionList = new CreateMechanismReactionListData(mechanismKeyword,moleculeNamesTable,false);
 		MechanismReactionListData reactionList = createReactionList.create(mechanism.getReactionList(), transaction);
+		this.merge(createReactionList);
 		
 		mechanismData = new ChemicalMechanismData(elementList, moleculeList, reactionList);
-
+		this.flushCreate();
 		storeMechanism = new StoreChemkinMechanismData(mechanismKeyword,mechanismData,transaction,true);
 		
 

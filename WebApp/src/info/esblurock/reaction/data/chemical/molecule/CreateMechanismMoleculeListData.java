@@ -6,9 +6,10 @@ import java.util.Set;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinMolecule;
 import info.esblurock.react.mechanisms.chemkin.ChemkinMoleculeList;
+import info.esblurock.reaction.data.CreateData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
-public class CreateMechanismMoleculeListData {
+public class CreateMechanismMoleculeListData extends CreateData {
 
 	String keywordBase;
 	CreateMechanismMoleculeData createMolecule;
@@ -26,12 +27,15 @@ public class CreateMechanismMoleculeListData {
 		for (String key : keys) {
 			ChemkinMolecule molecule = speciesList.get(key);
 			MechanismMoleculeData mol = createMolecule.create(molecule, transaction);
+			
 			StoreMechanismMoleculeData store 
 				= new StoreMechanismMoleculeData(createMolecule.getKeyword(), mol,transaction, false);
+			addStore(store);
 			String molname = CreateMechanismMoleculeData.createMoleculeKey(mol.getMechanismKeyword(), mol.getMoleculeName());
 			moleculeMap.put(mol.getMoleculeName(), molname);
 			molecules.add(mol);
 		}
+		this.merge(createMolecule);
 		MechanismMoleculeListData mollistdata = new MechanismMoleculeListData(molecules);
 		return mollistdata;
 	}

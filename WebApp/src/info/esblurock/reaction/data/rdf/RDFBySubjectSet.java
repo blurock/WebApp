@@ -12,9 +12,9 @@ public class RDFBySubjectSet extends HashMap<String, SetOfKeywordQueryAnswers> i
 		for(String key : set.keySet()) {
 			SetOfKeywordQueryAnswers newsubset = set.get(key);
 			SetOfKeywordQueryAnswers subset = this.get(key);
-			if(subset != null) {
+			if(subset != null && newsubset != null) {
 				subset.mergeValues(newsubset);
-			} else {
+			} else if(newsubset != null) {
 				this.put(key, newsubset);
 			}
 		}

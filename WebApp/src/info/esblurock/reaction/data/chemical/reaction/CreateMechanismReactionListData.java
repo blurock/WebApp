@@ -5,13 +5,14 @@ import java.util.HashMap;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinReaction;
 import info.esblurock.react.mechanisms.chemkin.ChemkinReactionList;
+import info.esblurock.reaction.data.CreateData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class CreateMechanismReactionListData.
  */
-public class CreateMechanismReactionListData {
+public class CreateMechanismReactionListData extends CreateData {
 	
 	/** The create reaction. */
 	CreateChemkinReactionData createReaction;
@@ -45,6 +46,7 @@ public class CreateMechanismReactionListData {
 			ChemkinReactionData rxndata = createReaction.create(reaction, transaction);
 			lst.add(rxndata);
 		}
+		this.merge(createReaction);
 		MechanismReactionListData data = new MechanismReactionListData(lst);
 		return data;
 	}

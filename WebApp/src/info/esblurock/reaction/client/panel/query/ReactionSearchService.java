@@ -1,5 +1,6 @@
 package info.esblurock.reaction.client.panel.query;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -29,8 +30,8 @@ public interface ReactionSearchService  extends RemoteService {
 	   }
 	   RDFBySubjectSet basicSearch(String search);
 	   RDFBySubjectSet objectSearch(String search);
-	   RDFBySubjectSet mergeSearch(HashSet<String> keyset);
-	   RDFBySubjectSet singleKeyQuery(String key);
+	   RDFBySubjectSet mergeSearch(HashSet<String> keyset) throws IOException;
+	   RDFBySubjectSet singleKeyQuery(String key) throws IOException;
 	   
 	   DatabaseObject getObjectFromKey(String classname, String key) throws Exception;
 	   

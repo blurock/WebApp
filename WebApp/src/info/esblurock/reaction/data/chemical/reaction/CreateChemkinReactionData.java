@@ -9,6 +9,7 @@ import info.esblurock.react.mechanisms.chemkin.ChemkinMolecule;
 import info.esblurock.react.mechanisms.chemkin.ChemkinReaction;
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyMolecules;
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyWeight;
+import info.esblurock.reaction.data.CreateData;
 import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
@@ -17,7 +18,7 @@ import info.esblurock.reaction.data.transaction.TransactionInfo;
  * The Class CreateChemkinReactionData.
  * 
  */
-public class CreateChemkinReactionData {
+public class CreateChemkinReactionData extends CreateData {
 
 
 	/** The molecule keys table. */
@@ -79,7 +80,6 @@ public class CreateChemkinReactionData {
 		String reactionEquation = keywordGenerator.getReactionName(reactantNames, productNames);
 		String keyword = keywordGenerator.getReactionFullName(reactionEquation);
 		
-		System.out.println("Reaction Keyword: " + keyword);
 		createCoeffData = new CreateChemkinCoefficientsData(keyword);
 		createThirdBody = new CreateThirdBodyMoleculesData(keyword, moleculeNamesTable);
 
@@ -98,7 +98,6 @@ public class CreateChemkinReactionData {
 		ChemkinCoefficientsData forwardCoefficients = null;
 		if (reaction.getForwardCoefficients() != null) {
 			String forwardS = keyword + ":" + StoreChemkinCoefficientsData.forward;
-			System.out.println("CreateChemkinReactionData: " + forwardS);
 			createCoeffData.setReactionKeyword(forwardS);
 			forwardCoefficients = createCoeffData.create(reaction.getForwardCoefficients(), transaction);
 		}
@@ -106,7 +105,6 @@ public class CreateChemkinReactionData {
 		ChemkinCoefficientsData reverseCoefficients = null;
 		if (reaction.getReverseCoefficients() != null) {
 			String reverseS = keyword + ":" + StoreChemkinCoefficientsData.reverse;
-			System.out.println("CreateChemkinReactionData: " + reverseS);
 			createCoeffData.setReactionKeyword(reverseS);
 			reverseCoefficients = createCoeffData.create(reaction.getReverseCoefficients(), transaction);
 		}
@@ -135,8 +133,6 @@ public class CreateChemkinReactionData {
 		ChemkinCoefficientsData sriCoefficients = null;
 		if (reaction.getSriCoefficients() != null) {
 			String sriS = keyword + ":" + StoreChemkinCoefficientsData.sri;
-			System.out.println("CreateChemkinReactionData: " + sriS);
-			System.out.println(reaction.toString());
 			createCoeffData.setReactionKeyword(sriS);
 			sriCoefficients = createCoeffData.create(reaction.getSriCoefficients(), transaction);
 		}
@@ -164,8 +160,10 @@ public class CreateChemkinReactionData {
 				plogCoefficients,
 				thirdBodyMolecules);
 
-		
+		this.merge(createCoeffData);
+		this.merge(createThirdBody);
 		StoreChemkinReactionData store = new StoreChemkinReactionData(keyword, data, transaction, storeObject);
+		this.addStore(store);
 		return data;
 	}
 

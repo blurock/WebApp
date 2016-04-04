@@ -1,7 +1,6 @@
 package info.esblurock.reaction.client.ui.login;
 
 import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
@@ -19,15 +18,13 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CreateNewUser extends Composite implements HasText {
 
-	private static CreateNewUserUiBinder uiBinder = GWT
-			.create(CreateNewUserUiBinder.class);
+	private static CreateNewUserUiBinder uiBinder = GWT.create(CreateNewUserUiBinder.class);
 
 	interface CreateNewUserUiBinder extends UiBinder<Widget, CreateNewUser> {
 	}
@@ -35,9 +32,9 @@ public class CreateNewUser extends Composite implements HasText {
 	InputConstants inputConstants = GWT.create(InputConstants.class);
 	InterfaceConstants interfaceConstants = GWT.create(InterfaceConstants.class);
 	DescriptionConstants descriptionConstants = GWT.create(DescriptionConstants.class);
-	
+
 	private DataDescription description;
-	
+
 	private String standarduser = "StandardUser";
 
 	@UiField
@@ -48,19 +45,22 @@ public class CreateNewUser extends Composite implements HasText {
 	MaterialTextBox repeatpassword;
 	@UiField
 	MaterialButton submitdata;
-	
+	@UiField
+	MaterialTextBox emailaddress;
+
 	public CreateNewUser() {
 		initWidget(uiBinder.createAndBindUi(this));
 		username.setTitle(inputConstants.usernameplaceholder());
 		username.setPlaceholder(inputConstants.username());
 		password.setTitle(inputConstants.passwordplaceholder());
 		password.setPlaceholder(inputConstants.password());
+		emailaddress.setTitle(inputConstants.emailaddress());
+		emailaddress.setPlaceholder(inputConstants.emailaddressplaceholder());
 		repeatpassword.setTitle(inputConstants.repeatpasswordplaceholder());
 		repeatpassword.setPlaceholder(inputConstants.repeatpassword());
 		submitdata.setTitle(inputConstants.submit());
 		submitdata.setText(inputConstants.submit());
 	}
-
 
 	public CreateNewUser(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -68,35 +68,47 @@ public class CreateNewUser extends Composite implements HasText {
 
 	@UiHandler("submitdata")
 	void submitClick(ClickEvent e) {
-		if(password.getText().equals(repeatpassword.getText())) {
-			UserAccount account = new UserAccount(username.getText(), password.getText(), standarduser);
-			
-			LoginServiceAsync async = LoginService.Util.getInstance();
-			((ServiceDefTarget) async).setServiceEntryPoint("loginservice");
-			AsyncCallback<String> callback = new AsyncCallback<String>() {
+		if (emailaddress.getText().contains("@")) {
 
-				@Override
-				public void onFailure(Throwable caught) {
-					Window.alert(caught.toString());
-				}
+			if (password.getText().equals(repeatpassword.getText())) {
+				UserAccount account = new UserAccount(username.getText(), password.getText(), 
+						standarduser,emailaddress.getText());
 
-				@Override
-				public void onSuccess(String result) {
-					String message = "Account created (Key= " + result + ")";
-					MaterialToast.alert(message);
-				}
-				
-			};
-			async.storeUserAccount(account, callback);
-			
+				LoginServiceAsync async = LoginService.Util.getInstance();
+				((ServiceDefTarget) async).setServiceEntryPoint("loginservice");
+				AsyncCallback<String> callback = new AsyncCallback<String>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert(caught.toString());
+					}
+
+					@Override
+					public void onSuccess(String result) {
+						if (result != null) {
+							String message = "Account created (Key= " + result + ")";
+							MaterialToast.alert(message);
+							MaterialModal.closeModal();
+						} else {
+							String message = "Username and/or email already exists";
+							MaterialToast.alert(message);
+						}
+					}
+
+				};
+				async.storeUserAccount(account, callback);
+
+			} else {
+				password.setText("");
+				repeatpassword.setText("");
+				String message = "Passwords do not match... retype";
+				MaterialToast.alert(message);
+			}
 		} else {
-			password.setText("");
-			repeatpassword.setText("");
-			String message = "Passwords do not match... retype";
+			String message = "Not a valid email address";
 			MaterialToast.alert(message);
 		}
-		
-		MaterialModal.closeModal();
+
 	}
 
 	public void setText(String text) {

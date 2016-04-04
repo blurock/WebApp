@@ -22,7 +22,7 @@ public class ServerBase  extends RemoteServiceServlet {
 		return util;
 	}
 	
-	protected void verify(String task, String tasktype) throws Exception {
+	protected void verify(String task, String tasktype) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
 		String sessionid = util.getId();
 		String ip = this.getThreadLocalRequest().getLocalAddr();

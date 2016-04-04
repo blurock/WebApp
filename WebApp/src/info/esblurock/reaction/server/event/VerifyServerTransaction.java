@@ -11,7 +11,7 @@ import info.esblurock.reaction.server.datastore.PMF;
 
 public class VerifyServerTransaction {
 
-	static PersistenceManager pm = PMF.get().getPersistenceManager();
+	static public PersistenceManager pm = PMF.get().getPersistenceManager();
 	private static SetOfAuthorizationLevels authorization = new SetOfAuthorizationLevels();
 
 	public static ArrayList<String> getPrivledges(String level)
@@ -19,15 +19,15 @@ public class VerifyServerTransaction {
 		return authorization.getPrivledges(level);
 	}
 	public static void verify(UserDTO user, String event, String ip,
-			String sessionid, String tasktype) throws Exception {
+			String sessionid, String tasktype) throws IOException {
 		
 		System.out.println("Login verify 1:");
 		
 		if (authorization.authorize(user.getUserLevel(), tasktype)) {
 			System.out.println("Login verify 2:" + tasktype);
 			System.out.println("event=" + event);
-			System.out.println("ip=" + ip);
-			System.out.println("sessionid=" + sessionid);
+			System.out.println("ip=" + ip + " UserIP= " + user.getIP());
+			System.out.println("sessionid=" + sessionid + "User session=" + user.getSessionId());
 			System.out.println("tasktype=" + tasktype);
 			/*
 			if (ip.equals(user.getIP())) {
@@ -56,7 +56,7 @@ public class VerifyServerTransaction {
 					+ ") Authorization Failure for " + user.getName() + "("
 					+ user.getUserLevel() + ")";
 			System.out.println(message);
-			throw new Exception(message);
+			throw new IOException(message);
 		}
 	}
 }

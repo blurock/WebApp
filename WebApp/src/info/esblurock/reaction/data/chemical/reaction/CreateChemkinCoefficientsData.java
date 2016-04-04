@@ -6,9 +6,10 @@ import java.util.Set;
 import info.esblurock.react.mechanisms.chemkin.ChemkinCoefficients;
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyMolecules;
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyWeight;
+import info.esblurock.reaction.data.CreateData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
-public class CreateChemkinCoefficientsData {
+public class CreateChemkinCoefficientsData extends CreateData {
 
 	String reactionKeyword;
 
@@ -30,13 +31,13 @@ public class CreateChemkinCoefficientsData {
 	public ChemkinCoefficientsData create(ChemkinCoefficients coeffs, TransactionInfo transaction) {
 		ArrayList<String> coeffvalues = transferConstants(coeffs.getCoeffs());
 
-		System.out.println("CreateChemkinCoefficientsData: " + coeffs.toString());
 		ChemkinCoefficientsData data = new ChemkinCoefficientsData(coeffs.isForward(), coeffs.isReverse(),
 				coeffs.isLow(), coeffs.isTroe(),
 				coeffs.isHigh(), coeffs.isPlog(),coeffs.isSri(),
 				coeffs.getA(), coeffs.getN(), coeffs.getEa(), 
 				coeffvalues);
 		StoreChemkinCoefficientsData store = new StoreChemkinCoefficientsData(reactionKeyword, data, transaction);
+		this.addStore(store);
 		return data;
 	}
 

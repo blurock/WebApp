@@ -1,12 +1,16 @@
 package info.esblurock.reaction.server;
 
+import java.io.IOException;
 import java.util.HashSet;
 import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.data.rdf.CreateSetOfKeywordQueryAnswers;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
 import info.esblurock.reaction.data.rdf.SetOfKeywordQueryAnswers;
+import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.datastore.PMF;
+import info.esblurock.reaction.server.event.RegisterTransaction;
+import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
 
 import javax.jdo.FetchGroup;
 import javax.jdo.PersistenceManager;
@@ -23,8 +27,6 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSearchService {
 	private static final long serialVersionUID = 1L;
 	PersistenceManager pm = PMF.get().getPersistenceManager();
-	//private String simpleQuery = "BasicSearch#";
-	//private String queryType = "Query";
 
 	@Override
 	public RDFBySubjectSet basicSearch(String search) {
@@ -53,23 +55,22 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		
 		return create.getAnswers();
 	}
-	public RDFBySubjectSet singleKeyQuery(String key) {
+	public RDFBySubjectSet singleKeyQuery(String key) throws IOException {
+		ContextAndSessionUtilities util = getUtilities();
+		RegisterTransaction.register(util.getUserInfo(),TaskTypes.query, key, RegisterTransaction.checkLevel1);
 		RDFBySubjectSet oset = objectSearch(key);
-		System.out.println("Object\n" + oset.toString());
 		RDFBySubjectSet sset = basicSearch(key);
-		System.out.println("Subject\n" + sset.toString());
 		oset.mergeValue(sset);
+		
 		return oset;
 		
 	}
-	public RDFBySubjectSet mergeSearch(HashSet<String> keyset) {
+	public RDFBySubjectSet mergeSearch(HashSet<String> keyset)  throws IOException {
 		RDFBySubjectSet set = new RDFBySubjectSet();
 		for(String key : keyset) {
 			RDFBySubjectSet subset = singleKeyQuery(key);
-			System.out.println(key + "\n" + subset.toString());
 			set.mergeValue(subset);
 		}
-		System.out.println("Final\n" + set.toString());
 		return set;
 	}
 
@@ -79,7 +80,6 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		DatabaseObject object = null;
 		pm.getFetchPlan().setGroup(FetchGroup.ALL);
 		try {
-			System.out.println("getObjectFromKey: " + clsName + ", Key='" + key + "'");
 			cls = Class.forName(clsName);
 			object = (DatabaseObject) pm.getObjectById(cls,key);
 		} catch (ClassNotFoundException e) {

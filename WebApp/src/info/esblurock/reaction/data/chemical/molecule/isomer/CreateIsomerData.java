@@ -42,6 +42,11 @@ public class CreateIsomerData {
 			if (cI.intValue() > 1)
 				build.append(cI);
 		}
+		if (hI != null) {
+			build.append(hydrogenS);
+			if (hI.intValue() > 1)
+				build.append(hI);
+		}
 		if (nI != null) {
 			build.append(nitrogenS);
 			if (nI.intValue() > 1)
@@ -51,11 +56,6 @@ public class CreateIsomerData {
 			build.append(oxygenS);
 			if (oI.intValue() > 1)
 				build.append(oI);
-		}
-		if (hI != null) {
-			build.append(hydrogenS);
-			if (hI.intValue() > 1)
-				build.append(hI);
 		}
 		String restname = restAtomString(isomer);
 		build.append(restname);

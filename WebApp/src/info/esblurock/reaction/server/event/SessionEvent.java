@@ -14,16 +14,19 @@ public class SessionEvent extends DatabaseObject {
 	String sessionIP;
     @Persistent
 	String event;
+    @Persistent
+	String eventInfo;
 	
 	public SessionEvent() {	
 	}
 
 	
-	public SessionEvent(String userName, String sessionIP, String event) {
+	public SessionEvent(String userName, String sessionIP, String event, String eventInfo) {
 		super();
 		this.userName = userName;
 		this.sessionIP = sessionIP;
 		this.event = event;
+		this.eventInfo = eventInfo;
 	}
 
 
@@ -37,5 +40,11 @@ public class SessionEvent extends DatabaseObject {
 
 	public String getEvent() {
 		return event;
+	}
+
+
+	public String getEventInfo() {
+		return eventInfo;
 	}	
+	
 }

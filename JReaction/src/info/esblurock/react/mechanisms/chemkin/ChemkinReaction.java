@@ -89,7 +89,8 @@ public class ChemkinReaction {
 			forwardCoefficients.parseCoeffs(tok);
 			reversible = rtype.isReverse();
 
-			System.out.println("ThirdBodyFlag: " + ThirdBodyFlag + "--------------------------------------------------");
+			System.out
+					.println("ThirdBodyFlag: " + ThirdBodyFlag + "--------------------------------------------------");
 			if (ThirdBodyFlag) {
 				next = parseThirdBodyCoeffs();
 			} else if (nextNonBlank(lines) != null) {
@@ -111,6 +112,8 @@ public class ChemkinReaction {
 						duplicate = true;
 						skipOverComments(lines);
 						l = lines.nextNonBlank();
+						if(l == null)
+							notdone = false;
 					} else {
 						notdone = false;
 					}
@@ -304,11 +307,11 @@ public class ChemkinReaction {
 
 	private String currentNonBlank(ChemkinString lines) {
 		String next = lines.getCurrent();
-		if(next != null) {
-		next = next.trim();
-		while (next.length() == 0) {
-			next = lines.nextToken().trim();
-		}
+		if (next != null) {
+			next = next.trim();
+			while (next.length() == 0) {
+				next = lines.nextToken().trim();
+			}
 		}
 		return next;
 	}
@@ -416,7 +419,8 @@ public class ChemkinReaction {
 			throw new IOException("Illegal Reaction declaration: " + line);
 		} else {
 			while (tok.hasMoreTokens()) {
-				String token = tok.nextToken().trim();				if (beginOfCoefficients(token, tok.countTokens())) {
+				String token = tok.nextToken().trim();
+				if (beginOfCoefficients(token, tok.countTokens())) {
 					if (tok.countTokens() == 2) {
 						builder.append(" ");
 						builder.append(token);

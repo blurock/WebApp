@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinElementList;
+import info.esblurock.reaction.data.CreateData;
 
-public class CreateChemicalElementListData {
+public class CreateChemicalElementListData extends CreateData {
 
 	public CreateChemicalElementListData() {
 		
