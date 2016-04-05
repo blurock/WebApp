@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.panel.query.objects.QueryObjectSet;
 import info.esblurock.reaction.client.panel.query.strings.QueryStringSet;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
@@ -29,6 +30,7 @@ public class BasicObjectSearchCallback implements AsyncCallback<RDFBySubjectSet>
 
 	@Override
 	public void onSuccess(RDFBySubjectSet answers) {
+		if(answers.size() > 0) {
 		HTMLPanel toppanel = new HTMLPanel("");
 		topSearch.addContent(toppanel);
 		MaterialCollapsible collapse = new MaterialCollapsible();
@@ -55,7 +57,9 @@ public class BasicObjectSearchCallback implements AsyncCallback<RDFBySubjectSet>
 				}
 			}
 		}
-
+		} else {
+			MaterialToast.alert("No objects found in Query");
+		}
 	}
 
 }

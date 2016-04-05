@@ -32,13 +32,19 @@ public class ChemkinNASAThermodynamics {
 	}
 
 	public void parse(ChemkinString lines) throws IOException {
+		System.out.println("Parse THERMO");
 		NASAthermo = new SetOfNASAPolynomials();
 		lines.setTrim(false);
 		skipOverComments(lines);
 		
+		System.out.println("THERMO line");
 		if(compareKeyword(lines.getCurrent(), thermoKeywordS)) {
 			parseFirstTemperatureLine(lines);
+			System.out.println("Temperatures: " + lowTemperature.toString());
 			lines.nextToken();
+			skipOverComments(lines);
+			
+			System.out.println("First line of THERMO (after comments)");
 			boolean notdone = true;
 			int count = 0;
 			while(notdone) {

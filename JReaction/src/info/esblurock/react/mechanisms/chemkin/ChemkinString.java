@@ -93,9 +93,16 @@ public class ChemkinString implements Serializable {
 	public String skipOverComments() {
 		String comments = "";
 		String next = currentNonBlank();
-		while (next.trim().startsWith(commentChar)) {
-			comments += next;
-			next = nextNonBlank();
+		boolean notdone = true;
+		while (notdone) {
+			if(next == null) {
+				notdone = false;
+			} else if(next.trim().startsWith(commentChar)) {
+				comments += next;
+				next = nextNonBlank();
+			} else {
+				notdone = false;
+			}
 		}
 		return comments;
 	}

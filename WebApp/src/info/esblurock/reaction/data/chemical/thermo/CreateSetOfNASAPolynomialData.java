@@ -2,6 +2,7 @@ package info.esblurock.reaction.data.chemical.thermo;
 
 import java.util.ArrayList;
 
+import info.esblurock.reaction.data.CreateData;
 import info.esblurock.reaction.data.chemical.molecule.CreateMechanismMoleculeData;
 import info.esblurock.reaction.data.chemical.molecule.isomer.CreateIsomerData;
 import info.esblurock.reaction.data.chemical.molecule.isomer.IsomerData;
@@ -10,7 +11,7 @@ import thermo.data.benson.NASAPolynomial;
 import thermo.data.benson.SetOfThermodynamicInformation;
 import thermo.data.benson.ThermodynamicInformation;
 
-public class CreateSetOfNASAPolynomialData {
+public class CreateSetOfNASAPolynomialData extends CreateData {
 	
 	String setBaseName;
 
@@ -26,6 +27,7 @@ public class CreateSetOfNASAPolynomialData {
 			thermoset.addThermo(nasadata);
 			String molname = CreateMechanismMoleculeData.createMoleculeKey(setBaseName, nasadata.getMoleculeName());
 			StoreNASAPolynomialData store = new StoreNASAPolynomialData(molname, nasadata, transaction, false);
+			this.addStore(store);
 		}
 		return thermoset;
 	}

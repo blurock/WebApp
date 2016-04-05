@@ -20,6 +20,8 @@ public class ProcessNASAPolynomialUpload {
 	String temperaturerange = null;
 	String comments = "";
 	
+	TransactionInfo transaction = null;
+	
 	public ProcessNASAPolynomialUpload() {
 	}
 	
@@ -32,10 +34,11 @@ public class ProcessNASAPolynomialUpload {
 		if(process) {
 			String keyword = CreateChemicalMechanismData.createMechanismName(description.getSourcekey(),description.getKeyword());
 			
-			TransactionInfo transaction = new TransactionInfo(description.getInputkey(),keyword,SetOfNASAPolynomialData.class.getName());
+			transaction = new TransactionInfo(description.getInputkey(),keyword,SetOfNASAPolynomialData.class.getName());
 			CreateSetOfNASAPolynomialData create = new CreateSetOfNASAPolynomialData();
 			System.out.println("processUploadedNASAPolynomials: SetOfNASAPolynomialData nasaset");
 			SetOfNASAPolynomialData nasaset = create.create(keyword, set, transaction);
+			create.flushCreate();
 			System.out.println("processUploadedNASAPolynomials: StoreSetOfNASAPolynomialData store");
 			StoreSetOfNASAPolynomialData store = new StoreSetOfNASAPolynomialData(keyword, nasaset, transaction, true);
 			System.out.println("processUploadedNASAPolynomials: finish");
@@ -52,6 +55,10 @@ public class ProcessNASAPolynomialUpload {
         boolean notdone = true;
         while (notdone) {
             String line1 = tok.nextToken();
+            System.out.println("Line: " + line1);
+            tok.skipOverComments();
+            line1 = tok.getCurrent();
+            System.out.println("Line: " + line1);
             if(line1 == null) {
             	notdone = false;
             } else if (!line1.toLowerCase().startsWith(endS)) {
@@ -73,18 +80,22 @@ public class ProcessNASAPolynomialUpload {
 
 	private void findBeginning(ChemkinStringFromStoredFile tok) {
 		boolean notdone = true;
+		String temp = tok.getCurrent();
 		while(notdone) {
-			String temp = tok.nextToken();
+			System.out.println("findBeginning: " + temp);
 			if(temp == null) {
 				notdone = false;
 			} else if(temp.trim().toLowerCase().startsWith(thermoS)) {
 				notdone = false;
 				temperaturerange = tok.nextToken();
+				System.out.println("findBeginning  temperaturerange: " + temperaturerange);
 			} else {
 				comments += temp + "\n";
+				temp = tok.nextToken();
 			}
 		}
-		
-		
+	}
+	public TransactionInfo getTransactionInfo() {
+		return transaction;
 	}
 }

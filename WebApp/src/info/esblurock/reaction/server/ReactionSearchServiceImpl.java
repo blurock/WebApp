@@ -30,6 +30,7 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 
 	@Override
 	public RDFBySubjectSet basicSearch(String search) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter subjectfilter =
 				  new FilterPredicate("subject",FilterOperator.EQUAL,search);
@@ -42,17 +43,19 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		
 		RDFBySubjectSet set = new RDFBySubjectSet();
 		set.put(search, answers);
+		pm.close();
 		return set;
 	}
 	
 	public RDFBySubjectSet objectSearch(String search) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter objectfilter =
 				  new FilterPredicate("object",FilterOperator.EQUAL,search);
 		Query q = new Query("KeywordRDF").setFilter(objectfilter);
 		PreparedQuery pq = datastore.prepare(q);
 		CreateSetOfKeywordQueryAnswers create = new CreateSetOfKeywordQueryAnswers(pq,false);
-		
+		pm.close();
 		return create.getAnswers();
 	}
 	public RDFBySubjectSet singleKeyQuery(String key) throws IOException {
@@ -76,6 +79,7 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 
 	@Override
 	public DatabaseObject getObjectFromKey(String clsName, String key) throws Exception {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Class<?> cls;
 		DatabaseObject object = null;
 		pm.getFetchPlan().setGroup(FetchGroup.ALL);
@@ -87,6 +91,7 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		}
 		pm.retrieve(object,true);
 		DatabaseObject ans = pm.detachCopy(object);
+		pm.close();
 		return ans;
 	}
 }

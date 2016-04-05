@@ -2,10 +2,12 @@ package info.esblurock.reaction.server;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.jdo.FetchGroup;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 
@@ -22,7 +24,6 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -45,6 +46,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public List<TransactionInfo> getAllTransactions() {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 		javax.jdo.Query q = pm.newQuery(TransactionInfo.class);
 		List<TransactionInfo> results = (List<TransactionInfo>) q.execute();
 		ArrayList<TransactionInfo> lst = new ArrayList<TransactionInfo>();
@@ -52,6 +54,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 			TransactionInfo t = pm.detachCopy(transaction);
 			lst.add(t);
 		}
+		pm.close();
 		return lst;
 	}
 
@@ -59,45 +62,28 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getAllUploadTransactions()
 	 */
 	public List<TextSetUploadData> getAllUploadTransactions() {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		pm.getFetchPlan().setGroup(FetchGroup.ALL);
 		javax.jdo.Query q = pm.newQuery(TextSetUploadData.class);
 		List<TextSetUploadData> results = (List<TextSetUploadData>) q.execute();
 		ArrayList<TextSetUploadData> lst = new ArrayList<TextSetUploadData>();
-		System.out.println("getAllUploadTransactions(): " + results.size());
-		for(TextSetUploadData transaction: results) {
-			if(transaction.getDescription() == null) {
-				System.out.println("transaction Description is null");
+		for(TextSetUploadData data : results) {
+			if(data != null) {
+				pm.retrieve(data);
+				TextSetUploadData datacopy = pm.detachCopy(data);
+				lst.add(datacopy);
 			} else {
-				System.out.println("transaction Description is not null\n" + transaction.getDescription().toString());
+				System.out.println("getAllUploadTransactions() an element is null");
 			}
-			TextSetUploadData t = pm.detachCopy(transaction);
-			if(t.getDescription() == null) {
-				System.out.println("Description is null");
-			} else {
-				System.out.println("Description is not null");
-			}
-			ArrayList<InputTextSource> datalst = transaction.getInputTextSources();
-			if(datalst == null) {
-				System.out.println("InputTextSource is null");
-				lst.add(t);
-			} else {
-				System.out.println("InputTextSource size is " + datalst.size());
-				TextSetUploadData trans = new TextSetUploadData(t.getDescription());
-				trans.setKey(t.getKey());
-				for(InputTextSource source : datalst) {
-					InputTextSource s = pm.detachCopy(source);
-					trans.addInputTextSource(s);
-				}
-				System.out.println("getAllUploadTransactions(): adding TextSetUploadData to list");
-				lst.add(trans);
-			}
-			
 		}
-		System.out.println("getAllUploadTransactions(): Done");
+		pm.close();
 		return lst;
 	}
 	
 	public String storeSetOfTransactionKeys(SetOfTransactionKeys keyset) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 		pm.makePersistent(keyset);
+		pm.close();
 		return keyset.getKey();
 	}
 	
@@ -116,7 +102,9 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public String removeTransactionOfObject(String key) throws Exception {
 		DeleteTransactionInfoAndObject delete = new DeleteTransactionInfoAndObject();
-		return delete.deleteFromObjectKey(key);
+		String ans = delete.deleteFromObjectKey(key);
+		pm.close();
+		return ans;
 	}
 
 	/* (non-Javadoc)
@@ -147,16 +135,20 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public String removeTransactionWithTypeAndKeyword(String objecttype, String keyword) throws Exception {
 		DeleteTransactionInfoAndObject delete = new DeleteTransactionInfoAndObject();
-		return delete.deleteFromTypeAndKeyword(objecttype,keyword);
+		String ans = delete.deleteFromTypeAndKeyword(objecttype,keyword);
+		return ans;
 	}
 
 	@Override
 	public String deleteTransactionInfoFromKey(String transactionkey) throws IOException {
 		DeleteTransactionInfoAndObject delete = new DeleteTransactionInfoAndObject();
-		return delete.deleteTransactionInfoFromKey(transactionkey);
+		String ans = delete.deleteTransactionInfoFromKey(transactionkey);
+		pm.close();
+		return ans;
 		
 	}
 	public String removeFromRDFsFromDate(Date date) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Filter subjectfilter =
 				  new FilterPredicate("creationDate",FilterOperator.GREATER_THAN_OR_EQUAL,date);
@@ -180,6 +172,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		} else {
 			delete = delete + ": no records found";
 		}
+		pm.close();
 		return delete;
 	}
 }

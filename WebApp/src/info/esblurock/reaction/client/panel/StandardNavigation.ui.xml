@@ -14,7 +14,7 @@
 	}
 	</ui:style>
 	<m:MaterialNavBar wave="light" align="right" color="blue"
-		text="Starter" sideBar="fixed" sideBarWidth="300">
+		text="ChemConnect" sideBar="fixed" sideBarWidth="300">
 		<m:nav>
 		<m:MaterialLink icon="mdi-action-list" textColor="white"
 				tooltip="Other Windows" />

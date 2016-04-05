@@ -22,7 +22,7 @@ public class GenerateReactionKeywords {
 		String reacS = getMoleculeListString(reactants);
 		String prodS = getMoleculeListString(products);
 		String rxnS = reacS + "=" + prodS;
-		return rxnS;
+		return rxnS.toLowerCase();
 	}
 	
 	public String getReactionFullName(String rxnEquation) {
@@ -50,7 +50,7 @@ public class GenerateReactionKeywords {
 			simpleProductNames.add(parseOutSimpleMoleculeName(name));
 		}
 		String rxn = getReactionName(simpleReactantNames,simpleProductNames);
-		return rxn;
+		return rxn.toLowerCase();
 	}
 	
 	public String getReactionFullName(ChemkinReactionData reaction) {

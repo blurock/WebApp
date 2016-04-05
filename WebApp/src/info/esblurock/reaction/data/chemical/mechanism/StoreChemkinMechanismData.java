@@ -54,6 +54,7 @@ public class StoreChemkinMechanismData  extends StoreObject  {
 	 * This stores information about the dependent classes
 	 */
 	public void finish() {
+		flushStore();
 		ChemicalMechanismData data = (ChemicalMechanismData) object;
 		GenerateMoleculeKeywords genMoleculeName = new GenerateMoleculeKeywords(keyword);
 		for(MechanismMoleculeData molecule : data.getMoleculeList().getMolecules()) {
@@ -62,7 +63,6 @@ public class StoreChemkinMechanismData  extends StoreObject  {
 		}
 		GenerateReactionKeywords generatekeyword = new GenerateReactionKeywords(keyword);
 		for(ChemkinReactionData reaction: data.getReactionList().getReactionSet()) {
-			//storeObjectRDF(reaction);
 			String name = generatekeyword.getReactionFullName(reaction);
 			storeStringRDF(mechanismReaction, name);
 			storeObjectRDF(name, reaction);

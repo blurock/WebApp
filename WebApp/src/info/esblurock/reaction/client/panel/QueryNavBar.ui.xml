@@ -15,7 +15,7 @@
 	<m:MaterialNavBar ui:field="navbar" wave="light"
 		align="right" color="blue" text="Query" sideBar="fixed" sideBarWidth="300">
 		<m:nav>
-			<g:TextBox title="Search" text="Blurock" ui:field="search" />
+			<g:TextBox title="Search" text="Mechanism" ui:field="search" />
 		</m:nav>
 		<m:nav>
 			<m:MaterialButton ui:field="submittopquery" text="Submit"

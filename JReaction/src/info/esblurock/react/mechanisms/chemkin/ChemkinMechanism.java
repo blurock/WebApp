@@ -56,7 +56,7 @@ public class ChemkinMechanism {
 					reactionList = new ChemkinReactionList();
 					next = nextNonBlank(lines);
 					reactionList.parseReactions(lines, speciesList);
-					System.out.println(reactionList.toString());
+					System.out.println("Processed: " + reactionList.size() + "reactions");
 				} else {
 					throw new IOException("Expected: " + reactionsLabel + " got '" + next + "'");
 				}

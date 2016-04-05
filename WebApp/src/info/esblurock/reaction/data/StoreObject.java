@@ -146,6 +146,7 @@ public class StoreObject {
 		pm.makePersistent(transaction);
 		pm.detachCopy(transaction);
 		Key = transaction.getKey();
+		pm.close();
 	}
 
 	public void isA(String objectS) {

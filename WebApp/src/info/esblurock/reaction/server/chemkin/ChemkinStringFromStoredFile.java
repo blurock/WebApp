@@ -1,33 +1,25 @@
 package info.esblurock.reaction.server.chemkin;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.jdo.PersistenceManager;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortPredicate;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
-import com.google.appengine.api.datastore.Key;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinString;
-import info.esblurock.reaction.data.upload.FileUploadLines;
 import info.esblurock.reaction.data.upload.UploadFilePartTransaction;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 import info.esblurock.reaction.server.datastore.PMF;
-import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 
 public class ChemkinStringFromStoredFile extends ChemkinString {
 	private static final long serialVersionUID = 1L;

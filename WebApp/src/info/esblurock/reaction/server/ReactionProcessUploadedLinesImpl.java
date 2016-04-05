@@ -12,6 +12,7 @@ import info.esblurock.reaction.data.chemical.mechanism.CreateChemicalMechanismDa
 import info.esblurock.reaction.data.chemical.mechanism.StoreChemkinMechanismData;
 import info.esblurock.reaction.data.chemical.reaction.CreateChemkinReactionData;
 import info.esblurock.reaction.data.chemical.thermo.ProcessNASAPolynomialUpload;
+import info.esblurock.reaction.data.chemical.thermo.SetOfNASAPolynomialData;
 import info.esblurock.reaction.data.contact.entities.OrganizationDescriptionData;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
@@ -42,27 +43,41 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 	@Override
 	public String processUploadedMechanism(DescriptionDataData description, 
 			String key, String filename, boolean process) throws IOException {
-		
-		System.out.println("processUploadedMechanism: " + key);
+		String keyword = CreateChemicalMechanismData.createMechanismName(description.getSourcekey(),description.getKeyword());
+		System.out.println("processUploadedMechanism: " + keyword);
 		System.out.println("processUploadedMechanism: " + filename);
+		HandleTransactions.transactionExists(keyword, ChemicalMechanismData.class.getName());
+		System.out.println("Processing: parse");
 		ChemkinStringFromStoredFile chemkinstring = new ChemkinStringFromStoredFile(key,filename,commentString);
 		ChemkinMechanism mechanism = new ChemkinMechanism();
 		mechanism.parse(chemkinstring, commentString);
 		String ans = mechanism.toString();
 		if(process) {
-			String keyword = CreateChemicalMechanismData.createMechanismName(description.getSourcekey(),description.getKeyword());
+			System.out.println("Processing: add to database");
 			TransactionInfo transaction = new TransactionInfo(description.getInputkey(),keyword,ChemicalMechanismData.class.getName());
 			CreateChemicalMechanismData create = new CreateChemicalMechanismData(keyword);
 			System.out.println("Mechanism Keyword: " + keyword);
-			create.create(keyword, mechanism, transaction);
-			create.finish();
+			try {
+				create.create(keyword, mechanism, transaction);
+				create.finish();
+			} catch(Exception ex) {
+				HandleTransactions.exception(key, ex, transaction);
+			}
+			
 		}
 		return ans;
 	}
 	public String processUploadedSetOfNASAPolynomial(DescriptionDataData description, 
 			String key, String filename, boolean process) throws IOException {
+		String keyword = CreateChemicalMechanismData.createMechanismName(description.getSourcekey(),description.getKeyword());
+		HandleTransactions.transactionExists(keyword, SetOfNASAPolynomialData.class.getName());
 		ProcessNASAPolynomialUpload processNASA = new ProcessNASAPolynomialUpload();
-		String ans = processNASA.processUploadedNASAPolynomials(description, key, filename, process);
+		String ans = "";
+		try {
+			ans = processNASA.processUploadedNASAPolynomials(description, key, filename, process);
+		} catch(Exception ex) {
+			HandleTransactions.exception(key, ex, processNASA.getTransactionInfo());
+		}
 		return ans;
 	}
 	

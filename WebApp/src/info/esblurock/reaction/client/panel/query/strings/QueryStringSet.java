@@ -95,7 +95,7 @@ public class QueryStringSet extends Composite implements HasText {
 		Set<String> stringkeys = stringset.keySet();
 		Window.alert(stringkeys.toString());
 		for (String key : stringkeys) {
-			ArrayList<String> keyset = stringset.get(key);
+			ArrayList<String> keyset = getUniqueKeys(stringset.get(key));
 			if (keyset.size() <= 5) {
 				displayObjects(key, keyset,parent);
 			} else {

@@ -1,36 +1,24 @@
 package info.esblurock.reaction.server.upload;
 
-import info.esblurock.reaction.client.panel.transaction.SourceTransaction;
 import info.esblurock.reaction.server.datastore.PMF;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 
-import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.FileUploadLines;
 import info.esblurock.reaction.data.upload.UploadFileCount;
 import info.esblurock.reaction.data.upload.UploadFilePartTransaction;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
-import info.esblurock.reaction.data.user.UserAccount;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 public class InputStreamToLineDatabase {	
 	private int counter;
