@@ -21,7 +21,6 @@ public class Isomer {
 			}
 			count++;
 		}
-		System.out.println(counts.toString());
 	}
 	public Isomer(AtomCounts counts) {
 		this.counts = counts;

@@ -54,9 +54,12 @@ public class SetOfInputs extends Composite {
 
 	private DataDescription description;
 	private HashSet<DataInput> inputs = new HashSet<DataInput>();
+	
+	String dataType;
 
-	public SetOfInputs(InputSet set) {
+	public SetOfInputs(InputSet set, String dataType) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.dataType = dataType;
 		submitdata.setText(descriptionConstants.submit());
 		description = set.getDescription();
 		collapsible.addItem(description);
@@ -115,7 +118,9 @@ public class SetOfInputs extends Composite {
 					description.getKeyWord(),
 					description.getOneLineDescription(),
 					description.getDescription(), 
-					description.getSourceDate(), description.getSource(), description.getInputKey());
+					description.getSourceDate(), description.getSource(), 
+					description.getInputKey(),
+					dataType);
 
 			TextSetUploadData	data = new TextSetUploadData(descrdata);
 			for (DataInput input : inputs) {

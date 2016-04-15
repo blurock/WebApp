@@ -94,7 +94,7 @@ public class TransactionActions extends Composite implements HasText {
 		user.setText(source.getUser());
 		filename.setText(source.getFilename());
 		entrydate.setText(source.getCreationDate().toString());
-		numberlines.setText(Integer.toString(source.getSetOfLinesKeys().size()));
+		numberlines.setText(Integer.toString(source.getLineCount()));
 		
 		btnprocess.setText(interfaceConstants.process());
 		btnprocess.setTooltip(interfaceConstants.processtooltip());

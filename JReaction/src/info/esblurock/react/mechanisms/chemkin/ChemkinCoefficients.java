@@ -61,77 +61,62 @@ public class ChemkinCoefficients {
 	}
 
 	public boolean parseReverse(String trimmed) throws IOException {
-		System.out.println("parseReverse");
 		reverse = false;
 		if (trimmed.toUpperCase().startsWith(reverseCoeffsS)) {
 			reverse = true;
 			int pos1 = trimmed.indexOf("/");
 			int pos2 = trimmed.indexOf("/", pos1 + 1);
-			System.out.println(trimmed.substring(pos1 + 1, pos2));
 			parseCoeffs(trimmed.substring(pos1 + 1, pos2));
 		}
-		System.out.println("parseReverse: " + reverse);
 		return reverse;
 	}
 
 	public boolean parseLow(String trimmed) throws IOException {
-		System.out.println("parseLow");
 		low = false;
 		if (trimmed.toUpperCase().startsWith(lowCoeffsS)) {
 			low = true;
 			int pos1 = trimmed.indexOf("/");
 			int pos2 = trimmed.indexOf("/", pos1 + 1);
-			System.out.println(trimmed.substring(pos1 + 1, pos2));
 			parseCoeffs(trimmed.substring(pos1 + 1, pos2));
 		}
-		System.out.println("parseLow: " + low);
 		return low;
 	}
 
 	public boolean parseHigh(String trimmed) throws IOException {
-		System.out.println("parseHigh");
 		high = false;
 		if (trimmed.toUpperCase().startsWith(highCoeffsS)) {
 			high = true;
 			int pos1 = trimmed.indexOf("/");
 			int pos2 = trimmed.indexOf("/", pos1 + 1);
-			System.out.println(trimmed.substring(pos1 + 1, pos2));
 			parseCoeffs(trimmed.substring(pos1 + 1, pos2));
 		}
-		System.out.println("parseHigh: " + high);
 		return high;
 	}
 
 	public boolean parsePlog(String trimmed) throws IOException {
-		System.out.println("parsePLOG");
 		plog = false;
 		if (trimmed.toUpperCase().startsWith(plogCoeffsS)) {
 			plog = true;
 			coeffs = parseConstants(trimmed, plogCoeffsS);
 		}
-		System.out.println("parsePLOG: " + plog);
 		return plog;
 	}
 
 	public boolean parseSRI(String trimmed) throws IOException {
-		System.out.println("parseSRI");
 		sri = false;
 		if (trimmed.toUpperCase().startsWith(sriCoeffsS)) {
 			sri = true;
 			coeffs = parseConstants(trimmed, sriCoeffsS);
 		}
-		System.out.println("parseSRI: " + sri);
 		return sri;
 	}
 
 	public boolean parseTroe(String trimmed) throws IOException {
-		System.out.println("parseTroe");
 		troe = false;
 		if (trimmed.toUpperCase().startsWith(troeCoeffsS)) {
 			troe = true;
 			coeffs = parseConstants(trimmed, troeCoeffsS);
 		}
-		System.out.println("parseTroe: " + troe);
 		return troe;
 	}
 

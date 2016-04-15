@@ -25,6 +25,14 @@ public class GenerateReactionKeywords {
 		return rxnS.toLowerCase();
 	}
 	
+	public String parseOutReactionMechanismName(String rxnname) {
+		String ans = rxnname;
+		int pos = rxnname.indexOf(delimitor);
+		if(pos > 0) {
+			ans = rxnname.substring(0, pos);
+		}
+		return ans;
+	}
 	public String getReactionFullName(String rxnEquation) {
 		String key = keywordBase + delimitor + rxnEquation;
 		return key;

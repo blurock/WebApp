@@ -68,6 +68,20 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		return oset;
 		
 	}
+	public RDFBySubjectSet sameObjectSearch(String search) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter objectfilter =
+				  new FilterPredicate("object",FilterOperator.EQUAL,search);
+		Query q = new Query("KeywordRDF").setFilter(objectfilter);
+		PreparedQuery pq = datastore.prepare(q);
+		CreateSetOfKeywordQueryAnswers create = new CreateSetOfKeywordQueryAnswers(pq,false);
+		pm.close();
+		return create.getAnswers();
+	}
+
+	
+	
 	public RDFBySubjectSet mergeSearch(HashSet<String> keyset)  throws IOException {
 		RDFBySubjectSet set = new RDFBySubjectSet();
 		for(String key : keyset) {

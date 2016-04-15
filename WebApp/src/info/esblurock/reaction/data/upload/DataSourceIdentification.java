@@ -11,7 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
 import info.esblurock.reaction.client.data.DatabaseObject;
 
 @PersistenceCapable
-public class UploadFileCount {
+public class DataSourceIdentification {
 
 	@PrimaryKey
     @Persistent
@@ -20,10 +20,10 @@ public class UploadFileCount {
     @Persistent
     Integer count;
 	
-    public UploadFileCount() {
+    public DataSourceIdentification() {
     	
     }
-    public UploadFileCount(String user) {
+    public DataSourceIdentification(String user) {
     	this.user = user;
     	this.count = new Integer(0);
     }

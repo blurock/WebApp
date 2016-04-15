@@ -23,7 +23,19 @@ public class CreateThirdBodyMoleculesData extends CreateData {
 		this.reactionKeyword = reactionKeyword;
 		this.moleculeNamesTable = moleculeNamesTable;
 	}
-	
+	public ThirdBodyMoleculesData create(ThirdBodyMolecules thirdbodies) {
+		ArrayList<ThirdBodyWeightsData> thirdBodyMoleculeKeys = new ArrayList<ThirdBodyWeightsData>();
+		
+		Set<String> keys = thirdbodies.keySet();
+		for(String key : keys) {
+			ThirdBodyWeight thirdbody = thirdbodies.get(key);
+			double weight = thirdbody.getWeight();
+			ThirdBodyWeightsData third = new ThirdBodyWeightsData(thirdbody.getMolecule().getLabel(), weight);
+			thirdBodyMoleculeKeys.add(third);
+		}
+		ThirdBodyMoleculesData thirds = new ThirdBodyMoleculesData(thirdBodyMoleculeKeys);
+		return thirds;
+	}
 	/**
 	 * Gets the third body molecule data  {@link ThirdBodyMolecules}
 	 * 
@@ -41,20 +53,13 @@ public class CreateThirdBodyMoleculesData extends CreateData {
 	 * @param transaction the transaction
 	 * @return the third body molecule data
 	 */
-	public ThirdBodyMoleculesData create(ThirdBodyMolecules thirdbodies, 
-			TransactionInfo transaction) {
-		ArrayList<ThirdBodyWeightsData> thirdBodyMoleculeKeys = new ArrayList<ThirdBodyWeightsData>();
-		
-		Set<String> keys = thirdbodies.keySet();
-		for(String key : keys) {
-			ThirdBodyWeight thirdbody = thirdbodies.get(key);
-			ThirdBodyWeightsData third = storeThirdBodyWeightsData(thirdbody,transaction);
-			thirdBodyMoleculeKeys.add(third);
+	public void create(ThirdBodyMoleculesData thirdbodies, TransactionInfo transaction) {
+		for(ThirdBodyWeightsData third : thirdbodies.getThirdBodyMoleculeKeys()) {
+			StoreThirdBodyWeightsData store = new StoreThirdBodyWeightsData(reactionKeyword, third, transaction);
+			addStore(store);
 		}
-		ThirdBodyMoleculesData thirds = new ThirdBodyMoleculesData(thirdBodyMoleculeKeys);
-		StoreThirdBodyMoleculesData store = new StoreThirdBodyMoleculesData(reactionKeyword, thirds, transaction);
-		addStore(store);
-		return thirds;
+		StoreThirdBodyMoleculesData storeset = new StoreThirdBodyMoleculesData(reactionKeyword, thirdbodies, transaction);
+		addStore(storeset);
 	}
 	
 	/**

@@ -62,6 +62,100 @@ public class CreateChemkinReactionData extends CreateData {
 		this.storeObject = storeObject;
 	}
 
+	public String getKeyword(ChemkinReaction reaction) {
+		ArrayList<String> reactantNames = createMoleculeArrayList(reaction.getReactants());
+		ArrayList<String> productNames = createMoleculeArrayList(reaction.getProducts());
+		String reactionEquation = keywordGenerator.getReactionName(reactantNames, productNames);
+		String keyword = keywordGenerator.getReactionFullName(reactionEquation);
+		return keyword;
+	}
+	
+	public ChemkinReactionData create(ChemkinReaction reaction) {
+		String keyword = getKeyword(reaction);
+		createCoeffData = new CreateChemkinCoefficientsData(keyword);
+		createThirdBody = new CreateThirdBodyMoleculesData(keyword, moleculeNamesTable);
+
+		ArrayList<String> reactantNames = createMoleculeArrayList(reaction.getReactants());
+		ArrayList<String> productNames = createMoleculeArrayList(reaction.getProducts());
+
+		GenerateMoleculeKeywords molKeywords = new GenerateMoleculeKeywords(keyword);
+		ArrayList<String> reactantReactionNames = new ArrayList<String>();
+		for(String name : reactantNames) {
+			String rxnmolname = moleculeNamesTable.get(name);
+			reactantReactionNames.add(rxnmolname);			
+		}
+		ArrayList<String> productReactionNames = new ArrayList<String>();
+		for(String name : productNames) {
+			String rxnmolname = moleculeNamesTable.get(name);
+			productReactionNames.add(rxnmolname);
+		}
+		ChemkinCoefficientsData forwardCoefficients = null;
+		if (reaction.getForwardCoefficients() != null) {
+			String forwardS = keyword + ":" + StoreChemkinCoefficientsData.forward;
+			createCoeffData.setReactionKeyword(forwardS);
+			forwardCoefficients = createCoeffData.create(reaction.getForwardCoefficients());
+		}
+
+		ChemkinCoefficientsData reverseCoefficients = null;
+		if (reaction.getReverseCoefficients() != null) {
+			String reverseS = keyword + ":" + StoreChemkinCoefficientsData.reverse;
+			createCoeffData.setReactionKeyword(reverseS);
+			reverseCoefficients = createCoeffData.create(reaction.getReverseCoefficients());
+		}
+
+		ChemkinCoefficientsData lowCoefficients = null;
+		if (reaction.getLowCoefficients() != null) {
+			String lowS = keyword + ":" + StoreChemkinCoefficientsData.low;
+			createCoeffData.setReactionKeyword(lowS);
+			lowCoefficients = createCoeffData.create(reaction.getLowCoefficients());
+		}
+
+		ChemkinCoefficientsData highCoefficients = null;
+		if (reaction.getHighCoefficients() != null) {
+			String highS = keyword + ":" + StoreChemkinCoefficientsData.high;
+			createCoeffData.setReactionKeyword(highS);
+			highCoefficients = createCoeffData.create(reaction.getHighCoefficients());
+		}
+
+		ChemkinCoefficientsData troeCoefficients = null;
+		if (reaction.getTroeCoefficients() != null) {
+			String troeS = keyword + ":" + StoreChemkinCoefficientsData.troe;
+			createCoeffData.setReactionKeyword(troeS);
+			troeCoefficients = createCoeffData.create(reaction.getTroeCoefficients());
+		}
+
+		ChemkinCoefficientsData sriCoefficients = null;
+		if (reaction.getSriCoefficients() != null) {
+			String sriS = keyword + ":" + StoreChemkinCoefficientsData.sri;
+			createCoeffData.setReactionKeyword(sriS);
+			sriCoefficients = createCoeffData.create(reaction.getSriCoefficients());
+		}
+
+		ArrayList<ChemkinCoefficientsData> plogCoefficients = null;
+		if (reaction.getPlogCoefficients() != null) {
+			plogCoefficients = new ArrayList<ChemkinCoefficientsData>();
+			String plogS = keyword + ":" + StoreChemkinCoefficientsData.plog;
+			for(ChemkinCoefficients plog : reaction.getPlogCoefficients()) {
+				createCoeffData.setReactionKeyword(plogS);
+				ChemkinCoefficientsData plogC = createCoeffData.create(plog);
+				plogCoefficients.add(plogC);
+			}
+		}
+
+		ThirdBodyMoleculesData thirdBodyMolecules = null;
+		if (reaction.getThirdBodyMolecules() != null) {
+			thirdBodyMolecules = createThirdBody.create(reaction.getThirdBodyMolecules());
+		}
+
+		ChemkinReactionData data = new ChemkinReactionData(reactantReactionNames, productReactionNames, 
+				forwardCoefficients,reverseCoefficients, 
+				lowCoefficients, highCoefficients, 
+				troeCoefficients, sriCoefficients, 
+				plogCoefficients,
+				thirdBodyMolecules);
+		
+		return data;
+	}
 	/**
 	 * Creates the {@link ChemkinReactionData} structure
 	 * 
@@ -73,93 +167,41 @@ public class CreateChemkinReactionData extends CreateData {
 	 *            the transaction
 	 * @return the chemkin reaction data
 	 */
-	public ChemkinReactionData create(ChemkinReaction reaction, TransactionInfo transaction) {
-		ArrayList<String> reactantNames = createMoleculeArrayList(reaction.getReactants());
-		ArrayList<String> productNames = createMoleculeArrayList(reaction.getProducts());
-
-		String reactionEquation = keywordGenerator.getReactionName(reactantNames, productNames);
-		String keyword = keywordGenerator.getReactionFullName(reactionEquation);
+	public ChemkinReactionData create(String keyword, ChemkinReactionData data, TransactionInfo transaction) {
 		
-		createCoeffData = new CreateChemkinCoefficientsData(keyword);
-		createThirdBody = new CreateThirdBodyMoleculesData(keyword, moleculeNamesTable);
-
-		GenerateMoleculeKeywords molKeywords = new GenerateMoleculeKeywords(keyword);
-		ArrayList<String> reactantReactionNames = new ArrayList<String>();
-		for(String name : reactantNames) {
-			String rxnmolname = moleculeNamesTable.get(name);
-			reactantReactionNames.add(rxnmolname);
-		}
-		ArrayList<String> productReactionNames = new ArrayList<String>();
-		for(String name : productNames) {
-			String rxnmolname = moleculeNamesTable.get(name);
-			productReactionNames.add(rxnmolname);
-		}
-		
-		ChemkinCoefficientsData forwardCoefficients = null;
-		if (reaction.getForwardCoefficients() != null) {
-			String forwardS = keyword + ":" + StoreChemkinCoefficientsData.forward;
-			createCoeffData.setReactionKeyword(forwardS);
-			forwardCoefficients = createCoeffData.create(reaction.getForwardCoefficients(), transaction);
+		if (data.getForwardCoefficients() != null) {
+			createCoeffData.create(data.getForwardCoefficients(), transaction);
 		}
 
-		ChemkinCoefficientsData reverseCoefficients = null;
-		if (reaction.getReverseCoefficients() != null) {
-			String reverseS = keyword + ":" + StoreChemkinCoefficientsData.reverse;
-			createCoeffData.setReactionKeyword(reverseS);
-			reverseCoefficients = createCoeffData.create(reaction.getReverseCoefficients(), transaction);
+		if (data.getReverseCoefficients() != null) {
+			createCoeffData.create(data.getReverseCoefficients(), transaction);
 		}
 
-		ChemkinCoefficientsData lowCoefficients = null;
-		if (reaction.getLowCoefficients() != null) {
-			String lowS = keyword + ":" + StoreChemkinCoefficientsData.low;
-			createCoeffData.setReactionKeyword(lowS);
-			lowCoefficients = createCoeffData.create(reaction.getLowCoefficients(), transaction);
+		if (data.getLowCoefficients() != null) {
+			createCoeffData.create(data.getLowCoefficients(), transaction);
 		}
 
-		ChemkinCoefficientsData highCoefficients = null;
-		if (reaction.getHighCoefficients() != null) {
-			String highS = keyword + ":" + StoreChemkinCoefficientsData.high;
-			createCoeffData.setReactionKeyword(highS);
-			highCoefficients = createCoeffData.create(reaction.getHighCoefficients(), transaction);
+		if (data.getHighCoefficients() != null) {
+			createCoeffData.create(data.getHighCoefficients(), transaction);
 		}
 
-		ChemkinCoefficientsData troeCoefficients = null;
-		if (reaction.getTroeCoefficients() != null) {
-			String troeS = keyword + ":" + StoreChemkinCoefficientsData.troe;
-			createCoeffData.setReactionKeyword(troeS);
-			troeCoefficients = createCoeffData.create(reaction.getTroeCoefficients(), transaction);
+		if (data.getTroeCoefficients() != null) {
+			createCoeffData.create(data.getTroeCoefficients(), transaction);
 		}
 
-		ChemkinCoefficientsData sriCoefficients = null;
-		if (reaction.getSriCoefficients() != null) {
-			String sriS = keyword + ":" + StoreChemkinCoefficientsData.sri;
-			createCoeffData.setReactionKeyword(sriS);
-			sriCoefficients = createCoeffData.create(reaction.getSriCoefficients(), transaction);
+		if (data.getSriCoefficients() != null) {
+			createCoeffData.create(data.getSriCoefficients(), transaction);
 		}
 
-		ArrayList<ChemkinCoefficientsData> plogCoefficients = null;
-		if (reaction.getPlogCoefficients() != null) {
-			plogCoefficients = new ArrayList<ChemkinCoefficientsData>();
-			String plogS = keyword + ":" + StoreChemkinCoefficientsData.plog;
-			for(ChemkinCoefficients plog : reaction.getPlogCoefficients()) {
-				createCoeffData.setReactionKeyword(plogS);
-				ChemkinCoefficientsData plogC = createCoeffData.create(plog, transaction);
-				plogCoefficients.add(plogC);
+		if (data.getPlogCoefficients() != null) {
+			for(ChemkinCoefficientsData plogC : data.getPlogCoefficients()) {
+				createCoeffData.create(plogC, transaction);
 			}
 		}
 
-		ThirdBodyMoleculesData thirdBodyMolecules = null;
-		if (reaction.getThirdBodyMolecules() != null) {
-			thirdBodyMolecules = createThirdBody.create(reaction.getThirdBodyMolecules(), transaction);
+		if (data.getThirdBodyMolecules() != null) {
+			createThirdBody.create(data.getThirdBodyMolecules(), transaction);
 		}
-
-		ChemkinReactionData data = new ChemkinReactionData(reactantReactionNames, productReactionNames, 
-				forwardCoefficients,reverseCoefficients, 
-				lowCoefficients, highCoefficients, 
-				troeCoefficients, sriCoefficients, 
-				plogCoefficients,
-				thirdBodyMolecules);
-
 		this.merge(createCoeffData);
 		this.merge(createThirdBody);
 		StoreChemkinReactionData store = new StoreChemkinReactionData(keyword, data, transaction, storeObject);

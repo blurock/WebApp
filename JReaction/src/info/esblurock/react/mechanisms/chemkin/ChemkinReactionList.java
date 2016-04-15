@@ -14,7 +14,6 @@ public class ChemkinReactionList  extends ArrayList<ChemkinReaction> {
 	public boolean parseReactions(ChemkinString lines,
 			ChemkinMoleculeList molecules)
 			throws IOException {
-		System.out.println("Current at parse begin: " + lines.getCurrent());
 		boolean done = false;
 		String next = null;
 		while (!done) {
@@ -23,17 +22,13 @@ public class ChemkinReactionList  extends ArrayList<ChemkinReaction> {
 			else {
 				next = currentNonBlank(lines);
 			}
-			System.out.println("Current: " + next);
 			while(next.startsWith(commentString)) {
 				next = nextNonBlank(lines);
 				if(next == null)
 					throw new IOException("End of reactions encountered unexpectedly");
 			}
-			System.out.println("Next Reaction------------------------------");
-			System.out.println(next);
 						
 			if (next.trim().toUpperCase().startsWith("END")) {
-				System.out.println("END of Reactions");
 				done = true;
 			} else {
 				ChemkinReaction rxn = new ChemkinReaction(lines, molecules);

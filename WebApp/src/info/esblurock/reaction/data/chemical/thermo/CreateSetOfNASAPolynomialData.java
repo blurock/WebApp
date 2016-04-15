@@ -1,35 +1,42 @@
 package info.esblurock.reaction.data.chemical.thermo;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import info.esblurock.reaction.data.CreateData;
 import info.esblurock.reaction.data.chemical.molecule.CreateMechanismMoleculeData;
 import info.esblurock.reaction.data.chemical.molecule.isomer.CreateIsomerData;
 import info.esblurock.reaction.data.chemical.molecule.isomer.IsomerData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
+import info.esblurock.reaction.server.TextToDatabaseImpl;
 import thermo.data.benson.NASAPolynomial;
 import thermo.data.benson.SetOfThermodynamicInformation;
 import thermo.data.benson.ThermodynamicInformation;
 
 public class CreateSetOfNASAPolynomialData extends CreateData {
-	
+
+	private static Logger log = Logger.getLogger(TextToDatabaseImpl.class.getName());
+
 	String setBaseName;
 
 	CreateSetOfNASAPolynomialData() {
-		this.setBaseName = setBaseName;
 	}
 	
-	public SetOfNASAPolynomialData create(String setBaseName, SetOfThermodynamicInformation set,  TransactionInfo transaction) {
+	public SetOfNASAPolynomialData create(SetOfThermodynamicInformation set) {
 		SetOfNASAPolynomialData thermoset = new SetOfNASAPolynomialData();
 		for(ThermodynamicInformation thermo : set) {
 			NASAPolynomial nasa = (NASAPolynomial) thermo;
 			NASAPolynomialData nasadata = create(nasa);
 			thermoset.addThermo(nasadata);
+		}
+		return thermoset;		
+	}
+		public void create(String setBaseName, SetOfNASAPolynomialData set,  TransactionInfo transaction) {
+		for(NASAPolynomialData nasadata : set.getNasaSet()) {
 			String molname = CreateMechanismMoleculeData.createMoleculeKey(setBaseName, nasadata.getMoleculeName());
 			StoreNASAPolynomialData store = new StoreNASAPolynomialData(molname, nasadata, transaction, false);
 			this.addStore(store);
 		}
-		return thermoset;
 	}
 	
 	/**

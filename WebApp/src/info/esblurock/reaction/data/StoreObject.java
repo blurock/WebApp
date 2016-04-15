@@ -2,15 +2,12 @@ package info.esblurock.reaction.data;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import info.esblurock.reaction.client.callback.StandardStringReturnCallback;
 import info.esblurock.reaction.client.data.DatabaseObject;
-import info.esblurock.reaction.client.panel.transaction.TransactionService;
-import info.esblurock.reaction.client.panel.transaction.TransactionServiceAsync;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
-import info.esblurock.reaction.data.transaction.SetOfTransactionKeys;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.server.datastore.PMF;
 
@@ -27,10 +24,11 @@ import info.esblurock.reaction.server.datastore.PMF;
  * 
  */
 public class StoreObject {
+	private static Logger log = Logger.getLogger(CreateData.class.getName());
 	final static String isAS = "isA";
 
 	/** The persistence manager from JDO. */
-	PersistenceManager pm = PMF.get().getPersistenceManager();
+	// PersistenceManager pm = PMF.get().getPersistenceManager();
 
 	/**
 	 * The type delimiter. Used to separate the 'type' code (Object or String)
@@ -68,8 +66,13 @@ public class StoreObject {
 	/** The store object. */
 	protected boolean storeObject;
 
-	final static public int maxStored = 500;
+	final static public int maxStored = 3000;
 	ArrayList<DatabaseObject> toBeStored;
+	int rdfCount;
+
+	public StoreObject() {
+		toBeStored = new ArrayList<DatabaseObject>();
+	}
 
 	/**
 	 * Instantiates a new store object.
@@ -116,6 +119,7 @@ public class StoreObject {
 	 *            the store object true if the object should be stored
 	 */
 	protected void start(String keyword, DatabaseObject object, TransactionInfo transaction, boolean storeObject) {
+		rdfCount = 0;
 		this.keyword = keyword;
 		this.object = object;
 		this.transaction = transaction;
@@ -139,14 +143,7 @@ public class StoreObject {
 	public void finish() {
 		storeStringRDF(enteredBy, transaction.getUser());
 		storeStringRDF(creationDate, DateAsString.dateAsString(transaction.getCreationDate()));
-		System.out.println("Store Object finish flush");
 		flushStore();
-		System.out.println("Store Object finish after flush");
-		transaction.setStoredObjectKey(object.getKey());
-		pm.makePersistent(transaction);
-		pm.detachCopy(transaction);
-		Key = transaction.getKey();
-		pm.close();
 	}
 
 	public void isA(String objectS) {
@@ -162,26 +159,24 @@ public class StoreObject {
 	public void store(DatabaseObject object) {
 		String key = object.getKey();
 		if (key == null) {
+			if (object instanceof KeywordRDF) {
+				rdfCount++;
+			}
 			toBeStored.add(object);
 			if (toBeStored.size() > maxStored) {
-				System.out.println("Max Reached: " + toBeStored.size());
 				flushStore();
 			}
 		}
 	}
 
 	public void flushStore() {
-		System.out.println("flush: " + toBeStored.size());
-		pm.makePersistentAll(toBeStored);
-		for (DatabaseObject o : toBeStored) {
-			if (o instanceof KeywordRDF) {
-				if (transaction.addRDFKey(o.getKey())) {
-					storeTransactionSet();
-				}
-			}
+		log.info("StoreObject: flushStore(): " + toBeStored.size());
+		if (toBeStored.size() > 0) {
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			pm.makePersistentAll(toBeStored);
+			pm.close();
+			toBeStored = new ArrayList<DatabaseObject>();
 		}
-
-		toBeStored = new ArrayList<DatabaseObject>();
 	}
 
 	/**
@@ -199,14 +194,9 @@ public class StoreObject {
 	 */
 	protected void storeStringRDF(String predicate, String description) {
 		String typepredicate = predicate + typeDelimiter + stringType;
-		KeywordRDF objectrdf = new KeywordRDF(keyword, typepredicate, description);
+		KeywordRDF objectrdf = new KeywordRDF(keyword, typepredicate, description, transaction.getUser(),
+				transaction.getSourceCode());
 		store(objectrdf);
-	}
-
-	void storeTransactionSet() {
-		SetOfTransactionKeys keyset = transaction.replaceKeySet();
-		pm.makePersistent(keyset);
-		transaction.addKeyToKeySet(keyset.getKey());
 	}
 
 	/**
@@ -239,7 +229,8 @@ public class StoreObject {
 		String key = object.getKey();
 		String classname = object.getClass().getName();
 		String typepredicate = classname + typeDelimiter + objectPredicate;
-		KeywordRDF objectrdf = new KeywordRDF(objectkey, typepredicate, key);
+		KeywordRDF objectrdf = new KeywordRDF(objectkey, typepredicate, key, transaction.getUser(),
+				transaction.getSourceCode());
 		store(objectrdf);
 	}
 
@@ -272,5 +263,9 @@ public class StoreObject {
 
 	public ArrayList<DatabaseObject> getToBeStored() {
 		return toBeStored;
+	}
+
+	public void setTransactionKey(String key) {
+		Key = key;
 	}
 }

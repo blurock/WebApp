@@ -2,21 +2,17 @@ package info.esblurock.reaction.server;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import javax.jdo.FetchGroup;
-import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 
 import info.esblurock.reaction.client.panel.transaction.TransactionService;
 import info.esblurock.reaction.data.delete.DeleteTransactionInfoAndObject;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
-import info.esblurock.reaction.data.transaction.SetOfTransactionKeys;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
-import info.esblurock.reaction.data.upload.InputTextSource;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 import info.esblurock.reaction.server.datastore.PMF;
 
@@ -79,14 +75,6 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		pm.close();
 		return lst;
 	}
-	
-	public String storeSetOfTransactionKeys(SetOfTransactionKeys keyset) {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		pm.makePersistent(keyset);
-		pm.close();
-		return keyset.getKey();
-	}
-	
 	/* (non-Javadoc)
 	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getTransactions(java.lang.String, java.lang.String, java.lang.String)
 	 */

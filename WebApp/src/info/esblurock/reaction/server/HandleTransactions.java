@@ -1,65 +1,47 @@
 package info.esblurock.reaction.server;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import javax.jdo.PersistenceManager;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.CompositeFilter;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 import info.esblurock.reaction.data.transaction.TransactionInfo;
-import info.esblurock.reaction.data.user.UserAccount;
 import info.esblurock.reaction.server.datastore.PMF;
+import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 
 public class HandleTransactions {
+	private static final Logger log = Logger.getLogger(HandleTransactions.class.getName());
+
 	static public void exception(String key, Exception ex, TransactionInfo transaction) throws IOException {
 		String message = "Exception: ";
 		if (transaction != null) {
 			if (transaction.getKey() == null) {
-				String newKey = "ERROR" + key;
+				String newKey = transaction.errorKeyword(transaction.getKeyword());
 				message += "Saving Unfinished Transaction: (Key='" + newKey + "') due to exception:\n " + ex.toString();
-				System.out.println(message);
-				transaction.setKeyword(newKey);
+				log.log(Level.WARNING,message);
 				PersistenceManager pm = PMF.get().getPersistenceManager();
 				pm.makePersistent(transaction);
 			} else {
 				message += ex.toString();
+				log.log(Level.WARNING,message);
 			}
 		} else {
 			message += ex.toString();
 		}
 		if (ex instanceof IOException) {
+			log.log(Level.WARNING,message + "      \n" + ex.toString());
 			IOException ioex = (IOException) ex;
 			throw ioex;
 		} else {
+			log.log(Level.WARNING,message + "      \n" + ex.toString());
 			throw new IOException(message);
 		}
 
 	}
 
 	static public void transactionExists(String key, String classname) throws IOException {
-		boolean exists = false;
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Filter keywordfilter = new FilterPredicate("keyword", FilterOperator.EQUAL, key);
-		Filter classfilter = new FilterPredicate("transactionObjectType", FilterOperator.EQUAL, classname);
-		Filter andfilter = CompositeFilterOperator.and(classfilter, keywordfilter);
-		Query q = new Query("TransactionInfo").setFilter(andfilter);
-		PreparedQuery pq = datastore.prepare(q);
-		Iterator<Entity> iter = pq.asIterable().iterator();
-		exists = iter.hasNext();
-		if (exists) {
-			throw new IOException("Transaction with key='" + key + " and class='" + classname
-					+ "' exists..\n delete before processing");
-		}
+		TransactionInfoQueries.transactionExists(key, classname);
 	}
 }

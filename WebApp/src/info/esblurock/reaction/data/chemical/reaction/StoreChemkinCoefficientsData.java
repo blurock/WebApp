@@ -46,7 +46,6 @@ public class StoreChemkinCoefficientsData extends StoreObject {
 	private String stringConstants(ChemkinCoefficientsData data) {
 		DecimalFormat formatterExp  = new DecimalFormat("0.####E00");
 		StringBuilder build = new StringBuilder();
-		System.out.println("Coefficients: " + data.getCoeffs());
 		for(String coef : data.getCoeffs()) {
 			double c = Double.parseDouble(coef);
 			String cS = formatterExp.format(c);

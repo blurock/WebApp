@@ -77,7 +77,6 @@ public class ChemkinNASAPolynomial implements ThermodynamicInformation {
         }
         try {
             while (count < formula.length()) {
-                System.out.println(count + ", " + formula);
                 int nS = nextSymbol(formula, count);
                 int nN = nextNumber(formula, nS + 1);
                 if (nS < count || nS == nN) {
@@ -164,7 +163,6 @@ public class ChemkinNASAPolynomial implements ThermodynamicInformation {
         String namefield = l1.substring(0, 23);
         StringTokenizer tok = new StringTokenizer(namefield, " ");
         name = tok.nextToken();
-        System.out.println(" Therm: " + name);
         atoms[0] = l1.substring(24, 26).trim();
         atoms[1] = l1.substring(29, 31).trim();
         atoms[2] = l1.substring(34, 36).trim();
@@ -177,13 +175,6 @@ public class ChemkinNASAPolynomial implements ThermodynamicInformation {
             atomcnt[3] = convertInt(l1.substring(41, 44));
 
             phase = l1.substring(44, 44);
-            System.out.println(l2.substring(0, 15));
-
-            System.out.println("'" + l4.substring(0, 15) + "'");
-            System.out.println("'" + l4.substring(15, 30) + "'");
-            System.out.println("'" + l4.substring(30, 45) + "'");
-            System.out.println("'" + l4.substring(45, 60) + "'");
-
             
             lowerT = parseDouble(l1.substring(45, 55));
             upperT = parseDouble(l1.substring(55, 65));

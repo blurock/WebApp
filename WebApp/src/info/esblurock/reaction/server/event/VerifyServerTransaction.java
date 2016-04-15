@@ -2,16 +2,20 @@ package info.esblurock.reaction.server.event;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
 import info.esblurock.reaction.client.ui.login.UserDTO;
+import info.esblurock.reaction.data.delete.DeleteTransactionInfoAndObject;
 import info.esblurock.reaction.server.authorization.SetOfAuthorizationLevels;
 import info.esblurock.reaction.server.datastore.PMF;
 
 public class VerifyServerTransaction {
 
 	static public PersistenceManager pm = PMF.get().getPersistenceManager();
+	private static final Logger log = Logger.getLogger(VerifyServerTransaction.class.getName());
 	private static SetOfAuthorizationLevels authorization = new SetOfAuthorizationLevels();
 
 	public static ArrayList<String> getPrivledges(String level)
@@ -24,11 +28,11 @@ public class VerifyServerTransaction {
 		System.out.println("Login verify 1:");
 		
 		if (authorization.authorize(user.getUserLevel(), tasktype)) {
-			System.out.println("Login verify 2:" + tasktype);
-			System.out.println("event=" + event);
-			System.out.println("ip=" + ip + " UserIP= " + user.getIP());
-			System.out.println("sessionid=" + sessionid + "User session=" + user.getSessionId());
-			System.out.println("tasktype=" + tasktype);
+			log.info("Login verify 2: \t" + tasktype);
+			log.info("event=" + event);
+			log.info("ip=" + ip + "   \tUserIP= " + user.getIP());
+			log.info("sessionid=" + sessionid + " \tUser session=" + user.getSessionId());
+			log.info("tasktype=" + tasktype);
 			/*
 			if (ip.equals(user.getIP())) {
 				System.out.println("Login verify 3:" + ip);
@@ -55,7 +59,7 @@ public class VerifyServerTransaction {
 			String message = "Task (" + tasktype
 					+ ") Authorization Failure for " + user.getName() + "("
 					+ user.getUserLevel() + ")";
-			System.out.println(message);
+			log.log(Level.WARNING,message);
 			throw new IOException(message);
 		}
 	}

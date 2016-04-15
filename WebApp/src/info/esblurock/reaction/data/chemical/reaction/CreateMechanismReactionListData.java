@@ -2,6 +2,7 @@ package info.esblurock.reaction.data.chemical.reaction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinReaction;
 import info.esblurock.react.mechanisms.chemkin.ChemkinReactionList;
@@ -32,6 +33,24 @@ public class CreateMechanismReactionListData extends CreateData {
 		createReaction = new CreateChemkinReactionData(keywordBase, moleculeNamesTable,false);
 	}
 	
+	public ArrayList<String> getKeywords(ChemkinReactionList reactionList) {
+		ArrayList<String> lst = new ArrayList<String>();
+		for(ChemkinReaction reaction : reactionList) {
+			String keyword = createReaction.getKeyword(reaction);
+			lst.add(keyword);
+		}
+		return lst;
+	}
+	
+	public MechanismReactionListData create(ChemkinReactionList reactionList) {
+		ArrayList<ChemkinReactionData> lst = new ArrayList<ChemkinReactionData>();
+		for(ChemkinReaction reaction : reactionList) {
+			ChemkinReactionData rxndata = createReaction.create(reaction);
+			lst.add(rxndata);
+		}		
+		MechanismReactionListData data = new MechanismReactionListData(lst);
+		return data;
+	}
 	/**
 	 * Creates the.
 	 *
@@ -39,16 +58,14 @@ public class CreateMechanismReactionListData extends CreateData {
 	 * @param transaction the transaction
 	 * @return the mechanism reaction list data
 	 */
-	public MechanismReactionListData create(ChemkinReactionList reactionList,
-			TransactionInfo transaction) {
-		ArrayList<ChemkinReactionData> lst = new ArrayList<ChemkinReactionData>();
-		for(ChemkinReaction reaction : reactionList) {
-			ChemkinReactionData rxndata = createReaction.create(reaction, transaction);
-			lst.add(rxndata);
+	public void create(ArrayList<String> keywords, MechanismReactionListData mechReactionList, TransactionInfo transaction) {
+		Iterator<String> iter = keywords.iterator();
+		System.out.println("CreateMechanismReactionListData create: " + keywords);
+		System.out.println("CreateMechanismReactionListData create: " + mechReactionList);
+		for(ChemkinReactionData rxndata : mechReactionList.getReactionSet()) {
+			createReaction.create(iter.next(),rxndata,transaction);
 		}
 		this.merge(createReaction);
-		MechanismReactionListData data = new MechanismReactionListData(lst);
-		return data;
 	}
 
 }

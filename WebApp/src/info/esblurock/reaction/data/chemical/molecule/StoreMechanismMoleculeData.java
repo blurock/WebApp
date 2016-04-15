@@ -22,5 +22,6 @@ public class StoreMechanismMoleculeData  extends StoreObject {
 		MechanismMoleculeData molecule = (MechanismMoleculeData) object;
 		storeStringRDF(mechanismMolecule,molecule.getMechanismKeyword());
 		storeStringRDF(speciesName,molecule.getMoleculeName().toLowerCase());
+		storeObjectRDF(molecule);
 	}
 }

@@ -17,6 +17,17 @@ public class CreateChemkinCoefficientsData extends CreateData {
 		this.reactionKeyword = reactionKeyword;
 	}
 
+	
+	public ChemkinCoefficientsData create(ChemkinCoefficients coeffs) {
+		ArrayList<String> coeffvalues = transferConstants(coeffs.getCoeffs());
+
+		ChemkinCoefficientsData data = new ChemkinCoefficientsData(coeffs.isForward(), coeffs.isReverse(),
+				coeffs.isLow(), coeffs.isTroe(),
+				coeffs.isHigh(), coeffs.isPlog(),coeffs.isSri(),
+				coeffs.getA(), coeffs.getN(), coeffs.getEa(), 
+				coeffvalues);
+		return data;
+	}
 	/**
 	 * Store chemkin coefficients data.
 	 *
@@ -28,17 +39,9 @@ public class CreateChemkinCoefficientsData extends CreateData {
 	 *            the transaction
 	 * @return the chemkin coefficients data
 	 */
-	public ChemkinCoefficientsData create(ChemkinCoefficients coeffs, TransactionInfo transaction) {
-		ArrayList<String> coeffvalues = transferConstants(coeffs.getCoeffs());
-
-		ChemkinCoefficientsData data = new ChemkinCoefficientsData(coeffs.isForward(), coeffs.isReverse(),
-				coeffs.isLow(), coeffs.isTroe(),
-				coeffs.isHigh(), coeffs.isPlog(),coeffs.isSri(),
-				coeffs.getA(), coeffs.getN(), coeffs.getEa(), 
-				coeffvalues);
+	public void create(ChemkinCoefficientsData data, TransactionInfo transaction) {
 		StoreChemkinCoefficientsData store = new StoreChemkinCoefficientsData(reactionKeyword, data, transaction);
 		this.addStore(store);
-		return data;
 	}
 
 	private ArrayList<String> transferConstants(String[] original) {

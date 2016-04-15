@@ -5,6 +5,7 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialModal.TYPE;
+import info.esblurock.reaction.client.FindShortNameFromString;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
@@ -92,15 +93,10 @@ public class ObjectTransaction extends Composite implements HasText {
 			public MaterialButton getValue(TransactionInfo object) {
 
 				
-				MaterialButton button = new MaterialButton(object.getKeyword(),
+				MaterialButton button = new MaterialButton(interfaceConstants.process(),
 						"blue-text text-darken-2 light-blue lighten-5",
 						"light");
-						/*
-				MaterialButton button = new MaterialButton(object.getStoredObjectKey(),
-						"indigo lighten-2",
-						"light");
-						*/
-				button.setTooltip(interfaceConstants.processtooltip());
+				button.setTooltip(object.getKeyword());
 				button.setIcon("mdi-action-list");
 				button.setIconPosition("left");
 				button.getElement().getStyle()
@@ -126,6 +122,7 @@ public class ObjectTransaction extends Composite implements HasText {
 		TextColumn<TransactionInfo> colObjectType = new TextColumn<TransactionInfo>() {
 			@Override
 			public String getValue(TransactionInfo object) {
+				String shortname= FindShortNameFromString.findShortClassName(object.getTransactionObjectType());
 
 				return object.getTransactionObjectType();
 			}
@@ -139,6 +136,24 @@ public class ObjectTransaction extends Composite implements HasText {
 							TransactionInfo o2) {
 
 						return o1.getTransactionObjectType().compareTo(o2.getTransactionObjectType());
+					}
+				});
+		// Object name
+		TextColumn<TransactionInfo> colObjectName = new TextColumn<TransactionInfo>() {
+			@Override
+			public String getValue(TransactionInfo object) {
+				return object.getKeyword();
+			}
+		};
+		colObjectType.setSortable(true);
+		sortDataHandler.setComparator(colObjectType,
+				new Comparator<TransactionInfo>() {
+
+					@Override
+					public int compare(TransactionInfo o1,
+							TransactionInfo o2) {
+
+						return o1.getKeyword().compareTo(o2.getKeyword());
 					}
 				});
 
@@ -196,38 +211,6 @@ public class ObjectTransaction extends Composite implements HasText {
 					}
 				});
 
-		// Source Date
-		TextColumn<TransactionInfo> colSourceDate = new TextColumn<TransactionInfo>() {
-			@Override
-			public String getValue(TransactionInfo object) {
-				String ans = "---";
-				if(object.getCreationDate() != null) {
-					ans = object.getCreationDate().toString();
-				}
-				return ans;
-			}
-		};
-		colSourceDate.setSortable(true);
-		sortDataHandler.setComparator(colSourceDate,
-				new Comparator<TransactionInfo>() {
-
-					@Override
-					public int compare(TransactionInfo o1,
-							TransactionInfo o2) {
-						int ans = 0;
-						if(o1.getCreationDate() == null){
-							if(o2.getCreationDate() == null) 
-								ans = 0;
-							else 
-								ans = -1;
-						} else if(o2.getCreationDate() == null) {
-							ans = 1;
-						} else {
-							ans = o1.getCreationDate().compareTo(o2.getCreationDate());
-						}
-						return ans;
-					}
-				});
 
 
 		final DataGrid<TransactionInfo> dataGrid = new DataGrid<TransactionInfo>(
@@ -237,9 +220,9 @@ public class ObjectTransaction extends Composite implements HasText {
 		
 		dataGrid.addColumn(processbutton, interfaceConstants.action());
 		dataGrid.addColumn(colObjectType, interfaceConstants.sourcekey());
+		dataGrid.addColumn(colObjectName, interfaceConstants.keyword());
 		dataGrid.addColumn(colKeyword, interfaceConstants.keyword());
 		dataGrid.addColumn(colEntryDate, interfaceConstants.entrydate());
-		dataGrid.addColumn(colSourceDate, interfaceConstants.sourcedate());
 
 		dataGrid.setStyleName("striped responsive-table");
 

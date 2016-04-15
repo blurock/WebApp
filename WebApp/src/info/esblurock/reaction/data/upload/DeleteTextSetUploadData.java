@@ -6,29 +6,24 @@ package info.esblurock.reaction.data.upload;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
+import javax.jdo.PersistenceManager;
+
+import java.util.logging.Logger;
+import org.mortbay.log.Log;
+
 
 import info.esblurock.reaction.data.delete.DeleteStructuresBase;
 import info.esblurock.reaction.data.description.DescriptionDataData;
-import info.esblurock.reaction.data.transaction.TransactionInfo;
+import info.esblurock.reaction.data.transaction.ActionsUsingIdentificationCode;
+import info.esblurock.reaction.server.datastore.PMF;
 
 /**
  * @author edwardblurock
  *
  */
 public class DeleteTextSetUploadData extends DeleteStructuresBase {
-
-	// info.esblurock.reaction.data.delete.DeleteStructuresBase#delete(java.lang.String)
-
+	private static Logger log = Logger.getLogger(DeleteTextSetUploadData.class.getName());
 	/*
-	 * (non-Javadoc)
 	 * 
 	 * @see
 	 * info.esblurock.reaction.data.delete.DeleteStructuresBase#delete(java.lang
@@ -36,7 +31,7 @@ public class DeleteTextSetUploadData extends DeleteStructuresBase {
 	 */
 	public String delete(String fullkey) throws IOException {
 		root = super.delete(fullkey);
-
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 		String ans = "";
 		try {
 			TextSetUploadData object = pm.getObjectById(TextSetUploadData.class, root);
@@ -48,20 +43,8 @@ public class DeleteTextSetUploadData extends DeleteStructuresBase {
 				for (InputTextSource source : inputTextSources) {
 					String id = source.getID();
 					UploadFileTransaction transaction = pm.getObjectById(UploadFileTransaction.class, id);
-					if (transaction != null) {
-						ArrayList<String> setOfLinesKeys = transaction.getSetOfLinesKeys();
-						for (String k : setOfLinesKeys) {
-							FileUploadLines line = pm.getObjectById(FileUploadLines.class, k);
-							if (line == null) {
-								pm.deletePersistent(line);
-							} else {
-								ans += "FileUploadLines with k='" + line + "'\n";
-							}
-						}
-						pm.deletePersistent(transaction);
-					} else {
-						ans += "ERROR: Unable to find UploadFileTransaction with id= '" + id + "'\n";
-					}
+					String out = removeUpload(id,transaction);
+					Log.info(out);
 					pm.deletePersistent(source);
 				}
 				pm.deletePersistent(object);
@@ -74,6 +57,31 @@ public class DeleteTextSetUploadData extends DeleteStructuresBase {
 			throw new IOException(ans);
 		}
 		return ans;
+	}
+	
+
+	public String removeUpload(String key,UploadFileTransaction uploadinfo) throws IOException {
+		String ans = "SUCCESS";
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			String fileCode = uploadinfo.getFileCode();
+			int start = 0;
+			int increment = 1000;
+			boolean notdone = true;
+			while (notdone) {
+				notdone = ActionsUsingIdentificationCode.deleteFileUploadLines(fileCode, start, increment);
+				start += increment;
+			}
+			pm = PMF.get().getPersistenceManager();
+			uploadinfo = pm.getObjectById(UploadFileTransaction.class, key);
+			pm.deletePersistent(uploadinfo);
+			pm.close();
+		} catch (Exception ex) {
+			log.info(ex.toString());
+			throw new IOException("Error in remove upload: \n" +  ex.toString());
+		}
+		return ans;
+		
 	}
 
 }

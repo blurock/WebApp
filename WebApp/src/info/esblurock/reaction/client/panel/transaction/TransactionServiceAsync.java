@@ -1,6 +1,5 @@
 package info.esblurock.reaction.client.panel.transaction;
 
-import info.esblurock.reaction.data.transaction.SetOfTransactionKeys;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 
@@ -32,7 +31,5 @@ public interface TransactionServiceAsync {
 	void deleteTransactionInfoFromKey(String transactionkey, AsyncCallback<String> callback);
 
 	void removeFromRDFsFromDate(Date date, AsyncCallback<String> callback);
-
-	void storeSetOfTransactionKeys(SetOfTransactionKeys keyset, AsyncCallback<String> callback);
 
 }

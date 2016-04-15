@@ -19,6 +19,7 @@ import info.esblurock.reaction.data.contact.entities.UserDescriptionData;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.server.datastore.PMF;
+import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -99,7 +100,9 @@ public class StoreDescriptionDataImpl extends RemoteServiceServlet implements
 	private DescriptionDataData getDescriptionDataData(DataDescription input) {
 		DescriptionDataData data = new DescriptionDataData(input.getKeyWord(),
 				input.getOneLineDescription(), input.getDescription(),
-				input.getSourceDate(), input.getSource(), input.getInputKey());
+				input.getSourceDate(), input.getSource(), 
+				input.getInputKey(),
+				userDescription);
 		return data;
 	}
 /*
@@ -361,7 +364,8 @@ private String storeContactInfoData(ContactInfoData contact) {
 			OrganizationDescriptionData organization) {
 		String keyword = organization.getDescription().getKeyword();
 		String user = organization.getDescription().getInputkey();
-		TransactionInfo transaction = new TransactionInfo(user, keyword, organization.getClass().getName());
+		String idCode = ManageDataSourceIdentification.getDataSourceIdentification(user);
+		TransactionInfo transaction = new TransactionInfo(user, keyword, organization.getClass().getName(),idCode);
 		StoreOrganizationDescriptionData store 
 			= new StoreOrganizationDescriptionData(keyword, organization, transaction);
 		store.finish();
@@ -423,7 +427,8 @@ private String storeContactInfoData(ContactInfoData contact) {
 			UserDescriptionData user) {
 		String keyword = user.getDescription().getKeyword();
 		String userS = user.getDescription().getInputkey();
-		TransactionInfo transaction = new TransactionInfo(userS, keyword, user.getClass().getName());
+		String idCode = ManageDataSourceIdentification.getDataSourceIdentification(userS);
+		TransactionInfo transaction = new TransactionInfo(userS, keyword, user.getClass().getName(),idCode);
 		StoreUserDescriptionData store 
 			= new StoreUserDescriptionData(keyword, user, transaction);
 		store.finish();

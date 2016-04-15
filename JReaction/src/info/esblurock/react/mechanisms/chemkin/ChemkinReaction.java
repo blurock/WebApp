@@ -88,9 +88,6 @@ public class ChemkinReaction {
 			forwardCoefficients = new ChemkinCoefficients(true);
 			forwardCoefficients.parseCoeffs(tok);
 			reversible = rtype.isReverse();
-
-			System.out
-					.println("ThirdBodyFlag: " + ThirdBodyFlag + "--------------------------------------------------");
 			if (ThirdBodyFlag) {
 				next = parseThirdBodyCoeffs();
 			} else if (nextNonBlank(lines) != null) {
@@ -99,7 +96,6 @@ public class ChemkinReaction {
 				while (notdone) {
 					ChemkinCoefficients reverse = new ChemkinCoefficients();
 					String l = currentNonBlank(lines);
-					System.out.println("process reverse: '" + l + "'");
 					if (reverse.parseReverse(l)) {
 						reverseCoefficients = reverse;
 						lines.nextNonBlank();
@@ -126,12 +122,10 @@ public class ChemkinReaction {
 	}
 
 	private void parseReactants(String react) throws IOException {
-		System.out.println("Reactants: " + react);
 		parseMolList(react, true);
 	}
 
 	private StringTokenizer parseProducts(String react) throws IOException {
-		System.out.println("Products: " + react);
 		StringTokenizer tok;
 		tok = parseMolList(react, false);
 		return tok;
@@ -152,20 +146,16 @@ public class ChemkinReaction {
 			reactantsAsString = mols;
 		else
 			productsAsString = mols;
-		// mols = mols.replaceAll("\\(\\+[mM]\\)", "(m)");
-		System.out.println("Mols: " + mols);
 		StringTokenizer tok1 = new StringTokenizer(mols, "+");
 		while (tok1.hasMoreTokens()) {
 			String molS = tok1.nextToken();
 			if (molS.endsWith("(")) {
 				molS += "+" + tok1.nextToken();
 			}
-			System.out.println("Molecule: " + molS);
 			if (isThirdBody(molS)) {
 				molS = processThirdBody(molS);
 			}
 			if (molS.equals("M") || molS.equals("m")) {
-				System.out.println("ThirdBody: M");
 				ThirdBodyFlag = true;
 			} else {
 				int dupcnt = 1;
@@ -177,15 +167,12 @@ public class ChemkinReaction {
 					String dupS = molS.substring(0, pos);
 					Integer dupI = new Integer(dupS);
 					dupcnt = dupI.intValue();
-					System.out.println("Count: " + dupcnt + "  Molecule: '" + mol.getLabel());
 				}
-				System.out.println("Molecule: '" + mol.getLabel() + "'");
 
 				if (mol.getLabel().equals(hvS)) {
 
 				} else {
 					if (!molecules.containsKey(mol.getLabel())) {
-						System.out.println("'" + mol.getLabel() + "' not there =============");
 						molS = mol.getLabel();
 						char ch[] = new char[molS.length()];
 						int cnt = 0;
@@ -206,11 +193,7 @@ public class ChemkinReaction {
 							throw new IOException("Species Name Error: '" + mol.getLabel() + "'");
 						}
 					}
-
-					System.out.println("Dup: " + dupcnt);
 					while (dupcnt > 0) {
-						System.out.println("Add: '" + mol + "'");
-
 						if (reactants)
 							Reactants.add(mol);
 						else
@@ -221,7 +204,6 @@ public class ChemkinReaction {
 				}
 			}
 		}
-		System.out.println("Parse Mol done");
 		return tok;
 	}
 
@@ -230,19 +212,16 @@ public class ChemkinReaction {
 	}
 
 	String processThirdBody(String mol) throws IOException {
-		System.out.println("ThirdBody detected: " + mol);
 		int pos = mol.indexOf('(');
 		String label = mol.substring(0, pos).trim();
 
 		ThirdBodyFlag = true;
 
 		if (mol.toUpperCase().indexOf("(+M)") > 0) {
-			System.out.println(label + " with Thirdbody list ");
 			ThirdBodyCoeffsFlag = true;
 
 		} else {
 			String thdbody = mol.substring(pos + 2, mol.length() - 1);
-			System.out.println(label + " with Single Third body: " + thdbody);
 			thirdBodyMolecules = new ThirdBodyMolecules();
 			String weight = "1.0";
 			ThirdBodyWeight w = new ThirdBodyWeight(thdbody, weight);
@@ -256,7 +235,6 @@ public class ChemkinReaction {
 		String rxn = null;
 		while (!done) {
 			rxn = nextNonBlank(lines);
-			System.out.println("-------parseThirdBodyCoeffs() -------------------------------------Next line: " + rxn);
 			if (rxn != null) {
 				int pos = rxn.indexOf("!");
 				String next;
@@ -269,11 +247,9 @@ public class ChemkinReaction {
 					next = rxn;
 
 				String trimmed = next.trim();
-				System.out.println("parseThirdBodyCoeffs(): " + trimmed);
 				ChemkinCoefficients coefficients = new ChemkinCoefficients();
 				coefficients.addCommentLine(comment);
 				if (pos == 0) {
-					System.out.println("Commented out ");
 				} else if (coefficients.parseReverse(trimmed)) {
 					reverseCoefficients = coefficients;
 				} else if (coefficients.parseLow(trimmed)) {
@@ -293,14 +269,11 @@ public class ChemkinReaction {
 					thirdBodyMolecules = new ThirdBodyMolecules();
 					thirdBodyMolecules.parse(next);
 				} else {
-					System.out.println("-------- No Parsing -------------");
 					done = true;
 				}
-				System.out.println(coefficients.toString());
 			} else {
 				done = true;
 			}
-			System.out.println("-------parseThirdBodyCoeffs() ---------------Next Loop: ");
 		}
 		return rxn;
 	}
@@ -406,8 +379,6 @@ public class ChemkinReaction {
 		if (pos != -1) {
 			rxn = line.substring(0, pos);
 			comment = line.substring(pos);
-			System.out.println("Rxn: '" + rxn);
-			System.out.println("Com: '" + comment);
 		} else {
 			rxn = line;
 		}

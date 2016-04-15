@@ -25,20 +25,19 @@ public class UploadFileTransaction extends DatabaseObject {
     @Persistent
     String sourceType;
     
-    @Persistent(serialized="true")
-    ArrayList<String> setOfLinesKeys;
-
+    @Persistent
+    Integer lineCount;
+    
 	public UploadFileTransaction() {
 	}
 
-	public UploadFileTransaction(String user, String filename, String fileCode,
-			String sourceType, ArrayList<String> setOfLinesKeys) {
+	public UploadFileTransaction(String user, String filename, String fileCode,String sourceType, Integer lineCount) {
 		super();
 		this.user = user;
 		this.filename = filename;
 		this.sourceType = sourceType;
-		this.setOfLinesKeys = setOfLinesKeys;
 		this.fileCode = fileCode;
+		this.lineCount = lineCount;
 	}
 
 	public String getUser() {
@@ -53,11 +52,13 @@ public class UploadFileTransaction extends DatabaseObject {
 		return sourceType;
 	}
 
-	public ArrayList<String> getSetOfLinesKeys() {
-		return setOfLinesKeys;
-	}
     public String getFileCode() {
     	return fileCode;
     }
-    
+    public int getLineCount() {
+    	return lineCount.intValue();
+    }
+    public void setLineCount(int count) {
+    	lineCount = count;
+    }
 }

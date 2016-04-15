@@ -37,14 +37,11 @@ public class ChemkinNASAThermodynamics {
 		lines.setTrim(false);
 		skipOverComments(lines);
 		
-		System.out.println("THERMO line");
 		if(compareKeyword(lines.getCurrent(), thermoKeywordS)) {
 			parseFirstTemperatureLine(lines);
-			System.out.println("Temperatures: " + lowTemperature.toString());
 			lines.nextToken();
 			skipOverComments(lines);
 			
-			System.out.println("First line of THERMO (after comments)");
 			boolean notdone = true;
 			int count = 0;
 			while(notdone) {
@@ -56,8 +53,6 @@ public class ChemkinNASAThermodynamics {
 					NASAPolynomial nasa = parseNASAPolynomial(lines);
 					
 					Isomer isomer = new Isomer(nasa);
-					System.out.println("Set up isomer: " + nasa.name);
-					System.out.println(isomer.getName());
 					NASAthermo.add(nasa);
 					} catch(IOException ex) {
 						System.out.println("Thermo not added: \n" + first);

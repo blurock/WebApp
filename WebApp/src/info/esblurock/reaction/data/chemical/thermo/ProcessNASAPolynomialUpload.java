@@ -2,10 +2,14 @@ package info.esblurock.reaction.data.chemical.thermo;
 
 import java.io.IOException;
 
+import javax.jdo.PersistenceManager;
+
 import info.esblurock.reaction.data.chemical.mechanism.CreateChemicalMechanismData;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.server.chemkin.ChemkinStringFromStoredFile;
+import info.esblurock.reaction.server.datastore.PMF;
+import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
 import thermo.data.benson.NASAPolynomial;
 import thermo.data.benson.SetOfThermodynamicInformation;
 
@@ -33,17 +37,27 @@ public class ProcessNASAPolynomialUpload {
 		String ans = set.toString();
 		if(process) {
 			String keyword = CreateChemicalMechanismData.createMechanismName(description.getSourcekey(),description.getKeyword());
-			
-			transaction = new TransactionInfo(description.getInputkey(),keyword,SetOfNASAPolynomialData.class.getName());
+			String user = description.getInputkey();
+			String idCode = ManageDataSourceIdentification.getDataSourceIdentification(user);
+			transaction = new TransactionInfo(user,keyword,SetOfNASAPolynomialData.class.getName(),idCode);
 			CreateSetOfNASAPolynomialData create = new CreateSetOfNASAPolynomialData();
+			
+
+			
 			System.out.println("processUploadedNASAPolynomials: SetOfNASAPolynomialData nasaset");
-			SetOfNASAPolynomialData nasaset = create.create(keyword, set, transaction);
-			create.flushCreate();
-			System.out.println("processUploadedNASAPolynomials: StoreSetOfNASAPolynomialData store");
+			SetOfNASAPolynomialData nasaset = create.create(set);
+			transaction = new TransactionInfo(user,keyword,SetOfNASAPolynomialData.class.getName(),idCode);
 			StoreSetOfNASAPolynomialData store = new StoreSetOfNASAPolynomialData(keyword, nasaset, transaction, true);
-			System.out.println("processUploadedNASAPolynomials: finish");
+
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			pm.makePersistent(transaction);
+			String Key = transaction.getKey();
+			pm.close();
+
+			create.create(keyword,nasaset,transaction);
+			
+			create.flushCreate();
 			store.finish();
-			System.out.println("processUploadedNASAPolynomials: done");
 		}
 		return ans;
 
@@ -55,10 +69,8 @@ public class ProcessNASAPolynomialUpload {
         boolean notdone = true;
         while (notdone) {
             String line1 = tok.nextToken();
-            System.out.println("Line: " + line1);
             tok.skipOverComments();
             line1 = tok.getCurrent();
-            System.out.println("Line: " + line1);
             if(line1 == null) {
             	notdone = false;
             } else if (!line1.toLowerCase().startsWith(endS)) {
@@ -67,8 +79,6 @@ public class ProcessNASAPolynomialUpload {
                 String line4 = tok.nextToken();
                 NASAPolynomial nasa = new NASAPolynomial();
                 nasa.parse(line1, line2, line3, line4);
-                System.out.println(nasa.toString());
-                System.out.println("Entalpy: " + nasa.getStandardEnthalpy298());
                 set.add(nasa);
             } else {
                 notdone = false;
@@ -82,13 +92,11 @@ public class ProcessNASAPolynomialUpload {
 		boolean notdone = true;
 		String temp = tok.getCurrent();
 		while(notdone) {
-			System.out.println("findBeginning: " + temp);
 			if(temp == null) {
 				notdone = false;
 			} else if(temp.trim().toLowerCase().startsWith(thermoS)) {
 				notdone = false;
 				temperaturerange = tok.nextToken();
-				System.out.println("findBeginning  temperaturerange: " + temperaturerange);
 			} else {
 				comments += temp + "\n";
 				temp = tok.nextToken();

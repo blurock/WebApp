@@ -20,7 +20,7 @@ public class CreateMechanismMoleculeData extends CreateData {
 		this.keywordBase = keywordBase;
 	};
 	
-	public MechanismMoleculeData create(ChemkinMolecule molecule, TransactionInfo transaction) {
+	public MechanismMoleculeData create(ChemkinMolecule molecule) {
 		keyword = createMoleculeKey(keywordBase,molecule.getLabel() );
 		MechanismMoleculeData data = new MechanismMoleculeData(molecule.getLabel(),keywordBase);		
 		return data;

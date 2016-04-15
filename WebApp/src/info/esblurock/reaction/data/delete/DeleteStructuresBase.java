@@ -28,9 +28,6 @@ import info.esblurock.reaction.server.datastore.PMF;
  */
 public class DeleteStructuresBase {
 	
-	/** The persistant manager. */
-	protected PersistenceManager pm = PMF.get().getPersistenceManager();
-
 	/** The root of the full name with package. */
 	protected String root;
 	

@@ -30,6 +30,11 @@ public enum InputSet {
 
 			return inputset;
 		}
+
+		@Override
+		public String getDataType() {
+			return "Organization";
+		}
 		
 	},
 	chemkin {
@@ -54,6 +59,11 @@ public enum InputSet {
 
 			return inputset;
 		}
+
+		@Override
+		public String getDataType() {
+			return "ChemkinMechanism";
+		}
 	},
 	sdfmolecules {
 		@Override
@@ -71,6 +81,11 @@ public enum InputSet {
 			inputset.add(InputPanel.sdfmolecules.getWidget());
 			inputset.add(InputPanel.nasapolynomials.getWidget());
 			return inputset;
+		}
+
+		@Override
+		public String getDataType() {
+			return "2D-Molecules";
 		}
 		
 	},
@@ -90,6 +105,11 @@ public enum InputSet {
 			inputset.add(InputPanel.sdfsubstructures.getWidget());
 			return inputset;
 		}
+
+		@Override
+		public String getDataType() {
+			return "2D-Substructures";
+		}
 		
 	},
 	thergasmolecules {
@@ -107,6 +127,11 @@ public enum InputSet {
 			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
 			inputset.add(InputPanel.thergasmolecules.getWidget());
 			return inputset;
+		}
+
+		@Override
+		public String getDataType() {
+			return "ThermodynamicInfo";
 		}
 		
 	},
@@ -127,6 +152,11 @@ public enum InputSet {
 			inputset.add(panel.getWidget());
 			return inputset;
 		}
+
+		@Override
+		public String getDataType() {
+			return "NASAPolynomials";
+		}
 		
 	};
 
@@ -134,5 +164,7 @@ public enum InputSet {
 	public abstract DataDescription getDescription();
 
 	public abstract ArrayList<DataInput> getSet();
+	
+	public abstract String getDataType();
 
 }

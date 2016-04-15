@@ -153,7 +153,9 @@ public class UserContactInput extends Composite implements HasText {
 				description.getKeyWord(),
 				description.getOneLineDescription(),
 				description.getDescription(), 
-				description.getSourceDate(), description.getSource(), description.getInputKey());
+				description.getSourceDate(), description.getSource(), 
+				description.getInputKey(),
+				descriptionKey);
 		
 		UserDescriptionData user = new UserDescriptionData(userrole, 
 				descrdata, contact, location);

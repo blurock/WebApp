@@ -17,8 +17,8 @@ public class ServerBase  extends RemoteServiceServlet {
 	
 	protected ContextAndSessionUtilities getUtilities() {
 		HttpSession session = getThreadLocalRequest().getSession();
-		ContextAndSessionUtilities util = new ContextAndSessionUtilities(
-				getServletContext(), session);
+		ContextAndSessionUtilities util 
+			= new ContextAndSessionUtilities(getServletContext(), session);
 		return util;
 	}
 	

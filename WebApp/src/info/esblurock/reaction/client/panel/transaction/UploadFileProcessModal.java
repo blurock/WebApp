@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.callback.StandardStringReturnCallback;
 import info.esblurock.reaction.client.panel.transaction.process.ProcessUploadFiles;
@@ -87,7 +88,7 @@ public class UploadFileProcessModal extends Composite implements HasText {
 
 	@UiHandler("btnOK")
 	void onOKClick(ClickEvent e) {
-		Window.alert("OK");
+		MaterialModal.closeModal();
 	}
 
 	public void setText(String text) {

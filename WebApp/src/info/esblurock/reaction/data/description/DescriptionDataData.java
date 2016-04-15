@@ -34,6 +34,9 @@ public class DescriptionDataData extends DatabaseObject {
 	@Persistent
 	String inputkey;
 
+	@Persistent
+	String dataType;
+
 	public DescriptionDataData() {
 	}
 
@@ -43,13 +46,15 @@ public class DescriptionDataData extends DatabaseObject {
 			String fulldescription,
 			Date sourcedate,
 			String sourcekey,
-			String inputkey) {
+			String inputkey,
+			String datatype) {
 		this.keyword = keyword;
 		this.onlinedescription = onlinedescription;
 		this.fulldescription = fulldescription;
 		this.sourceDate = sourcedate;
 		this.sourcekey = sourcekey;
 		this.inputkey = inputkey;
+		this.dataType = datatype;
 	}
 	public String getKeyword() {
 		return keyword;
@@ -92,5 +97,7 @@ public class DescriptionDataData extends DatabaseObject {
 	public Date getSourceDate() {
 		return sourceDate;
 	}
-	
+	public String getDataType() {
+		return dataType;
+	}
 }

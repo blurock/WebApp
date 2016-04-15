@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class OrganizationInput extends Composite implements HasText,
 		Serializable {
-
+	static String organizationS = "Organization";
 	/**
 	 * 
 	 */
@@ -142,7 +142,9 @@ public class OrganizationInput extends Composite implements HasText,
 				description.getKeyWord(),
 				description.getOneLineDescription(),
 				description.getDescription(), 
-				description.getSourceDate(), description.getSource(), description.getInputKey());
+				description.getSourceDate(), description.getSource(), 
+				description.getInputKey(),
+				organizationS);
 		
 		OrganizationDescriptionData org = new OrganizationDescriptionData(orgtype.getText(), 
 				descrdata, contact, location);

@@ -21,23 +21,29 @@ public class CreateMechanismMoleculeListData extends CreateData {
 		moleculeMap = new HashMap<String, String>();
 	}
 
-	public MechanismMoleculeListData create(ChemkinMoleculeList speciesList, TransactionInfo transaction) {
+	public MechanismMoleculeListData create(ChemkinMoleculeList speciesList) {
 		ArrayList<MechanismMoleculeData> molecules = new ArrayList<MechanismMoleculeData>();
 		Set<String> keys = speciesList.keySet();
 		for (String key : keys) {
 			ChemkinMolecule molecule = speciesList.get(key);
-			MechanismMoleculeData mol = createMolecule.create(molecule, transaction);
-			
-			StoreMechanismMoleculeData store 
-				= new StoreMechanismMoleculeData(createMolecule.getKeyword(), mol,transaction, false);
-			addStore(store);
-			String molname = CreateMechanismMoleculeData.createMoleculeKey(mol.getMechanismKeyword(), mol.getMoleculeName());
-			moleculeMap.put(mol.getMoleculeName(), molname);
+			MechanismMoleculeData mol = createMolecule.create(molecule);
 			molecules.add(mol);
+			String molname = CreateMechanismMoleculeData.createMoleculeKey(mol.getMechanismKeyword(), mol.getMoleculeName());
+			moleculeMap.put(mol.getMoleculeName(), molname);			
 		}
-		this.merge(createMolecule);
 		MechanismMoleculeListData mollistdata = new MechanismMoleculeListData(molecules);
 		return mollistdata;
+	}
+	
+	public void create(MechanismMoleculeListData mechmollist, TransactionInfo transaction) {
+		System.out.println("MechanismMoleculeData mol:" + mechmollist);
+		for (MechanismMoleculeData mol : mechmollist.getMolecules()) {
+			String keyword = CreateMechanismMoleculeData.createMoleculeKey(keywordBase,mol.getMoleculeName() );
+			StoreMechanismMoleculeData store 
+				= new StoreMechanismMoleculeData(keyword, mol,transaction, false);
+			addStore(store);
+		}
+		this.merge(createMolecule);
 	}
 
 	public HashMap<String, String> getMoleculeMap() {

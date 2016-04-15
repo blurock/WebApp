@@ -104,19 +104,15 @@ public class TransactionSources extends Composite {
 			@Override
 			public MaterialButton getValue(UploadFileTransaction object) {
 
-				MaterialButton button = new MaterialButton(object.getUser(),
-						"blue darken-4",
+				MaterialButton button = new MaterialButton("",
+						"blue lighten-5",
 						"light");
 				button.setTooltip(interfaceConstants.processtooltip());
 				button.setIcon("mdi-action-list");
 				button.setIconPosition("left");
-				button.getElement().getStyle()
-						.setProperty("display", "inline-flex");
-
-				
+				button.getElement().getStyle().setProperty("display", "inline-flex");
 				return button;
 			}
-
 		};
 
 		processbutton.setFieldUpdater(new FieldUpdater<UploadFileTransaction, MaterialButton>() {
@@ -126,7 +122,6 @@ public class TransactionSources extends Composite {
 							MaterialButton value) {
 						TransactionActions popup = new TransactionActions(object);
 						MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
-						//MaterialToast.alert("Process: " + object.getKeyword());
 					}
 				});
 		// Source sourceKey
@@ -186,43 +181,32 @@ public class TransactionSources extends Composite {
 					@Override
 					public int compare(UploadFileTransaction o1,
 							UploadFileTransaction o2) {
-						int ans = 0;
-						if(o1.getCreationDate() == null){
-							if(o2.getCreationDate() == null) 
-								ans = 0;
-							else 
-								ans = -1;
-						} else if(o2.getCreationDate() == null) {
-							ans = 1;
-						} else {
-							ans = o1.getCreationDate().compareTo(o2.getCreationDate());
-						}
-						return ans;
+						return o1.getFileCode().compareTo(o2.getFileCode());
 					}
 				});
 
 		// Source Date
-		TextColumn<UploadFileTransaction> colNumberInputs = new TextColumn<UploadFileTransaction>() {
+		TextColumn<UploadFileTransaction> colFileCode = new TextColumn<UploadFileTransaction>() {
 			@Override
 			public String getValue(UploadFileTransaction object) {
 				String ans = "---";
-				if(object.getSetOfLinesKeys() != null) {
-					ans = Integer.toString(object.getSetOfLinesKeys().size());
+				if(object.getFileCode() != null) {
+					ans = object.getFileCode();
 				}
 				return ans;
 			}
 		};
-		colNumberInputs.setSortable(true);
-		sortDataHandler.setComparator(colNumberInputs,
+		colFileCode.setSortable(true);
+		sortDataHandler.setComparator(colFileCode,
 				new Comparator<UploadFileTransaction>() {
 
 					@Override
 					public int compare(UploadFileTransaction o1,
 							UploadFileTransaction o2) {
 						int ans = 0;
-						if(o1.getSetOfLinesKeys().size() > o2.getSetOfLinesKeys().size())
+						if(o1.getLineCount() > o2.getLineCount())
 							ans = 1;
-						else if(o1.getSetOfLinesKeys().size() < o2.getSetOfLinesKeys().size())
+						else if(o1.getLineCount() < o2.getLineCount())
 							ans = -1;
 						return ans;
 					}
@@ -234,9 +218,9 @@ public class TransactionSources extends Composite {
 		dataGrid.setSize("100%", "40vh");
 
 		dataGrid.addColumn(processbutton, interfaceConstants.action());
+		dataGrid.addColumn(colFileCode, "File");
 		dataGrid.addColumn(colSourceType, interfaceConstants.datatype());
 		dataGrid.addColumn(colUser, interfaceConstants.user());
-		dataGrid.addColumn(colNumberInputs, interfaceConstants.numberLines());
 		dataGrid.addColumn(colEntryDate, interfaceConstants.entrydate());
 
 		dataGrid.setStyleName("striped responsive-table");

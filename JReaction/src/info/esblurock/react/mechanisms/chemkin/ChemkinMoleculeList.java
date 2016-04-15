@@ -48,7 +48,6 @@ public class ChemkinMoleculeList extends HashMap<String,ChemkinMolecule> {
 		return super.put(key.toLowerCase(),molecule);
 	}
 	public ChemkinMolecule get(String key) {
-		System.out.println("ChemkinMoleculeList Key=" + key);
 		return super.get(key.toLowerCase());
 	}
 	public boolean containsKey(String key) {

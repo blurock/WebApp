@@ -2,6 +2,8 @@ package info.esblurock.reaction.server.chemkin;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
@@ -17,55 +19,47 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinString;
-import info.esblurock.reaction.data.upload.UploadFilePartTransaction;
+import info.esblurock.reaction.data.delete.DeleteTransactionInfoAndObject;
+import info.esblurock.reaction.data.transaction.ActionsUsingIdentificationCode;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 import info.esblurock.reaction.server.datastore.PMF;
 
 public class ChemkinStringFromStoredFile extends ChemkinString {
 	private static final long serialVersionUID = 1L;
-	PersistenceManager pm = PMF.get().getPersistenceManager();
+	private static final Logger log = Logger.getLogger(ChemkinStringFromStoredFile.class.getName());
+
 	DatastoreService datastore;
 	ArrayList<String> lines;
 	ArrayList<String> parts;
 	Iterator<String> partiterator;
 	private int count = 0;
 	private int totalcount = 0;
+	private int lineCount;
+	private String fileCode;
+	private int maxPart = 1000;
+	boolean nextpart = true;
 
 	public ChemkinStringFromStoredFile(String key, String user, String commentString) {
 		super(key, commentString);
 		count = 0;
+		totalcount = 0;
+		nextpart = true;
 		datastore = DatastoreServiceFactory.getDatastoreService();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 		UploadFileTransaction transaction = pm.getObjectById(UploadFileTransaction.class, key);
 		if (transaction != null) {
-			parts = transaction.getSetOfLinesKeys();
-			partiterator = parts.iterator();
+			lineCount = transaction.getLineCount();
+			fileCode = transaction.getFileCode();
 			setUpNextPart();
 		} else {
-			System.out.println("UploadFileTransaction not found with key: " + key);
+			log.log(Level.SEVERE, "UploadFileTransaction not found with key: " + key);
 		}
 	}
 
 	private boolean setUpNextPart() {
-		boolean nextpart = true;
-		lines = new ArrayList<String>();
 		count = 0;
-		if (partiterator.hasNext()) {
-			String key = partiterator.next();
-			UploadFilePartTransaction filepart = pm.getObjectById(UploadFilePartTransaction.class, key);
-
-			Filter fileCodeF = new FilterPredicate("fileCode", FilterOperator.EQUAL, filepart.getFilecode());
-			Filter lower = new FilterPredicate("count", FilterOperator.GREATER_THAN_OR_EQUAL, totalcount+1);
-			Filter upper = new FilterPredicate("count", FilterOperator.LESS_THAN,
-					totalcount + filepart.getSetOfLinesKeys().size());
-			Filter totalfilter = CompositeFilterOperator.and(fileCodeF, lower, upper);
-			Query q = new Query("FileUploadLines").setFilter(totalfilter).addSort("count", SortDirection.ASCENDING);
-			PreparedQuery pq = datastore.prepare(q);
-			Iterator<Entity> iter = pq.asIterator();
-			while (iter.hasNext()) {
-				Entity next = iter.next();
-				String line = (String) next.getProperty("line");
-				lines.add(line);
-			}
+		if (nextpart) {
+			lines = ActionsUsingIdentificationCode.getNextLinest(totalcount, maxPart, fileCode);
 		}
 		if (lines.size() == 0)
 			nextpart = false;

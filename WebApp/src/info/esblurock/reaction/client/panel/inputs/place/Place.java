@@ -56,7 +56,7 @@ public enum Place {
 
 		@Override
 		public Widget getContent() {
-			SetOfInputs inputs = new SetOfInputs(InputSet.chemkin);
+			SetOfInputs inputs = new SetOfInputs(InputSet.chemkin, "Chemkin");
 			return inputs;
 			//return new ChemkinMechanismInput("ChemkinInput");
 		}
@@ -75,7 +75,7 @@ public enum Place {
 
 		@Override
 		public Widget getContent() {
-			SetOfInputs inputs = new SetOfInputs(InputSet.sdfmolecules);
+			SetOfInputs inputs = new SetOfInputs(InputSet.sdfmolecules, "2D-Molecules(SDF)");
 			return inputs;
 		}
 	},
@@ -93,7 +93,7 @@ public enum Place {
 
 		@Override
 		public Widget getContent() {
-			SetOfInputs inputs = new SetOfInputs(InputSet.sdfsubstructures);
+			SetOfInputs inputs = new SetOfInputs(InputSet.sdfsubstructures,"2D-Substructures(SDF)");
 			return inputs;
 		}
 	},
@@ -111,7 +111,7 @@ public enum Place {
 
 		@Override
 		public Widget getContent() {
-			SetOfInputs inputs = new SetOfInputs(InputSet.thergasmolecules);
+			SetOfInputs inputs = new SetOfInputs(InputSet.thergasmolecules, "2D-Thermo");
 			return inputs;
 		}
 	},
@@ -128,7 +128,7 @@ public enum Place {
 
 		@Override
 		public Widget getContent() {
-			SetOfInputs inputs = new SetOfInputs(InputSet.nasapolynomials);
+			SetOfInputs inputs = new SetOfInputs(InputSet.nasapolynomials, "NASAPolynomials");
 			return inputs;
 		}
 	},

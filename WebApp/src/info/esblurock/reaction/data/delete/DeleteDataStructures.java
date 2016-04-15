@@ -28,6 +28,8 @@ public enum DeleteDataStructures {
 			ChemicalMechanismData mech = pm.getObjectById(ChemicalMechanismData.class, key);
 			if(mech != null) {
 				pm.deletePersistent(mech);
+				pm.flush();
+				pm.close();
 			} else {
 				throw new IOException("ChemkinMechanismData deleteStructure fail with key: " + key);
 			}
@@ -43,6 +45,8 @@ public enum DeleteDataStructures {
 			SetOfNASAPolynomialData nasa = pm.getObjectById(SetOfNASAPolynomialData.class, key);
 			if(nasa != null) {
 				pm.deletePersistent(nasa);
+				pm.flush();
+				pm.close();
 			} else {
 				throw new IOException("SetOfNASAPolynomialData deleteStructure fail with key: " + key);
 			}
