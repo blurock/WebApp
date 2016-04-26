@@ -147,7 +147,8 @@ public class CreateChemkinReactionData extends CreateData {
 			thirdBodyMolecules = createThirdBody.create(reaction.getThirdBodyMolecules());
 		}
 
-		ChemkinReactionData data = new ChemkinReactionData(reactantReactionNames, productReactionNames, 
+		ChemkinReactionData data = new ChemkinReactionData(keywordBase, keyword,
+				reactantReactionNames, productReactionNames, 
 				forwardCoefficients,reverseCoefficients, 
 				lowCoefficients, highCoefficients, 
 				troeCoefficients, sriCoefficients, 

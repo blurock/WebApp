@@ -12,22 +12,26 @@ import info.esblurock.reaction.client.data.DatabaseObject;
 public class MechanismReactionListData extends DatabaseObject {
 
 	private static final long serialVersionUID = 1L;
+	/** The nasa set. */
 	@Persistent
-	@Element(dependent = "true")
-	ArrayList<ChemkinReactionData> reactionSet;
+	String mechanismKeyword;
+
+	@Persistent
+	Integer numberOfReactions;
 	
-	
-	
-	public MechanismReactionListData() {
+	public MechanismReactionListData(String mechanismKeyword) {
 		super();
+		this.mechanismKeyword = mechanismKeyword;
 	}
 
-	public MechanismReactionListData(ArrayList<ChemkinReactionData> reactionSet) {
-		this.reactionSet = reactionSet;
+	public String getMechanismKeyword() {
+		return mechanismKeyword;
 	}
 
-	public ArrayList<ChemkinReactionData> getReactionSet() {
-		return reactionSet;
+	public int getNumberOfReactions() {
+		return numberOfReactions.intValue();
 	}
-
+	public void setNumberOfReaction(int numberOfReactions) {
+		this.numberOfReactions = new Integer(numberOfReactions);		
+	}
 }

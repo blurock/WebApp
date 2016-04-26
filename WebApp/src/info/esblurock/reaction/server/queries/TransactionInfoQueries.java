@@ -115,13 +115,12 @@ public class TransactionInfoQueries {
 	}
 	static public TransactionInfo getFirstTransactionFromObjectKey(String key) throws IOException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		String queryS = "storedObjectKey == keyparameter";
+		String queryS = "storedObjectKey == '" + key + "'";
 		javax.jdo.Query query = pm.newQuery(TransactionInfo.class);
 		query.setFilter(queryS);
-		query.declareParameters("key");
 		TransactionInfo info = null;
 		try {
-			List<TransactionInfo> lst = (List<TransactionInfo>) query.execute(key);
+			List<TransactionInfo> lst = (List<TransactionInfo>) query.execute();
 			if(!lst.isEmpty()) {
 				if(lst.size() > 1) {
 					String message = "More than one TransactionInfo with a storedObjectKey='" + key + "'";

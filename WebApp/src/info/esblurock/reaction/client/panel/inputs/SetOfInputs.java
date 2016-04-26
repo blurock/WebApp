@@ -6,22 +6,14 @@ import java.util.Set;
 
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCollapsible;
-import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.client.TextToDatabaseAsync;
-import info.esblurock.reaction.client.callback.StandardStringReturnCallback;
 import info.esblurock.reaction.client.panel.description.DataDescription;
-import info.esblurock.reaction.client.panel.modal.TextMessagePopup;
 import info.esblurock.reaction.client.resources.DescriptionConstants;
 import info.esblurock.reaction.client.resources.InputConstants;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 import info.esblurock.reaction.data.description.DescriptionDataData;
-import info.esblurock.reaction.data.transaction.TransactionInfo;
-import info.esblurock.reaction.data.upload.InputTextSource;
-import info.esblurock.reaction.data.upload.StoreTextSetUploadData;
-import info.esblurock.reaction.data.upload.TextSetUploadData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -63,6 +55,7 @@ public class SetOfInputs extends Composite {
 		submitdata.setText(descriptionConstants.submit());
 		description = set.getDescription();
 		collapsible.addItem(description);
+		
 
 		List<DataInput> panels = set.getSet();
 		for (DataInput panel : panels) {
@@ -108,12 +101,7 @@ public class SetOfInputs extends Composite {
 
 		filesS.append("To Process: " + toprocess);
 
-		Window.alert(filesS.toString());
-		String errorS = "ERROR";
-		TextMessagePopup popup = new TextMessagePopup(errorS, filesS.toString());
-		MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
 		if (toprocess) {
-			
 			DescriptionDataData descrdata = new DescriptionDataData(
 					description.getKeyWord(),
 					description.getOneLineDescription(),
@@ -122,23 +110,11 @@ public class SetOfInputs extends Composite {
 					description.getInputKey(),
 					dataType);
 
-			TextSetUploadData	data = new TextSetUploadData(descrdata);
-			for (DataInput input : inputs) {
-				String typeS = input.getFileSourceType();
-				System.out.println("Type: " + typeS);
-				String filename = input.getUploadfileText();
-				String id = input.getUploadIDText();
-				String textType = input.getType();
-				InputTextSource source = new InputTextSource(filename, id, typeS, textType);
-				data.addInputTextSource(source);
-				System.out.println("Added");
-			}
-			String prefix = interfaceConstants.storedObjectKey() + ":   ";
-			StandardStringReturnCallback callback = new StandardStringReturnCallback(prefix);
+			SubmitSetOfInputsCheckCallback callback = new SubmitSetOfInputsCheckCallback(dataType,descrdata,inputs);
 			TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
-			async.storeTextSetUploadData(data, callback);
+			async.checkSubmitInputData(descrdata, callback);
 		} else {
-			MaterialToast.alert("Inputs Missing");
+			Window.alert("Inputs Missing\n" + filesS.toString());
 		}
 		
 	};

@@ -2,7 +2,6 @@ package info.esblurock.reaction.data.chemical.molecule;
 
 import java.util.ArrayList;
 
-import javax.jdo.annotations.Element;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
@@ -11,22 +10,29 @@ import info.esblurock.reaction.client.data.DatabaseObject;
 @PersistenceCapable
 public class MechanismMoleculeListData extends DatabaseObject {
 
-	private static final long serialVersionUID = 1L;
-	
+	/** The nasa set. */
 	@Persistent
-	@Element(dependent = "true")
-	ArrayList<MechanismMoleculeData> molecules;
+	String mechanismKeyword;
+
+	@Persistent
+	Integer numberOfMolecules;
+	
 
 	public MechanismMoleculeListData() {
 		super();
 	}
-	public MechanismMoleculeListData(ArrayList<MechanismMoleculeData> molecules) {
+
+	public MechanismMoleculeListData(String mechanismKeyword, Integer numberOfMolecules) {
 		super();
-		this.molecules = molecules;
+		this.mechanismKeyword = mechanismKeyword;
+		this.numberOfMolecules = numberOfMolecules;
 	}
 
-	public ArrayList<MechanismMoleculeData> getMolecules() {
-		return molecules;
+	public String getMechanismKeyword() {
+		return mechanismKeyword;
 	}
-	
+
+	public Integer getNumberOfMolecules() {
+		return numberOfMolecules;
+	}	
 }

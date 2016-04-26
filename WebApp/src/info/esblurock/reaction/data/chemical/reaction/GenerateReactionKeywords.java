@@ -27,7 +27,7 @@ public class GenerateReactionKeywords {
 	
 	public String parseOutReactionMechanismName(String rxnname) {
 		String ans = rxnname;
-		int pos = rxnname.indexOf(delimitor);
+		int pos = rxnname.lastIndexOf(delimitor);
 		if(pos > 0) {
 			ans = rxnname.substring(0, pos);
 		}

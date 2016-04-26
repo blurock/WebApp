@@ -47,8 +47,6 @@ public class ObjectTransactionActions extends Composite implements HasText {
 		inputDatelabel.setTooltip(interfaceConstants.inputDatetooltip());
 		transactionObjectTypelabel.setText(interfaceConstants.transactionObjectType());
 		transactionObjectTypelabel.setTooltip(interfaceConstants.transactionObjectTypetooltip());
-		rdfKeysSizelabel.setText(interfaceConstants.rdfKeyWordsSize());
-		rdfKeysSizelabel.setTooltip(interfaceConstants.rdfKeyWordsSizetooltip());
 		
 		source = transaction;
 		
@@ -58,8 +56,6 @@ public class ObjectTransactionActions extends Composite implements HasText {
 		keyword.setText(transaction.getKeyword());
 		inputDate.setText(transaction.getInputDate().toString());
 		transactionObjectType.setText(transaction.getTransactionObjectType());
-		Integer rdfsize = new Integer(transaction.getNumberOfElements());
-		rdfKeysSize.setText(rdfsize.toString());
 		
 		btndelete.setText(interfaceConstants.delete());
 		btndelete.setTooltip(interfaceConstants.deletetooltip());
@@ -85,10 +81,6 @@ public class ObjectTransactionActions extends Composite implements HasText {
 	MaterialLink transactionObjectTypelabel;
 	@UiField
 	MaterialLink transactionObjectType;
-	@UiField
-	MaterialLink rdfKeysSizelabel;
-	@UiField
-	MaterialLink rdfKeysSize;
 	
 	@UiField
 	MaterialButton btndelete;

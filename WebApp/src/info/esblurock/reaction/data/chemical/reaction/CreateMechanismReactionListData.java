@@ -18,6 +18,9 @@ public class CreateMechanismReactionListData extends CreateData {
 	/** The create reaction. */
 	CreateChemkinReactionData createReaction;
 
+	String keywordBase;
+	ArrayList<ChemkinReactionData> chemkinReactionList;
+	
 	/**
 	 * Instantiates a new creates the mechanism reaction list data.
 	 *
@@ -30,25 +33,19 @@ public class CreateMechanismReactionListData extends CreateData {
 	public CreateMechanismReactionListData(String keywordBase,
 			HashMap<String,String> moleculeNamesTable,
 			boolean storeObject) {
-		createReaction = new CreateChemkinReactionData(keywordBase, moleculeNamesTable,false);
-	}
-	
-	public ArrayList<String> getKeywords(ChemkinReactionList reactionList) {
-		ArrayList<String> lst = new ArrayList<String>();
-		for(ChemkinReaction reaction : reactionList) {
-			String keyword = createReaction.getKeyword(reaction);
-			lst.add(keyword);
-		}
-		return lst;
+		createReaction = new CreateChemkinReactionData(keywordBase, moleculeNamesTable,true);
+		this.keywordBase = keywordBase;
 	}
 	
 	public MechanismReactionListData create(ChemkinReactionList reactionList) {
-		ArrayList<ChemkinReactionData> lst = new ArrayList<ChemkinReactionData>();
+		
+		chemkinReactionList = new ArrayList<ChemkinReactionData>();
 		for(ChemkinReaction reaction : reactionList) {
 			ChemkinReactionData rxndata = createReaction.create(reaction);
-			lst.add(rxndata);
+			chemkinReactionList.add(rxndata);
 		}		
-		MechanismReactionListData data = new MechanismReactionListData(lst);
+		MechanismReactionListData data = new MechanismReactionListData(keywordBase);
+		data.setNumberOfReaction(chemkinReactionList.size());
 		return data;
 	}
 	/**
@@ -58,14 +55,21 @@ public class CreateMechanismReactionListData extends CreateData {
 	 * @param transaction the transaction
 	 * @return the mechanism reaction list data
 	 */
-	public void create(ArrayList<String> keywords, MechanismReactionListData mechReactionList, TransactionInfo transaction) {
-		Iterator<String> iter = keywords.iterator();
-		System.out.println("CreateMechanismReactionListData create: " + keywords);
-		System.out.println("CreateMechanismReactionListData create: " + mechReactionList);
-		for(ChemkinReactionData rxndata : mechReactionList.getReactionSet()) {
-			createReaction.create(iter.next(),rxndata,transaction);
+	public void create(MechanismReactionListData mechReactionList, TransactionInfo transaction) {
+		MechanismReactionListData rxnlst = new MechanismReactionListData(keywordBase);
+		StoreMechanismReactionListData store = 
+				new StoreMechanismReactionListData(keywordBase,mechReactionList,transaction,true);
+		store.finish();
+		
+		for(ChemkinReactionData rxndata : chemkinReactionList) {
+			createReaction.create(rxndata.getReactionName(),rxndata,transaction);
 		}
 		this.merge(createReaction);
+		flushCreate();
+		for(ChemkinReactionData data : chemkinReactionList) {
+			System.out.println("keyword='" + data.getReactionName() + "', Key='" + data.getKey() + "'");
+			store.storeObjectRDF(data.getReactionName(), data);
+		}
+		addStore(store);
 	}
-
 }

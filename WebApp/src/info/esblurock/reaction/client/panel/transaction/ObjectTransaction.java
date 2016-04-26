@@ -23,6 +23,7 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -101,30 +102,24 @@ public class ObjectTransaction extends Composite implements HasText {
 				button.setIconPosition("left");
 				button.getElement().getStyle()
 						.setProperty("display", "inline-flex");
-				button.setText(object.getKeyword());
-				
 				return button;
 			}
 
 		};
-
 		processbutton.setFieldUpdater(new FieldUpdater<TransactionInfo, MaterialButton>() {
-
 					@Override
-					public void update(int index, TransactionInfo object,
-							MaterialButton value) {
-						
+					public void update(int index, TransactionInfo object, MaterialButton value) {		
 						ObjectTransactionActions popup = new ObjectTransactionActions(object);
 						MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
 					}
 				});
+		
 		// Source sourceKey
 		TextColumn<TransactionInfo> colObjectType = new TextColumn<TransactionInfo>() {
 			@Override
 			public String getValue(TransactionInfo object) {
 				String shortname= FindShortNameFromString.findShortClassName(object.getTransactionObjectType());
-
-				return object.getTransactionObjectType();
+				return shortname;
 			}
 		};
 		colObjectType.setSortable(true);
@@ -138,6 +133,8 @@ public class ObjectTransaction extends Composite implements HasText {
 						return o1.getTransactionObjectType().compareTo(o2.getTransactionObjectType());
 					}
 				});
+		
+
 		// Object name
 		TextColumn<TransactionInfo> colObjectName = new TextColumn<TransactionInfo>() {
 			@Override
@@ -148,36 +145,30 @@ public class ObjectTransaction extends Composite implements HasText {
 		colObjectType.setSortable(true);
 		sortDataHandler.setComparator(colObjectType,
 				new Comparator<TransactionInfo>() {
-
 					@Override
 					public int compare(TransactionInfo o1,
 							TransactionInfo o2) {
-
 						return o1.getKeyword().compareTo(o2.getKeyword());
 					}
 				});
-
-		// Type
-
-		TextColumn<TransactionInfo> colKeyword = new TextColumn<TransactionInfo>() {
+		// User
+		TextColumn<TransactionInfo> colUser = new TextColumn<TransactionInfo>() {
 			@Override
 			public String getValue(TransactionInfo object) {
-
 				return object.getUser();
 			}
 		};
-		colKeyword.setSortable(true);
-		sortDataHandler.setComparator(colKeyword,
+		colUser.setSortable(true);
+		sortDataHandler.setComparator(colUser,
 				new Comparator<TransactionInfo>() {
 
 					@Override
 					public int compare(TransactionInfo o1,
 							TransactionInfo o2) {
-
 						return o1.getUser().compareTo(o2.getUser());
 					}
 				});
-
+/*
 		// Enter Date
 		TextColumn<TransactionInfo> colEntryDate = new TextColumn<TransactionInfo>() {
 			@Override
@@ -210,7 +201,7 @@ public class ObjectTransaction extends Composite implements HasText {
 						return ans;
 					}
 				});
-
+*/
 
 
 		final DataGrid<TransactionInfo> dataGrid = new DataGrid<TransactionInfo>(
@@ -221,8 +212,7 @@ public class ObjectTransaction extends Composite implements HasText {
 		dataGrid.addColumn(processbutton, interfaceConstants.action());
 		dataGrid.addColumn(colObjectType, interfaceConstants.sourcekey());
 		dataGrid.addColumn(colObjectName, interfaceConstants.keyword());
-		dataGrid.addColumn(colKeyword, interfaceConstants.keyword());
-		dataGrid.addColumn(colEntryDate, interfaceConstants.entrydate());
+		dataGrid.addColumn(colUser, interfaceConstants.user());
 
 		dataGrid.setStyleName("striped responsive-table");
 
@@ -266,8 +256,6 @@ public class ObjectTransaction extends Composite implements HasText {
 	public void refresh() {
 		TransactionInfoProvider.setList(orders);
 		sortDataHandler.setList(TransactionInfoProvider.getList());
-		//dataGrid.redraw();
-		//dataGrid.flush();
 	}
 	@Override
 	public String getText() {

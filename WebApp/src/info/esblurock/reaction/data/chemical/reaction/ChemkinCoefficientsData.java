@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import com.google.appengine.datanucleus.annotations.Unindexed;
+
 import info.esblurock.reaction.client.data.DatabaseObject;
 
 @PersistenceCapable
@@ -27,12 +29,16 @@ public class ChemkinCoefficientsData extends DatabaseObject  {
 	public boolean sri;
 	
 	@Persistent
+	@Unindexed
 	public String A;
 	@Persistent
+	@Unindexed
 	public String n;
 	@Persistent
+	@Unindexed
 	public String Ea;
 	@Persistent
+	@Unindexed
 	public ArrayList<String> coeffs;
 	
 	

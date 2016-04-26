@@ -39,25 +39,15 @@ public class ProcessNASAPolynomialUpload {
 			String keyword = CreateChemicalMechanismData.createMechanismName(description.getSourcekey(),description.getKeyword());
 			String user = description.getInputkey();
 			String idCode = ManageDataSourceIdentification.getDataSourceIdentification(user);
-			transaction = new TransactionInfo(user,keyword,SetOfNASAPolynomialData.class.getName(),idCode);
-			CreateSetOfNASAPolynomialData create = new CreateSetOfNASAPolynomialData();
-			
 
+			
+			CreateSetOfNASAPolynomialData create = new CreateSetOfNASAPolynomialData(keyword);
 			
 			System.out.println("processUploadedNASAPolynomials: SetOfNASAPolynomialData nasaset");
 			SetOfNASAPolynomialData nasaset = create.create(set);
+
 			transaction = new TransactionInfo(user,keyword,SetOfNASAPolynomialData.class.getName(),idCode);
-			StoreSetOfNASAPolynomialData store = new StoreSetOfNASAPolynomialData(keyword, nasaset, transaction, true);
-
-			PersistenceManager pm = PMF.get().getPersistenceManager();
-			pm.makePersistent(transaction);
-			String Key = transaction.getKey();
-			pm.close();
-
-			create.create(keyword,nasaset,transaction);
-			
-			create.flushCreate();
-			store.finish();
+			create.create(keyword,nasaset,transaction);			
 		}
 		return ans;
 

@@ -6,6 +6,7 @@ import info.esblurock.reaction.client.panel.description.DataDescription;
 import info.esblurock.reaction.client.resources.DescriptionConstants;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.user.client.Window;
 
 public enum InputSet {
 	organization {
@@ -13,15 +14,14 @@ public enum InputSet {
 		public DataDescription getDescription() {
 
 			DescriptionConstants descriptionConstants = GWT.create(DescriptionConstants.class);
-			DataDescription description = new DataDescription(
-					descriptionConstants.chemkintitle());
+			DataDescription description = new DataDescription(descriptionConstants.chemkintitle());
 			return description;
 		}
 
 		@Override
 		public ArrayList<DataInput> getSet() {
 			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
-			
+
 			inputset.add(InputPanel.chemkinReactions.getWidget());
 			inputset.add(InputPanel.nasapolynomials.getWidget());
 			DataInput transport = InputPanel.transport.getWidget();
@@ -35,22 +35,21 @@ public enum InputSet {
 		public String getDataType() {
 			return "Organization";
 		}
-		
+
 	},
 	chemkin {
 		@Override
 		public DataDescription getDescription() {
 
 			DescriptionConstants descriptionConstants = GWT.create(DescriptionConstants.class);
-			DataDescription description = new DataDescription(
-					descriptionConstants.chemkintitle());
+			DataDescription description = new DataDescription(descriptionConstants.chemkintitle());
 			return description;
 		}
 
 		@Override
 		public ArrayList<DataInput> getSet() {
 			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
-			
+
 			inputset.add(InputPanel.chemkinReactions.getWidget());
 			inputset.add(InputPanel.nasapolynomials.getWidget());
 			DataInput transport = InputPanel.transport.getWidget();
@@ -70,8 +69,7 @@ public enum InputSet {
 		public DataDescription getDescription() {
 
 			DescriptionConstants descriptionConstants = GWT.create(DescriptionConstants.class);
-			DataDescription description = new DataDescription(
-					descriptionConstants.sdfmoleculetitle());
+			DataDescription description = new DataDescription(descriptionConstants.sdfmoleculetitle());
 			return description;
 		}
 
@@ -87,15 +85,14 @@ public enum InputSet {
 		public String getDataType() {
 			return "2D-Molecules";
 		}
-		
+
 	},
 	sdfsubstructures {
 		@Override
 		public DataDescription getDescription() {
 
 			DescriptionConstants descriptionConstants = GWT.create(DescriptionConstants.class);
-			DataDescription description = new DataDescription(
-					descriptionConstants.sdfmoleculetitle());
+			DataDescription description = new DataDescription(descriptionConstants.sdfmoleculetitle());
 			return description;
 		}
 
@@ -110,15 +107,14 @@ public enum InputSet {
 		public String getDataType() {
 			return "2D-Substructures";
 		}
-		
+
 	},
 	thergasmolecules {
 		@Override
 		public DataDescription getDescription() {
 
 			DescriptionConstants descriptionConstants = GWT.create(DescriptionConstants.class);
-			DataDescription description = new DataDescription(
-					descriptionConstants.thergasmoleculestitle());
+			DataDescription description = new DataDescription(descriptionConstants.thergasmoleculestitle());
 			return description;
 		}
 
@@ -133,15 +129,14 @@ public enum InputSet {
 		public String getDataType() {
 			return "ThermodynamicInfo";
 		}
-		
+
 	},
 	nasapolynomials {
 		@Override
 		public DataDescription getDescription() {
 
 			DescriptionConstants descriptionConstants = GWT.create(DescriptionConstants.class);
-			DataDescription description = new DataDescription(
-					descriptionConstants.thergasmoleculestitle());
+			DataDescription description = new DataDescription(descriptionConstants.thergasmoleculestitle());
 			return description;
 		}
 
@@ -157,14 +152,13 @@ public enum InputSet {
 		public String getDataType() {
 			return "NASAPolynomials";
 		}
-		
-	};
 
+	};
 
 	public abstract DataDescription getDescription();
 
 	public abstract ArrayList<DataInput> getSet();
-	
+
 	public abstract String getDataType();
 
 }

@@ -1,6 +1,5 @@
 package info.esblurock.reaction.data.chemical.mechanism;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.jdo.PersistenceManager;
@@ -31,8 +30,10 @@ public class CreateChemicalMechanismData extends CreateData {
 	StoreChemkinMechanismData storeMechanism;
 	ChemicalMechanismData mechanismData;
 	
-	ArrayList<String> reactionKeywords;
-	
+	ChemicalElementListData   elementList;
+	MechanismReactionListData reactionList;
+	MechanismMoleculeListData moleculeList;
+		
 	static public String createMechanismName(String source,String keyword) {
 		String name = source + delimitor + keyword;
 		return name;
@@ -59,18 +60,20 @@ public class CreateChemicalMechanismData extends CreateData {
 	}
 	
 	public ChemicalMechanismData create(ChemkinMechanism mechanism) {
-		createElementList = new CreateChemicalElementListData();
-		ChemicalElementListData   elementList = createElementList.create(mechanism.getElementList());
+		createElementList = new CreateChemicalElementListData(keywordBase);
+		elementList = createElementList.create(mechanism.getElementList());
 		
 		createMoleculeList = new CreateMechanismMoleculeListData(keywordBase);
-		MechanismMoleculeListData moleculeList = createMoleculeList.create(mechanism.getSpeciesList());
+		moleculeList = createMoleculeList.create(mechanism.getSpeciesList());
 		moleculeNamesTable = createMoleculeList.getMoleculeMap();
 
 		createReactionList = new CreateMechanismReactionListData(keywordBase,moleculeNamesTable,false);
-		MechanismReactionListData reactionList = createReactionList.create(mechanism.getReactionList());
-		reactionKeywords = createReactionList.getKeywords(mechanism.getReactionList());
+		reactionList = createReactionList.create(mechanism.getReactionList());
 	
-		ChemicalMechanismData mechanismData = new ChemicalMechanismData(elementList,moleculeList,reactionList);
+		ChemicalMechanismData mechanismData = new ChemicalMechanismData(keywordBase, 
+				elementList.getElementList().size(),
+				moleculeList.getNumberOfMolecules(),
+				reactionList.getNumberOfReactions());
 		
 		return mechanismData;
 	}
@@ -90,10 +93,10 @@ public class CreateChemicalMechanismData extends CreateData {
 
 		this.merge(createElementList);
 		System.out.println("createMoleculeList.create(mechanismData.getMoleculeList(),transaction);");
-		createMoleculeList.create(mechanismData.getMoleculeList(),transaction);
+		createMoleculeList.create(moleculeList,transaction);
 		this.merge(createMoleculeList);		
 		System.out.println("createReactionList.create(reactionKeywords, mechanismData.getReactionList(), transaction);");
-		createReactionList.create(reactionKeywords, mechanismData.getReactionList(), transaction);
+		createReactionList.create(reactionList, transaction);
 		System.out.println("this.flushCreate();");
 		this.flushCreate();
 		System.out.println("this.merge(createReactionList);	");

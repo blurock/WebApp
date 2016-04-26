@@ -31,14 +31,16 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 /**
  * The Class TransactionServiceImpl.
  */
-public class TransactionServiceImpl extends RemoteServiceServlet implements
-		TransactionService {
+public class TransactionServiceImpl extends RemoteServiceServlet implements TransactionService {
 
 	/** The pm. */
 	PersistenceManager pm = PMF.get().getPersistenceManager();
 
-	/* (non-Javadoc)
-	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getAllTransactions()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#
+	 * getAllTransactions()
 	 */
 	@Override
 	public List<TransactionInfo> getAllTransactions() {
@@ -46,46 +48,61 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		javax.jdo.Query q = pm.newQuery(TransactionInfo.class);
 		List<TransactionInfo> results = (List<TransactionInfo>) q.execute();
 		ArrayList<TransactionInfo> lst = new ArrayList<TransactionInfo>();
-		for(TransactionInfo transaction: results) {
+		if(results != null){
+		for (TransactionInfo transaction : results) {
 			TransactionInfo t = pm.detachCopy(transaction);
 			lst.add(t);
 		}
-		pm.close();
-		return lst;
-	}
-
-	/* (non-Javadoc)
-	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getAllUploadTransactions()
-	 */
-	public List<TextSetUploadData> getAllUploadTransactions() {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		pm.getFetchPlan().setGroup(FetchGroup.ALL);
-		javax.jdo.Query q = pm.newQuery(TextSetUploadData.class);
-		List<TextSetUploadData> results = (List<TextSetUploadData>) q.execute();
-		ArrayList<TextSetUploadData> lst = new ArrayList<TextSetUploadData>();
-		for(TextSetUploadData data : results) {
-			if(data != null) {
-				pm.retrieve(data);
-				TextSetUploadData datacopy = pm.detachCopy(data);
-				lst.add(datacopy);
-			} else {
-				System.out.println("getAllUploadTransactions() an element is null");
-			}
 		}
 		pm.close();
 		return lst;
 	}
-	/* (non-Javadoc)
-	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getTransactions(java.lang.String, java.lang.String, java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#
+	 * getAllUploadTransactions()
+	 */
+	public List<TextSetUploadData> getAllUploadTransactions() {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		ArrayList<TextSetUploadData> lst = new ArrayList<TextSetUploadData>();
+		pm.getFetchPlan().setGroup(FetchGroup.ALL);
+		javax.jdo.Query q = pm.newQuery(TextSetUploadData.class);
+		List<TextSetUploadData> results = (List<TextSetUploadData>) q.execute();
+		if (results != null) {
+			for (TextSetUploadData data : results) {
+				if (data != null) {
+					pm.retrieve(data);
+					TextSetUploadData datacopy = pm.detachCopy(data);
+					lst.add(datacopy);
+				} else {
+					System.out.println("getAllUploadTransactions() an element is null");
+				}
+			}
+		} else {
+
+		}
+		pm.close();
+		return lst;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#
+	 * getTransactions(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public List<TransactionInfo> getTransactions(String user, String keyword,
-			String objecttype) {
+	public List<TransactionInfo> getTransactions(String user, String keyword, String objecttype) {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#removeTransaction(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#
+	 * removeTransaction(java.lang.String)
 	 */
 	@Override
 	public String removeTransactionOfObject(String key) throws Exception {
@@ -95,8 +112,11 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		return ans;
 	}
 
-	/* (non-Javadoc)
-	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getUserSet()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#
+	 * getUserSet()
 	 */
 	@Override
 	public Set<String> getUserSet() {
@@ -104,16 +124,22 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getKeywordSet()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#
+	 * getKeywordSet()
 	 */
 	@Override
 	public Set<String> getKeywordSet() {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#getObjectTypeSet()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see info.esblurock.reaction.client.panel.transaction.TransactionService#
+	 * getObjectTypeSet()
 	 */
 	@Override
 	public Set<String> getObjectTypeSet() {
@@ -123,7 +149,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public String removeTransactionWithTypeAndKeyword(String objecttype, String keyword) throws Exception {
 		DeleteTransactionInfoAndObject delete = new DeleteTransactionInfoAndObject();
-		String ans = delete.deleteFromTypeAndKeyword(objecttype,keyword);
+		String ans = delete.deleteFromTypeAndKeyword(objecttype, keyword);
 		return ans;
 	}
 
@@ -133,30 +159,30 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements
 		String ans = delete.deleteTransactionInfoFromKey(transactionkey);
 		pm.close();
 		return ans;
-		
+
 	}
+
 	public String removeFromRDFsFromDate(Date date) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Filter subjectfilter =
-				  new FilterPredicate("creationDate",FilterOperator.GREATER_THAN_OR_EQUAL,date);
+		Filter subjectfilter = new FilterPredicate("creationDate", FilterOperator.GREATER_THAN_OR_EQUAL, date);
 		Query q = new Query("KeywordRDF").setFilter(subjectfilter).setKeysOnly();
 		PreparedQuery pq = datastore.prepare(q);
 		boolean haselement = pq.asIterable().iterator().hasNext();
 		System.out.println("removeFromRDFsFromDate" + haselement);
 		String delete = "Delete KeywordRDF  from " + date.toString();
-		if(haselement) {
-		int count = 0;
-		for(Entity entity : pq.asIterable()) {
-			System.out.println("Entity Properties" + entity.getProperties().keySet());
-			Key rdfkey = entity.getKey();
-			System.out.println("TransactionInfo key: " + rdfkey);
-			KeywordRDF rdf = pm.getObjectById(KeywordRDF.class,rdfkey);
-			pm.deletePersistent(rdf);
-			count++;
-		}
-		Integer countI = new Integer(count);
-		delete = delete + ":   Deleted " + countI.toString() + "records";
+		if (haselement) {
+			int count = 0;
+			for (Entity entity : pq.asIterable()) {
+				System.out.println("Entity Properties" + entity.getProperties().keySet());
+				Key rdfkey = entity.getKey();
+				System.out.println("TransactionInfo key: " + rdfkey);
+				KeywordRDF rdf = pm.getObjectById(KeywordRDF.class, rdfkey);
+				pm.deletePersistent(rdf);
+				count++;
+			}
+			Integer countI = new Integer(count);
+			delete = delete + ":   Deleted " + countI.toString() + "records";
 		} else {
 			delete = delete + ": no records found";
 		}

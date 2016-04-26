@@ -1,8 +1,10 @@
 package info.esblurock.reaction.client;
 
+import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 
+import java.io.IOException;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
@@ -28,6 +30,7 @@ public interface TextToDatabase extends RemoteService {
 	   String httpToDatabase(String http) throws Exception;
 	   Set<UploadFileTransaction> getSetOfUploadedFiles();
 	   String removeUploadedFile(String key) throws Exception;
+	   String checkSubmitInputData(DescriptionDataData descrdata) throws IOException;
 
 	String storeTextSetUploadData(TextSetUploadData data) throws Exception;
 }

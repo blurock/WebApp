@@ -1,5 +1,6 @@
 package info.esblurock.reaction.client;
 
+import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 
@@ -15,5 +16,6 @@ public interface TextToDatabaseAsync {
 	void removeUploadedFile(String key, AsyncCallback<String> callback);
 	void storeTextSetUploadData(TextSetUploadData data,
 			AsyncCallback<String> callback);
+	void checkSubmitInputData(DescriptionDataData descrdata, AsyncCallback<String> callback);
 
 }

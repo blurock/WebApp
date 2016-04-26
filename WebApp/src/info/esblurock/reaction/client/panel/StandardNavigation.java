@@ -30,8 +30,6 @@ public class StandardNavigation extends Composite implements HasText {
 	@UiField
 	MaterialTopNav topNav;
 	@UiField
-	MaterialLink inputquery;
-	@UiField
 	MaterialLink inputorganization;
 	@UiField
 	MaterialLink inputcontact;

@@ -25,7 +25,6 @@ public class StoreChemkinReactionData  extends StoreObject {
 			String mechS = generateReactions.parseOutReactionMechanismName(keyword);
 			storeStringRDF(reactionS,rxnS);
 			storeStringRDF(mechanismReaction, mechS);
-			storeObjectRDF(data);
 
 			for(String name : data.getReactantKeys()) {
 				storeStringRDF(isAReactant,name);
@@ -65,6 +64,7 @@ public class StoreChemkinReactionData  extends StoreObject {
 		}
 		
 		protected void storeObject() {
+			super.storeObject();
 		}
 
 

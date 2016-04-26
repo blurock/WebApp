@@ -3,6 +3,8 @@ package info.esblurock.reaction.data.chemical.mechanism;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import com.google.appengine.datanucleus.annotations.Unindexed;
+
 import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.data.chemical.elements.ChemicalElementListData;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeListData;
@@ -17,63 +19,72 @@ public class ChemicalMechanismData extends DatabaseObject {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	
+	@Persistent
+	String mechansmName;
+	
+	@Persistent
+	Integer numberOfElements;
+	
+	@Persistent
+	Integer numberOfSpecies;
+	
+	@Persistent
+	Integer numberOfReactions;
 
-	/** The element list. */
-	@Persistent(dependent="true")
-	ChemicalElementListData  elementList;
-	
-	/** The molecule list. */
-	@Persistent(dependent="true")
-	MechanismMoleculeListData  moleculeList;
-	
-	/** The reaction list. */
-	@Persistent(dependent="true")
-	MechanismReactionListData reactionList;
 
 	
 	public ChemicalMechanismData() {
 		super();
 	}
-	/**
-	 * Instantiates a new chemical mechanism data.
-	 *
-	 * @param elementList the element list
-	 * @param moleculeList the molecule list
-	 * @param reactionList the reaction list
-	 */
-	public ChemicalMechanismData(ChemicalElementListData elementList, MechanismMoleculeListData moleculeList,
-			MechanismReactionListData reactionList) {
+
+
+
+	public ChemicalMechanismData(String mechansmName, Integer numberOfElements,
+			Integer numberOfSpecies, Integer numberOfReactions) {
 		super();
-		this.elementList = elementList;
-		this.moleculeList = moleculeList;
-		this.reactionList = reactionList;
+		this.mechansmName = mechansmName;
+		this.numberOfElements = numberOfElements;
+		this.numberOfSpecies = numberOfSpecies;
+		this.numberOfReactions = numberOfReactions;
 	}
 
-	/**
-	 * Gets the element list.
-	 *
-	 * @return the element list
-	 */
-	public ChemicalElementListData getElementList() {
-		return elementList;
+	public Integer getNumberOfElements() {
+		return numberOfElements;
 	}
 
-	/**
-	 * Gets the molecule list.
-	 *
-	 * @return the molecule list
-	 */
-	public MechanismMoleculeListData getMoleculeList() {
-		return moleculeList;
+
+
+	public void setNumberOfElements(Integer numberOfElements) {
+		this.numberOfElements = numberOfElements;
 	}
 
-	/**
-	 * Gets the reaction list.
-	 *
-	 * @return the reaction list
-	 */
-	public MechanismReactionListData getReactionList() {
-		return reactionList;
+
+
+	public Integer getNumberOfSpecies() {
+		return numberOfSpecies;
+	}
+
+
+
+	public void setNumberOfSpecies(Integer numberOfSpecies) {
+		this.numberOfSpecies = numberOfSpecies;
+	}
+
+
+
+	public Integer getNumberOfReactions() {
+		return numberOfReactions;
+	}
+
+
+
+	public void setNumberOfReactions(Integer numberOfReactions) {
+		this.numberOfReactions = numberOfReactions;
+	}
+
+	public String getMechansmName() {
+		return mechansmName;
 	}
 
 	

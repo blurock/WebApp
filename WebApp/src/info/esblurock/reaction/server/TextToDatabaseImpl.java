@@ -15,6 +15,8 @@ import javax.jdo.PersistenceManager;
 import java.util.logging.Logger;
 
 import info.esblurock.reaction.client.TextToDatabase;
+import info.esblurock.reaction.client.panel.description.DataDescription;
+import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.description.StoreDescriptionData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.StoreTextSetUploadData;
@@ -23,6 +25,7 @@ import info.esblurock.reaction.data.upload.UploadFileTransaction;
 import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.datastore.PMF;
 import info.esblurock.reaction.server.event.RegisterTransaction;
+import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
 import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
@@ -33,6 +36,7 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 	static String uploadText = "UploadText";
 	static String uploadHTTP = "UploadHTTP";
 	static String deleteUploadedFile = "RemoveUploadedFile";
+	static String keywordDelimitor = "#";
 	
 	private static Logger log = Logger.getLogger(TextToDatabaseImpl.class.getName());
 	
@@ -99,10 +103,11 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 	public String storeTextSetUploadData(TextSetUploadData data) throws Exception {
 		String keyword = data.getDescription().getKeyword();
 		String userKey = data.getDescription().getInputkey();
+		String inputkeyword = generateInputKeyword(data.getDescription());
 		verify(uploadText,TaskTypes.dataInput);
 		String idCode = ManageDataSourceIdentification.getDataSourceIdentification(userKey);
 		String classname = data.getClass().getName();
-		TransactionInfo transaction = new TransactionInfo(userKey,keyword,classname,idCode);
+		TransactionInfo transaction = new TransactionInfo(userKey,inputkeyword,classname,idCode);
 		StoreTextSetUploadData store = new StoreTextSetUploadData(keyword, data, transaction);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		transaction.setStoredObjectKey(data.getKey());
@@ -110,5 +115,14 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 		pm.close();
 		store.finish();
 		return store.getKey();
+	}
+	public String checkSubmitInputData(DescriptionDataData descrdata) throws IOException {
+		String keyword = generateInputKeyword(descrdata);
+		TransactionInfoQueries.transactionExists(keyword, TextSetUploadData.class.getName());
+		return keyword;
+	}
+	
+	public String generateInputKeyword(DescriptionDataData data) {
+		return data.getSourcekey() + keywordDelimitor + data.getKeyword();
 	}
 }

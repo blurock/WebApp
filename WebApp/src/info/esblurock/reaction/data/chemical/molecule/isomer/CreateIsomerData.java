@@ -9,12 +9,14 @@ import java.util.Set;
 import thermo.data.benson.NASAPolynomial;
 
 public class CreateIsomerData {
-	static String carbonS = "c";
-	static String hydrogenS = "h";
-	static String oxygenS = "o";
-	static String nitrogenS = "n";
+	public static String carbonS = "c";
+	public static String hydrogenS = "h";
+	public static String oxygenS = "o";
+	public static String nitrogenS = "n";
 
-	public CreateIsomerData() {
+	String keyword;
+	public CreateIsomerData(String keyword) {
+		this.keyword = keyword;
 	}
 
 	public IsomerData create(NASAPolynomial nasa) {
@@ -26,7 +28,7 @@ public class CreateIsomerData {
 				atomcount.put(atomS, atomcnt);
 			}
 		}
-		IsomerData isomer = new IsomerData(atomcount);
+		IsomerData isomer = new IsomerData(keyword, atomcount);
 		return isomer;
 	}
 

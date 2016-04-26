@@ -28,9 +28,6 @@ import javax.jdo.annotations.Persistent;
 @PersistenceCapable
 public class TransactionInfo extends DatabaseObject {
 
-	/** The max size of the number of {@link KeywordRDF} in this structure. */
-	int maxSize =  1000;
-	
 	/** The stored object key. */
 	@Persistent
 	String storedObjectKey;
@@ -53,11 +50,6 @@ public class TransactionInfo extends DatabaseObject {
     
     @Persistent
     String sourceCode;
-      
-    @Persistent
-    Integer numberOfElements;
-      
-    
     
     /** empty constructor
      * Instantiates a new transaction info.
@@ -82,7 +74,6 @@ public class TransactionInfo extends DatabaseObject {
 		this.inputDate = new Date();
 		this.transactionObjectType = transactionObjectType;
 		this.sourceCode = sourceCode;
-		this.numberOfElements = 0;
 	}
 	
 	/**
@@ -155,16 +146,6 @@ public class TransactionInfo extends DatabaseObject {
 	 */
 	public String getKeyword() {
 		return keyword;
-	}
-	/** total number of {@link KeywordRDF} elements
-	 * 
-	 * @return the total number of {@link KeywordRDF} elements
-	 */
-	public int getNumberOfElements() {
-		return numberOfElements;
-	}
-	public void setNumberOfElements(int num) {
-		numberOfElements = new Integer(num);
 	}
 	public String errorKeyword(String keyword) {
 		String errkey = "ERROR: " +  keyword;

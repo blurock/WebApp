@@ -13,6 +13,9 @@ public class StoreSetOfNASAPolynomialData extends StoreObject  {
 	static public String nasapolynomial = "NASAPolynomial";
 	private static Logger log = Logger.getLogger(StoreSetOfNASAPolynomialData.class.getName());
 
+	ArrayList<NASAPolynomialData> nasapolynomialset;
+	
+	
 	public StoreSetOfNASAPolynomialData(String keyword, DatabaseObject object, TransactionInfo transaction,
 			boolean storeObject) {
 		super(keyword, object, transaction, storeObject);
@@ -20,28 +23,16 @@ public class StoreSetOfNASAPolynomialData extends StoreObject  {
 
 	protected void storeObject() {
 		SetOfNASAPolynomialData data = (SetOfNASAPolynomialData) object;
-		/*
-		for( NASAPolynomialData nasa: data.getNasaSet()) {
-			store(nasa);
-		}
-		*/
 		super.storeObject();
 	}
 	
 	protected void storeRDF() {
-		SetOfNASAPolynomialData data = (SetOfNASAPolynomialData) object;
-		for( NASAPolynomialData nasa: data.getNasaSet()) {
-			String molname = CreateMechanismMoleculeData.createMoleculeKey(keyword, nasa.getMoleculeName());
-			storeStringRDF(nasapolynomial, molname);
-		}
+	}
+	
+	public void setListOfNASAPolynomials(ArrayList<NASAPolynomialData> set) {
+		nasapolynomialset = set;
 	}
 	public void finish() {
-		flushStore();
-		SetOfNASAPolynomialData data = (SetOfNASAPolynomialData) object;
-		for( NASAPolynomialData nasa: data.getNasaSet()) {
-			String molname = CreateMechanismMoleculeData.createMoleculeKey(keyword, nasa.getMoleculeName());
-			storeObjectRDF(molname, nasa);
-		}
 		super.finish();
 	}
 }

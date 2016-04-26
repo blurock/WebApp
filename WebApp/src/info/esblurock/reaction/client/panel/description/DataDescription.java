@@ -15,6 +15,8 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
@@ -65,7 +67,8 @@ public class DataDescription extends Composite implements HasText {
 		sourcekey.setText(descriptionConstants.sourcetext());
 		sourcekey.setPlaceholder(descriptionConstants.sourceplaceholder());
 		inputkey.setPlaceholder(descriptionConstants.inputplaceholder());
-		inputkey.setText("Administration");
+		String username = Cookies.getCookie("user");
+		inputkey.setText(username);
 	}
 	
 	private void initData() {

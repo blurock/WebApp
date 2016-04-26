@@ -2,9 +2,12 @@ package info.esblurock.reaction.data;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
+
+import com.google.appengine.api.datastore.DatastoreTimeoutException;
 
 import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
@@ -171,10 +174,27 @@ public class StoreObject {
 
 	public void flushStore() {
 		log.info("StoreObject: flushStore(): " + toBeStored.size());
+		int timeout_ms = 100;
 		if (toBeStored.size() > 0) {
-			PersistenceManager pm = PMF.get().getPersistenceManager();
-			pm.makePersistentAll(toBeStored);
-			pm.close();
+			while (true) {
+				try {
+					PersistenceManager pm = PMF.get().getPersistenceManager();
+					pm.makePersistentAll(toBeStored);
+					pm.close();
+					break;
+				} catch (DatastoreTimeoutException e) {
+					try {
+						Thread.currentThread().sleep(timeout_ms);
+						timeout_ms *= 2;
+						log.log(Level.WARNING,"flushStore(): DatastoreTimeoutException increase wait to: " + timeout_ms);
+						if(timeout_ms > 10000) {
+							log.log(Level.SEVERE,"flushStore(): DatastoreTimeoutException waiting does not seem to help ");
+						}
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
 			toBeStored = new ArrayList<DatabaseObject>();
 		}
 	}
@@ -224,7 +244,7 @@ public class StoreObject {
 	 * @param object
 	 *            the object
 	 */
-	protected void storeObjectRDF(String objectkey, DatabaseObject object) {
+	public void storeObjectRDF(String objectkey, DatabaseObject object) {
 		// store(object);
 		String key = object.getKey();
 		String classname = object.getClass().getName();
@@ -232,6 +252,7 @@ public class StoreObject {
 		KeywordRDF objectrdf = new KeywordRDF(objectkey, typepredicate, key, transaction.getUser(),
 				transaction.getSourceCode());
 		store(objectrdf);
+		System.out.println("storeObjectRDF: " + toBeStored.size());
 	}
 
 	/**
@@ -239,7 +260,6 @@ public class StoreObject {
 	 */
 	protected void storeObject() {
 		if (storeObject) {
-			System.out.println("Store: " + object.toString());
 			store(object);
 		}
 	}

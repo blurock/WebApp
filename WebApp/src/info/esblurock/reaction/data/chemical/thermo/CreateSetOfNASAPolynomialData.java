@@ -3,12 +3,15 @@ package info.esblurock.reaction.data.chemical.thermo;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import javax.jdo.PersistenceManager;
+
 import info.esblurock.reaction.data.CreateData;
 import info.esblurock.reaction.data.chemical.molecule.CreateMechanismMoleculeData;
 import info.esblurock.reaction.data.chemical.molecule.isomer.CreateIsomerData;
 import info.esblurock.reaction.data.chemical.molecule.isomer.IsomerData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.server.TextToDatabaseImpl;
+import info.esblurock.reaction.server.datastore.PMF;
 import thermo.data.benson.NASAPolynomial;
 import thermo.data.benson.SetOfThermodynamicInformation;
 import thermo.data.benson.ThermodynamicInformation;
@@ -19,24 +22,40 @@ public class CreateSetOfNASAPolynomialData extends CreateData {
 
 	String setBaseName;
 
-	CreateSetOfNASAPolynomialData() {
+	ArrayList<NASAPolynomialData> nasapolynomials;
+	CreateSetOfNASAPolynomialData(String setBaseName) {
+		this.setBaseName = setBaseName;
 	}
 	
 	public SetOfNASAPolynomialData create(SetOfThermodynamicInformation set) {
-		SetOfNASAPolynomialData thermoset = new SetOfNASAPolynomialData();
+		SetOfNASAPolynomialData thermoset = new SetOfNASAPolynomialData(setBaseName, set.size());
+		nasapolynomials = new ArrayList<NASAPolynomialData>();
 		for(ThermodynamicInformation thermo : set) {
 			NASAPolynomial nasa = (NASAPolynomial) thermo;
 			NASAPolynomialData nasadata = create(nasa);
-			thermoset.addThermo(nasadata);
+			nasapolynomials.add(nasadata);
 		}
 		return thermoset;		
 	}
-		public void create(String setBaseName, SetOfNASAPolynomialData set,  TransactionInfo transaction) {
-		for(NASAPolynomialData nasadata : set.getNasaSet()) {
+	public void create(String setBaseName, SetOfNASAPolynomialData set,  TransactionInfo transaction) {
+		StoreSetOfNASAPolynomialData storeset = new StoreSetOfNASAPolynomialData(setBaseName, set, transaction, true);
+		storeset.finish();
+		
+		transaction.setStoredObjectKey(set.getKey());
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		pm.makePersistent(transaction);
+		String Key = transaction.getKey();
+		pm.close();
+
+		for(NASAPolynomialData nasadata : nasapolynomials) {
 			String molname = CreateMechanismMoleculeData.createMoleculeKey(setBaseName, nasadata.getMoleculeName());
-			StoreNASAPolynomialData store = new StoreNASAPolynomialData(molname, nasadata, transaction, false);
+			StoreNASAPolynomialData store = new StoreNASAPolynomialData(molname, nasadata, transaction, true);
 			this.addStore(store);
 		}
+		this.flushCreate();
+
+		storeset.setListOfNASAPolynomials(nasapolynomials);
+		storeset.finish();
 	}
 	
 	/**
@@ -46,8 +65,8 @@ public class CreateSetOfNASAPolynomialData extends CreateData {
 	 * @return the NASA polynomial data
 	 */
 	public NASAPolynomialData create(NASAPolynomial nasa) {
-		
-		CreateIsomerData createisomer = new CreateIsomerData();
+		String molname = CreateMechanismMoleculeData.createMoleculeKey(setBaseName, nasa.getName());
+		CreateIsomerData createisomer = new CreateIsomerData(molname);
 		IsomerData isomer = createisomer.create(nasa);
 		
 		
@@ -72,7 +91,7 @@ public class CreateSetOfNASAPolynomialData extends CreateData {
 			lower.add(c);
 		}
 		
-		NASAPolynomialData NASA = new NASAPolynomialData(moleculeName, isomer, 
+		NASAPolynomialData NASA = new NASAPolynomialData(setBaseName, moleculeName, isomer, 
 				lowerT, middleT, upperT,
 				enthalpy, entropy,
 				upper, lower, phase);

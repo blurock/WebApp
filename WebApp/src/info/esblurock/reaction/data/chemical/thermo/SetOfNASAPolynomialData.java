@@ -20,37 +20,26 @@ public class SetOfNASAPolynomialData extends DatabaseObject {
 	
 	/** The nasa set. */
 	@Persistent
-	@Element(dependent="true")
-	ArrayList<NASAPolynomialData> nasaSet;
+	String mechanismKeyword;
 
+	@Persistent
+	Integer numberOfPolynomials;
+	
 	/**
 	 * Instantiates a new sets the of NASA polynomial data.
 	 * Initially it is empty, one element is added at a time through addThermo
 	 */
-	public SetOfNASAPolynomialData() {
-		nasaSet = new ArrayList<NASAPolynomialData>();
-	}
-	
-	/**
-	 * Adds the NASA polynomial to the set
-	 * 
-	 * The molecule name (within the consistent set) is used as the key to the HashMap.
-	 *
-	 * @param nasa the NASA polynomial to add
-	 * @return the key name used
-	 */
-	public String addThermo(NASAPolynomialData nasa) {
-		nasaSet.add(nasa);
-		return nasa.getMoleculeName();
+	public SetOfNASAPolynomialData(String mechanismKeyword, int numberOfPolynomials) {
+		this.mechanismKeyword = mechanismKeyword;
+		this.numberOfPolynomials = new Integer(numberOfPolynomials);
 	}
 
-	/**
-	 * Get NASA polynomials for this set
-	 *
-	 * @return the set of {@link NASAPolynomialData} (as a {@link HashMap})
-	 */
-	public ArrayList<NASAPolynomialData> getNasaSet() {
-		return nasaSet;
+	public String getMechanismKeyword() {
+		return mechanismKeyword;
 	}
-	
+
+	public Integer getNumberOfPolynomials() {
+		return numberOfPolynomials;
+	}	
+
 }

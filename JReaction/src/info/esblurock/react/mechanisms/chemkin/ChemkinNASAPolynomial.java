@@ -179,23 +179,38 @@ public class ChemkinNASAPolynomial implements ThermodynamicInformation {
             lowerT = parseDouble(l1.substring(45, 55));
             upperT = parseDouble(l1.substring(55, 65));
             middleT = parseDouble(l1.substring(65, 74));
+        } catch (NumberFormatException ex) {
+            throw new IOException("Error in reading NASA polynomial Line 1: \n" + l1 );
+        }
+        try {            
             upper[0] = parseDouble(l2.substring(0, 15));
             upper[1] = parseDouble(l2.substring(15, 30));
             upper[2] = parseDouble(l2.substring(30, 45));
             upper[3] = parseDouble(l2.substring(45, 60));
             upper[4] = parseDouble(l2.substring(60, 75));
+        } catch (NumberFormatException ex) {
+        	String coeffS = upper[0] + ", " + upper[1] + ", " + upper[2] + ", " + upper[3] + ", " + upper[4];
+        	throw new IOException("Error in reading NASA polynomial Line 2: \n" + l2 + ": " + coeffS);
+        }
+        try {            
             upper[5] = parseDouble(l3.substring(0, 15));
             upper[6] = parseDouble(l3.substring(15, 30));
             lower[0] = parseDouble(l3.substring(30, 45));
             lower[1] = parseDouble(l3.substring(45, 60));
             lower[2] = parseDouble(l3.substring(60, 75));
+        } catch (NumberFormatException ex) {
+        	String coeffS = upper[5] + ", " + upper[6] + ", " + lower[0] + ", " + lower[1] + ", " + lower[2];
+           throw new IOException("Error in reading NASA polynomial Line 3: \n" + l3 + ": " + coeffS);
+        }
+        try {            
             lower[3] = parseDouble(l4.substring(0, 15));
             lower[4] = parseDouble(l4.substring(15, 30));
             lower[5] = parseDouble(l4.substring(30, 45));
             lower[6] = parseDouble(l4.substring(45, 60));
         } catch (NumberFormatException ex) {
-            throw new IOException("Error in reading NASA polynomial: \n" + ex.toString() + "\n " + l1);
-        }
+        	String coeffS = lower[3] + ", " + lower[4] + ", " + lower[5] + ", " + lower[6];
+            throw new IOException("Error in reading NASA polynomial line 4: \n" + l4 + ": " + coeffS);
+        }          
     }
 
     int convertInt(String str) throws NumberFormatException {

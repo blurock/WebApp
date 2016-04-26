@@ -1,5 +1,7 @@
 package info.esblurock.reaction.client;
 
+import com.google.gwt.user.client.Window;
+
 public class FindShortNameFromString {
 	public static String findShortName(String classname, String delimiter) {
 		String ans = classname;
@@ -7,7 +9,7 @@ public class FindShortNameFromString {
 		while(notdone) {
 			int pos = ans.indexOf(delimiter);
 			if(pos >= 0) {
-				ans = ans.substring(pos);
+				ans = ans.substring(pos+1);
 			} else {
 				notdone = false;
 			}

@@ -10,6 +10,8 @@ import info.esblurock.reaction.data.chemical.mechanism.ChemicalMechanismData;
 import info.esblurock.reaction.data.chemical.thermo.SetOfNASAPolynomialData;
 import info.esblurock.reaction.data.upload.DeleteTextSetUploadData;
 import info.esblurock.reaction.server.datastore.PMF;
+import info.esblurock.reaction.server.queries.ChemicalMechanismDataQuery;
+import info.esblurock.reaction.server.queries.NASAPolynomialDataQuery;
 
 public enum DeleteDataStructures {
 
@@ -23,16 +25,9 @@ public enum DeleteDataStructures {
 	},
 	ChemicalMechanismData {
 		@Override
-		public String deleteStructure(String key) throws IOException {
-			PersistenceManager pm = PMF.get().getPersistenceManager();
-			ChemicalMechanismData mech = pm.getObjectById(ChemicalMechanismData.class, key);
-			if(mech != null) {
-				pm.deletePersistent(mech);
-				pm.flush();
-				pm.close();
-			} else {
-				throw new IOException("ChemkinMechanismData deleteStructure fail with key: " + key);
-			}
+		public String deleteStructure(String key) throws IOException {			
+			ChemicalMechanismDataQuery query = new ChemicalMechanismDataQuery();
+			query.deleteChemicalMechanismDataFromKey(key);
 			return key;
 		}
 		
@@ -41,15 +36,8 @@ public enum DeleteDataStructures {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			PersistenceManager pm = PMF.get().getPersistenceManager();
-			SetOfNASAPolynomialData nasa = pm.getObjectById(SetOfNASAPolynomialData.class, key);
-			if(nasa != null) {
-				pm.deletePersistent(nasa);
-				pm.flush();
-				pm.close();
-			} else {
-				throw new IOException("SetOfNASAPolynomialData deleteStructure fail with key: " + key);
-			}
+			NASAPolynomialDataQuery query = new NASAPolynomialDataQuery();
+			query.deleteNASAPolynomialDataFromKey(key);
 			return key;
 		}
 		

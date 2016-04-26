@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 
+import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.transaction.ActionsUsingIdentificationCode;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.server.datastore.PMF;
@@ -124,7 +125,7 @@ public class DeleteTransactionInfoAndObject {
 			log.info("Done deleting object");
 		}
 		log.info("Delete TransactionInfo: " + transaction.getKeyword());
-		ActionsUsingIdentificationCode.deleteFromIdentificationCode(transaction.getSourceCode(), "KeywordRDF");
+		ActionsUsingIdentificationCode.deleteFromIdentificationCode(KeywordRDF.class, transaction.getSourceCode());
 
 		try {
 			log.info("PMF.get(): " + transaction.getKeyword());

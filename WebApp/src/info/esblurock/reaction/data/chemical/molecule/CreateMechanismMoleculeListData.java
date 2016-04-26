@@ -14,7 +14,8 @@ public class CreateMechanismMoleculeListData extends CreateData {
 	String keywordBase;
 	CreateMechanismMoleculeData createMolecule;
 	HashMap<String, String> moleculeMap;
-
+	ArrayList<MechanismMoleculeData> moleculeList;
+	
 	public CreateMechanismMoleculeListData(String keywordBase) {
 		this.keywordBase = keywordBase;
 		createMolecule = new CreateMechanismMoleculeData(keywordBase);
@@ -22,28 +23,38 @@ public class CreateMechanismMoleculeListData extends CreateData {
 	}
 
 	public MechanismMoleculeListData create(ChemkinMoleculeList speciesList) {
-		ArrayList<MechanismMoleculeData> molecules = new ArrayList<MechanismMoleculeData>();
+		moleculeList = new ArrayList<MechanismMoleculeData>();
 		Set<String> keys = speciesList.keySet();
 		for (String key : keys) {
 			ChemkinMolecule molecule = speciesList.get(key);
 			MechanismMoleculeData mol = createMolecule.create(molecule);
-			molecules.add(mol);
+			moleculeList.add(mol);
 			String molname = CreateMechanismMoleculeData.createMoleculeKey(mol.getMechanismKeyword(), mol.getMoleculeName());
 			moleculeMap.put(mol.getMoleculeName(), molname);			
 		}
-		MechanismMoleculeListData mollistdata = new MechanismMoleculeListData(molecules);
+		MechanismMoleculeListData mollistdata = new MechanismMoleculeListData(keywordBase, moleculeList.size());
 		return mollistdata;
 	}
 	
 	public void create(MechanismMoleculeListData mechmollist, TransactionInfo transaction) {
 		System.out.println("MechanismMoleculeData mol:" + mechmollist);
-		for (MechanismMoleculeData mol : mechmollist.getMolecules()) {
+		
+		StoreMechanismMoleculeListData storelist = new StoreMechanismMoleculeListData(keywordBase,mechmollist,transaction,true);
+		storelist.finish();
+		
+		for (MechanismMoleculeData mol : moleculeList) {
 			String keyword = CreateMechanismMoleculeData.createMoleculeKey(keywordBase,mol.getMoleculeName() );
 			StoreMechanismMoleculeData store 
-				= new StoreMechanismMoleculeData(keyword, mol,transaction, false);
+				= new StoreMechanismMoleculeData(keyword, mol,transaction, true);
 			addStore(store);
 		}
-		this.merge(createMolecule);
+		flushCreate();
+		for(MechanismMoleculeData data : moleculeList) {
+			String keyword = CreateMechanismMoleculeData.createMoleculeKey(keywordBase,data.getMoleculeName() );
+			System.out.println("keyword='" + keyword + "', Key='" + data.getKey() + "'");
+			storelist.storeObjectRDF(keyword, data);
+		}
+		addStore(storelist);
 	}
 
 	public HashMap<String, String> getMoleculeMap() {

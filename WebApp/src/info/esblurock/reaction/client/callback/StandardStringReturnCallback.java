@@ -6,6 +6,7 @@ import info.esblurock.reaction.client.panel.modal.TextMessagePopup;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class StandardStringReturnCallback   implements AsyncCallback<String> {
@@ -22,6 +23,7 @@ public class StandardStringReturnCallback   implements AsyncCallback<String> {
 	
 	@Override
 	public void onFailure(Throwable caught) {
+		Window.alert(caught.toString());
 		TextMessagePopup popup = new TextMessagePopup(errorTitle,
 				caught.toString());
 		MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);

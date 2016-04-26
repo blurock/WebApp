@@ -58,6 +58,7 @@ public class CreateData {
 	 * transaction object.
 	 */
 	public void flushCreate() {
+		System.out.println("flushCreate(): " + storeObjects.size());
 		if (storeObjects.size() > 0) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		pm.makePersistentAll(storeObjects);

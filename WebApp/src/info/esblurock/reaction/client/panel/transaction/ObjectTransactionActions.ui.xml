@@ -52,14 +52,6 @@
 				<m:MaterialLink ui:field="transactionObjectType"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
-		<m:MaterialRow>
-			<m:MaterialColumn grid="s3">
-				<m:MaterialLink ui:field="rdfKeysSizelabel" />
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s9">
-				<m:MaterialLink ui:field="rdfKeysSize"/>
-			</m:MaterialColumn>
-		</m:MaterialRow>
 		</m:MaterialModalContent>
 		<m:MaterialModalFooter>
 				<m:MaterialButton ui:field="btndelete"

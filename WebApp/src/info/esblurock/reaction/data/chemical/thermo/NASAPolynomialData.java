@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import com.google.appengine.datanucleus.annotations.Unindexed;
+
 import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.data.chemical.molecule.isomer.IsomerData;
 
@@ -19,41 +21,53 @@ public class NASAPolynomialData extends DatabaseObject {
 
 	   /** The molecule name. */
    	@Persistent
+	   String mechanismKeyword;
+
+   	@Persistent
 	   String moleculeName;
 
    	@Persistent(dependent="true")
+   	@Unindexed
 	   IsomerData moleculeComposition;
 
    	/** The phase. */
    	@Persistent
+   	@Unindexed
 	   String phase;
    
 	   /** The lower bound temperature. */
    	@Persistent
+   	@Unindexed
 	   Double lowerT;
 	   
    	/** The middle (common) temperature between low and high temperature sets. */
    	@Persistent
+   	@Unindexed
 	   Double middleT;
 	   
    	/** The upper temperature of range. */
    	@Persistent
+   	@Unindexed
 	   Double upperT;
 	
    	/** The computed standard enthaply. */
    	@Persistent
+   	@Unindexed
 	   Double standardEnthalpy;
 	
    	/** The computed standard entropy. */
    	@Persistent
+   	@Unindexed
 	   Double standardEntropy;
 	
 	   /** The upper. */
    	@Persistent
+   	@Unindexed
 	   ArrayList<Double> upper;
 
 	   /** The lower. */
    	@Persistent
+   	@Unindexed
 	   ArrayList<Double> lower;
 
    	
@@ -73,14 +87,14 @@ public class NASAPolynomialData extends DatabaseObject {
 	 * @param lower the set of coefficients for the lower range
 	 * @param phase the phase (as listed on the NASA polynomial
 	 */
-	public NASAPolynomialData(String moleculeName, IsomerData isomer, 
+	public NASAPolynomialData(String mechanismKeyword,
+			String moleculeName, IsomerData isomer, 
 			Double lowerT, Double middleT, Double upperT,
-			Double enthalpy, double entropy,
+			Double enthalpy, Double entropy,
 			ArrayList<Double> upper, ArrayList<Double> lower, String phase) {
 		super();
-		System.out.println("NASAPolynomialData: " + isomer.getAtomCounts().toString());
 		this.moleculeComposition = isomer;
-		
+		this.mechanismKeyword = mechanismKeyword;
 		this.moleculeName = moleculeName;
 		this.lowerT = lowerT;
 		this.middleT = middleT;
@@ -90,8 +104,6 @@ public class NASAPolynomialData extends DatabaseObject {
 		this.upper = upper;
 		this.lower = lower;
 		this.phase = phase;
-		System.out.println("NASAPolynomialData: " + moleculeComposition.getAtomCounts().toString());
-		System.out.println("NASAPolynomialData: " + isomer.getAtomCounts().toString());
 	}
 
 	/**

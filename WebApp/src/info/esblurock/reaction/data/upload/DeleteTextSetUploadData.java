@@ -44,7 +44,7 @@ public class DeleteTextSetUploadData extends DeleteStructuresBase {
 					String id = source.getID();
 					UploadFileTransaction transaction = pm.getObjectById(UploadFileTransaction.class, id);
 					String out = removeUpload(id,transaction);
-					Log.info(out);
+					log.info(out);
 					pm.deletePersistent(source);
 				}
 				pm.deletePersistent(object);

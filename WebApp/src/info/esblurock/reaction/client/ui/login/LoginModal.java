@@ -89,7 +89,7 @@ public class LoginModal extends Composite implements HasText {
 
 							String sessionID = result.getSessionId();
 
-							final long DURATION = 1000 * 60 * 60 * 24 * 1;
+							final long DURATION = 1000 * 60 * 60;
 							Date expires = new Date(System.currentTimeMillis()
 									+ DURATION);
 							Cookies.setCookie("sid", sessionID, expires, null,
