@@ -10,7 +10,9 @@ import com.google.appengine.api.datastore.Key;
 import info.esblurock.reaction.data.chemical.elements.ChemicalElementListData;
 import info.esblurock.reaction.data.chemical.mechanism.ChemicalMechanismData;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
+import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeListData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
+import info.esblurock.reaction.data.chemical.reaction.MechanismReactionListData;
 import info.esblurock.reaction.server.datastore.PMF;
 
 
@@ -31,11 +33,13 @@ public class ChemicalMechanismDataQuery extends QueryBase {
 		ArrayList<Key> keys = getObjectKeysFromSingleProperty(ChemkinReactionData.class,mechanismKeyword,mechanismName);
 		return keys;
 	}
-	public void deleteChemicalMechanismDataFromName(String mechanismName){
+	public void deleteChemicalMechanismDataFromName(String mechanismName) {
 		String mechanismKeyword = "mechanismKeyword";
 		deleteFromIdentificationCode(ChemicalElementListData.class,mechanismKeyword,mechanismName);
 		deleteFromIdentificationCode(MechanismMoleculeData.class,mechanismKeyword,mechanismName);
 		deleteFromIdentificationCode(ChemkinReactionData.class,mechanismKeyword,mechanismName);
+		deleteFromIdentificationCode(MechanismReactionListData.class,mechanismKeyword,mechanismName);
+		deleteFromIdentificationCode(MechanismMoleculeListData.class,mechanismKeyword,mechanismName);
 	}
 	
 	public void deleteChemicalMechanismDataFromKey(String key)  throws IOException  {

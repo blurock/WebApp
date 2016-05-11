@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.jdo.FetchGroup;
 import javax.jdo.PersistenceManager;
@@ -32,6 +34,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * The Class TransactionServiceImpl.
  */
 public class TransactionServiceImpl extends RemoteServiceServlet implements TransactionService {
+	private static Logger log = Logger.getLogger(TextToDatabaseImpl.class.getName());
 
 	/** The pm. */
 	PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -48,11 +51,11 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		javax.jdo.Query q = pm.newQuery(TransactionInfo.class);
 		List<TransactionInfo> results = (List<TransactionInfo>) q.execute();
 		ArrayList<TransactionInfo> lst = new ArrayList<TransactionInfo>();
-		if(results != null){
-		for (TransactionInfo transaction : results) {
-			TransactionInfo t = pm.detachCopy(transaction);
-			lst.add(t);
-		}
+		if (results != null) {
+			for (TransactionInfo transaction : results) {
+				TransactionInfo t = pm.detachCopy(transaction);
+				lst.add(t);
+			}
 		}
 		pm.close();
 		return lst;
@@ -69,19 +72,33 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		ArrayList<TextSetUploadData> lst = new ArrayList<TextSetUploadData>();
 		pm.getFetchPlan().setGroup(FetchGroup.ALL);
 		javax.jdo.Query q = pm.newQuery(TextSetUploadData.class);
-		List<TextSetUploadData> results = (List<TextSetUploadData>) q.execute();
-		if (results != null) {
-			for (TextSetUploadData data : results) {
-				if (data != null) {
-					pm.retrieve(data);
-					TextSetUploadData datacopy = pm.detachCopy(data);
-					lst.add(datacopy);
+		try {
+		Object object = q.execute();
+		System.out.println(object);
+		if (object != null) {
+			if (object instanceof List) {
+				List<TextSetUploadData> results = (List<TextSetUploadData>) object;
+				if (results.size() > 0) {
+					for (TextSetUploadData data : results) {
+						if (data != null) {
+							pm.retrieve(data);
+							TextSetUploadData datacopy = pm.detachCopy(data);
+							lst.add(datacopy);
+						} else {
+							log.info("getAllUploadTransactions() an element is null");
+						}
+					}
 				} else {
-					System.out.println("getAllUploadTransactions() an element is null");
+					log.info("getAllUploadTransactions() no results found (size = 0)");
 				}
+			} else {
+				log.log(Level.SEVERE, "getAllUploadTransactions() did not return a list: " + object);
 			}
 		} else {
-
+			log.info("getAllUploadTransactions() not results found (null)");
+		}
+		} catch(NullPointerException ex) {
+			log.info("getAllUploadTransactions() results not found (null)");
 		}
 		pm.close();
 		return lst;

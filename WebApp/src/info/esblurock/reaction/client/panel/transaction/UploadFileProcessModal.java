@@ -16,7 +16,7 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.callback.StandardStringReturnCallback;
-import info.esblurock.reaction.client.panel.transaction.process.ProcessUploadFiles;
+import info.esblurock.reaction.client.panel.transaction.process.upload.ProcessUploadFiles;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.upload.InputTextSource;
 import info.esblurock.reaction.data.upload.TextSetUploadData;

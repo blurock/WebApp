@@ -25,6 +25,8 @@ import info.esblurock.reaction.data.upload.UploadFileTransaction;
 import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.datastore.PMF;
 import info.esblurock.reaction.server.event.RegisterTransaction;
+import info.esblurock.reaction.server.process.DataProcesses;
+import info.esblurock.reaction.server.process.upload.HttpUploadFileProcess;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
@@ -45,19 +47,20 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 
 
 	@Override
-	public String textToDatabase(String name, String text) throws Exception {
+	public String textToDatabase(String name, String text) throws IOException {
+		verify(uploadText, TaskTypes.dataInput);
+		String source = "Text";
+		
+		ContextAndSessionUtilities util = getUtilities();
+		String userS = util.getUserName();
+		RegisterTransaction.register(util.getUserInfo(),TaskTypes.dataInput,source, RegisterTransaction.checkLevel1);
 		
 		String ans = null;
-		ContextAndSessionUtilities util = getUtilities();
 		try {
 			InputStream stream = new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8));
 			BufferedReader br = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
-			String source = "Text";
-			String userS = util.getUserName();
-			verify(uploadText, TaskTypes.dataInput);
-			RegisterTransaction.register(util.getUserInfo(),TaskTypes.dataInput,source, RegisterTransaction.checkLevel1);
-			UploadFileTransaction upload = input.uploadFile(userS, name, source, br);
-			ans = upload.getKey();
+			//UploadFileTransaction upload = input.uploadFile(userS, name, source, br);
+			//ans = upload.getKey();
 		} catch (UnsupportedEncodingException e) {
 			ans = "ERROR: " + e.toString();
 		} catch (IOException e) {
@@ -67,23 +70,21 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 		return ans;
 	}
 	@Override
-	public String httpToDatabase(String http) throws Exception {
-		String ans = null;
+	public String httpToDatabase(String keyword, String http) throws IOException {
+		verify(uploadHTTP,TaskTypes.dataInput);
+		log.info("User verified: to read http address: " + http);
+		String processName = "HTTPReadChemkinMechanismFile";
+	
 		ContextAndSessionUtilities util = getUtilities();
-		try {
-			URL url = new URL(http);
-			BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-			String source = "HTTP";
-			String userS = util.getUserName();
-			verify(uploadHTTP,TaskTypes.dataInput);
-			UploadFileTransaction upload = input.uploadFile(userS, http, source, br);
-			ans = upload.getKey();
-		} catch (UnsupportedEncodingException e) {
-			ans = "ERROR: " + e.toString();
-		} catch (IOException e) {
-			ans = "ERROR: " + e.toString();
-		}
-		
+		String userS = util.getUserName();
+		String register = "HTTP, " + http;
+		RegisterTransaction.register(util.getUserInfo(),
+				TaskTypes.dataInput,register, 
+				RegisterTransaction.checkLevel1);
+		DataProcesses dataprocess = DataProcesses.valueOf(processName);
+		HttpUploadFileProcess process = (HttpUploadFileProcess) dataprocess.getProcess(userS, keyword, "");
+		process.setHttp(http);
+		String ans = process.process();
 		return ans;
 	}
 	@Override
@@ -114,7 +115,7 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 		pm.makePersistent(transaction);
 		pm.close();
 		store.finish();
-		return store.getKey();
+		return transaction.getKey();
 	}
 	public String checkSubmitInputData(DescriptionDataData descrdata) throws IOException {
 		String keyword = generateInputKeyword(descrdata);

@@ -30,6 +30,7 @@ public class TextSetUploadDataCallback implements AsyncCallback<List<TextSetUplo
 
 	@Override
 	public void onSuccess(List<TextSetUploadData> result) {
+		if(result.size() > 0) {
 		try {
 			for (TextSetUploadData info : result) {
 				gui.addTextSetUploadData(info);
@@ -38,7 +39,9 @@ public class TextSetUploadDataCallback implements AsyncCallback<List<TextSetUplo
 		} catch (Exception ex) {
 			Window.alert(ex.toString());
 		}
-
+		} else {
+			MaterialToast.alert("No upload sets found");
+		}
 	}
 
 }

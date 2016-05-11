@@ -1,4 +1,4 @@
-package info.esblurock.reaction.client.panel.transaction.process;
+package info.esblurock.reaction.client.panel.transaction.process.upload;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;

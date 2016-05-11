@@ -1,4 +1,4 @@
-package info.esblurock.reaction.client.panel.transaction.process;
+package info.esblurock.reaction.client.panel.transaction.process.upload;
 
 import java.io.IOException;
 

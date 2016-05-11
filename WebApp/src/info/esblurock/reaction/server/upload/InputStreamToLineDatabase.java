@@ -1,7 +1,6 @@
 package info.esblurock.reaction.server.upload;
 
 import info.esblurock.reaction.server.datastore.PMF;
-import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,11 +13,15 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
+import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.DeleteTextSetUploadData;
 import info.esblurock.reaction.data.upload.FileUploadLines;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 
-
+/**
+ * @author edwardblurock
+ *
+ */
 public class InputStreamToLineDatabase {
 	private static final Logger log = Logger.getLogger(InputStreamToLineDatabase.class.getName());
 
@@ -29,70 +32,74 @@ public class InputStreamToLineDatabase {
 
 	static public int maxLines = 2000;
 
-	
-
-	public UploadFileTransaction uploadFile(String user, String filename, String sourceType, BufferedReader buf)
-			throws IOException {
-		UploadFileTransaction transaction = null;
+	public UploadFileTransaction uploadFile(TransactionInfo info, UploadFileTransaction transaction, String filename,
+			String sourceType, BufferedReader buf) throws IOException {
 		try {
-		String line;
-		boolean notdone = true;
-		int partcount = 0;
-		counter = 0;
-		totalcount = 0;
-		String fileCode = ManageDataSourceIdentification.getDataSourceIdentification(user);
-		transaction = new UploadFileTransaction(user, filename, fileCode, sourceType,totalcount);
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		pm.makePersistent(transaction);
-		pm.flush();
-		pm.close();
-		String transactionkey = transaction.getKey();
-		
-		ArrayList<FileUploadLines> set = new ArrayList<FileUploadLines>();
-		while (notdone) {
-			line = buf.readLine();
-			if (line != null) {
-				counter++;
-				totalcount++;
-				FileUploadLines uploadlines = new FileUploadLines(totalcount, line, fileCode);
-				set.add(uploadlines);
-				if (counter >= maxLines) {
-					uploadSet(set, fileCode, partcount);
-					partcount++;
-					counter = 0;
-					set = new ArrayList<FileUploadLines>();
-				}
-			} else {
-				notdone = false;
-				uploadSet(set, fileCode, partcount);
-			}
-		}
-		transaction = new UploadFileTransaction(user, filename, fileCode, sourceType,totalcount);
-		pm = PMF.get().getPersistenceManager();
-		transaction = pm.getObjectById(UploadFileTransaction.class,transactionkey);
-		transaction.setLineCount(totalcount);
-		pm.makePersistent(transaction);
-		pm.flush();
-		pm.close();
-		log.info("Done Persist: UploadFilePartTransaction with " + totalcount + " lines");
+			counter = 0;
+			totalcount = 0;
+			log.info("uploadFile: intial UploadFileTransaction stored");
 		} catch (Exception ex) {
-			if(transaction != null) {
+			if (transaction != null) {
 				PersistenceManager pm = PMF.get().getPersistenceManager();
 				sourceType = "ERROR";
 				transaction.setLineCount(totalcount);
 				pm.makePersistent(transaction);
 				pm.flush();
 				pm.close();
-				log.log(Level.SEVERE,"ERROR write incomplete transaction: ");
+				log.log(Level.SEVERE, "ERROR write incomplete transaction: ");
 			}
-			log.log(Level.SEVERE,"ERROR in upload file: " + ex.toString());
+			log.log(Level.SEVERE, "ERROR in upload file: " + ex.toString());
 			throw new IOException("ERROR in upload file: " + ex.toString());
 		}
-		
-		
+
 		return transaction;
 	}
 
+	public UploadFileTransaction uploadFile(UploadFileTransaction transaction, BufferedReader buf)
+			throws IOException {
+		log.info("uploadFile: intial UploadFileTransaction stored");
+		try {
+			String fileCode = transaction.getFileCode();
+			ArrayList<FileUploadLines> set = new ArrayList<FileUploadLines>();
+			String line;
+			int partcount = 0;
+			boolean notdone = true;
+			while (notdone) {
+				line = buf.readLine();
+				if (line != null) {
+					counter++;
+					totalcount++;
+					FileUploadLines uploadlines = new FileUploadLines(totalcount, line, fileCode);
+					set.add(uploadlines);
+					if (counter >= maxLines) {
+						uploadSet(set, fileCode, partcount);
+						partcount++;
+						counter = 0;
+						set = new ArrayList<FileUploadLines>();
+					}
+				} else {
+					notdone = false;
+					uploadSet(set, fileCode, partcount);
+				}
+			}
+			log.info("UploadFileTransaction uploadFile: " + totalcount + ", " + partcount);
+			transaction.setLineCount(totalcount);
+		} catch (Exception ex) {
+			if (transaction != null) {
+				PersistenceManager pm = PMF.get().getPersistenceManager();
+				transaction.setLineCount(totalcount);
+				pm.makePersistent(transaction);
+				pm.flush();
+				pm.close();
+				log.log(Level.SEVERE, "ERROR write incomplete transaction: ");
+			}
+			log.log(Level.SEVERE, "ERROR in upload file: " + ex.toString());
+			throw new IOException("ERROR in upload file: " + ex.toString());
+		}
+
+		return transaction;
+
+	}
 	private void uploadSet(ArrayList<FileUploadLines> set, String filename, int partcount) {
 		log.info("Persist: UploadFilePartTransaction");
 		log.info("uploadSet: " + partcount + "(" + set.size() + ")");
@@ -101,11 +108,9 @@ public class InputStreamToLineDatabase {
 		pm.makePersistentAll(set);
 		pm.flush();
 		pm.close();
-		log.info("Done Persist Part: UploadFilePartTransaction with " + totalcount 
-				+ " lines: part="  + partcount 
-				+ "(" + set.size() + ")");
+		log.info("Done Persist Part: UploadFilePartTransaction with " + totalcount + " lines: part=" + partcount + "("
+				+ set.size() + ")");
 	}
-
 
 	public Set<UploadFileTransaction> getUploadedFiles() {
 		HashSet<UploadFileTransaction> transset = new HashSet<UploadFileTransaction>();
@@ -128,18 +133,17 @@ public class InputStreamToLineDatabase {
 		return transset;
 	}
 
-	
 	public String removeUpload(String key) {
 		String ans = "SUCCESS";
 		try {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
 			UploadFileTransaction uploadinfo = pm.getObjectById(UploadFileTransaction.class, key);
 			DeleteTextSetUploadData delete = new DeleteTextSetUploadData();
-			ans = delete.removeUpload(key,uploadinfo);
+			ans = delete.removeUpload(key, uploadinfo);
 		} catch (IOException ex) {
-			log.log(Level.SEVERE,ex.toString());
+			log.log(Level.SEVERE, ex.toString());
 		} catch (Exception ex) {
-			log.log(Level.SEVERE,ex.toString());
+			log.log(Level.SEVERE, ex.toString());
 		}
 		return ans;
 	}

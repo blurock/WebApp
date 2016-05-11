@@ -1,5 +1,6 @@
 package info.esblurock.reaction.client.panel.inputs;
 
+import info.esblurock.reaction.client.panel.description.DataDescription;
 import info.esblurock.reaction.client.panel.inputs.resource.PanelInputResources;
 import info.esblurock.reaction.client.resources.InputConstants;
 
@@ -10,11 +11,11 @@ public enum InputPanel {
 	chemkinReactions {
 		@Override
 		
-		public DataInput getWidget() {
+		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
 			String text = PanelInputResources.INSTANCE.exampleChemkinMechanismReactions().getText();
-			DataInput mechanism = new DataInput(
+			DataInput mechanism = new DataInput(description,
 					inputConstants.chemkinmechanismtype(),
 					inputConstants.chemkinmechanismtitle(),
 					inputConstants.chemkinmechanismhtitletooltip(),
@@ -27,11 +28,11 @@ public enum InputPanel {
 	},
 	nasapolynomials {
 		@Override
-		public DataInput getWidget() {
+		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
 
-			DataInput mechanism = new DataInput(
+			DataInput mechanism = new DataInput(description,
 					inputConstants.nasapolynomialstype(),
 					inputConstants.nasapolynomialstitle(),
 					inputConstants.nasapolynomialstitletooltip(),
@@ -43,11 +44,11 @@ public enum InputPanel {
 	},
 	transport {
 		@Override
-		public DataInput getWidget() {
+		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
 
-			DataInput mechanism = new DataInput(
+			DataInput mechanism = new DataInput(description,
 					inputConstants.transporttype(),
 					inputConstants.transporttitle(),
 					inputConstants.transporttitletooltip(),
@@ -59,11 +60,11 @@ public enum InputPanel {
 	},
 	sdfsubstructures {
 		@Override
-		public DataInput getWidget() {
+		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
 
-			DataInput mechanism = new DataInput(
+			DataInput mechanism = new DataInput(description,
 					inputConstants.sdfsubstructurestype(),
 					inputConstants.sdfsubstructurestitle(),
 					inputConstants.sdfsubstructurestitletooltip(),
@@ -75,11 +76,11 @@ public enum InputPanel {
 	},
 	sdfmolecules {
 		@Override
-		public DataInput getWidget() {
+		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
 
-			DataInput mechanism = new DataInput(
+			DataInput mechanism = new DataInput(description,
 					inputConstants.sdfmoleculetype(),
 					inputConstants.sdfmoleculehttptext(),
 					inputConstants.sdfmoleculetitletooltip(),
@@ -91,11 +92,11 @@ public enum InputPanel {
 	},
 	thergasmolecules {
 		@Override
-		public DataInput getWidget() {
+		public DataInput getWidget(DataDescription description) {
 
 		InputConstants inputConstants = GWT.create(InputConstants.class);
 
-		DataInput mechanism = new DataInput(
+		DataInput mechanism = new DataInput(description,
 				inputConstants.thergasmoleculetype(),
 				inputConstants.thergasmoleculestitle(),
 				inputConstants.thergasmoleculestitletooltip(),
@@ -113,5 +114,5 @@ public enum InputPanel {
 	public boolean getRequired() {
 		return required;
 	}
-	public abstract DataInput getWidget();
+	public abstract DataInput getWidget(DataDescription description);
 }

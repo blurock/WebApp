@@ -1,15 +1,10 @@
 package info.esblurock.reaction.data.upload;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
-
-import java.util.ArrayList;
-import java.util.Date;
-
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+
+import info.esblurock.reaction.client.data.DatabaseObject;
+
 
 @PersistenceCapable
 public class UploadFileTransaction extends DatabaseObject {

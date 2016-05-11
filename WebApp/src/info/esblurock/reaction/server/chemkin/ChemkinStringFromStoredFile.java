@@ -39,6 +39,17 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 	private int maxPart = 1000;
 	boolean nextpart = true;
 
+	public ChemkinStringFromStoredFile(UploadFileTransaction transaction, String commentString) {
+		super(transaction.getKey(), commentString);
+		count = 0;
+		totalcount = 0;
+		nextpart = true;
+		lineCount = transaction.getLineCount();
+		fileCode = transaction.getFileCode();
+		setUpNextPart();
+
+	}
+
 	public ChemkinStringFromStoredFile(String key, String user, String commentString) {
 		super(key, commentString);
 		count = 0;
@@ -59,7 +70,7 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 	private boolean setUpNextPart() {
 		count = 0;
 		if (nextpart) {
-			lines = ActionsUsingIdentificationCode.getNextLinest(totalcount, maxPart, fileCode);
+			lines = ActionsUsingIdentificationCode.getNextLines(totalcount, maxPart, fileCode);
 		}
 		if (lines.size() == 0)
 			nextpart = false;

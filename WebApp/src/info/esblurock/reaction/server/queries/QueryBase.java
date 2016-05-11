@@ -20,26 +20,56 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import info.esblurock.react.data.DatabaseObject;
 import info.esblurock.reaction.server.datastore.PMF;
 
+/**
+ * A set of routines performing general queries (the object is to isolate the
+ * routines which access to the database)
+ * 
+ * @author edwardblurock
+ *
+ */
 public class QueryBase {
 
 	private static final Logger log = Logger.getLogger(QueryBase.class.getName());
 
 	public QueryBase() {
-		
+
 	}
 
-	public void deleteFromIdentificationCode(Class classtype, String codename, String idcode) {
-		log.info("UsingIdentificationCode   deleteFromIdentificationCode: " + classtype.getName()+ codename + ", " + idcode);
-		
+	/**
+	 * Delete objects of classtype with propertyname == propertyvalue
+	 * 
+	 * @param classtype
+	 *            The class of the items to delete.
+	 * @param propertyname:
+	 *            The property name to search for
+	 * @param propertyvalue:
+	 *            The value of the property
+	 */
+	public void deleteFromIdentificationCode(Class classtype, String propertyname, String propertyvalue) {
+		log.info("UsingIdentificationCode   deleteFromIdentificationCode: " + classtype.getName() + propertyname + ", "
+				+ propertyvalue);
+
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		javax.jdo.Query q = pm.newQuery(classtype);
-		String filterS = codename + " == '" + idcode + "'";
+		String filterS = propertyname + " == '" + propertyvalue + "'";
 		log.info("deleteFromIdentificationCode: " + filterS);
 		q.setFilter(filterS);
 		long ans = q.deletePersistentAll();
 		log.info("deleteFromIdentificationCode: " + ans);
 	}
 
+	/**
+	 * Fetch the keys of classtype with propertyname == propertyvalue
+	 * 
+	 * @param classtype
+	 *            The class of the keys to fetch.
+	 * @param propertyname:
+	 *            The property name to search for
+	 * @param propertyvalue:
+	 *            The value of the property
+	 * 
+	 * @return The list of keys of type {@link Key}
+	 */
 	public ArrayList<Key> getObjectKeysFromSingleProperty(Class classtype, String propertyname, String propertyvalue) {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
@@ -57,10 +87,23 @@ public class QueryBase {
 		}
 		return lst;
 	}
-	public List<DatabaseObject> getDatabaseObjectsFromSingleProperty(Class classtype, String codename, String idcode) {
+
+	/**
+	 * Fetch objects of classtype with propertyname == propertyvalue
+	 * 
+	 * @param classtype
+	 *            The class of the objects to fetch.
+	 * @param propertyname:
+	 *            The property name to search for
+	 * @param propertyvalue:
+	 *            The value of the property
+	 * @return The list of objects matching the criteria
+	 */
+	public List<DatabaseObject> getDatabaseObjectsFromSingleProperty(Class classtype, String propertyname,
+			String propertyvalue) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		javax.jdo.Query q = pm.newQuery(classtype);
-		String filterS = codename + " == '" + idcode + "'";
+		String filterS = propertyname + " == '" + propertyvalue + "'";
 		log.info("deleteFromIdentificationCode: " + filterS);
 		q.setFilter(filterS);
 		List<DatabaseObject> objects = (List<DatabaseObject>) q.execute();

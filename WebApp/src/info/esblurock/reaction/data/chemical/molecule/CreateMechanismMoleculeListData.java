@@ -51,7 +51,6 @@ public class CreateMechanismMoleculeListData extends CreateData {
 		flushCreate();
 		for(MechanismMoleculeData data : moleculeList) {
 			String keyword = CreateMechanismMoleculeData.createMoleculeKey(keywordBase,data.getMoleculeName() );
-			System.out.println("keyword='" + keyword + "', Key='" + data.getKey() + "'");
 			storelist.storeObjectRDF(keyword, data);
 		}
 		addStore(storelist);

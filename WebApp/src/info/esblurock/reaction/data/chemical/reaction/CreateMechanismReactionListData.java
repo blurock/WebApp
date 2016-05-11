@@ -67,7 +67,6 @@ public class CreateMechanismReactionListData extends CreateData {
 		this.merge(createReaction);
 		flushCreate();
 		for(ChemkinReactionData data : chemkinReactionList) {
-			System.out.println("keyword='" + data.getReactionName() + "', Key='" + data.getKey() + "'");
 			store.storeObjectRDF(data.getReactionName(), data);
 		}
 		addStore(store);

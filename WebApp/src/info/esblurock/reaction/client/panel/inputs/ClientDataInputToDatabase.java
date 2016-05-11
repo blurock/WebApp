@@ -48,17 +48,21 @@ public class ClientDataInputToDatabase {
 	async.textToDatabase(name, text, callback);
 	}
 
-	public void httpToDatabase(String http, DataInput datainput) {
+	public void httpToDatabase(String keyword, String http, DataInput datainput) {
 	AsyncCallback<String> callback = new AsyncCallback<String>() {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			MaterialToast.alert(caught.toString());
+			Window.alert(caught.toString());
 		}
 
 		@Override
 		public void onSuccess(String result) {
-			MaterialToast.alert("Key: " + result);
+			if(result.startsWith("ERROR")) {
+				
+			} else {
+				MaterialToast.alert("Key: " + result);				
+			}
 			/*
 			data.setuUploadFile(http);
 			data.setUploadID(result);
@@ -68,7 +72,7 @@ public class ClientDataInputToDatabase {
 		
 		
 	};
-	async.httpToDatabase(http, callback);
+	async.httpToDatabase(keyword,http, callback);
 	}
 
 

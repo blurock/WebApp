@@ -19,12 +19,12 @@ public enum InputSet {
 		}
 
 		@Override
-		public ArrayList<DataInput> getSet() {
+		public ArrayList<DataInput> getSet(DataDescription description) {
 			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
 
-			inputset.add(InputPanel.chemkinReactions.getWidget());
-			inputset.add(InputPanel.nasapolynomials.getWidget());
-			DataInput transport = InputPanel.transport.getWidget();
+			inputset.add(InputPanel.chemkinReactions.getWidget(description));
+			inputset.add(InputPanel.nasapolynomials.getWidget(description));
+			DataInput transport = InputPanel.transport.getWidget(description);
 			transport.setRequiredInput(false);
 			inputset.add(transport);
 
@@ -47,12 +47,12 @@ public enum InputSet {
 		}
 
 		@Override
-		public ArrayList<DataInput> getSet() {
+		public ArrayList<DataInput> getSet(DataDescription description) {
 			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
 
-			inputset.add(InputPanel.chemkinReactions.getWidget());
-			inputset.add(InputPanel.nasapolynomials.getWidget());
-			DataInput transport = InputPanel.transport.getWidget();
+			inputset.add(InputPanel.chemkinReactions.getWidget(description));
+			inputset.add(InputPanel.nasapolynomials.getWidget(description));
+			DataInput transport = InputPanel.transport.getWidget(description);
 			transport.setRequiredInput(false);
 			inputset.add(transport);
 
@@ -74,10 +74,10 @@ public enum InputSet {
 		}
 
 		@Override
-		public ArrayList<DataInput> getSet() {
+		public ArrayList<DataInput> getSet(DataDescription description) {
 			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
-			inputset.add(InputPanel.sdfmolecules.getWidget());
-			inputset.add(InputPanel.nasapolynomials.getWidget());
+			inputset.add(InputPanel.sdfmolecules.getWidget(description));
+			inputset.add(InputPanel.nasapolynomials.getWidget(description));
 			return inputset;
 		}
 
@@ -97,9 +97,9 @@ public enum InputSet {
 		}
 
 		@Override
-		public ArrayList<DataInput> getSet() {
+		public ArrayList<DataInput> getSet(DataDescription description) {
 			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
-			inputset.add(InputPanel.sdfsubstructures.getWidget());
+			inputset.add(InputPanel.sdfsubstructures.getWidget(description));
 			return inputset;
 		}
 
@@ -119,9 +119,9 @@ public enum InputSet {
 		}
 
 		@Override
-		public ArrayList<DataInput> getSet() {
+		public ArrayList<DataInput> getSet(DataDescription description) {
 			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
-			inputset.add(InputPanel.thergasmolecules.getWidget());
+			inputset.add(InputPanel.thergasmolecules.getWidget(description));
 			return inputset;
 		}
 
@@ -141,10 +141,10 @@ public enum InputSet {
 		}
 
 		@Override
-		public ArrayList<DataInput> getSet() {
+		public ArrayList<DataInput> getSet(DataDescription description) {
 			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
 			InputPanel panel = InputPanel.nasapolynomials;
-			inputset.add(panel.getWidget());
+			inputset.add(panel.getWidget(description));
 			return inputset;
 		}
 
@@ -157,7 +157,7 @@ public enum InputSet {
 
 	public abstract DataDescription getDescription();
 
-	public abstract ArrayList<DataInput> getSet();
+	public abstract ArrayList<DataInput> getSet(DataDescription description);
 
 	public abstract String getDataType();
 

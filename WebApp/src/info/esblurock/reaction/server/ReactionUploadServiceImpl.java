@@ -82,8 +82,8 @@ public class ReactionUploadServiceImpl extends AppEngineUploadAction {
 					InputStreamToLineDatabase input = new InputStreamToLineDatabase();
 					String user = util.getUserName();
 					String type = "Upload";
-					UploadFileTransaction upload = input.uploadFile(user, item.getFieldName(), type, buf);
-					response += upload.getKey() + " ";
+					//UploadFileTransaction upload = input.uploadFile(user, item.getFieldName(), type, buf);
+					//response += upload.getKey() + " ";
 				} catch (Exception e) {
 					throw new UploadActionException(e);
 				}

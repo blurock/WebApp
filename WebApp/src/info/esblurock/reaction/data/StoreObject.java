@@ -272,20 +272,9 @@ public class StoreObject {
 		storeStringRDF(creationDate, DateAsString.dateAsString(date));
 	}
 
-	/**
-	 * Gets the key.
-	 *
-	 * @return the key
-	 */
-	public String getKey() {
-		return Key;
-	}
 
 	public ArrayList<DatabaseObject> getToBeStored() {
 		return toBeStored;
 	}
 
-	public void setTransactionKey(String key) {
-		Key = key;
-	}
 }

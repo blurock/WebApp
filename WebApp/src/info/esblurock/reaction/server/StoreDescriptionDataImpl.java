@@ -369,7 +369,7 @@ private String storeContactInfoData(ContactInfoData contact) {
 		StoreOrganizationDescriptionData store 
 			= new StoreOrganizationDescriptionData(keyword, organization, transaction);
 		store.finish();
-		return store.getKey();
+		return transaction.getKey();
 	}
 
 	/* (non-Javadoc)
@@ -432,6 +432,6 @@ private String storeContactInfoData(ContactInfoData contact) {
 		StoreUserDescriptionData store 
 			= new StoreUserDescriptionData(keyword, user, transaction);
 		store.finish();
-		return store.getKey();
+		return transaction.getKey();
 	}
 }

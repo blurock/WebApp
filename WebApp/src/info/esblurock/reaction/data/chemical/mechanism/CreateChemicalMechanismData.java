@@ -87,7 +87,6 @@ public class CreateChemicalMechanismData extends CreateData {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		pm.makePersistent(transaction);
 		String Key = transaction.getKey();
-		storeMechanism.setTransactionKey(Key);
 		pm.flush();
 		pm.close();
 

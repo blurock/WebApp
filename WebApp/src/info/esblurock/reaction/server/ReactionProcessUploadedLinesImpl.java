@@ -89,8 +89,41 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 		}
 		return ans;
 	}
-	
-	
+
+	public ChemkinMechanism parseChemkinMechanismText(TransactionInfo transaction) throws IOException {
+		ContextAndSessionUtilities util = getUtilities();
+		String event = "Process, " + transaction.getSourceCode() + ", " + transaction.getKeyword();
+		String key = transaction.getKey();
+		String user = transaction.getUser();
+		RegisterTransaction.register(util.getUserInfo(),TaskTypes.dataInput, event, RegisterTransaction.checkLevel1);
+		ChemkinStringFromStoredFile chemkinstring = new ChemkinStringFromStoredFile(key,user,commentString);
+		ChemkinMechanism mechanism = new ChemkinMechanism();
+		mechanism.parse(chemkinstring, commentString);
+		return mechanism;		
+	}
+
+	public String processChemkinMechanismText(TransactionInfo transaction) throws IOException {
+		ChemkinMechanism mechanism = parseChemkinMechanismText(transaction);
+
+		String user = transaction.getUser();
+		String idCode = ManageDataSourceIdentification.getDataSourceIdentification(user);
+		String classname = ChemicalMechanismData.class.getName();
+		String keyword = transaction.getKeyword();
+		TransactionInfo answertransaction = new TransactionInfo(user,keyword,classname,idCode);
+		CreateChemicalMechanismData create = new CreateChemicalMechanismData(keyword);
+		System.out.println("Mechanism Keyword: " + keyword);
+		try {
+			ChemicalMechanismData mechanismdata = create.create(mechanism);
+			create.create(mechanismdata,transaction);
+			create.finish();
+		} catch(Exception ex) {
+			HandleTransactions.exception(keyword, ex, transaction);
+		}
+
+		
+		return commentString;
+		
+	}
 	
 	public String processUploadedSetOfNASAPolynomial(DescriptionDataData description, 
 			String key, String filename, boolean process) throws IOException {
@@ -105,6 +138,7 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 		}
 		return ans;
 	}
+	
 	
 	public String deleteTextSetUploadData(String key)  throws IOException {
 		String ans = "";

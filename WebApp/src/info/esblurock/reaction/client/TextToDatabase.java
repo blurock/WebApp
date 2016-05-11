@@ -13,24 +13,26 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("texttodatabase")
 public interface TextToDatabase extends RemoteService {
-	   public static class Util
-	   {
-	       private static TextToDatabaseAsync instance;
+	public static class Util {
+		private static TextToDatabaseAsync instance;
 
-	       public static TextToDatabaseAsync getInstance()
-	       {
-	           if (instance == null)
-	           {
-	               instance = GWT.create(TextToDatabase.class);
-	           }
-	           return instance;
-	       }
-	   }
-	   String textToDatabase(String name, String text)  throws Exception;
-	   String httpToDatabase(String http) throws Exception;
-	   Set<UploadFileTransaction> getSetOfUploadedFiles();
-	   String removeUploadedFile(String key) throws Exception;
-	   String checkSubmitInputData(DescriptionDataData descrdata) throws IOException;
+		public static TextToDatabaseAsync getInstance() {
+			if (instance == null) {
+				instance = GWT.create(TextToDatabase.class);
+			}
+			return instance;
+		}
+	}
+
+	String textToDatabase(String name, String text) throws Exception;
+
+	Set<UploadFileTransaction> getSetOfUploadedFiles();
+
+	String removeUploadedFile(String key) throws Exception;
+
+	String checkSubmitInputData(DescriptionDataData descrdata) throws IOException;
 
 	String storeTextSetUploadData(TextSetUploadData data) throws Exception;
+
+	String httpToDatabase(String keyword, String http) throws IOException;
 }

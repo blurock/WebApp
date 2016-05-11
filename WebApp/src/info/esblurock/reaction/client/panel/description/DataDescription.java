@@ -122,6 +122,11 @@ public class DataDescription extends Composite implements HasText {
 		return date.getDate();
 	}
 	
+	public String createObjectKeyword() {
+		String name = getSource() + "#" + getKeyWord();
+		return name;
+	}
+	
 	@Override
 	public void setText(String title) {
 		objecttitle.setTitle(title);
