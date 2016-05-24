@@ -7,27 +7,42 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 
 import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.server.TextToDatabaseImpl;
 import info.esblurock.reaction.server.datastore.PMF;
+import info.esblurock.reaction.server.datastore.StorageAndRetrievalUtilities;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
 
 /**
  * @author edwardblurock
  * 
- * This is the base class of the process 
+ * This is the base class of the process
+ * 
+ * The process() method is performs the whole method.
+ * 
+ * The createObjects() is where the set up input and output objects are used to perform the method.
  * 
  * The information from {@link DataProcesses} is used to set up the data structures for this process.
  * The {@link DatabaseObject} and {@link TransactionInfo} pairs for input and output are given
  * by the names of the classes specified in {@link DataProcesses}.
  * 
- * The specific {@link DatabaseObject} objects to retrieve are determined by:
+ * The getInputTransactionObjectNames() (abstract) routine specifies the needed transaction types (as Strings) 
+ * that are needed to perform the operation.
+ * The getOutputTransactionObjectNames() (abstract) routine specifies the transaction types (as Strings) 
+ * that are created after performance of the process.
+ * The specific {@link DatabaseObject} and {@link TransactionInfo} objects to retrieve are determined by:
  * <ul>
  * <li> user: The user name (creator of the {@link DatabaseObject})
  * <li> keyword: the specific keyword specifying the object set
  * <li> sourceCode: the code specifying which object
  * <ul>
+ *
+ * The keyword is generated from the createObjectKeyword() in {@link DescriptionDataData}
+ * 
+ * The inputSourceCode and the outputSourceCode specify the specific set that the input and the output refers to.
+ * These codes are mainly used for deletion of a whole set of objects.
  * 
  */
 public abstract class ProcessBase {
@@ -35,55 +50,78 @@ public abstract class ProcessBase {
 	protected static Logger log = Logger.getLogger(TextToDatabaseImpl.class.getName());
 
 	
-    /** The input transaction object class names (as a string)**/
+    /** The input object class names (transactionObjectType in {@link TransactionInfo})
+     * The corresponding {@link TransactionInfo} is found with:
+     * <ul>
+     * <li> keyword: The keyword of the data set when the object was created
+     * <li> object class name (transactionObjectType) 
+     * </ul>
+     * **/
 	protected ArrayList<String> transactionObjectTypeInputs;
+	
+    /** The output transaction object class name (as a string)**/
+	protected ArrayList<String> transactionObjectTypeOutputs;
 	
     /* The input database objects */
 	protected ArrayList<DatabaseObject> objectInputs;
 	
-    /** The output transaction object class name (as a string)**/
-	protected ArrayList<String> transactionObjectTypeOutputs;
 	/** the output {@link TransactionInfo} **/
 	protected ArrayList<TransactionInfo> transactionOutputs;
 	/** the list of output database objects */
 	protected ArrayList<DatabaseObject> objectOutputs;
 
     /** The name of the process */
-	protected String processName;
-	protected DataProcesses process;
+	//protected String processName;
+	//protected DataProcesses process;
     protected String user;
     protected String keyword;
     protected String inputSourceCode;
     protected String outputSourceCode;
-/**
+    
+
+/** empty constructor
+ *  The empty constructor is used for registration and to access the input and output requirements
+ */
+	public ProcessBase() {
+		super();
+		this.user = null;
+		this.keyword = null;
+		this.inputSourceCode = null;
+	}
+
+    /**
  * 
  * @param processName: Used to determine which proces (within {@link DataProcesses}
  * @param user: The user/creator of the {@link DatabaseObject}
  * @param keyword: The keyword specifying the set of objects
  * @param sourceCode: The code specifying elements within the set
  */
-	public ProcessBase(String processName,String user, String keyword,String sourceCode) {
+	public ProcessBase(String user, String keyword,String sourceCode) {
 		super();
-		this.processName = processName;
 		this.user = user;
 		this.keyword = keyword;
 		this.inputSourceCode = sourceCode;
-		process = DataProcesses.valueOf(processName);
 	}
 
+	protected abstract String getProcessName();
+	protected abstract String getProcessDescription();
+	protected abstract ArrayList<String> getInputTransactionObjectNames();
+	protected abstract ArrayList<String> getOutputTransactionObjectNames();
+
+	
 /** The public routine to perform the process
  * 
  * This routine calls a set of standard procedures, some of which will be overrided.
  * <ul>
- * 		<li> setUpInputDataObjects:  fill objectInputs of input transactions from the database
-		<li> initializeOutputObjects(): fill outputSourceCode with (empty) output transactions
-    	<li> storeOutputObjects(): Store the output database objects (from objectOutputs)
-		<li> initializeOutputTranactions(): set up and store the output {@link TransactionInfo}
-    	<li> addObjectTransactionInfo()add the key to the output database objects to the respective {@link TransactionInfo}
-    	<li> storeNewTransactions(): Store the output {@link TransactionInfo}
-    	<li> createObjects();
-    	<li> storeOutputObjects();
-    	<li> storeNewTransactions();
+ * 		<li> setUpInputDataObjects:  fill tranactionInputs and objectInputs using transactionObjectTypeInputs
+		<li> initializeOutputObjects: fill objectOutputs with (empty) output {@link DatabaseObject} and get next outputSourceCode
+    	<li> storeOutputObjects: Store the output (empty) {@link DatabaseObject} (from objectOutputs)
+		<li> initializeOutputTranactions: set up and store the output {@link TransactionInfo} using transactionObjectTypeOutputs
+    	<li> addObjectTransactionInfo: add the key to the output {@link DatabaseObject} to the respective {@link TransactionInfo}
+    	<li> storeNewTransactions(): Store the output {@link TransactionInfo} (with all info filled in)
+    	<li> createObjects(): This is the heart of the process using the input and output objects set up.
+    	<li> storeOutputObjects(): Store the output {@link DatabaseObject} after the process is performed
+    	<li> storeNewTransactions(): 
     	</ul>
 
  * @return  A string resulting from the process
@@ -99,35 +137,47 @@ public abstract class ProcessBase {
     	createObjects();
     	storeOutputObjects();
     	storeNewTransactions();
-		return processName;
+    	String answer = getProcessName() + " [" + user + ": " + keyword +  " (" + outputSourceCode + ") ]";
+		return answer;
     }
 
 /** Set up the initial input database objects from the list of class names in transactionObjectTypeInputs
  * 
  * The result is to fill objectInputs of transactions from the database.
+ * First a list of {@link TransactionInfo} is retrieved using keyword and the string name from transactionObjectTypeInputs.
+ * Second, a list of {@link DatabaseObject} is retrieved from the 
+ * user name, object key, inputSourceCode, storedObjectKey in {@link TransactionInfo}
  * 
  * @throws IOException
  */
     protected void setUpInputDataObjects() throws IOException {
     	log.info("setUpDataObjects(): ");
-    	transactionObjectTypeInputs = process.getInputTransactionObjectNames();
-    	ArrayList<TransactionInfo> tranactionInputs = getSetOfTransactionInfos(transactionObjectTypeInputs);
+    	transactionObjectTypeInputs = getInputTransactionObjectNames();
+    	ArrayList<TransactionInfo> tranactionInputs = getSetOfTransactionInfos(inputSourceCode,transactionObjectTypeInputs);
 		objectInputs = getListOfClassObjects(tranactionInputs);
     }
 /** Set of the list of output database objects from the list of class names
  * (empty versions are set up)
- * The result is to fill outputSourceCode.
+ * The result is to fill objectOutputs: The initialization empty is allocate here and the overrided funtion
+ * add the {@link DatabaseObject} needed
+ * The sourceCode (outputSourceCode) is set up using the user name
  */
     protected void initializeOutputObjects() {
 		outputSourceCode = ManageDataSourceIdentification.getDataSourceIdentification(user);
+		objectOutputs = new ArrayList<DatabaseObject>();
     }
 
 /** Store the output TransactionInfo (into transactionOutputs) with the names of the database objects
  * 
  * The list of object names are given through a call to getOutputTransactionObjectNames() of {@link DataProcesses}
+ * For each {@link DatabaseObject} name, a {@link TransactionInfo} is formed using
+ * user and keyword (from constructor), infoname (from getOutputTransactionObjectNames(), and outputSourceCode
+ * (formed in initializeOutputObjects()).
+ * The storedObjectKey of {@link TransactionInfo} is null for now (to be filled in addObjectTransactionInfo())
  */
     protected void initializeOutputTranactions() {
-    	transactionObjectTypeOutputs = process.getOutputTransactionObjectNames();
+    	log.info("initializeOutputTranactions()");
+    	transactionObjectTypeOutputs = getOutputTransactionObjectNames();
     	transactionOutputs = new ArrayList<TransactionInfo>();
     	for(String infoname : transactionObjectTypeOutputs) {
     		TransactionInfo info = new TransactionInfo(user, keyword, infoname, outputSourceCode);
@@ -145,17 +195,14 @@ public abstract class ProcessBase {
  * 
  */
     protected void storeOutputObjects() {
-    	log.info("storeOutputObjects(): " + objectOutputs);
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-    	pm.makePersistentAll(objectOutputs);
-    	pm.close();
+    	log.info("storeOutputObjects()" + objectOutputs.toString());
+    	StorageAndRetrievalUtilities.storeDatabaseObjects(objectOutputs);
     }
  
 /** add the key to the output database objects to the respective {@link TransactionInfo}
  * 
  */
     protected void addObjectTransactionInfo() {
-    	log.info("addObjectTransactionInfo(): " + transactionOutputs);
     	for(DatabaseObject obj : objectOutputs) {
     		String name = obj.getClass().getName();
 			log.info("Object Type: " +  name);
@@ -171,29 +218,29 @@ public abstract class ProcessBase {
  * 
  */
     protected void storeNewTransactions() {
-    	PersistenceManager pm = PMF.get().getPersistenceManager();
-    	pm.makePersistentAll(transactionOutputs);
-    	pm.close();
+    	StorageAndRetrievalUtilities.storeListOfTransactionInfo(transactionOutputs);
     }
-/** Help routine to convert TransactionInfo
+/** For each object type in objectnames, using keyword, find the list {@link TransactionInfo}
  * 
- * @param objectnames
- * @return
+ * @param objectnames: The list of input object names
+ * @return The retrieved {@link TransactionInfo} (one for each object name)
  * @throws IOException
  */
-    protected ArrayList<TransactionInfo> getSetOfTransactionInfos(ArrayList<String> objectnames) throws IOException {
+    protected ArrayList<TransactionInfo> getSetOfTransactionInfos(String sourceCode, ArrayList<String> objectnames) throws IOException {
     	ArrayList<TransactionInfo> infos = new ArrayList<TransactionInfo>();
     	for(String objectname : objectnames) {
-    		TransactionInfo info = getTransactionInfo(objectname);
+    		TransactionInfo info = getTransactionInfo(sourceCode,objectname);
     		infos.add(info);
     	}
     	return infos;
     }
-/*
+/** Get the input {@link TransactionInfo} using the keyword and objecttype
  * 
  */
-    protected TransactionInfo getTransactionInfo(String objecttype) throws IOException {
-    	TransactionInfo info = TransactionInfoQueries.getFirstTransactionFromKeywordAndObjectType(keyword, objecttype);
+    protected TransactionInfo getTransactionInfo(String sourceCode,String objecttype) throws IOException {
+    	TransactionInfo info = 
+    			TransactionInfoQueries.getFirstTransactionFromKeywordUserSourceCodeAndObjectType(
+    					user,keyword, sourceCode, objecttype);
     	return info;
     }
 
@@ -201,8 +248,8 @@ public abstract class ProcessBase {
      * 
      * Uses 
      * 
-     * @param set
-     * @return
+     * @param list of input {@link TransactionInfo}
+     * @return The corresponding list of input {@link DatabaseObject}
      * @throws IOException
      */
     protected ArrayList<DatabaseObject> getListOfClassObjects(ArrayList<TransactionInfo> set) throws IOException {
@@ -211,7 +258,7 @@ public abstract class ProcessBase {
     	for(TransactionInfo info : set) {
     		DatabaseObject obj;
 			try {
-				obj = getClassObject(info);
+				obj = TransactionInfoQueries.getClassObjectFromTransactionInfo(info);
 				objects.add(obj);
 			} catch (ClassNotFoundException e) {
 				error += "\nClass object not found: " + info.getTransactionObjectType();
@@ -222,20 +269,6 @@ public abstract class ProcessBase {
     	}
     	return objects;
     }
-    /** From the (input) {@link TransactionInfo}, retrieve the (input) {@link DatabaseObject}
-     * 
-     * @param transaction to determine which database object to retrieve.
-     * @return The (input) database object
-     * @throws ClassNotFoundException
-     */
-    DatabaseObject getClassObject(TransactionInfo transaction) throws ClassNotFoundException {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		String classS = transaction.getTransactionObjectType();
-		Class classC = Class.forName(classS);
-		String key = transaction.getKey();
-		DatabaseObject object = (DatabaseObject) pm.getObjectById(classC, key);
-		return object;
-    }
 
 	public ArrayList<String> getTransactionObjectTypeInputs() {
 		return transactionObjectTypeInputs;
@@ -244,10 +277,4 @@ public abstract class ProcessBase {
 	public ArrayList<String> getTransactionObjectTypeOutputs() {
 		return transactionObjectTypeOutputs;
 	}
-
-	public String getProcessName() {
-		return processName;
-	}
-    
-
 }

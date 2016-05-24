@@ -12,10 +12,12 @@ public enum InputPanel {
 		@Override
 		
 		public DataInput getWidget(DataDescription description) {
-
 			InputConstants inputConstants = GWT.create(InputConstants.class);
 			String text = PanelInputResources.INSTANCE.exampleChemkinMechanismReactions().getText();
-			DataInput mechanism = new DataInput(description,
+			String processName = "ReadChemkinMechanismFile";
+			DataInput mechanism = new DataInput(
+					processName,
+					description,
 					inputConstants.chemkinmechanismtype(),
 					inputConstants.chemkinmechanismtitle(),
 					inputConstants.chemkinmechanismhtitletooltip(),
@@ -31,8 +33,11 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
+			String processName = "";
 
-			DataInput mechanism = new DataInput(description,
+			DataInput mechanism = new DataInput(
+					processName,
+					description,
 					inputConstants.nasapolynomialstype(),
 					inputConstants.nasapolynomialstitle(),
 					inputConstants.nasapolynomialstitletooltip(),
@@ -47,8 +52,10 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
-
-			DataInput mechanism = new DataInput(description,
+			String processName = "";
+			DataInput mechanism = new DataInput(
+					processName,
+					description,
 					inputConstants.transporttype(),
 					inputConstants.transporttitle(),
 					inputConstants.transporttitletooltip(),
@@ -63,8 +70,10 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
-
-			DataInput mechanism = new DataInput(description,
+			String processName = "";
+			DataInput mechanism = new DataInput(
+					processName,
+					description,
 					inputConstants.sdfsubstructurestype(),
 					inputConstants.sdfsubstructurestitle(),
 					inputConstants.sdfsubstructurestitletooltip(),
@@ -79,8 +88,10 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
-
-			DataInput mechanism = new DataInput(description,
+			String processName = "";
+			DataInput mechanism = new DataInput(
+					processName,
+					description,
 					inputConstants.sdfmoleculetype(),
 					inputConstants.sdfmoleculehttptext(),
 					inputConstants.sdfmoleculetitletooltip(),
@@ -95,8 +106,10 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 		InputConstants inputConstants = GWT.create(InputConstants.class);
-
-		DataInput mechanism = new DataInput(description,
+		String processName = "";
+		DataInput mechanism = new DataInput(
+				processName,
+				description,
 				inputConstants.thergasmoleculetype(),
 				inputConstants.thergasmoleculestitle(),
 				inputConstants.thergasmoleculestitletooltip(),

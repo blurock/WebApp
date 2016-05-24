@@ -1,5 +1,7 @@
 package info.esblurock.reaction.data.upload;
 
+import javax.jdo.annotations.Inheritance;
+import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
@@ -7,6 +9,7 @@ import info.esblurock.reaction.client.data.DatabaseObject;
 
 
 @PersistenceCapable
+@Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public class UploadFileTransaction extends DatabaseObject {
     @Persistent
     String user;

@@ -23,6 +23,8 @@ import gwtupload.client.IUploader;
 import gwtupload.client.IUploader.UploadedInfo;
 import gwtupload.client.SingleUploader;
 
+import org.apache.tools.ant.taskdefs.Input;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -33,12 +35,13 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DataInput extends Composite implements HasText {
 
 	private static DataInputUiBinder uiBinder = GWT.create(DataInputUiBinder.class);
+	public static String textAsSource = "Text";
+	public static String httpAsSource = "Http";
 
 	interface DataInputUiBinder extends UiBinder<Widget, DataInput> {
 	}
@@ -61,7 +64,7 @@ public class DataInput extends Composite implements HasText {
 	@UiField
 	MaterialRadioButton submitText;
 	@UiField
-	MaterialLink uploadTextName;
+	MaterialTextBox uploadTextName;
 	@UiField
 	MaterialTextArea textarea;
 	@UiField
@@ -74,6 +77,7 @@ public class DataInput extends Composite implements HasText {
 	MaterialLink label;
 	boolean requiredInput = true;
 	DataDescription description;
+	String processName;
 
 	String sourceInputType = inputConstants.unspecified();
 
@@ -109,6 +113,8 @@ public class DataInput extends Composite implements HasText {
 		httpaddress.setText(inputConstants.httptext());
 		textarea.setText(inputConstants.documentText());
 		textarea.setPlaceholder(inputConstants.texttitle());
+		uploadTextName.setPlaceholder(inputConstants.documentNamePlaceholder());
+		uploadTextName.setText(inputConstants.documentName());
 		uploadfile.setText(inputConstants.nodataupload());
 		// uploadfile.setPlaceholder(inputConstants.uploadPlaceholder());
 		uploadID.setText(inputConstants.nodataupload());
@@ -121,20 +127,15 @@ public class DataInput extends Composite implements HasText {
 		fillInText();
 		init();
 	}
-
-	public DataInput(String title) {
-		initWidget(uiBinder.createAndBindUi(this));
-		fillInText();
-		objecttitle.setText(title);
-		init();
-	}
-
-	public DataInput(DataDescription description,
+	public DataInput(
+			String processName,
+			DataDescription description,
 			String type, String title, 
 			String titletooltip, String httptext, String texttitle,
 			String texttext) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.description = description;
+		this.processName = processName;
 		fillInText();
 
 		datatype.setText(type);
@@ -186,35 +187,7 @@ public class DataInput extends Composite implements HasText {
 		}
 	};
 
-	AsyncCallback<String> callbackText = new AsyncCallback<String>() {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			System.out.println("textToDatabase: ERROR");
-			System.out.println(caught.toString());
-			Window.alert(caught.toString());
-		}
-
-		@Override
-		public void onSuccess(String result) {
-			MaterialToast.alert("Key: " + result);
-			setUploadID(result);
-			setuUploadFile(uploadTextName.getText());
-			setInputSource(inputConstants.textfile());
-		}
-	};
-
-	@UiHandler("uploadText")
-	void onTextUpload(ClickEvent e) {
-		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
-		async.textToDatabase(uploadTextName.getText(), textarea.getText(), callbackText);
-		// servercall.textToDatabase(uploadTextName.getText(),textarea.getText(),
-		// this);
-		MaterialToast.alert("Upload Text");
-	}
-
 	AsyncCallback<String> callbackHTTP = new AsyncCallback<String>() {
-
 		@Override
 		public void onFailure(Throwable caught) {
 			Window.alert(caught.toString());
@@ -238,10 +211,40 @@ public class DataInput extends Composite implements HasText {
 
 	};
 
+	AsyncCallback<String> callbackText = new AsyncCallback<String>() {
+		
+		@Override
+		public void onFailure(Throwable caught) {
+			System.out.println("textToDatabase: ERROR");
+			System.out.println(caught.toString());
+			Window.alert(caught.toString());
+		}
+
+		@Override
+		public void onSuccess(String result) {
+			MaterialToast.alert("Key: " + result);
+			setUploadID(result);
+			setuUploadFile(uploadTextName.getText());
+			setInputSource(inputConstants.textfile());
+		}
+	};
+
+	@UiHandler("uploadText")
+	void onTextUpload(ClickEvent e) {
+		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
+		Window.alert("Keyword: " + description.createObjectKeyword());
+		Window.alert("Name: " + uploadTextName.getText());
+		Window.alert("Text: " + textarea.getText());
+		async.textToDatabase(processName, textAsSource, description.createObjectKeyword(), uploadTextName.getText(),textarea.getText(), callbackText);
+		MaterialToast.alert("Upload Text");
+	}
+
 	@UiHandler("uploadHTTP")
 	void onHTTPUpload(ClickEvent e) {
 		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
-		async.httpToDatabase(description.createObjectKeyword(), httpaddress.getText(), callbackHTTP);
+		//String processName = "HTTPReadChemkinMechanismFile";
+		async.textToDatabase(processName, httpAsSource, description.createObjectKeyword(), httpaddress.getText(), httpaddress.getText(), callbackText);
+		//async.httpToDatabase(description.createObjectKeyword(), httpaddress.getText(), httpaddress.getText(), callbackHTTP);
 		MaterialToast.alert("Upload http");
 	}
 

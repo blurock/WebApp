@@ -10,9 +10,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface TextToDatabaseAsync {
 
-	void textToDatabase(String name, String text, AsyncCallback<String> callback);
-
-	void httpToDatabase(String keyword, String http, AsyncCallback<String> callback);
+	void textToDatabase(String processName, String sourceType, String name, String textName, String text, AsyncCallback<String> callback);
 
 	void getSetOfUploadedFiles(AsyncCallback<Set<UploadFileTransaction>> callback);
 

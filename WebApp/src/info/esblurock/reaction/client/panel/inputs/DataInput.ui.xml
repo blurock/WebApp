@@ -99,7 +99,7 @@
 						color="blue-text text-darken-2 light-blue lighten-5" waves="light"/>
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s5" color="blue-text text-darken-2">
-						<m:MaterialLink   ui:field="uploadTextName" />
+						<m:MaterialTextBox   ui:field="uploadTextName" />
 					</m:MaterialColumn>
 					</m:MaterialRow>
 					<m:MaterialRow>

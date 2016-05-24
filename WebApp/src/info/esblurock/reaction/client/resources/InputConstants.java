@@ -259,6 +259,24 @@ public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   String createusertitle();
 
   /**
+   * Translated "TextName".
+   * 
+   * @return translated "TextName"
+   */
+  @DefaultMessage("TextName")
+  @Key("documentName")
+  String documentName();
+
+  /**
+   * Translated "Name assigned to the text file".
+   * 
+   * @return translated "Name assigned to the text file"
+   */
+  @DefaultMessage("Name assigned to the text file")
+  @Key("documentNamePlaceholder")
+  String documentNamePlaceholder();
+
+  /**
    * Translated "Copy-Paste text here".
    * 
    * @return translated "Copy-Paste text here"
@@ -862,11 +880,11 @@ public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   String username();
 
   /**
-   * Translated "Enter a username".
+   * Translated "Enter a username used for login".
    * 
-   * @return translated "Enter a username"
+   * @return translated "Enter a username used for login"
    */
-  @DefaultMessage("Enter a username")
+  @DefaultMessage("Enter a username used for login")
   @Key("usernameplaceholder")
   String usernameplaceholder();
 

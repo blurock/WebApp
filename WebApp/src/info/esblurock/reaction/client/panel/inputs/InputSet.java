@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import info.esblurock.reaction.client.panel.description.DataDescription;
 import info.esblurock.reaction.client.resources.DescriptionConstants;
+import info.esblurock.reaction.server.process.ProcessBase;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Window;
@@ -160,5 +161,4 @@ public enum InputSet {
 	public abstract ArrayList<DataInput> getSet(DataDescription description);
 
 	public abstract String getDataType();
-
 }

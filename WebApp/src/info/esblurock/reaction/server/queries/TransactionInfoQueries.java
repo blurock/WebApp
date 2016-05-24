@@ -24,6 +24,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
+import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.data.delete.DeleteTransactionInfoAndObject;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.server.datastore.PMF;
@@ -73,6 +74,43 @@ public class TransactionInfoQueries {
 	 * @throws IOException 
 	 */
 	static public TransactionInfo
+		getFirstTransactionFromKeywordUserSourceCodeAndObjectType(String user, String key, String sourceCode, String classname) throws IOException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Filter sourceCodeFilter = new FilterPredicate("sourceCode", FilterOperator.EQUAL, sourceCode);
+		Filter userFilter = new FilterPredicate("user", FilterOperator.EQUAL, user);
+		Filter keywordFilter = new FilterPredicate("keyword", FilterOperator.EQUAL, key);
+		Filter classFilter = new FilterPredicate("transactionObjectType", FilterOperator.EQUAL, classname);
+		Filter andfilter = CompositeFilterOperator.and(classFilter, keywordFilter,userFilter,sourceCodeFilter);
+		
+		Query q = new Query("TransactionInfo").setFilter(andfilter);
+		PreparedQuery pq = datastore.prepare(q);
+		Iterator<Entity> iter = pq.asIterable().iterator();
+		TransactionInfo info = null;
+		if (iter.hasNext()) {
+			Entity entity = iter.next();
+			info = (TransactionInfo) pm.getObjectById(TransactionInfo.class, entity.getKey());
+			if(iter.hasNext()) {
+				log.log(Level.WARNING,"Transaction with key='" + key + " and class='" + classname
+						+ "' has more than one match");
+			}
+		} else {
+			throw new IOException("TransactionInfo not found with object key: " + key + ","  + classname);
+		}
+		return info;
+	}
+
+	
+	/**
+	 *  getTransaction
+	 * From the object key find the TransactionInfo  (from storedObjectKey).
+	 *
+	 * @param key the key of the object
+	 * @return the associated transaction
+	 * @throws IOException 
+	 */
+	static public TransactionInfo
 		getFirstTransactionFromKeywordAndObjectType(String key, String classname) throws IOException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -97,7 +135,23 @@ public class TransactionInfoQueries {
 		}
 		return info;
 	}
-	
+    /** From the (input) {@link TransactionInfo}, retrieve the (input) {@link DatabaseObject}
+     * 
+     * The object key, storedObjectKey, and the class name (transactionObjectType) within {@link TransactionInfo}
+     * is used to retrieve the {@link DatabaseObject}
+     * @param transaction to determine which database object to retrieve.
+     * @return The corresponding input {@link DatabaseObject}
+     * @throws ClassNotFoundException
+     */
+    static public DatabaseObject getClassObjectFromTransactionInfo(TransactionInfo transaction) throws ClassNotFoundException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		String classS = transaction.getTransactionObjectType();
+		Class classC = Class.forName(classS);
+		String key = transaction.getKey();
+		DatabaseObject object = (DatabaseObject) pm.getObjectById(classC, key);
+		return object;
+    }
+
 	static public void transactionExists(String key, String classname) throws IOException {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		

@@ -1,41 +1,22 @@
 package info.esblurock.reaction.server.process;
 
-import java.util.ArrayList;
-
-import info.esblurock.react.data.DatabaseObject;
-import info.esblurock.reaction.server.process.upload.HttpUploadFileProcess;
+import info.esblurock.reaction.server.process.upload.ReadChemkinMechanismFile;
 
 public enum DataProcesses {
 
-	HTTPReadChemkinMechanismFile {
+	ReadChemkinMechanismFile {
 
 		@Override
 		public ProcessBase getProcess(String user, String keyword, String sourceCode) {
-			HttpUploadFileProcess process = new HttpUploadFileProcess(getProcessName(),user,keyword,"");
-			return process;
+			ReadChemkinMechanismFile p = new ReadChemkinMechanismFile(user,keyword,sourceCode);
+			return p;
 		}
 
-		@Override
-		public ArrayList<String> getInputTransactionObjectNames() {
-			return new ArrayList<String>();
-		}
-
-		@Override
-		public ArrayList<String> getOutputTransactionObjectNames() {
-			String o1 = "info.esblurock.reaction.data.upload.UploadFileTransaction";
-			ArrayList<String> output = new ArrayList<String>();
-			output.add(o1);
-			return output;
-		}
-
-		@Override
-		public String getProcessName() {
-			return "HTTPReadChemkinMechanismFile";
-		}		
-	};
-	
+	};	
 	public abstract ProcessBase getProcess(String user, String keyword, String sourceCode);
-	public abstract String getProcessName();
-	public abstract ArrayList<String> getInputTransactionObjectNames();
-	public abstract ArrayList<String> getOutputTransactionObjectNames();
+	
+	static public ProcessBase getProcess(String processName,String user, String keyword, String sourceCode) {
+		DataProcesses process = valueOf(processName);
+		return process.getProcess(user, keyword, sourceCode);
+	}
  }

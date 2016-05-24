@@ -24,7 +24,7 @@ public interface TextToDatabase extends RemoteService {
 		}
 	}
 
-	String textToDatabase(String name, String text) throws Exception;
+	String textToDatabase(String processName, String sourceType, String name, String textName, String text) throws Exception;
 
 	Set<UploadFileTransaction> getSetOfUploadedFiles();
 
@@ -33,6 +33,4 @@ public interface TextToDatabase extends RemoteService {
 	String checkSubmitInputData(DescriptionDataData descrdata) throws IOException;
 
 	String storeTextSetUploadData(TextSetUploadData data) throws Exception;
-
-	String httpToDatabase(String keyword, String http) throws IOException;
 }
