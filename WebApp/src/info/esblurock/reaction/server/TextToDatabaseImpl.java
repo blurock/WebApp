@@ -17,7 +17,9 @@ import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.datastore.PMF;
 import info.esblurock.reaction.server.event.RegisterTransaction;
 import info.esblurock.reaction.server.process.DataProcesses;
+import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.upload.ReadChemkinMechanismFile;
+import info.esblurock.reaction.server.process.upload.SourcefFileUploadInput;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
@@ -46,14 +48,12 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 		RegisterTransaction.register(util.getUserInfo(),
 				TaskTypes.dataInput,source, 
 				RegisterTransaction.checkLevel1);
-		ReadChemkinMechanismFile process = (ReadChemkinMechanismFile) 
-				DataProcesses.getProcess(processName,userS, keyword, "");
-		process.setTextBody(text);
-		process.setTextName(textName);
-		process.setSourceType(sourceType);
+		SourcefFileUploadInput specs = new SourcefFileUploadInput(userS,keyword,"",sourceType,textName,text);
+		ProcessBase process = DataProcesses.getProcess(processName,specs);
 		String ans = process.process();
 		return ans;
 	}
+	
 	@Override
 	public Set<UploadFileTransaction> getSetOfUploadedFiles() {
 		return input.getUploadedFiles();

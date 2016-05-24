@@ -96,11 +96,11 @@ public abstract class ProcessBase {
  * @param keyword: The keyword specifying the set of objects
  * @param sourceCode: The code specifying elements within the set
  */
-	public ProcessBase(String user, String keyword,String sourceCode) {
+	public ProcessBase(ProcessInputSpecificaitonsBase input) {
 		super();
-		this.user = user;
-		this.keyword = keyword;
-		this.inputSourceCode = sourceCode;
+		this.user = input.getUserName();
+		this.keyword = input.getKeyword();
+		this.inputSourceCode = input.getSourceCode();
 	}
 
 	protected abstract String getProcessName();

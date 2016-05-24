@@ -33,7 +33,7 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
-			String processName = "";
+			String processName = "ReadNASAPolynomialFile";
 
 			DataInput mechanism = new DataInput(
 					processName,

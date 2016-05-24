@@ -38,6 +38,8 @@ import info.esblurock.reaction.server.event.RegisterTransaction;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
 import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
+import thermo.data.benson.NASAPolynomial;
+import thermo.data.benson.SetOfThermodynamicInformation;
 
 /**
  * The Class ReactionProcessUploadedLinesImpl.
@@ -175,5 +177,6 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 		}
 		return ans;
 	}
+
 }
 
