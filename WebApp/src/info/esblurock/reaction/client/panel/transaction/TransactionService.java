@@ -126,5 +126,14 @@ public interface TransactionService extends RemoteService {
 	 * @return the result
 	 */
 	public String removeFromRDFsFromDate(Date date);
-
+/**
+ * 
+ * @param keyword: The keyword representing 
+ * @return The names of the processes that have prerequisites to run
+ * @throws IOException
+ */
+	public Set<String> findValidProcessing(String keyword) throws IOException;
+	
+	
+	public String runProcess(String processName,String keyword) throws IOException;
 }

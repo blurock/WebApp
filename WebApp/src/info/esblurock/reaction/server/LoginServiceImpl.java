@@ -17,8 +17,6 @@ import com.google.appengine.api.datastore.Key;
 
 import javax.jdo.PersistenceManager;
 
-import org.datanucleus.exceptions.NucleusObjectNotFoundException;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.PreparedQuery;

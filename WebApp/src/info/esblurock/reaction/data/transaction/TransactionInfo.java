@@ -1,18 +1,10 @@
 package info.esblurock.reaction.data.transaction;
 
-import info.esblurock.reaction.client.callback.StandardStringReturnCallback;
 import info.esblurock.reaction.client.data.DatabaseObject;
-import info.esblurock.reaction.client.panel.transaction.TransactionService;
-import info.esblurock.reaction.client.panel.transaction.TransactionServiceAsync;
 import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
-import info.esblurock.reaction.server.datastore.PMF;
-
-import java.util.ArrayList;
 import java.util.Date;
 
-import javax.jdo.PersistenceManager;
-import javax.jdo.annotations.Element;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 

@@ -10,19 +10,21 @@ public class CreateMechanismMoleculeData extends CreateData {
 
 	String keywordBase;
 	String keyword;
+	String user;
 
 	static public String createMoleculeKey(String base, String label) {
 		String key = base + delimitor + label;
 		return key;
 	}
-	public CreateMechanismMoleculeData(String keywordBase) {
+	public CreateMechanismMoleculeData(String user, String keywordBase) {
 		super();
 		this.keywordBase = keywordBase;
+		this.user = user;
 	};
 	
 	public MechanismMoleculeData create(ChemkinMolecule molecule) {
 		keyword = createMoleculeKey(keywordBase,molecule.getLabel() );
-		MechanismMoleculeData data = new MechanismMoleculeData(molecule.getLabel(),keywordBase);		
+		MechanismMoleculeData data = new MechanismMoleculeData(user, molecule.getLabel(),keywordBase);		
 		return data;
 	}
 

@@ -2,11 +2,13 @@ package info.esblurock.reaction.server.queries;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.jdo.PersistenceManager;
 
 import com.google.appengine.api.datastore.Key;
 
+import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.data.chemical.elements.ChemicalElementListData;
 import info.esblurock.reaction.data.chemical.mechanism.ChemicalMechanismData;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
@@ -27,6 +29,11 @@ public class ChemicalMechanismDataQuery extends QueryBase {
 		String mechanismKeyword = "mechanismKeyword";
 		ArrayList<Key> keys = getObjectKeysFromSingleProperty(MechanismMoleculeData.class,mechanismKeyword,mechanismName);
 		return keys;
+	}
+	public List<DatabaseObject> moleculesFromMechanismName(String user, String mechanismName) throws IOException {
+		String mechanismKeyword = "mechanismKeyword";
+		String classname = "MechanismMoleculeData";
+		return getUserDatabaseObjectsFromSingleProperty(classname, user, mechanismKeyword, mechanismName);
 	}
 	public ArrayList<Key> reactionKeysFromMechanismName(String mechanismName) {
 		String mechanismKeyword = "mechanismKeyword";

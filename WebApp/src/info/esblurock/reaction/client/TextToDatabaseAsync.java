@@ -20,4 +20,6 @@ public interface TextToDatabaseAsync {
 
 	void checkSubmitInputData(DescriptionDataData descrdata, AsyncCallback<String> callback);
 
+	void registerDataInputDescription(DescriptionDataData descrdata, AsyncCallback<String> callback);
+
 }

@@ -41,7 +41,7 @@ public class HandleTransactions {
 
 	}
 
-	static public void transactionExists(String key, String classname) throws IOException {
-		TransactionInfoQueries.transactionExists(key, classname);
+	static public void transactionExists(String user, String key, String classname) throws IOException {
+		TransactionInfoQueries.transactionExists(user,key, classname);
 	}
 }

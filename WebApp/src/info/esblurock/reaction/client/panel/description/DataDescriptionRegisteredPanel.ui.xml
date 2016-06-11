@@ -1,0 +1,33 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:m="urn:import:gwt.material.design.client.ui" 
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<m:MaterialModalContent ui:field="content" title="Pages">
+			<g:HTMLPanel>
+				<m:MaterialRow>
+					<m:MaterialColumn>
+						<m:MaterialTextBox ui:field="titleText"/>
+					</m:MaterialColumn>
+				</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn>
+						<g:SimplePanel ui:field="descriptionPanel" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+				<m:MaterialRow>
+
+				</m:MaterialRow>
+
+			</g:HTMLPanel>
+		</m:MaterialModalContent>
+		<m:MaterialModalFooter>
+			<m:MaterialButton ui:field="close" text="Close" />
+		</m:MaterialModalFooter>
+	</g:HTMLPanel>
+</ui:UiBinder> 

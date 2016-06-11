@@ -53,8 +53,13 @@ public class DataDescription extends Composite implements HasText {
 	MaterialTextBox sourcekey;
 	@UiField
 	MaterialTextBox inputkey;
+	
+	boolean keywordChanged;
+	boolean sourcekeyChanged;
 
 	private void setText() {
+		keywordChanged = false;
+		sourcekeyChanged = false;
 		objecttitle.setText(descriptionConstants.title());
 		keyword.setPlaceholder(descriptionConstants.keywordplaceholder());
 		keyword.setText(descriptionConstants.keywordtext());
@@ -72,7 +77,6 @@ public class DataDescription extends Composite implements HasText {
 	}
 	
 	private void initData() {
-		//date.setDate(new Date());
 	}
 	public DataDescription() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -102,7 +106,10 @@ public class DataDescription extends Composite implements HasText {
 	public String getKeyWord() {
 		return keyword.getText();
 	}
-	
+	public boolean keywordEntered() {
+		return keywordChanged &&  sourcekeyChanged;
+	}
+
 	public String getOneLineDescription() {
 		return oneline.getText();
 	}
@@ -136,10 +143,15 @@ public class DataDescription extends Composite implements HasText {
 	public String getText() {
 		return objecttitle.getTitle();
 	}
+	@UiHandler("sourcekey")
+	void onSourceKey(KeyPressEvent e) {
+		sourcekeyChanged = true;
+	}
+
 	@UiHandler("keyword")
 	void onKeyword(KeyPressEvent e) {
-		
 		String text = keyword.getText();
+		keywordChanged = true;
 		if(text.length() >= maxKeywordSize) {
 			MaterialToast.alert(descriptionConstants.keywordlimit());
 			keyword.setText(text.substring(0,maxKeywordSize-1));
@@ -158,7 +170,6 @@ public class DataDescription extends Composite implements HasText {
 	}
 	@UiHandler("description")
 	void onDescription(KeyPressEvent e) {
-		
 		String text = description.getText();
 		if(text.length() >= maxFullDescriptionSize) {
 			MaterialToast.alert(descriptionConstants.descriptionlimit());
@@ -166,5 +177,4 @@ public class DataDescription extends Composite implements HasText {
 		}
 		
 	}
-
 }

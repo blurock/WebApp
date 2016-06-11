@@ -17,6 +17,7 @@ import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.callback.StandardStringReturnCallback;
 import info.esblurock.reaction.client.panel.transaction.process.upload.ProcessUploadFiles;
+import info.esblurock.reaction.data.GenerateKeywordFromDescription;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.upload.InputTextSource;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
@@ -78,8 +79,7 @@ public class UploadFileProcessModal extends Composite implements HasText {
 		ProcessUploadFiles process = ProcessUploadFiles.valueOf(object.getTextType());
 		String transactionType = process.getFullTypeName();
 		DescriptionDataData description = data.getDescription();
-		String keyword = description.getSourcekey()+ "#" + description.getKeyword();
-		
+		String keyword = GenerateKeywordFromDescription.createKeyword(description);
 		TransactionServiceAsync async = TransactionService.Util.getInstance();
 		String deleteS = "Operation Delete(" + transactionType + "," + keyword + "): \n";
 		StandardStringReturnCallback callback = new StandardStringReturnCallback(deleteS);

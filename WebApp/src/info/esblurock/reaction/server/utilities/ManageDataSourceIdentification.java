@@ -5,9 +5,6 @@ import java.util.logging.Logger;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-
 import info.esblurock.reaction.data.upload.DataSourceIdentification;
 import info.esblurock.reaction.server.datastore.PMF;
 

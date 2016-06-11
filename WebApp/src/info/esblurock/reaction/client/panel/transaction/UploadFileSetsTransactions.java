@@ -53,9 +53,11 @@ public class UploadFileSetsTransactions extends Composite implements HasText {
 	InterfaceConstants interfaceConstants = GWT.create(InterfaceConstants.class);
 	private List<TextSetUploadData> orders = new ArrayList<TextSetUploadData>();
 	private DataGrid<TextSetUploadData> dataGrid;
-	private ListDataProvider<TextSetUploadData> TextSetUploadDataProvider = new ListDataProvider<TextSetUploadData>();
+	private ListDataProvider<TextSetUploadData> TextSetUploadDataProvider 
+		= new ListDataProvider<TextSetUploadData>();
 	private ListHandler<TextSetUploadData> sortDataHandler;
-	private final ProvidesKey<TextSetUploadData> KEY_PROVIDER = new ProvidesKey<TextSetUploadData>() {
+	private final ProvidesKey<TextSetUploadData> KEY_PROVIDER 
+		= new ProvidesKey<TextSetUploadData>() {
 
 	@Override
 		public Object getKey(TextSetUploadData item) {
@@ -119,7 +121,6 @@ public class UploadFileSetsTransactions extends Composite implements HasText {
 		TextColumn<TextSetUploadData> colOneline = new TextColumn<TextSetUploadData>() {
 			@Override
 			public String getValue(TextSetUploadData object) {
-
 				return object.getDescription().getOnlinedescription();
 			}
 		};

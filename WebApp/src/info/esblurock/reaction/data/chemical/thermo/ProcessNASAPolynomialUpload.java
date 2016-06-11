@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.jdo.PersistenceManager;
 
+import info.esblurock.reaction.data.GenerateKeywordFromDescription;
 import info.esblurock.reaction.data.chemical.mechanism.CreateChemicalMechanismData;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
@@ -32,11 +33,11 @@ public class ProcessNASAPolynomialUpload {
 	public String processUploadedNASAPolynomials(DescriptionDataData description, 
 			String key, String filename, boolean process) throws IOException {
 		ChemkinStringFromStoredFile chemkinstring = new ChemkinStringFromStoredFile(key,filename,commentString);
-		String nasaname = description.getSourcekey() + "." + description.getKeyword();
+		String nasaname = GenerateKeywordFromDescription.createKeyword(description);
 		SetOfThermodynamicInformation set = read(nasaname, chemkinstring);
 		String ans = set.toString();
 		if(process) {
-			String keyword = CreateChemicalMechanismData.createMechanismName(description.getSourcekey(),description.getKeyword());
+			String keyword = GenerateKeywordFromDescription.createKeyword(description);
 			String user = description.getInputkey();
 			String idCode = ManageDataSourceIdentification.getDataSourceIdentification(user);
 

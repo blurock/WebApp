@@ -23,6 +23,7 @@ public class CreateChemicalMechanismData extends CreateData {
 	GenerateMoleculeKeywords generateKeywords;
 	HashMap<String,String> moleculeNamesTable;
 	String keywordBase;
+	String user;
 	
 	CreateChemicalElementListData createElementList;
 	CreateMechanismMoleculeListData createMoleculeList;
@@ -55,15 +56,16 @@ public class CreateChemicalMechanismData extends CreateData {
 		return ans;
 	}
 	
-	public CreateChemicalMechanismData(String keywordBase) {
+	public CreateChemicalMechanismData(String user, String keywordBase) {
 		this.keywordBase = keywordBase;
+		this.user = user;
 	}
 	
 	public ChemicalMechanismData create(ChemkinMechanism mechanism) {
 		createElementList = new CreateChemicalElementListData(keywordBase);
 		elementList = createElementList.create(mechanism.getElementList());
 		
-		createMoleculeList = new CreateMechanismMoleculeListData(keywordBase);
+		createMoleculeList = new CreateMechanismMoleculeListData(user, keywordBase);
 		moleculeList = createMoleculeList.create(mechanism.getSpeciesList());
 		moleculeNamesTable = createMoleculeList.getMoleculeMap();
 

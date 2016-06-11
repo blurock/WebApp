@@ -1,8 +1,8 @@
 package info.esblurock.reaction.server.process.upload;
 
-import info.esblurock.reaction.server.process.ProcessInputSpecificaitonsBase;
+import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
 
-public class SourcefFileUploadInput extends ProcessInputSpecificaitonsBase {
+public class SourcefFileUploadInput extends ProcessInputSpecificationsBase {
 	protected String textBody;
 	protected String textName;
 	protected String sourceType;

@@ -61,6 +61,7 @@ public class DataDescriptionAsRows extends Composite implements HasText {
 	MaterialLink entrydate;
 
 	public DataDescriptionAsRows(String datakey, DescriptionDataData description) {
+		Window.alert("DataDescriptionAsRows");
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 		key.setText(datakey);

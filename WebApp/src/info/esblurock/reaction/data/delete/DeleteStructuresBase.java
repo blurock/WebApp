@@ -2,20 +2,7 @@ package info.esblurock.reaction.data.delete;
 
 import java.io.IOException;
 
-import javax.jdo.PersistenceManager;
-
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.ibm.icu.util.StringTokenizer;
-
-import info.esblurock.reaction.data.transaction.TransactionInfo;
-import info.esblurock.reaction.server.datastore.PMF;
 
 // TODO: Auto-generated Javadoc
 /**

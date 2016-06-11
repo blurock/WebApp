@@ -33,4 +33,7 @@ public interface TextToDatabase extends RemoteService {
 	String checkSubmitInputData(DescriptionDataData descrdata) throws IOException;
 
 	String storeTextSetUploadData(TextSetUploadData data) throws Exception;
+	
+	public String registerDataInputDescription(DescriptionDataData descrdata) throws IOException;
+
 }

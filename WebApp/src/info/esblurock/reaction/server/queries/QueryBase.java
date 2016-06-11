@@ -1,5 +1,6 @@
 package info.esblurock.reaction.server.queries;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,11 +14,12 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 
-import info.esblurock.react.data.DatabaseObject;
+import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.server.datastore.PMF;
 
 /**
@@ -88,6 +90,7 @@ public class QueryBase {
 		return lst;
 	}
 
+
 	/**
 	 * Fetch objects of classtype with propertyname == propertyvalue
 	 * 
@@ -108,5 +111,67 @@ public class QueryBase {
 		q.setFilter(filterS);
 		List<DatabaseObject> objects = (List<DatabaseObject>) q.execute();
 		return objects;
+	}
+	/**
+	 * Fetch objects of classtype with propertyname == propertyvalue for a given user
+	 * 
+	 * @param classtype
+	 *            The class of the objects to fetch.
+	 * @param propertyname:
+	 *            The property name to search for
+	 * @param propertyvalue:
+	 *            The value of the property
+	 * @return The list of objects matching the criteria
+	 * @throws IOException 
+	 */
+	public static List<DatabaseObject> getUserDatabaseObjectsFromSingleProperty(String classname, String user, 
+			String propertyname, String propertyvalue) throws IOException {
+		Filter userFilter = new FilterPredicate("user", FilterOperator.EQUAL, user);
+		Filter keywordFilter = new FilterPredicate(propertyname, FilterOperator.EQUAL, propertyvalue);
+		Filter andfilter = CompositeFilterOperator.and(keywordFilter, userFilter);
+		List<DatabaseObject> set = null;
+		try {
+			set = getDatabaseObjectsFromFilter(classname, andfilter);
+		} catch(IOException ex) {
+			throw new IOException(ex.toString()
+					    + " not found with : "
+						+ propertyname + "=" + propertyvalue 
+						+ ", User='" + user + "')");
+		}
+		return set;
+	}
+	public static List<DatabaseObject> getDatabaseObjectsFromFilter(String classname, Filter filter) throws IOException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		ArrayList<DatabaseObject> set = new ArrayList<DatabaseObject>();
+		
+		try {
+			Class cls = Class.forName(classname);
+			DatabaseObject example = (DatabaseObject) cls.newInstance();
+		
+		Query q = new Query(example.getClass().getSimpleName()).setFilter(filter);
+		PreparedQuery pq = datastore.prepare(q);
+		Iterator<Entity> iter = pq.asIterable().iterator();
+		if (iter.hasNext()) {
+			while (iter.hasNext()) {
+				Entity entity = iter.next();
+				DatabaseObject info = (DatabaseObject) pm.getObjectById(example.getClass(), entity.getKey());
+				set.add(info);
+			}
+		} else {
+			throw new IOException(example.getClass().getName() + " not found with filter");
+		}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return set;
+		
 	}
 }

@@ -6,7 +6,6 @@ import java.util.Set;
 
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCollapsible;
-import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.description.DataDescription;
@@ -74,7 +73,7 @@ public class SetOfInputs extends Composite {
 
 	@UiHandler("submitdata")
 	void onSubmitData(ClickEvent e) {
-
+/*
 		StringBuilder filesS = new StringBuilder();
 		boolean toprocess = true;
 		for (DataInput input : inputs) {
@@ -102,6 +101,11 @@ public class SetOfInputs extends Composite {
 		filesS.append("To Process: " + toprocess);
 
 		if (toprocess) {
+		} else {
+			Window.alert("Inputs Missing\n" + filesS.toString());
+		}
+		*/
+		if(description.keywordEntered()) {
 			DescriptionDataData descrdata = new DescriptionDataData(
 					description.getKeyWord(),
 					description.getOneLineDescription(),
@@ -109,14 +113,12 @@ public class SetOfInputs extends Composite {
 					description.getSourceDate(), description.getSource(), 
 					description.getInputKey(),
 					dataType);
-
-			SubmitSetOfInputsCheckCallback callback = new SubmitSetOfInputsCheckCallback(dataType,descrdata,inputs);
+			RegisterDataDescriptionCallback callback = new RegisterDataDescriptionCallback(dataType,descrdata);
 			TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
 			async.checkSubmitInputData(descrdata, callback);
 		} else {
-			Window.alert("Inputs Missing\n" + filesS.toString());
+			Window.alert("It is important to enter a keyword and the source");
 		}
-		
 	};
 
 }

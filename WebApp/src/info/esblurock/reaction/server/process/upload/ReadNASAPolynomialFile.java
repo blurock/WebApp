@@ -4,14 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import info.esblurock.react.mechanisms.chemkin.ChemkinMechanism;
+import info.esblurock.reaction.data.chemical.thermo.ParseNASAPolynomialSet;
+import info.esblurock.reaction.data.description.DescriptionDataData;
+import info.esblurock.reaction.data.upload.ChemkinMechanismFileSpecification;
+import info.esblurock.reaction.data.upload.NASAPolynomialFileSpecification;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 import info.esblurock.reaction.data.upload.types.CreateBufferedReaderForSourceFile;
 import info.esblurock.reaction.data.upload.types.NASAPolynomialFileUpload;
 import info.esblurock.reaction.server.StringToKeyConversion;
 import info.esblurock.reaction.server.chemkin.ChemkinStringFromStoredFile;
 import info.esblurock.reaction.server.process.ProcessBase;
-import info.esblurock.reaction.server.process.ProcessInputSpecificaitonsBase;
+import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
 import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 import thermo.data.benson.NASAPolynomial;
 import thermo.data.benson.SetOfThermodynamicInformation;
@@ -23,26 +26,28 @@ public class ReadNASAPolynomialFile  extends ProcessBase  {
 	
 	protected String textBody;
 	protected String textName;
-	protected String source = "";
 	protected String sourceType;
-
-	String temperaturerange = null;
-	String comments = "";
-	String thermoS = "thermo";
-	String endS = "end";
-
 	
+	String descriptionS;
+	String specificationS;
+	String uploadS;
+	DescriptionDataData description;
+	NASAPolynomialFileSpecification specification;
+
+
 	public ReadNASAPolynomialFile() {
 		super();
 	}
 
-	public ReadNASAPolynomialFile(ProcessInputSpecificaitonsBase specs) {
+	public ReadNASAPolynomialFile(ProcessInputSpecificationsBase specs) {
 		super(specs);
-		SourcefFileUploadInput specifications = (SourcefFileUploadInput) specs;
 		input = new InputStreamToLineDatabase();
-		textBody = specifications.getTextBody();
-		textName = specifications.getTextName();
-		sourceType = specifications.getSourceType();
+	}
+	public void initialization() {
+		descriptionS = "info.esblurock.reaction.data.description.DescriptionDataData";
+		specificationS = "info.esblurock.reaction.data.upload.NASAPolynomialFileSpecification";	
+		uploadS = "info.esblurock.reaction.data.upload.types.NASAPolynomialFileUpload";
+
 	}
 
 	@Override
@@ -57,23 +62,32 @@ public class ReadNASAPolynomialFile  extends ProcessBase  {
 
 	@Override
 	protected ArrayList<String> getInputTransactionObjectNames() {
-		return new ArrayList<String>();
+		ArrayList<String> input = new ArrayList<String>();
+		input.add(descriptionS);
+		input.add(specificationS);
+		return input;
 	}
 
 	@Override
 	protected ArrayList<String> getOutputTransactionObjectNames() {
-		String o1 = "info.esblurock.reaction.data.upload.types.NASAPolynomialFileUpload";
 		ArrayList<String> output = new ArrayList<String>();
-		output.add(o1);
+		output.add(uploadS);
 		return output;
 	}
 
 	@Override
 	protected void initializeOutputObjects() {
 		super.initializeOutputObjects();
-		upload = new NASAPolynomialFileUpload(user, textName, outputSourceCode, source, 0);
+		upload = new NASAPolynomialFileUpload(user, textName, outputSourceCode, sourceType, 0);
 		objectOutputs.add(upload);
 	}
+    protected void setUpInputDataObjects() throws IOException {
+    	description = (DescriptionDataData) getInputSource(descriptionS);
+    	specification = (NASAPolynomialFileSpecification) getInputSource(specificationS);
+		textBody = specification.getTextBody();
+		textName = specification.getTextName();
+		sourceType = specification.getSourceType();    	
+    }
 
 	@Override
 	protected void createObjects() throws IOException {
@@ -83,8 +97,8 @@ public class ReadNASAPolynomialFile  extends ProcessBase  {
 		upload = input.uploadFile(upload, br);
 		try {
 			ChemkinStringFromStoredFile chemkinstring = new ChemkinStringFromStoredFile(upload, commentString);
-			SetOfThermodynamicInformation set = read(keyword, chemkinstring);
-			String ans = set.toString();
+			ParseNASAPolynomialSet parse = new ParseNASAPolynomialSet();
+			parse.parse(keyword, chemkinstring);
 		} catch (IOException ex) {
 			storeNewTransactions();
 			throw ex;
@@ -98,46 +112,6 @@ public class ReadNASAPolynomialFile  extends ProcessBase  {
 	}
 	public String getSourceType() {
 		return sourceType;
-	}
-	private SetOfThermodynamicInformation read(String name, ChemkinStringFromStoredFile tok) throws IOException {
-        SetOfThermodynamicInformation set = new SetOfThermodynamicInformation(name);
-        findBeginning(tok);
-        boolean notdone = true;
-        while (notdone) {
-            String line1 = tok.nextToken();
-            tok.skipOverComments();
-            line1 = tok.getCurrent();
-            if(line1 == null) {
-            	notdone = false;
-            } else if (!line1.toLowerCase().startsWith(endS)) {
-                String line2 = tok.nextToken();
-                String line3 = tok.nextToken();
-                String line4 = tok.nextToken();
-                NASAPolynomial nasa = new NASAPolynomial();
-                nasa.parse(line1, line2, line3, line4);
-                set.add(nasa);
-            } else {
-                notdone = false;
-            }
-        }
-		return set;
-
-	}
-
-	private void findBeginning(ChemkinStringFromStoredFile tok) {
-		boolean notdone = true;
-		String temp = tok.getCurrent();
-		while(notdone) {
-			if(temp == null) {
-				notdone = false;
-			} else if(temp.trim().toLowerCase().startsWith(thermoS)) {
-				notdone = false;
-				temperaturerange = tok.nextToken();
-			} else {
-				comments += temp + "\n";
-				temp = tok.nextToken();
-			}
-		}
 	}
 
 

@@ -14,7 +14,7 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 			InputConstants inputConstants = GWT.create(InputConstants.class);
 			String text = PanelInputResources.INSTANCE.exampleChemkinMechanismReactions().getText();
-			String processName = "ReadChemkinMechanismFile";
+			String processName = "info.esblurock.reaction.data.upload.ChemkinMechanismFileSpecification";
 			DataInput mechanism = new DataInput(
 					processName,
 					description,
@@ -33,7 +33,7 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
-			String processName = "ReadNASAPolynomialFile";
+			String processName = "info.esblurock.reaction.data.upload.NASAPolynomialFileSpecification";
 
 			DataInput mechanism = new DataInput(
 					processName,
@@ -52,7 +52,7 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
-			String processName = "";
+			String processName = "info.esblurock.reaction.data.upload.TransportFileSpecification";
 			DataInput mechanism = new DataInput(
 					processName,
 					description,
@@ -70,7 +70,7 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
-			String processName = "";
+			String processName = "info.esblurock.reaction.data.upload.";
 			DataInput mechanism = new DataInput(
 					processName,
 					description,
@@ -88,7 +88,7 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
-			String processName = "";
+			String processName = "info.esblurock.reaction.data.upload.";
 			DataInput mechanism = new DataInput(
 					processName,
 					description,
@@ -106,7 +106,7 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 		InputConstants inputConstants = GWT.create(InputConstants.class);
-		String processName = "";
+		String processName = "info.esblurock.reaction.data.upload.";
 		DataInput mechanism = new DataInput(
 				processName,
 				description,

@@ -2,6 +2,7 @@ package info.esblurock.reaction.data.chemical.reaction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinCoefficients;
@@ -23,7 +24,7 @@ public class CreateChemkinReactionData extends CreateData {
 
 	/** The molecule keys table. */
 	// moleculeName (label in ChemkinMolecule) -> full molecule name
-	HashMap<String, String> moleculeNamesTable;
+	Map<String, String> moleculeNamesTable;
 
 	/**
 	 * The reaction keyword generator. From the reaction generate a unique
@@ -54,7 +55,7 @@ public class CreateChemkinReactionData extends CreateData {
 	 *            the correspondence between the species label and the full
 	 *            molecule name (generated earlier)
 	 */
-	public CreateChemkinReactionData(String keywordBase, HashMap<String, String> moleculeNamesTable,
+	public CreateChemkinReactionData(String keywordBase, Map<String, String> moleculeNamesTable,
 			boolean storeObject) {
 		this.keywordBase = keywordBase;
 		keywordGenerator = new GenerateReactionKeywords(keywordBase);

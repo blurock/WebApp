@@ -9,17 +9,8 @@ import javax.jdo.PersistenceManager;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinString;
-import info.esblurock.reaction.data.delete.DeleteTransactionInfoAndObject;
 import info.esblurock.reaction.data.transaction.ActionsUsingIdentificationCode;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 import info.esblurock.reaction.server.datastore.PMF;

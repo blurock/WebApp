@@ -1,25 +1,24 @@
 package info.esblurock.reaction.data.chemical.reaction;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyMolecules;
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyWeight;
 import info.esblurock.reaction.data.CreateData;
-import info.esblurock.reaction.data.chemical.molecule.CreateMechanismMoleculeData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
 public class CreateThirdBodyMoleculesData extends CreateData {
 	
 	/** The molecule keys table. */
 	// moleculeName (label in ChemkinMolecule) -> full molecule name
-	HashMap<String,String> moleculeNamesTable;
+	Map<String,String> moleculeNamesTable;
 
 	String reactionKeyword;
 
 	public CreateThirdBodyMoleculesData(String reactionKeyword, 
-			HashMap<String,String> moleculeNamesTable) {
+			Map<String,String> moleculeNamesTable) {
 		this.reactionKeyword = reactionKeyword;
 		this.moleculeNamesTable = moleculeNamesTable;
 	}

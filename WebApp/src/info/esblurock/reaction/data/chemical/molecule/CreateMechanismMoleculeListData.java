@@ -16,9 +16,9 @@ public class CreateMechanismMoleculeListData extends CreateData {
 	HashMap<String, String> moleculeMap;
 	ArrayList<MechanismMoleculeData> moleculeList;
 	
-	public CreateMechanismMoleculeListData(String keywordBase) {
+	public CreateMechanismMoleculeListData(String user, String keywordBase) {
 		this.keywordBase = keywordBase;
-		createMolecule = new CreateMechanismMoleculeData(keywordBase);
+		createMolecule = new CreateMechanismMoleculeData(user, keywordBase);
 		moleculeMap = new HashMap<String, String>();
 	}
 
@@ -58,6 +58,10 @@ public class CreateMechanismMoleculeListData extends CreateData {
 
 	public HashMap<String, String> getMoleculeMap() {
 		return moleculeMap;
+	}
+
+	public ArrayList<MechanismMoleculeData> getMoleculeList() {
+		return moleculeList;
 	}
 
 }

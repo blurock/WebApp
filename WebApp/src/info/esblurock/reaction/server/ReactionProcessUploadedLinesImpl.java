@@ -17,6 +17,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinMechanism;
 import info.esblurock.reaction.client.ReactionProcessUploadedLines;
+import info.esblurock.reaction.data.GenerateKeywordFromDescription;
 import info.esblurock.reaction.data.chemical.mechanism.ChemicalMechanismData;
 import info.esblurock.reaction.data.chemical.mechanism.CreateChemicalMechanismData;
 import info.esblurock.reaction.data.chemical.mechanism.StoreChemkinMechanismData;
@@ -63,10 +64,10 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 		ContextAndSessionUtilities util = getUtilities();
 		RegisterTransaction.register(util.getUserInfo(),TaskTypes.dataInput, key, RegisterTransaction.checkLevel1);
 
-		String keyword = CreateChemicalMechanismData.createMechanismName(description.getSourcekey(),description.getKeyword());
+		String keyword = GenerateKeywordFromDescription.createKeyword(description);
 		System.out.println("processUploadedMechanism: " + keyword);
 		System.out.println("processUploadedMechanism: " + filename);
-		HandleTransactions.transactionExists(keyword, ChemicalMechanismData.class.getName());
+		HandleTransactions.transactionExists(util.getUserName(),keyword, ChemicalMechanismData.class.getName());
 		System.out.println("Processing: parse");
 		ChemkinStringFromStoredFile chemkinstring = new ChemkinStringFromStoredFile(key,filename,commentString);
 		ChemkinMechanism mechanism = new ChemkinMechanism();
@@ -78,7 +79,7 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 			String idCode = ManageDataSourceIdentification.getDataSourceIdentification(user);
 			String classname = ChemicalMechanismData.class.getName();
 			TransactionInfo transaction = new TransactionInfo(user,keyword,classname,idCode);
-			CreateChemicalMechanismData create = new CreateChemicalMechanismData(keyword);
+			CreateChemicalMechanismData create = new CreateChemicalMechanismData(user,keyword);
 			System.out.println("Mechanism Keyword: " + keyword);
 			try {
 				ChemicalMechanismData mechanismdata = create.create(mechanism);
@@ -112,7 +113,7 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 		String classname = ChemicalMechanismData.class.getName();
 		String keyword = transaction.getKeyword();
 		TransactionInfo answertransaction = new TransactionInfo(user,keyword,classname,idCode);
-		CreateChemicalMechanismData create = new CreateChemicalMechanismData(keyword);
+		CreateChemicalMechanismData create = new CreateChemicalMechanismData(user, keyword);
 		System.out.println("Mechanism Keyword: " + keyword);
 		try {
 			ChemicalMechanismData mechanismdata = create.create(mechanism);
@@ -129,8 +130,10 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 	
 	public String processUploadedSetOfNASAPolynomial(DescriptionDataData description, 
 			String key, String filename, boolean process) throws IOException {
-		String keyword = CreateChemicalMechanismData.createMechanismName(description.getSourcekey(),description.getKeyword());
-		HandleTransactions.transactionExists(keyword, SetOfNASAPolynomialData.class.getName());
+		String keyword = GenerateKeywordFromDescription.createKeyword(description);
+		ContextAndSessionUtilities util = getUtilities();
+		String user = util.getUserName();
+		HandleTransactions.transactionExists(user, keyword, SetOfNASAPolynomialData.class.getName());
 		ProcessNASAPolynomialUpload processNASA = new ProcessNASAPolynomialUpload();
 		String ans = "";
 		try {

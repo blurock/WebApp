@@ -8,15 +8,24 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.imageio.spi.RegisterableService;
 import javax.jdo.FetchGroup;
 import javax.jdo.PersistenceManager;
+import javax.servlet.http.HttpSession;
 
 import info.esblurock.reaction.client.panel.transaction.TransactionService;
 import info.esblurock.reaction.data.delete.DeleteTransactionInfoAndObject;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
+import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.datastore.PMF;
+import info.esblurock.reaction.server.event.RegisterTransaction;
+import info.esblurock.reaction.server.process.DataProcesses;
+import info.esblurock.reaction.server.process.ProcessBase;
+import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
+import info.esblurock.reaction.server.process.RegisteredProcesses;
+import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -35,9 +44,18 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 public class TransactionServiceImpl extends RemoteServiceServlet implements TransactionService {
 	private static Logger log = Logger.getLogger(TextToDatabaseImpl.class.getName());
+	
+	
+    private ContextAndSessionUtilities getUtilities() {
+        HttpSession session = getThreadLocalRequest().getSession();
+    	ContextAndSessionUtilities util = new ContextAndSessionUtilities(this.getServletContext(),session);
+    	return util;
+    }
+
 
 	/** The pm. */
 	PersistenceManager pm = PMF.get().getPersistenceManager();
+	//RegisteredProcesses registeredProcesses = new RegisteredProcesses();
 
 	/*
 	 * (non-Javadoc)
@@ -205,5 +223,23 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		}
 		pm.close();
 		return delete;
+	}
+	public Set<String> findValidProcessing(String keyword) throws IOException {
+		ContextAndSessionUtilities util = getUtilities();
+		String user = util.getUserName();
+		Set<String> processes = RegisteredProcesses.toBeProcessed(user, keyword);
+		return processes;
+	}
+	public String runProcess(String processName, String keyword) throws IOException {
+		ContextAndSessionUtilities util = getUtilities();
+		String user = util.getUserName();
+		DataProcesses p = DataProcesses.valueOf(processName);
+		ProcessInputSpecificationsBase spec = new ProcessInputSpecificationsBase(user, keyword, null);
+		ProcessBase process = p.getProcess(spec);
+		String source = processName + "#" + keyword;
+		RegisterTransaction.register(util.getUserInfo(),
+				p.getTaskType(),source, 
+				RegisterTransaction.checkLevel1);
+		return process.process();
 	}
 }
