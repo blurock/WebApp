@@ -12,7 +12,6 @@ public class SpeciesTransportProperty extends DatabaseObject {
 	
 	private static final long serialVersionUID = 1L;
 
-	/** The mechanism */
 	@Persistent
 	String mechanismKeyword;
 	

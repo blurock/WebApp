@@ -19,7 +19,6 @@ import info.esblurock.reaction.data.chemical.molecule.isomer.IsomerData;
 @PersistenceCapable
 public class NASAPolynomialData extends DatabaseObject {
 
-	   /** The molecule name. */
    	@Persistent
 	   String mechanismKeyword;
 

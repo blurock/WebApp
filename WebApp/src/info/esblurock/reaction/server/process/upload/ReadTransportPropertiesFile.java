@@ -77,6 +77,7 @@ public class ReadTransportPropertiesFile extends ProcessBase {
 		objectOutputs.add(upload);
 	}
     protected void setUpInputDataObjects() throws IOException {
+    	super.setUpInputDataObjects();
     	description = (DescriptionDataData) getInputSource(descriptionS);
     	specification = (TransportFileSpecification) getInputSource(specificationS);
 		textBody = specification.getTextBody();

@@ -47,7 +47,7 @@ public class QueryBase {
 	 * @param propertyvalue:
 	 *            The value of the property
 	 */
-	public void deleteFromIdentificationCode(Class classtype, String propertyname, String propertyvalue) {
+	static public void deleteFromIdentificationCode(Class classtype, String propertyname, String propertyvalue) {
 		log.info("UsingIdentificationCode   deleteFromIdentificationCode: " + classtype.getName() + propertyname + ", "
 				+ propertyvalue);
 
@@ -72,7 +72,7 @@ public class QueryBase {
 	 * 
 	 * @return The list of keys of type {@link Key}
 	 */
-	public ArrayList<Key> getObjectKeysFromSingleProperty(Class classtype, String propertyname, String propertyvalue) {
+	static public ArrayList<Key> getObjectKeysFromSingleProperty(Class classtype, String propertyname, String propertyvalue) {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 		Filter propertyF = new FilterPredicate(propertyname, FilterOperator.EQUAL, propertyvalue);
@@ -101,9 +101,21 @@ public class QueryBase {
 	 * @param propertyvalue:
 	 *            The value of the property
 	 * @return The list of objects matching the criteria
+	 * @throws IOException 
 	 */
-	public List<DatabaseObject> getDatabaseObjectsFromSingleProperty(Class classtype, String propertyname,
-			String propertyvalue) {
+	static public List<DatabaseObject> getDatabaseObjectsFromSingleProperty(String classname, String propertyname,
+			String propertyvalue) throws IOException {
+		Filter keywordFilter = new FilterPredicate(propertyname, FilterOperator.EQUAL, propertyvalue);
+		List<DatabaseObject> set = null;
+		try {
+			set = getDatabaseObjectsFromFilter(classname, keywordFilter);
+		} catch(IOException ex) {
+			throw new IOException(ex.toString()
+					    + " not found with : "
+						+ propertyname + "=" + propertyvalue);
+		}
+		return set;
+		/*
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		javax.jdo.Query q = pm.newQuery(classtype);
 		String filterS = propertyname + " == '" + propertyvalue + "'";
@@ -111,6 +123,7 @@ public class QueryBase {
 		q.setFilter(filterS);
 		List<DatabaseObject> objects = (List<DatabaseObject>) q.execute();
 		return objects;
+		*/
 	}
 	/**
 	 * Fetch objects of classtype with propertyname == propertyvalue for a given user
@@ -124,7 +137,7 @@ public class QueryBase {
 	 * @return The list of objects matching the criteria
 	 * @throws IOException 
 	 */
-	public static List<DatabaseObject> getUserDatabaseObjectsFromSingleProperty(String classname, String user, 
+	static public List<DatabaseObject> getUserDatabaseObjectsFromSingleProperty(String classname, String user, 
 			String propertyname, String propertyvalue) throws IOException {
 		Filter userFilter = new FilterPredicate("user", FilterOperator.EQUAL, user);
 		Filter keywordFilter = new FilterPredicate(propertyname, FilterOperator.EQUAL, propertyvalue);
@@ -140,7 +153,7 @@ public class QueryBase {
 		}
 		return set;
 	}
-	public static List<DatabaseObject> getDatabaseObjectsFromFilter(String classname, Filter filter) throws IOException {
+	static public List<DatabaseObject> getDatabaseObjectsFromFilter(String classname, Filter filter) throws IOException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		ArrayList<DatabaseObject> set = new ArrayList<DatabaseObject>();

@@ -69,13 +69,13 @@ public class ReactionUploadServiceImpl extends AppEngineUploadAction {
 		for (FileItem item : sessionFiles) {
 			if (false == item.isFormField()) {
 				try {
-					
 					String out = item.getFieldName() + "\n";
 					out += item.getName() + "\n";
 					out += item.getContentType() + "\n";
 					out += item.getFieldName() + "\n  with size of "
 							+ item.getSize() + "\n";
 					System.out.println(out);
+					/*
 					InputStream str = item.getInputStream();
 					InputStreamReader fstr = new InputStreamReader(str);
 					BufferedReader buf = new BufferedReader(fstr);
@@ -84,6 +84,9 @@ public class ReactionUploadServiceImpl extends AppEngineUploadAction {
 					String type = "Upload";
 					//UploadFileTransaction upload = input.uploadFile(user, item.getFieldName(), type, buf);
 					//response += upload.getKey() + " ";
+					 */
+					
+					
 				} catch (Exception e) {
 					throw new UploadActionException(e);
 				}

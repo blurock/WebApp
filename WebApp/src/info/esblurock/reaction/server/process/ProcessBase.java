@@ -192,15 +192,17 @@ public abstract class ProcessBase {
 		transactionObjectTypeInputs = getInputTransactionObjectNames();
 		ArrayList<TransactionInfo> tranactionInputs = getSetOfTransactionInfos(transactionObjectTypeInputs);
 		objectInputs = getListOfClassObjects(tranactionInputs);
-		TransactionInfo info = tranactionInputs.get(0);
-		if (keyword == null) {
-			keyword = info.getKeyword();
-		}
-		if (inputSourceCode == null) {
-			inputSourceCode = info.getSourceCode();
-		}
-		if (user == null) {
-			user = info.getUser();
+		if (tranactionInputs.size() > 0) {
+			TransactionInfo info = tranactionInputs.get(0);
+			if (keyword == null) {
+				keyword = info.getKeyword();
+			}
+			if (inputSourceCode == null) {
+				inputSourceCode = info.getSourceCode();
+			}
+			if (user == null) {
+				user = info.getUser();
+			}
 		}
 	}
 

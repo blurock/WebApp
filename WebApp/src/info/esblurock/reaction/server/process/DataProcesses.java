@@ -3,10 +3,18 @@ package info.esblurock.reaction.server.process;
 import info.esblurock.reaction.server.process.upload.ReadChemkinMechanismFile;
 import info.esblurock.reaction.server.process.upload.ReadNASAPolynomialFile;
 import info.esblurock.reaction.server.process.upload.ReadTransportPropertiesFile;
+import info.esblurock.reaction.client.resources.DescriptionConstants;
 import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.process.description.RegisterDataDescription;
 import info.esblurock.reaction.server.process.chemkin.MechanismMoleculesToDatabase;
 import info.esblurock.reaction.server.process.chemkin.MechanismReactionsToDatabase;
+import info.esblurock.reaction.server.process.chemkin.NASAPolynomialsToDatabase;
+import info.esblurock.reaction.server.process.chemkin.TransportPropertiesToDatabase;
+import info.esblurock.reaction.server.process.chemkin.rdf.MechanismMoleculeProcessRDF;
+import info.esblurock.reaction.server.process.chemkin.rdf.MechanismReactionsProcessRDF;
+import info.esblurock.reaction.server.process.chemkin.rdf.NASAPolynomialProcessRDF;
+import info.esblurock.reaction.server.process.chemkin.rdf.TransportPropertiesProcessRDF;;
+
 public enum DataProcesses {
 	
 	RegisterDataDescription {
@@ -99,6 +107,120 @@ public enum DataProcesses {
 		@Override
 		public ProcessBase getEmptyProcess() {
 			MechanismReactionsToDatabase process = new MechanismReactionsToDatabase();
+			return process;
+		}
+
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		
+	}, NASAPolynomialsToDatabase {
+
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			NASAPolynomialsToDatabase process = new NASAPolynomialsToDatabase(specs);
+			return process;
+		}
+
+		@Override
+		public ProcessBase getEmptyProcess() {
+			NASAPolynomialsToDatabase process = new NASAPolynomialsToDatabase();
+			return process;
+		}
+
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		
+	}, TransportPropertiesToDatabase {
+
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			TransportPropertiesToDatabase process = new TransportPropertiesToDatabase(specs);
+			return process;
+		}
+
+		@Override
+		public ProcessBase getEmptyProcess() {
+			TransportPropertiesToDatabase process = new TransportPropertiesToDatabase();
+			return process;
+		}
+
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		
+	}, MechanismMoleculeProcessRDF {
+
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			MechanismMoleculeProcessRDF process = new MechanismMoleculeProcessRDF(specs);
+			return process;
+		}
+
+		@Override
+		public ProcessBase getEmptyProcess() {
+			MechanismMoleculeProcessRDF process = new MechanismMoleculeProcessRDF();
+			return process;
+		}
+
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		
+	}, MechanismReactionsProcessRDF {
+
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			MechanismReactionsProcessRDF process = new MechanismReactionsProcessRDF(specs);
+			return process;
+		}
+
+		@Override
+		public ProcessBase getEmptyProcess() {
+			MechanismReactionsProcessRDF process = new MechanismReactionsProcessRDF();
+			return process;
+		}
+
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		
+	}, NASAPolynomialProcessRDF {
+
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			NASAPolynomialProcessRDF process = new NASAPolynomialProcessRDF(specs);
+			return process;
+		}
+
+		@Override
+		public ProcessBase getEmptyProcess() {
+			NASAPolynomialProcessRDF process = new NASAPolynomialProcessRDF();
+			return process;
+		}
+
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		
+	}, TransportPropertiesProcessRDF {
+
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			TransportPropertiesProcessRDF process = new TransportPropertiesProcessRDF(specs);
+			return process;
+		}
+
+		@Override
+		public ProcessBase getEmptyProcess() {
+			TransportPropertiesProcessRDF process = new TransportPropertiesProcessRDF();
 			return process;
 		}
 

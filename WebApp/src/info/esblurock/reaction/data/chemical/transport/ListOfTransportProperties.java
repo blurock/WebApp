@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.server.TextToDatabaseImpl;
 import info.esblurock.reaction.server.chemkin.ChemkinStringFromStoredFile;
 
@@ -49,13 +50,14 @@ public class ListOfTransportProperties extends ArrayList<SpeciesTransportPropert
             if(line == null) {
             	notdone = false;
             } else if(line.length() >= 70) {
-            	String speciesName = line.substring(0,20);
+            	String speciesName = line.substring(0,19);
             	String geometricIndex = line.substring(19,20);
             	String potentialWellDepth = line.substring(20,30);
             	String collisionDiameter = line.substring(30,40);
             	String dipole = line.substring(40,50);
             	String polarizability = line.substring(50,60);
             	String collisionNumber = line.substring(60,70);
+              	
             	SpeciesTransportProperty transport = 
             			new SpeciesTransportProperty(keyword, 
             					speciesName, 

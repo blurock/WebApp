@@ -82,6 +82,7 @@ public class ReadNASAPolynomialFile  extends ProcessBase  {
 		objectOutputs.add(upload);
 	}
     protected void setUpInputDataObjects() throws IOException {
+    	super.setUpInputDataObjects();
     	description = (DescriptionDataData) getInputSource(descriptionS);
     	specification = (NASAPolynomialFileSpecification) getInputSource(specificationS);
 		textBody = specification.getTextBody();

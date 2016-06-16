@@ -79,7 +79,6 @@ public class CreateChemkinReactionData extends CreateData {
 		ArrayList<String> reactantNames = createMoleculeArrayList(reaction.getReactants());
 		ArrayList<String> productNames = createMoleculeArrayList(reaction.getProducts());
 
-		GenerateMoleculeKeywords molKeywords = new GenerateMoleculeKeywords(keyword);
 		ArrayList<String> reactantReactionNames = new ArrayList<String>();
 		for(String name : reactantNames) {
 			String rxnmolname = moleculeNamesTable.get(name);

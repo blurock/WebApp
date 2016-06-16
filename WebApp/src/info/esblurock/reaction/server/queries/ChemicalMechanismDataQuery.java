@@ -15,32 +15,55 @@ import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeListData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.reaction.MechanismReactionListData;
+import info.esblurock.reaction.data.chemical.thermo.NASAPolynomialData;
+import info.esblurock.reaction.data.chemical.transport.SpeciesTransportProperty;
 import info.esblurock.reaction.server.datastore.PMF;
 
 
 public class ChemicalMechanismDataQuery extends QueryBase {
 
-	public ArrayList<Key> elementKeysFromMechanismName(String mechanismName) {
+	static public List<DatabaseObject> elementsFromMechanismName(String mechanismName) throws IOException {
+		String mechanismKeyword = "mechanismKeyword";
+		String classname = ChemicalElementListData.class.getName();
+		return getDatabaseObjectsFromSingleProperty(classname, mechanismKeyword, mechanismName);
+	}
+	static public List<DatabaseObject> moleculesFromMechanismName(String mechanismName) throws IOException {
+		String mechanismKeyword = "mechanismKeyword";
+		String classname = MechanismMoleculeData.class.getName();
+		return getDatabaseObjectsFromSingleProperty(classname, mechanismKeyword, mechanismName);
+	}
+	static public List<DatabaseObject> reactionsFromMechanismName(String mechanismName) throws IOException {
+		String mechanismKeyword = "mechanismKeyword";
+		String classname = ChemkinReactionData.class.getName();
+		return getDatabaseObjectsFromSingleProperty(classname, mechanismKeyword, mechanismName);
+	}
+	static public List<DatabaseObject> nasaPolynomialsFromMechanismName(String mechanismName) throws IOException {
+		String mechanismKeyword = "mechanismKeyword";
+		String classname = NASAPolynomialData.class.getName();
+		return getDatabaseObjectsFromSingleProperty(classname, mechanismKeyword, mechanismName);
+	}
+	static public List<DatabaseObject> transportPropertiesFromMechanismName(String mechanismName) throws IOException {
+		String mechanismKeyword = "mechanismKeyword";
+		String classname = SpeciesTransportProperty.class.getName();
+		return getDatabaseObjectsFromSingleProperty(classname, mechanismKeyword, mechanismName);
+	}
+
+	static public ArrayList<Key> elementKeysFromMechanismName(String mechanismName) {
 		String mechanismKeyword = "mechanismKeyword";
 		ArrayList<Key> keys = getObjectKeysFromSingleProperty(ChemicalElementListData.class,mechanismKeyword,mechanismName);
 		return keys;
 	}
-	public ArrayList<Key> moleculeKeysFromMechanismName(String mechanismName) {
+	static public ArrayList<Key> moleculeKeysFromMechanismName(String mechanismName) {
 		String mechanismKeyword = "mechanismKeyword";
 		ArrayList<Key> keys = getObjectKeysFromSingleProperty(MechanismMoleculeData.class,mechanismKeyword,mechanismName);
 		return keys;
 	}
-	public List<DatabaseObject> moleculesFromMechanismName(String user, String mechanismName) throws IOException {
-		String mechanismKeyword = "mechanismKeyword";
-		String classname = "MechanismMoleculeData";
-		return getUserDatabaseObjectsFromSingleProperty(classname, user, mechanismKeyword, mechanismName);
-	}
-	public ArrayList<Key> reactionKeysFromMechanismName(String mechanismName) {
+	static public ArrayList<Key> reactionKeysFromMechanismName(String mechanismName) {
 		String mechanismKeyword = "mechanismKeyword";
 		ArrayList<Key> keys = getObjectKeysFromSingleProperty(ChemkinReactionData.class,mechanismKeyword,mechanismName);
 		return keys;
 	}
-	public void deleteChemicalMechanismDataFromName(String mechanismName) {
+	static public void deleteChemicalMechanismDataFromName(String mechanismName) {
 		String mechanismKeyword = "mechanismKeyword";
 		deleteFromIdentificationCode(ChemicalElementListData.class,mechanismKeyword,mechanismName);
 		deleteFromIdentificationCode(MechanismMoleculeData.class,mechanismKeyword,mechanismName);
@@ -49,7 +72,7 @@ public class ChemicalMechanismDataQuery extends QueryBase {
 		deleteFromIdentificationCode(MechanismMoleculeListData.class,mechanismKeyword,mechanismName);
 	}
 	
-	public void deleteChemicalMechanismDataFromKey(String key)  throws IOException  {
+	static public void deleteChemicalMechanismDataFromKey(String key)  throws IOException  {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		ChemicalMechanismData mech = pm.getObjectById(ChemicalMechanismData.class, key);

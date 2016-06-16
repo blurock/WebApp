@@ -62,6 +62,10 @@ public class StoreObject {
 
 	/** The transaction. */
 	protected TransactionInfo transaction;
+	
+	protected String user;
+	protected String sourceCode;
+	protected Date date;
 
 	/** The Key. */
 	private String Key;
@@ -75,6 +79,15 @@ public class StoreObject {
 
 	public StoreObject() {
 		toBeStored = new ArrayList<DatabaseObject>();
+		storeObject = true;
+	}
+	public StoreObject(String user, String keyword, String sourceCode) {
+		toBeStored = new ArrayList<DatabaseObject>();
+		this.user = user;
+		this.sourceCode = sourceCode;
+		this.keyword = keyword;
+		storeObject = true;
+		date = new Date();
 	}
 
 	/**
@@ -91,6 +104,9 @@ public class StoreObject {
 	 */
 	public StoreObject(String keyword, DatabaseObject object, TransactionInfo transaction, boolean storeObject) {
 		toBeStored = new ArrayList<DatabaseObject>();
+		user = transaction.getUser();
+		sourceCode = transaction.getSourceCode();
+		date = transaction.getCreationDate();
 		start(keyword, object, transaction, storeObject);
 	}
 
@@ -144,8 +160,8 @@ public class StoreObject {
 	 * {@link TransactionInfo}
 	 */
 	public void finish() {
-		storeStringRDF(enteredBy, transaction.getUser());
-		storeStringRDF(creationDate, DateAsString.dateAsString(transaction.getCreationDate()));
+		storeStringRDF(enteredBy, user);
+		storeStringRDF(creationDate, DateAsString.dateAsString(date));
 		flushStore();
 	}
 
@@ -212,10 +228,9 @@ public class StoreObject {
 	 * @param description
 	 *            the object description of the subject
 	 */
-	protected void storeStringRDF(String predicate, String description) {
+	public void storeStringRDF(String predicate, String description) {
 		String typepredicate = predicate + typeDelimiter + stringType;
-		KeywordRDF objectrdf = new KeywordRDF(keyword, typepredicate, description, transaction.getUser(),
-				transaction.getSourceCode());
+		KeywordRDF objectrdf = new KeywordRDF(keyword, typepredicate, description, user,sourceCode);
 		store(objectrdf);
 	}
 
@@ -245,14 +260,11 @@ public class StoreObject {
 	 *            the object
 	 */
 	public void storeObjectRDF(String objectkey, DatabaseObject object) {
-		// store(object);
 		String key = object.getKey();
 		String classname = object.getClass().getName();
 		String typepredicate = classname + typeDelimiter + objectPredicate;
-		KeywordRDF objectrdf = new KeywordRDF(objectkey, typepredicate, key, transaction.getUser(),
-				transaction.getSourceCode());
+		KeywordRDF objectrdf = new KeywordRDF(objectkey, typepredicate, key, user,sourceCode);
 		store(objectrdf);
-		System.out.println("storeObjectRDF: " + toBeStored.size());
 	}
 
 	/**
@@ -276,5 +288,10 @@ public class StoreObject {
 	public ArrayList<DatabaseObject> getToBeStored() {
 		return toBeStored;
 	}
-
+	public int getRdfCount() {
+		return rdfCount;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 }

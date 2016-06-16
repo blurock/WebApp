@@ -48,11 +48,11 @@ public class ActionsUsingIdentificationCode {
 	 * @param propertyvalue:
 	 *            The value of the property
 	 * @return
+	 * @throws IOException 
 	 */
 	static public List<DatabaseObject> getObjectFromIdentificationCode(Class classtype, String propertyname,
-			String propertyvalue) {
-		QueryBase query = new QueryBase();
-		List<DatabaseObject> objects = query.getDatabaseObjectsFromSingleProperty(classtype, propertyname,
+			String propertyvalue) throws IOException {
+		List<DatabaseObject> objects = QueryBase.getDatabaseObjectsFromSingleProperty(classtype.getName(), propertyname,
 				propertyvalue);
 		return objects;
 	}
