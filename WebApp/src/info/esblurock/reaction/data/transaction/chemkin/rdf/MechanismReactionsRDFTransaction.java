@@ -16,7 +16,10 @@ public class MechanismReactionsRDFTransaction extends DatabaseObject {
     @Persistent
     String keyWord;
     
-	public MechanismReactionsRDFTransaction() {
+    @Persistent
+    Integer rdfCount;
+    
+    public MechanismReactionsRDFTransaction() {
 	}
 	public MechanismReactionsRDFTransaction(String user, String fileCode, String keyWord) {
 		super();
@@ -35,6 +38,12 @@ public class MechanismReactionsRDFTransaction extends DatabaseObject {
 
 	public String getKeyWord() {
 		return keyWord;
+	}
+	public Integer getRdfCount() {
+		return rdfCount;
+	}
+	public void setRdfCount(Integer rdfCount) {
+		this.rdfCount = rdfCount;
 	}
 
     

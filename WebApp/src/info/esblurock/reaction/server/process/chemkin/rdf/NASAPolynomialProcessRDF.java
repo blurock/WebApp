@@ -95,6 +95,7 @@ public class NASAPolynomialProcessRDF extends ProcessBase {
 			}
 			store.storeStringRDF(carbonSet, isomerC);
 		}
+		rdfTransaction.setRdfCount(store.getRdfCount());
 		store.flushStore();
 	}
 

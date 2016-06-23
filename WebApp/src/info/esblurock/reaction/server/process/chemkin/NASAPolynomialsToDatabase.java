@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import info.esblurock.reaction.data.StoreDatabaseObject;
-import info.esblurock.reaction.data.chemical.molecule.CreateMechanismMoleculeData;
+import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.molecule.isomer.CreateIsomerData;
 import info.esblurock.reaction.data.chemical.molecule.isomer.IsomerData;
 import info.esblurock.reaction.data.chemical.thermo.NASAPolynomialData;
@@ -98,7 +98,7 @@ public class NASAPolynomialsToDatabase extends ProcessBase {
 	 * @return the NASA polynomial data
 	 */
 	public NASAPolynomialData create(NASAPolynomial nasa) {
-		String molname = CreateMechanismMoleculeData.createMoleculeKey(keyword, nasa.getName());
+		String molname = GenerateMoleculeKeywords.generateKeyword(keyword, nasa.getName());
 		CreateIsomerData createisomer = new CreateIsomerData(molname);
 		IsomerData isomer = createisomer.create(nasa);
 		

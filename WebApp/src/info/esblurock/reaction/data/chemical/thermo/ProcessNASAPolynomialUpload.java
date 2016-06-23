@@ -2,15 +2,8 @@ package info.esblurock.reaction.data.chemical.thermo;
 
 import java.io.IOException;
 
-import javax.jdo.PersistenceManager;
-
-import info.esblurock.reaction.data.GenerateKeywordFromDescription;
-import info.esblurock.reaction.data.chemical.mechanism.CreateChemicalMechanismData;
-import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.server.chemkin.ChemkinStringFromStoredFile;
-import info.esblurock.reaction.server.datastore.PMF;
-import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
 import thermo.data.benson.NASAPolynomial;
 import thermo.data.benson.SetOfThermodynamicInformation;
 
@@ -29,7 +22,7 @@ public class ProcessNASAPolynomialUpload {
 	
 	public ProcessNASAPolynomialUpload() {
 	}
-	
+/*
 	public String processUploadedNASAPolynomials(DescriptionDataData description, 
 			String key, String filename, boolean process) throws IOException {
 		ChemkinStringFromStoredFile chemkinstring = new ChemkinStringFromStoredFile(key,filename,commentString);
@@ -53,7 +46,7 @@ public class ProcessNASAPolynomialUpload {
 		return ans;
 
 	}
-	
+*/
 	private SetOfThermodynamicInformation read(String name, ChemkinStringFromStoredFile tok) throws IOException {
         SetOfThermodynamicInformation set = new SetOfThermodynamicInformation(name);
         findBeginning(tok);

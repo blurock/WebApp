@@ -18,7 +18,7 @@ public enum ProcessUploadFiles {
 			MaterialToast.alert("Process Data");
 			ProcessUploadCallback callback =new ProcessUploadCallback();
 			ReactionProcessUploadedLinesAsync async = ReactionProcessUploadedLines.Util.getInstance();
-			async.processUploadedMechanism(description, key, file, process, callback);				
+			//async.processUploadedMechanism(description, key, file, process, callback);				
 		}
 		@Override
 		public String getFullTypeName() {
@@ -31,7 +31,7 @@ public enum ProcessUploadFiles {
 			MaterialToast.alert("Process Data");
 			ProcessUploadCallback callback =new ProcessUploadCallback();
 			ReactionProcessUploadedLinesAsync async = ReactionProcessUploadedLines.Util.getInstance();
-			async.processUploadedSetOfNASAPolynomial(description, key, file, process, callback);				
+			//async.processUploadedSetOfNASAPolynomial(description, key, file, process, callback);				
 			}
 
 		@Override

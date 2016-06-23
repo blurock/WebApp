@@ -84,6 +84,7 @@ public class TransportPropertiesProcessRDF extends ProcessBase {
 			store.storeStringRDF(polarizabilityS, data.getPolarizability());
 		}
 		store.flushStore();
+		rdfTransaction.setRdfCount(store.getRdfCount());
 	}
 
 	private String propertiesToString(SpeciesTransportProperty data) {

@@ -19,7 +19,7 @@ public interface ReactionProcessUploadedLinesAsync {
 	 * @param process the process
 	 * @param callback the callback
 	 */
-	void processUploadedMechanism(DescriptionDataData description, String key, String filename, boolean process, AsyncCallback<String> callback);
+	//void processUploadedMechanism(DescriptionDataData description, String key, String filename, boolean process, AsyncCallback<String> callback);
 
 	/**
 	 * Process uploaded set of nasa polynomial.
@@ -30,15 +30,15 @@ public interface ReactionProcessUploadedLinesAsync {
 	 * @param process the process
 	 * @param callback the callback
 	 */
-	void processUploadedSetOfNASAPolynomial(DescriptionDataData description, String key, String filename,
-			boolean process, AsyncCallback<String> callback);
+	//void processUploadedSetOfNASAPolynomial(DescriptionDataData description, String key, String filename,
+			//boolean process, AsyncCallback<String> callback);
 	/**
 	 * Delete text set upload data.
 	 *
 	 * @param key the key
 	 * @param callback the callback
 	 */
-	void deleteTextSetUploadData(String key, AsyncCallback<String> callback);
+	//void deleteTextSetUploadData(String key, AsyncCallback<String> callback);
 
 
 }

@@ -66,7 +66,7 @@ public interface TransactionService extends RemoteService {
 	 */
 	List<TransactionInfo> getTransactions(String user, String keyword, String objecttype);
 
-	String deleteTransactionInfoFromKey(String transactionkey) throws IOException;
+	String deleteTransactionInfoFromKey(String objectType, String keyword, String transactionkey) throws IOException;
 
 	/**
 	 * Removes the transaction with type and keyword.
@@ -136,4 +136,5 @@ public interface TransactionService extends RemoteService {
 	
 	
 	public String runProcess(String processName,String keyword) throws IOException;
+
 }

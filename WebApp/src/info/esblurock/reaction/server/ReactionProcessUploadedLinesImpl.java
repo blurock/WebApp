@@ -6,29 +6,12 @@ import java.util.Iterator;
 
 import javax.jdo.PersistenceManager;
 
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Query.SortDirection;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinMechanism;
 import info.esblurock.reaction.client.ReactionProcessUploadedLines;
-import info.esblurock.reaction.data.GenerateKeywordFromDescription;
-import info.esblurock.reaction.data.chemical.mechanism.ChemicalMechanismData;
-import info.esblurock.reaction.data.chemical.mechanism.CreateChemicalMechanismData;
-import info.esblurock.reaction.data.chemical.mechanism.StoreChemkinMechanismData;
-import info.esblurock.reaction.data.chemical.reaction.CreateChemkinReactionData;
-import info.esblurock.reaction.data.chemical.thermo.ProcessNASAPolynomialUpload;
-import info.esblurock.reaction.data.chemical.thermo.SetOfNASAPolynomialData;
-import info.esblurock.reaction.data.contact.entities.OrganizationDescriptionData;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.DeleteTextSetUploadData;
-import info.esblurock.reaction.data.upload.FileUploadLines;
 import info.esblurock.reaction.data.upload.InputTextSource;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
@@ -36,11 +19,7 @@ import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.chemkin.ChemkinStringFromStoredFile;
 import info.esblurock.reaction.server.datastore.PMF;
 import info.esblurock.reaction.server.event.RegisterTransaction;
-import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
-import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
-import thermo.data.benson.NASAPolynomial;
-import thermo.data.benson.SetOfThermodynamicInformation;
 
 /**
  * The Class ReactionProcessUploadedLinesImpl.
@@ -57,7 +36,7 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 	
 	/* (non-Javadoc)
 	 * @see info.esblurock.reaction.client.ReactionProcessUploadedLines#processUploadedMechanism(java.lang.String, java.lang.String, boolean)
-	 */
+
 	@Override
 	public String processUploadedMechanism(DescriptionDataData description, 
 			String key, String filename, boolean process) throws IOException {
@@ -92,7 +71,7 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 		}
 		return ans;
 	}
-
+	 */
 	public ChemkinMechanism parseChemkinMechanismText(TransactionInfo transaction) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
 		String event = "Process, " + transaction.getSourceCode() + ", " + transaction.getKeyword();
@@ -104,7 +83,7 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 		mechanism.parse(chemkinstring, commentString);
 		return mechanism;		
 	}
-
+/*
 	public String processChemkinMechanismText(TransactionInfo transaction) throws IOException {
 		ChemkinMechanism mechanism = parseChemkinMechanismText(transaction);
 
@@ -127,7 +106,8 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 		return commentString;
 		
 	}
-	
+*/
+/*
 	public String processUploadedSetOfNASAPolynomial(DescriptionDataData description, 
 			String key, String filename, boolean process) throws IOException {
 		String keyword = GenerateKeywordFromDescription.createKeyword(description);
@@ -143,7 +123,7 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 		}
 		return ans;
 	}
-	
+*/
 	
 	public String deleteTextSetUploadData(String key)  throws IOException {
 		String ans = "";

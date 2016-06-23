@@ -71,7 +71,15 @@
 		<servlet-name>textToDatabaseService</servlet-name>
 		<servlet-class>info.esblurock.reaction.server.TextToDatabaseImpl</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>processServlet</servlet-name>
+		<servlet-class>info.esblurock.reaction.server.process.ProcessServlet</servlet-class>
+	</servlet>
 
+	<servlet-mapping>
+		<servlet-name>processServlet</servlet-name>
+		<url-pattern>/webapp/processservlet</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>uploadServlet</servlet-name>
 		<url-pattern>*.gupld</url-pattern>

@@ -27,6 +27,7 @@ import com.google.gwt.view.client.SelectionModel;
 
 import gwt.material.design.client.custom.MaterialButtonCell;
 import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialModal;
 import info.esblurock.reaction.client.FindShortNameFromString;
 import info.esblurock.reaction.client.panel.transaction.TransactionService;
 import info.esblurock.reaction.client.panel.transaction.TransactionServiceAsync;
@@ -107,10 +108,10 @@ public class ValidProcesses extends Composite implements HasText {
 					@Override
 					public void update(int index, String processName,MaterialButton value) {
 						String name = value.getTooltip();
-						Window.alert("Process: " + name);
 						ValidProcessesRunCallback callback = new ValidProcessesRunCallback();
 						TransactionServiceAsync async = TransactionService.Util.getInstance();
 						async.runProcess(name, keyword, callback);
+						MaterialModal.closeModal();
 					}
 				});
 		return processbutton;
@@ -122,7 +123,12 @@ public class ValidProcesses extends Composite implements HasText {
 			@Override
 			public String getValue(String object) {
 				String shortname = FindShortNameFromString.findShortName(object, ".");
-				return shortname;
+				String description = shortname;
+				ProcessDescriptionsForInterface desc = ProcessDescriptionsForInterface.valueOf(shortname);
+				if(desc != null) {
+					description = desc.getDescription();
+				}
+				return description;
 			}
 		};
 		colOneline.setSortable(false);

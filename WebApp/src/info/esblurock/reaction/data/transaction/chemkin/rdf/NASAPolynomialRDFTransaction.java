@@ -15,6 +15,9 @@ public class NASAPolynomialRDFTransaction extends DatabaseObject {
     
     @Persistent
     String keyWord;
+    
+    @Persistent
+    Integer rdfCount;
 
 	public NASAPolynomialRDFTransaction() {
 		super();
@@ -37,6 +40,14 @@ public class NASAPolynomialRDFTransaction extends DatabaseObject {
 
 	public String getKeyWord() {
 		return keyWord;
+	}
+
+	public Integer getRdfCount() {
+		return rdfCount;
+	}
+
+	public void setRdfCount(Integer rdfCount) {
+		this.rdfCount = rdfCount;
 	}
 
     

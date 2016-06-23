@@ -16,7 +16,6 @@ import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywords;
-import info.esblurock.reaction.data.chemical.reaction.MechanismReactionListData;
 import info.esblurock.reaction.data.chemical.reaction.ThirdBodyMoleculesData;
 import info.esblurock.reaction.data.chemical.reaction.ThirdBodyWeightsData;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction;
@@ -42,6 +41,7 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 	GenerateReactionKeywords keywordGenerator;
 	Map<String, String> moleculeNamesTable;
 	ChemicalMechanismDataQuery mechanismQuery;
+	MechanismReactionsToDatabaseTransaction rxntransaction;
 
 	public MechanismReactionsToDatabase() {
 		super();
@@ -88,7 +88,7 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 	@Override
 	protected void initializeOutputObjects() {
 		super.initializeOutputObjects();
-		MechanismReactionsToDatabaseTransaction rxntransaction = new MechanismReactionsToDatabaseTransaction(user,
+		rxntransaction = new MechanismReactionsToDatabaseTransaction(user,
 				outputSourceCode, keyword);
 		objectOutputs.add(rxntransaction);
 	}
@@ -108,11 +108,9 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 			ChemkinReactionData rxndata = create(reaction);
 			chemkinReactionList.add(rxndata);
 		}
-		MechanismReactionListData data = new MechanismReactionListData(keyword);
-		data.setNumberOfReaction(chemkinReactionList.size());
 
 		StorageAndRetrievalUtilities.storeDatabaseObjects(chemkinReactionList);
-		WriteObjectTransactionToDatabase.writeObjectWithTransaction(user, keyword, outputSourceCode, data);
+		rxntransaction.setReactionCount(chemkinReactionList.size());
 	}
 
 	/**

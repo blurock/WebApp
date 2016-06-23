@@ -29,9 +29,29 @@ import info.esblurock.reaction.server.datastore.PMF;
 public class TransactionInfoQueries {
 	private static final Logger log = Logger.getLogger(TransactionInfoQueries.class.getName());
 
+/**
+ * 
+ * @param keyS The String key of the {@link TransactionInfo} (from {@link DatabaseObject})
+ * @return The valid transaction
+ * @throws IOException
+ */
 	public static TransactionInfo getTransactionFromKeyString(String keyS) throws IOException {
-		Key key = KeyFactory.createKey(TransactionInfo.class.getSimpleName(), keyS);
-		return getTransactionFromKey(key);
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		TransactionInfo info = null;
+		try {
+			info = pm.getObjectById(TransactionInfo.class, keyS);
+		if (info == null) {
+			pm.close();
+			throw new IOException("No Transaction associated with object");
+		}
+		} catch (Exception e) {
+			pm.close();
+			String ans = "ERROR: Unable to fetch TransactionInfo with id: " + keyS + "/n" + e.toString();
+			throw new IOException(ans);
+		} finally {
+			pm.close();
+		}
+		return info;
 	}
 
 	public static TransactionInfo getTransactionFromKey(Key fullkey) throws IOException {
@@ -53,7 +73,7 @@ public class TransactionInfoQueries {
 
 		} catch (Exception e) {
 			pm.close();
-			String ans = "ERROR: Unable to delete id: " + fullkey + "/n" + e.toString();
+			String ans = "ERROR: Unable to fetch id: " + fullkey + "/n" + e.toString();
 			throw new IOException(ans);
 		} finally {
 			pm.close();

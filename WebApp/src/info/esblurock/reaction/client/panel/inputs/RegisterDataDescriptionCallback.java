@@ -26,12 +26,7 @@ public class RegisterDataDescriptionCallback  implements AsyncCallback<String> {
 	
 	@Override
 	public void onFailure(Throwable caught) {
-		Window.alert("already exists");
 		String keyword = GenerateKeywordFromDescription.createKeyword(description);
-		//DataDescriptionAsRows panel = new DataDescriptionAsRows(keyword,description);
-		//String title = keyword + ":  Registered";
-		//DataDescriptionRegisteredPanel popup = new DataDescriptionRegisteredPanel(title,panel);
-		//MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
 		TransactionServiceAsync findprocess = TransactionService.Util.getInstance();
 		SetUpProcessesCallback callback = new SetUpProcessesCallback(keyword);
 		findprocess.findValidProcessing(keyword, callback);
@@ -39,7 +34,6 @@ public class RegisterDataDescriptionCallback  implements AsyncCallback<String> {
 
 	@Override
 	public void onSuccess(String result) {
-		Window.alert("RegisterDataDescriptionCallback: " + result);
 		DataDescriptionAsRows panel = new DataDescriptionAsRows(result,description);
 		MaterialModal.showModal(panel, TYPE.FIXED_FOOTER);
 		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();

@@ -8,10 +8,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.imageio.spi.RegisterableService;
 import javax.jdo.FetchGroup;
 import javax.jdo.PersistenceManager;
-import javax.servlet.http.HttpSession;
+import static com.google.appengine.api.taskqueue.RetryOptions.Builder.*;
 
 import info.esblurock.reaction.client.panel.transaction.TransactionService;
 import info.esblurock.reaction.data.delete.DeleteTransactionInfoAndObject;
@@ -36,26 +35,21 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.RetryOptions;
+import com.google.appengine.api.taskqueue.TaskOptions;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class TransactionServiceImpl.
  */
-public class TransactionServiceImpl extends RemoteServiceServlet implements TransactionService {
+public class TransactionServiceImpl extends ServerBase implements TransactionService {
 	private static Logger log = Logger.getLogger(TextToDatabaseImpl.class.getName());
-	
-	
-    private ContextAndSessionUtilities getUtilities() {
-        HttpSession session = getThreadLocalRequest().getSession();
-    	ContextAndSessionUtilities util = new ContextAndSessionUtilities(this.getServletContext(),session);
-    	return util;
-    }
-
 
 	/** The pm. */
 	PersistenceManager pm = PMF.get().getPersistenceManager();
-	//RegisteredProcesses registeredProcesses = new RegisteredProcesses();
+	// RegisteredProcesses registeredProcesses = new RegisteredProcesses();
 
 	/*
 	 * (non-Javadoc)
@@ -91,31 +85,31 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		pm.getFetchPlan().setGroup(FetchGroup.ALL);
 		javax.jdo.Query q = pm.newQuery(TextSetUploadData.class);
 		try {
-		Object object = q.execute();
-		System.out.println(object);
-		if (object != null) {
-			if (object instanceof List) {
-				List<TextSetUploadData> results = (List<TextSetUploadData>) object;
-				if (results.size() > 0) {
-					for (TextSetUploadData data : results) {
-						if (data != null) {
-							pm.retrieve(data);
-							TextSetUploadData datacopy = pm.detachCopy(data);
-							lst.add(datacopy);
-						} else {
-							log.info("getAllUploadTransactions() an element is null");
+			Object object = q.execute();
+			System.out.println(object);
+			if (object != null) {
+				if (object instanceof List) {
+					List<TextSetUploadData> results = (List<TextSetUploadData>) object;
+					if (results.size() > 0) {
+						for (TextSetUploadData data : results) {
+							if (data != null) {
+								pm.retrieve(data);
+								TextSetUploadData datacopy = pm.detachCopy(data);
+								lst.add(datacopy);
+							} else {
+								log.info("getAllUploadTransactions() an element is null");
+							}
 						}
+					} else {
+						log.info("getAllUploadTransactions() no results found (size = 0)");
 					}
 				} else {
-					log.info("getAllUploadTransactions() no results found (size = 0)");
+					log.log(Level.SEVERE, "getAllUploadTransactions() did not return a list: " + object);
 				}
 			} else {
-				log.log(Level.SEVERE, "getAllUploadTransactions() did not return a list: " + object);
+				log.info("getAllUploadTransactions() not results found (null)");
 			}
-		} else {
-			log.info("getAllUploadTransactions() not results found (null)");
-		}
-		} catch(NullPointerException ex) {
+		} catch (NullPointerException ex) {
 			log.info("getAllUploadTransactions() results not found (null)");
 		}
 		pm.close();
@@ -189,7 +183,13 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 	}
 
 	@Override
-	public String deleteTransactionInfoFromKey(String transactionkey) throws IOException {
+	public String deleteTransactionInfoFromKey(String objectType, String keyword, String transactionkey)
+			throws IOException {
+		ContextAndSessionUtilities util = getUtilities();
+		String user = util.getUserName();
+		String source = "DeleteTransactionInfoFromKey" + objectType + "#" + keyword;
+		RegisterTransaction.register(util.getUserInfo(), TaskTypes.dataDelete, source, RegisterTransaction.checkLevel1);
+		System.out.println("DeleteTransactionInfoFromKey: " + transactionkey);
 		DeleteTransactionInfoAndObject delete = new DeleteTransactionInfoAndObject();
 		String ans = delete.deleteTransactionInfoFromKey(transactionkey);
 		pm.close();
@@ -224,22 +224,35 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		pm.close();
 		return delete;
 	}
+
 	public Set<String> findValidProcessing(String keyword) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
 		String user = util.getUserName();
 		Set<String> processes = RegisteredProcesses.toBeProcessed(user, keyword);
 		return processes;
 	}
+
 	public String runProcess(String processName, String keyword) throws IOException {
+		DataProcesses p = DataProcesses.valueOf(processName);
+		String answer = "";
 		ContextAndSessionUtilities util = getUtilities();
 		String user = util.getUserName();
-		DataProcesses p = DataProcesses.valueOf(processName);
-		ProcessInputSpecificationsBase spec = new ProcessInputSpecificationsBase(user, keyword, null);
-		ProcessBase process = p.getProcess(spec);
 		String source = processName + "#" + keyword;
-		RegisterTransaction.register(util.getUserInfo(),
-				p.getTaskType(),source, 
-				RegisterTransaction.checkLevel1);
-		return process.process();
+		RegisterTransaction.register(util.getUserInfo(), p.getTaskType(), source, RegisterTransaction.checkLevel1);
+		if (p.asBackgroundJob()) {
+			/*
+			 * return process.process();
+			 */
+			Queue queue = QueueFactory.getDefaultQueue();
+			RetryOptions retry = withTaskRetryLimit(0);
+			queue.add(TaskOptions.Builder.withUrl("/webapp/processservlet").param("processName", processName)
+					.param("keyword", keyword).param("user", user).retryOptions(retry));
+			answer = "Task Sent to background: " + processName;
+		} else {
+			ProcessInputSpecificationsBase spec = new ProcessInputSpecificationsBase(user, keyword, null);
+			ProcessBase process = p.getProcess(spec);
+			answer = "Task Performed:\n " + process.process();
+		}
+		return answer;
 	}
 }

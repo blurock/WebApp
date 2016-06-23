@@ -2,20 +2,13 @@ package info.esblurock.reaction.server.process.chemkin.rdf;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
-import info.esblurock.react.mechanisms.chemkin.ChemkinMolecule;
-import info.esblurock.react.mechanisms.chemkin.ChemkinMoleculeList;
 import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.chemical.mechanism.GenerateMechanismName;
-import info.esblurock.reaction.data.chemical.molecule.CreateMechanismMoleculeData;
 import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
-import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeListData;
-import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction;
 import info.esblurock.reaction.data.transaction.chemkin.rdf.MechanismMoleculeRDFTransaction;
 import info.esblurock.reaction.server.process.ProcessBase;
@@ -98,6 +91,7 @@ public class MechanismMoleculeProcessRDF extends ProcessBase {
 			store.storeStringRDF(isMechanismMolecule, name);
 		}
 		store.finish();
+		rdfTransaction.setRdfCount(store.getRdfCount());
 	}
 
 }

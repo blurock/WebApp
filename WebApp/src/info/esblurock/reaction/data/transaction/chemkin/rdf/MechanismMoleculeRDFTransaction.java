@@ -15,6 +15,9 @@ public class MechanismMoleculeRDFTransaction extends DatabaseObject{
     @Persistent
     String keyWord;
 
+    @Persistent
+   Integer rdfCount;
+
 	public MechanismMoleculeRDFTransaction(String user, String fileCode, String keyWord) {
 		super();
 		this.user = user;
@@ -32,6 +35,14 @@ public class MechanismMoleculeRDFTransaction extends DatabaseObject{
 
 	public String getKeyWord() {
 		return keyWord;
+	}
+
+	public Integer getRdfCount() {
+		return rdfCount;
+	}
+
+	public void setRdfCount(Integer rdfCount) {
+		this.rdfCount = rdfCount;
 	}
 
 }

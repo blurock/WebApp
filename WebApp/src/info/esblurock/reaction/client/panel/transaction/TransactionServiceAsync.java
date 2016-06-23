@@ -28,7 +28,8 @@ public interface TransactionServiceAsync {
 
 	void removeTransactionWithTypeAndKeyword(String objecttype, String keyword, AsyncCallback<String> callback);
 
-	void deleteTransactionInfoFromKey(String transactionkey, AsyncCallback<String> callback);
+	void deleteTransactionInfoFromKey(String objectType, String keyword, String transactionkey,
+			AsyncCallback<String> callback);
 
 	void removeFromRDFsFromDate(Date date, AsyncCallback<String> callback);
 

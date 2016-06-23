@@ -32,6 +32,10 @@ public enum DataProcesses {
 		public String getTaskType() {
 			return TaskTypes.dataInput;
 		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
+		}
 		
 	}, ReadChemkinMechanismFile {
 		@Override
@@ -47,6 +51,10 @@ public enum DataProcesses {
 		public String getTaskType() {
 			return TaskTypes.dataInput;
 		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
+		}
 	}, ReadNASAPolynomialFile {
 		@Override
 		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
@@ -60,6 +68,10 @@ public enum DataProcesses {
 		@Override
 		public String getTaskType() {
 			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
 		}
 		
 	}, ReadTransportPropertiesFile {
@@ -76,6 +88,10 @@ public enum DataProcesses {
 		@Override
 		public String getTaskType() {
 			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
 		}
 	}, MechanismMoleculesToDatabase {
 
@@ -94,6 +110,11 @@ public enum DataProcesses {
 		@Override
 		public String getTaskType() {
 			return TaskTypes.dataInput;
+		}
+
+		@Override
+		public boolean asBackgroundJob() {
+			return true;
 		}
 		
 	}, MechanismReactionsToDatabase {
@@ -114,6 +135,11 @@ public enum DataProcesses {
 		public String getTaskType() {
 			return TaskTypes.dataInput;
 		}
+
+		@Override
+		public boolean asBackgroundJob() {
+			return true;
+		}
 		
 	}, NASAPolynomialsToDatabase {
 
@@ -132,6 +158,11 @@ public enum DataProcesses {
 		@Override
 		public String getTaskType() {
 			return TaskTypes.dataInput;
+		}
+
+		@Override
+		public boolean asBackgroundJob() {
+			return true;
 		}
 		
 	}, TransportPropertiesToDatabase {
@@ -152,6 +183,11 @@ public enum DataProcesses {
 		public String getTaskType() {
 			return TaskTypes.dataInput;
 		}
+
+		@Override
+		public boolean asBackgroundJob() {
+			return true;
+		}
 		
 	}, MechanismMoleculeProcessRDF {
 
@@ -170,6 +206,11 @@ public enum DataProcesses {
 		@Override
 		public String getTaskType() {
 			return TaskTypes.dataInput;
+		}
+
+		@Override
+		public boolean asBackgroundJob() {
+			return true;
 		}
 		
 	}, MechanismReactionsProcessRDF {
@@ -190,6 +231,11 @@ public enum DataProcesses {
 		public String getTaskType() {
 			return TaskTypes.dataInput;
 		}
+
+		@Override
+		public boolean asBackgroundJob() {
+			return true;
+		}
 		
 	}, NASAPolynomialProcessRDF {
 
@@ -208,6 +254,11 @@ public enum DataProcesses {
 		@Override
 		public String getTaskType() {
 			return TaskTypes.dataInput;
+		}
+
+		@Override
+		public boolean asBackgroundJob() {
+			return true;
 		}
 		
 	}, TransportPropertiesProcessRDF {
@@ -228,11 +279,16 @@ public enum DataProcesses {
 		public String getTaskType() {
 			return TaskTypes.dataInput;
 		}
-		
+
+		@Override
+		public boolean asBackgroundJob() {
+			return true;
+		}
 	};
 	public abstract ProcessBase getProcess(ProcessInputSpecificationsBase specs);
 	public abstract ProcessBase getEmptyProcess();
 	public abstract String getTaskType();
+	public abstract boolean asBackgroundJob();
 	
 	static public ProcessBase getProcess(String processName,ProcessInputSpecificationsBase specs) {
 		DataProcesses process = valueOf(processName);

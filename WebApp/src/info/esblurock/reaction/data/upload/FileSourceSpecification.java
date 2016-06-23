@@ -17,8 +17,9 @@ public class FileSourceSpecification extends DatabaseObject {
 	protected String textName;
 	@Persistent
 	protected String sourceType;
-	
-	
+    @Persistent
+    protected String fileCode;
+    
 	public FileSourceSpecification() {
 		super();
 	}
@@ -39,6 +40,9 @@ public class FileSourceSpecification extends DatabaseObject {
 	}
 	public void setSourceType(String sourceType) {
 		this.sourceType = sourceType;
+	}
+	public String getFileCode() {
+		return fileCode;
 	}
 	
 

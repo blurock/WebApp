@@ -7,7 +7,6 @@ import java.util.List;
 
 import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.data.StoreObject;
-import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywords;
@@ -105,7 +104,6 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 			ChemkinReactionData data = (ChemkinReactionData) object;
 			String fullrxnS = data.getReactionName();
 			String rxnS = generateReactions.getReactionSimpleName(data);
-			String mechS = generateReactions.parseOutReactionMechanismName(keyword);
 
 			store.storeObjectRDF(fullrxnS, data);
 			store.setKeyword(fullrxnS);
@@ -156,6 +154,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 			}
 		}
 		store.flushStore();
+		rdfTransaction.setRdfCount(store.getRdfCount());
 	}
 	
 	

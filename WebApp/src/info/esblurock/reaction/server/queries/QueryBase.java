@@ -36,7 +36,17 @@ public class QueryBase {
 	public QueryBase() {
 
 	}
-
+	static public DatabaseObject getObjectById(Class cls, String key) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		DatabaseObject obj = (DatabaseObject) pm.getObjectById(cls,key);
+		return obj;
+	}
+	
+	static public void deleteWithStringKey(Class cls, String key) throws IOException {
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			Object objectById = pm.getObjectById(cls,key);
+			pm.deletePersistent(objectById);
+	}
 	/**
 	 * Delete objects of classtype with propertyname == propertyvalue
 	 * 

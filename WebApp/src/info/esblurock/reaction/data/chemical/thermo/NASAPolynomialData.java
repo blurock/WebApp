@@ -177,4 +177,8 @@ public class NASAPolynomialData extends DatabaseObject {
 	public Double getStandardEntropy() {
 		return standardEntropy;
 	}
+	public String getKeyword() {
+		return mechanismKeyword;
+	}
+	
 }

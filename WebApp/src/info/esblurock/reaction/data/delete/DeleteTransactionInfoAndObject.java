@@ -82,7 +82,12 @@ public class DeleteTransactionInfoAndObject {
 	 */
 	public String deleteTransactionInfoFromKey(String fullkey) throws IOException {
 		String ans = "";
+		System.out.println("deleteTransactionInfoFromKey: " + fullkey);
 		TransactionInfo info = TransactionInfoQueries.getTransactionFromKeyString(fullkey);
+		if(info != null)
+			System.out.println("deleteTransactionInfoFromKey - TransactionInfo: " + info.getKeyword());
+		else
+			System.out.println("deleteTransactionInfoFromKey - Info not found");
 		delete(info);
 		return ans;
 	}
@@ -117,10 +122,11 @@ public class DeleteTransactionInfoAndObject {
 	 */
 	private String delete(TransactionInfo transaction) throws IOException {
 		String transactionKey = transaction.getKey();
+		System.out.println("delete: transaction.getStoredObjectKey(): " + transaction.getStoredObjectKey());
 		if (transaction.getStoredObjectKey() != null) {
 			String fullclassname = transaction.getTransactionObjectType();
 			String key = transaction.getStoredObjectKey();
-			log.info("Delete: " + fullclassname + "  " + key);
+			System.out.println("Delete: " + fullclassname + "  " + key);
 			DeleteDataStructures.deleteObject(fullclassname, key);
 			log.info("Done deleting object");
 		}

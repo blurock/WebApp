@@ -24,9 +24,10 @@ public interface ReactionProcessUploadedLines extends RemoteService {
 	           return instance;
 	       }
 	   }
-	   String processUploadedMechanism(DescriptionDataData description, 
-			   String key, String filename, boolean process) throws IOException;
-	   String processUploadedSetOfNASAPolynomial(DescriptionDataData description, 
-				String key, String filename, boolean process) throws IOException;
-	   String deleteTextSetUploadData(String key)  throws IOException;
+	   
+	   //String processUploadedMechanism(DescriptionDataData description, 
+			   //String key, String filename, boolean process) throws IOException;
+	   //String processUploadedSetOfNASAPolynomial(DescriptionDataData description, 
+				//String key, String filename, boolean process) throws IOException;
+	   //String deleteTextSetUploadData(String key)  throws IOException;
 }
