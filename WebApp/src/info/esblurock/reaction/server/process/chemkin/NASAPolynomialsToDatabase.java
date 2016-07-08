@@ -23,8 +23,11 @@ public class NASAPolynomialsToDatabase extends ProcessBase {
 	NASAPolynomialFileUpload upload;
 	InputStreamToLineDatabase input;
 	NASAPolynomialsToDatabaseTransaction nasaToDatabase;
+	
+
+	String validateS;
+	String toDatabaseS;
 	String uploadS;
-	String toDatabaseS;	
 
 	ArrayList<NASAPolynomialData> nasapolynomials;
 	
@@ -38,6 +41,7 @@ public class NASAPolynomialsToDatabase extends ProcessBase {
 
 	@Override
 	public void initialization() {
+		validateS = "info.esblurock.reaction.data.upload.types.ValidatedNASAPolynomialFile";
 		uploadS     = "info.esblurock.reaction.data.upload.types.NASAPolynomialFileUpload";
 		toDatabaseS = "info.esblurock.reaction.data.transaction.chemkin.NASAPolynomialsToDatabaseTransaction";
 	}
@@ -66,7 +70,7 @@ public class NASAPolynomialsToDatabase extends ProcessBase {
 		return output;
 	}
 	@Override
-	protected void initializeOutputObjects() {
+	protected void initializeOutputObjects() throws IOException {
 		super.initializeOutputObjects();
 		nasaToDatabase = (NASAPolynomialsToDatabaseTransaction ) 
 				new NASAPolynomialsToDatabaseTransaction(user, outputSourceCode, keyword,0);

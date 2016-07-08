@@ -19,22 +19,7 @@ import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 import thermo.data.benson.NASAPolynomial;
 import thermo.data.benson.SetOfThermodynamicInformation;
 
-public class ReadNASAPolynomialFile  extends ProcessBase  {
-
-	UploadFileTransaction upload;
-	InputStreamToLineDatabase input;
-	
-	protected String textBody;
-	protected String textName;
-	protected String sourceType;
-	
-	String descriptionS;
-	String specificationS;
-	String uploadS;
-	DescriptionDataData description;
-	NASAPolynomialFileSpecification specification;
-
-
+public class ReadNASAPolynomialFile  extends ReadFileBaseProcess {
 	public ReadNASAPolynomialFile() {
 		super();
 	}
@@ -44,10 +29,9 @@ public class ReadNASAPolynomialFile  extends ProcessBase  {
 		input = new InputStreamToLineDatabase();
 	}
 	public void initialization() {
-		descriptionS = "info.esblurock.reaction.data.description.DescriptionDataData";
+		super.initialization();
 		specificationS = "info.esblurock.reaction.data.upload.NASAPolynomialFileSpecification";	
 		uploadS = "info.esblurock.reaction.data.upload.types.NASAPolynomialFileUpload";
-
 	}
 
 	@Override
@@ -59,61 +43,20 @@ public class ReadNASAPolynomialFile  extends ProcessBase  {
 	protected String getProcessDescription() {
 		return "Read in a NASA polynomial from client and see if correct";
 	}
-
 	@Override
 	protected ArrayList<String> getInputTransactionObjectNames() {
-		ArrayList<String> input = new ArrayList<String>();
-		input.add(descriptionS);
-		input.add(specificationS);
-		return input;
+		return super.getInputTransactionObjectNames();
 	}
 
 	@Override
 	protected ArrayList<String> getOutputTransactionObjectNames() {
-		ArrayList<String> output = new ArrayList<String>();
-		output.add(uploadS);
-		return output;
+		return super.getOutputTransactionObjectNames();
 	}
 
 	@Override
-	protected void initializeOutputObjects() {
+	protected void initializeOutputObjects() throws IOException {
 		super.initializeOutputObjects();
 		upload = new NASAPolynomialFileUpload(user, textName, outputSourceCode, sourceType, 0);
 		objectOutputs.add(upload);
 	}
-    protected void setUpInputDataObjects() throws IOException {
-    	super.setUpInputDataObjects();
-    	description = (DescriptionDataData) getInputSource(descriptionS);
-    	specification = (NASAPolynomialFileSpecification) getInputSource(specificationS);
-		textBody = specification.getTextBody();
-		textName = specification.getTextName();
-		sourceType = specification.getSourceType();    	
-    }
-
-	@Override
-	protected void createObjects() throws IOException {
-		BufferedReader br = CreateBufferedReaderForSourceFile.getBufferedReader(sourceType, textName, textBody);
-		String commentString = "!";
-		log.info("User verified: to read text: " + textName);
-		upload = input.uploadFile(upload, br);
-		try {
-			ChemkinStringFromStoredFile chemkinstring = new ChemkinStringFromStoredFile(upload, commentString);
-			ParseNASAPolynomialSet parse = new ParseNASAPolynomialSet();
-			parse.parse(keyword, chemkinstring);
-		} catch (IOException ex) {
-			storeNewTransactions();
-			throw ex;
-		}
-	}
-	public String getTextBody() {
-		return textBody;
-	}
-	public String getTextName() {
-		return textName;
-	}
-	public String getSourceType() {
-		return sourceType;
-	}
-
-
 }

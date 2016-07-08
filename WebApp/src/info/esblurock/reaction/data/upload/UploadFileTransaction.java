@@ -4,9 +4,7 @@ import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-
 import info.esblurock.reaction.client.data.DatabaseObject;
-
 
 @PersistenceCapable
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
@@ -26,7 +24,7 @@ public class UploadFileTransaction extends DatabaseObject {
     @Persistent
     Integer lineCount;
     
-	public UploadFileTransaction() {
+    public UploadFileTransaction() {
 	}
 
 	public UploadFileTransaction(String user, String filename, String fileCode,String sourceType, Integer lineCount) {
@@ -38,6 +36,13 @@ public class UploadFileTransaction extends DatabaseObject {
 		this.lineCount = lineCount;
 	}
 
+	public void fillInParameters(String user, String filename, String fileCode,String sourceType, Integer lineCount) {
+		this.user = user;
+		this.filename = filename;
+		this.sourceType = sourceType;
+		this.fileCode = fileCode;
+		this.lineCount = lineCount;		
+	}
 	public String getUser() {
 		return user;
 	}
@@ -59,4 +64,25 @@ public class UploadFileTransaction extends DatabaseObject {
     public void setLineCount(int count) {
     	lineCount = count;
     }
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public void setFileCode(String fileCode) {
+		this.fileCode = fileCode;
+	}
+
+	public void setSourceType(String sourceType) {
+		this.sourceType = sourceType;
+	}
+
+	public void setLineCount(Integer lineCount) {
+		this.lineCount = lineCount;
+	}
+
 }

@@ -5,13 +5,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
-import javax.jdo.PersistenceManager;
-
 import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.server.TextToDatabaseImpl;
-import info.esblurock.reaction.server.datastore.PMF;
 import info.esblurock.reaction.server.datastore.StorageAndRetrievalUtilities;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
@@ -164,13 +161,25 @@ public abstract class ProcessBase {
 	public String process() throws IOException {
 		setUpInputDataObjects();
 		initializeOutputObjects();
-		storeOutputObjects();
 		initializeOutputTranactions();
-		addObjectTransactionInfo();
-		storeNewTransactions();
-		createObjects();
-		storeOutputObjects();
-		storeNewTransactions();
+		try {
+			System.out.println("process(): createObjects()");
+			createObjects();
+			System.out.println("process(): storeOutputObjects()");
+			storeOutputObjects();
+			System.out.println("process(): addObjectTransactionInfo()");
+			addObjectTransactionInfo();
+			System.out.println("process(): storeNewTransactions()");
+			storeNewTransactions();
+			System.out.println("process(): DONE");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			if(IOException.class.isAssignableFrom(ex.getClass())) {
+				throw ex;
+			} else {
+				throw new IOException(ex.toString());
+			}
+ 		}
 		String answer = getProcessName() + " [" + user + ": " + keyword + " (" + outputSourceCode + ") ]";
 		return answer;
 	}
@@ -212,8 +221,10 @@ public abstract class ProcessBase {
 	 * initialization empty is allocate here and the overrided funtion add the
 	 * {@link DatabaseObject} needed The sourceCode (outputSourceCode) is set up
 	 * using the user name
+	 * 
+	 * @throws IOException
 	 */
-	protected void initializeOutputObjects() {
+	protected void initializeOutputObjects() throws IOException {
 		outputSourceCode = ManageDataSourceIdentification.getDataSourceIdentification(user);
 		objectOutputs = new ArrayList<DatabaseObject>();
 	}

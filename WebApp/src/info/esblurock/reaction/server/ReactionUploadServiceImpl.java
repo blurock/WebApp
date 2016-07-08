@@ -1,11 +1,15 @@
 package info.esblurock.reaction.server;
 
+import info.esblurock.reaction.client.panel.inputs.DataInput;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
+import info.esblurock.reaction.server.datastore.PMF;
+import info.esblurock.reaction.server.process.ProcessUtilities;
 import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 import info.esblurock.reaction.server.upload.StoreUploadedFileData;
 import info.esblurock.reaction.server.upload.UploadedFileData;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
+import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -16,6 +20,7 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
+import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -43,6 +48,7 @@ import gwtupload.shared.UConsts;
 public class ReactionUploadServiceImpl extends AppEngineUploadAction {
 
 	private static final long serialVersionUID = 1L;
+	String fileAsSource = "File";
 	
     private ContextAndSessionUtilities getUtilities() {
         HttpSession session = getThreadLocalRequest().getSession();
@@ -63,9 +69,15 @@ public class ReactionUploadServiceImpl extends AppEngineUploadAction {
 	@Override
 	public String executeAction(HttpServletRequest request,
 			List<FileItem> sessionFiles) throws UploadActionException {
-		String response = "";
 		ContextAndSessionUtilities util = getUtilities();
-		// request.getSession().setAttribute(arg0, arg1);
+		String user = util.getUserName();
+		String response = "";
+		
+		String processName = request.getParameter("transname");
+		String keywordS = request.getParameter("keyword");
+		String sourceS = request.getParameter("source");
+		String keyword = sourceS + "#" + keywordS;
+		System.out.println("executeAction: " + keyword);
 		for (FileItem item : sessionFiles) {
 			if (false == item.isFormField()) {
 				try {
@@ -75,18 +87,24 @@ public class ReactionUploadServiceImpl extends AppEngineUploadAction {
 					out += item.getFieldName() + "\n  with size of "
 							+ item.getSize() + "\n";
 					System.out.println(out);
-					/*
 					InputStream str = item.getInputStream();
 					InputStreamReader fstr = new InputStreamReader(str);
 					BufferedReader buf = new BufferedReader(fstr);
 					InputStreamToLineDatabase input = new InputStreamToLineDatabase();
-					String user = util.getUserName();
 					String type = "Upload";
-					//UploadFileTransaction upload = input.uploadFile(user, item.getFieldName(), type, buf);
-					//response += upload.getKey() + " ";
-					 */
-					
-					
+					String idCode = ManageDataSourceIdentification.getDataSourceIdentification(user);
+					System.out.println("executeAction  UploadFileTransaction: idCode=" + idCode);
+					response = idCode;
+					UploadFileTransaction uploadtrans = ProcessUtilities.getUploadFileTransaction(processName);
+					System.out.println("ProcessUtilities.getUploadFileTransaction: " + uploadtrans);
+					uploadtrans.fillInParameters(user, item.getName(), idCode, fileAsSource, 0);
+					input.uploadFile(uploadtrans, buf);
+					PersistenceManager pm = PMF.get().getPersistenceManager();
+					pm.makePersistent(uploadtrans);
+					TransactionInfo info = new TransactionInfo(user, keyword,
+							uploadtrans.getClass().getName(), idCode);
+					info.setStoredObjectKey(uploadtrans.getKey());
+					pm.makePersistent(info);
 				} catch (Exception e) {
 					throw new UploadActionException(e);
 				}

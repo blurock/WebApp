@@ -15,6 +15,7 @@ import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction;
 import info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload;
+import info.esblurock.reaction.data.upload.types.ValidatedChemkinMechanismFile;
 import info.esblurock.reaction.server.chemkin.ChemkinStringFromStoredFile;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
@@ -22,12 +23,15 @@ import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
 public class MechanismMoleculesToDatabase extends ProcessBase {
 	String delimitor = "#";
 	
-	String uploadS;
+	String validateS;
 	String toDatabaseS;
+	String uploadS;
+	
 	ChemkinMechanismFileUpload upload;
-	ArrayList<MechanismMoleculeData> moleculeList;
 	MechanismMoleculesToDatabaseTransaction moltransaction;
+
 	HashMap<String, String> moleculeMap;
+	ArrayList<MechanismMoleculeData> moleculeList;
 
 	public MechanismMoleculesToDatabase() {
 		super();
@@ -49,6 +53,7 @@ public class MechanismMoleculesToDatabase extends ProcessBase {
 	@Override
 	protected ArrayList<String> getInputTransactionObjectNames() {
 		ArrayList<String> input = new ArrayList<String>();
+		input.add(validateS);
 		input.add(uploadS);
 		return input;
 	}
@@ -60,7 +65,7 @@ public class MechanismMoleculesToDatabase extends ProcessBase {
 		return output;
 	}
 	@Override
-	protected void initializeOutputObjects() {
+	protected void initializeOutputObjects() throws IOException {
 		super.initializeOutputObjects();
 		moltransaction = new MechanismMoleculesToDatabaseTransaction(user, outputSourceCode, keyword,0);
 		objectOutputs.add(moltransaction);
@@ -97,6 +102,7 @@ public class MechanismMoleculesToDatabase extends ProcessBase {
 	@Override
 	public void initialization() {
 		uploadS = "info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload";
+		validateS = "info.esblurock.reaction.data.upload.types.ValidatedChemkinMechanismFile";
 		toDatabaseS = "info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction";
 	}
 	public ArrayList<MechanismMoleculeData> create(ChemkinMoleculeList speciesList) {

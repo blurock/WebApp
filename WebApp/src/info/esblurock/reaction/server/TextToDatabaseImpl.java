@@ -68,6 +68,7 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 				pm.makePersistent(specInstance);
 				info.setStoredObjectKey(specInstance.getKey());
 				pm.makePersistent(info);
+				pm.close();
 			} else {
 				throw new IOException("Class: " + className + " not a subclass of FileSourceSpecification");
 			}
@@ -116,11 +117,13 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 		store.finish();
 		return transaction.getKey();
 	}
+
 	public String checkSubmitInputData(DescriptionDataData descrdata) throws IOException {
 		verify(uploadText, TaskTypes.dataInput);
 		ContextAndSessionUtilities util = getUtilities();
 		String userS = util.getUserName();
 		String keyword = GenerateKeywordFromDescription.createKeyword(descrdata);
+		System.out.println("Keyword: " + keyword);
 		try {
 		TransactionInfoQueries.transactionExists(userS,keyword, DescriptionDataData.class.getName());
 		} catch(Exception ex) {

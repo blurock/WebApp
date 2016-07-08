@@ -14,6 +14,7 @@ import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 import info.esblurock.reaction.data.chemical.transport.SpeciesTransportProperty;
 
 public class TransportPropertiesToDatabase extends ProcessBase {
+	String validateS;
 	String uploadS;
 	String toDatabaseS;	
 	TransportFileUpload upload;
@@ -30,6 +31,7 @@ public class TransportPropertiesToDatabase extends ProcessBase {
 
 	@Override
 	public void initialization() {
+		validateS = "info.esblurock.reaction.data.upload.types.ValidatedTransportFile";
 		uploadS     = "info.esblurock.reaction.data.upload.types.TransportFileUpload";
 		toDatabaseS = "info.esblurock.reaction.data.transaction.chemkin.TransportPropertiesToDatabaseTransaction";
 	}
@@ -47,6 +49,7 @@ public class TransportPropertiesToDatabase extends ProcessBase {
 	@Override
 	protected ArrayList<String> getInputTransactionObjectNames() {
 		ArrayList<String> input = new ArrayList<String>();
+		input.add(validateS);
 		input.add(uploadS);
 		return input;
 	}
@@ -58,7 +61,7 @@ public class TransportPropertiesToDatabase extends ProcessBase {
 		return output;
 	}
 	@Override
-	protected void initializeOutputObjects() {
+	protected void initializeOutputObjects() throws IOException {
 		super.initializeOutputObjects();
 		transportDatabase = (TransportPropertiesToDatabaseTransaction)
 				 new TransportPropertiesToDatabaseTransaction(user, outputSourceCode, keyword, 0);

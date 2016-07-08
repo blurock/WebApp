@@ -66,7 +66,7 @@ public class NASAPolynomialProcessRDF extends ProcessBase {
 	}
 
 	@Override
-	protected void initializeOutputObjects() {
+	protected void initializeOutputObjects() throws IOException {
 		super.initializeOutputObjects();
 		rdfTransaction = new NASAPolynomialRDFTransaction(user, outputSourceCode, keyword);
 		objectOutputs.add(rdfTransaction);

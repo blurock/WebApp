@@ -29,6 +29,8 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 	private String fileCode;
 	private int maxPart = 1000;
 	boolean nextpart = true;
+	
+	String current;
 
 	public ChemkinStringFromStoredFile(UploadFileTransaction transaction, String commentString) {
 		super(transaction.getKey(), commentString);
@@ -38,7 +40,7 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 		lineCount = transaction.getLineCount();
 		fileCode = transaction.getFileCode();
 		setUpNextPart();
-
+		
 	}
 
 	public ChemkinStringFromStoredFile(String key, String user, String commentString) {
@@ -59,39 +61,37 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 	}
 
 	private boolean setUpNextPart() {
-		count = 0;
+		System.out.println("setUpNextPart(): " + totalcount);
+		count = -1;
 		if (nextpart) {
 			lines = ActionsUsingIdentificationCode.getNextLines(totalcount, maxPart, fileCode);
 		}
-		if (lines.size() == 0)
+		if (lines.size() == 0) {
 			nextpart = false;
+			current = null;
+		} else {
+			current = nextToken();
+		}
 		return nextpart;
 	}
 
 	public String getCurrent() {
-		String line = null;
-		if (count < lines.size()) {
-			line = lines.get(count);
-		} else {
-			if (setUpNextPart()) {
-				line = lines.get(count);
-			}
-		}
-		return line;
+		return current;
 	}
 
 	public String nextToken() {
-		String line = null;
+		System.out.println("nextToken():" + count + ", " + totalcount + ", " + lines.size());
+		current = null;
 		count++;
-		totalcount++;
 		if (count < lines.size()) {
-			line = lines.get(count);
+			current = lines.get(count);
+			totalcount++;
 		} else {
 			if (setUpNextPart()) {
-				line = lines.get(count);
 			}
 		}
-		return line;
+		System.out.println("nextToken():" + current);
+		return current;
 	}
 
 }

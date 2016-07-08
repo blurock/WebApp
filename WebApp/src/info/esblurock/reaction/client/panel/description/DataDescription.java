@@ -1,5 +1,7 @@
 package info.esblurock.reaction.client.panel.description;
 
+import info.esblurock.reaction.client.panel.inputs.InputSet;
+import info.esblurock.reaction.client.panel.inputs.SetOfInputs;
 import info.esblurock.reaction.client.resources.DescriptionConstants;
 
 import java.util.Date;
@@ -12,6 +14,7 @@ import gwt.material.design.client.ui.MaterialToast;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -56,7 +59,19 @@ public class DataDescription extends Composite implements HasText {
 	
 	boolean keywordChanged;
 	boolean sourcekeyChanged;
+	
+	SetOfInputs inputSet;
 
+	public void setInputSet(SetOfInputs set) {
+		inputSet = set;
+	}
+	public void resetKeyword() {
+		String keywordS = createObjectKeyword();
+		if(inputSet != null) {
+			inputSet.setKeyword(getKeyWord(),getSource());
+		}
+	}
+	
 	private void setText() {
 		keywordChanged = false;
 		sourcekeyChanged = false;
@@ -77,6 +92,7 @@ public class DataDescription extends Composite implements HasText {
 	}
 	
 	private void initData() {
+		inputSet = null;
 	}
 	public DataDescription() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -144,22 +160,23 @@ public class DataDescription extends Composite implements HasText {
 		return objecttitle.getTitle();
 	}
 	@UiHandler("sourcekey")
-	void onSourceKey(KeyPressEvent e) {
+	void onSourceKey(KeyUpEvent e) {
 		sourcekeyChanged = true;
+		resetKeyword();
 	}
 
 	@UiHandler("keyword")
-	void onKeyword(KeyPressEvent e) {
+	void onKeyword(KeyUpEvent e) {
 		String text = keyword.getText();
 		keywordChanged = true;
 		if(text.length() >= maxKeywordSize) {
 			MaterialToast.alert(descriptionConstants.keywordlimit());
 			keyword.setText(text.substring(0,maxKeywordSize-1));
 		}
-		
+		resetKeyword();		
 	}
 	@UiHandler("oneline")
-	void onOneLine(KeyPressEvent e) {
+	void onOneLine(KeyUpEvent e) {
 		
 		String text = oneline.getText();
 		if(text.length() >= maxOnlineSize) {
@@ -169,7 +186,7 @@ public class DataDescription extends Composite implements HasText {
 		
 	}
 	@UiHandler("description")
-	void onDescription(KeyPressEvent e) {
+	void onDescription(KeyUpEvent e) {
 		String text = description.getText();
 		if(text.length() >= maxFullDescriptionSize) {
 			MaterialToast.alert(descriptionConstants.descriptionlimit());

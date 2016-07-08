@@ -3,7 +3,9 @@ package info.esblurock.reaction.server.process;
 import info.esblurock.reaction.server.process.upload.ReadChemkinMechanismFile;
 import info.esblurock.reaction.server.process.upload.ReadNASAPolynomialFile;
 import info.esblurock.reaction.server.process.upload.ReadTransportPropertiesFile;
-import info.esblurock.reaction.client.resources.DescriptionConstants;
+import info.esblurock.reaction.server.process.upload.ValidateChemkinMechanismFile;
+import info.esblurock.reaction.server.process.upload.ValidateNASAPolynomialFile;
+import info.esblurock.reaction.server.process.upload.ValidateTransportFile;
 import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.process.description.RegisterDataDescription;
 import info.esblurock.reaction.server.process.chemkin.MechanismMoleculesToDatabase;
@@ -55,6 +57,24 @@ public enum DataProcesses {
 		public boolean asBackgroundJob() {
 			return false;
 		}
+	}, ValidateChemkinMechanismFile {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ValidateChemkinMechanismFile p = new ValidateChemkinMechanismFile(specs);
+			return p;
+		}
+		@Override
+		public ProcessBase getEmptyProcess() {
+			return new ValidateChemkinMechanismFile();
+		}
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
+		}
 	}, ReadNASAPolynomialFile {
 		@Override
 		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
@@ -64,6 +84,25 @@ public enum DataProcesses {
 		@Override
 		public ProcessBase getEmptyProcess() {
 			return new ReadNASAPolynomialFile();
+		}
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
+		}
+		
+	}, ValidateNASAPolynomialFile {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ValidateNASAPolynomialFile p = new ValidateNASAPolynomialFile(specs);
+			return p;
+		}
+		@Override
+		public ProcessBase getEmptyProcess() {
+			return new ValidateNASAPolynomialFile();
 		}
 		@Override
 		public String getTaskType() {
@@ -84,6 +123,25 @@ public enum DataProcesses {
 		@Override
 		public ProcessBase getEmptyProcess() {
 			return new ReadTransportPropertiesFile();
+		}
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
+		}
+	}, ValidateTransportFile {
+
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ValidateTransportFile p = new ValidateTransportFile(specs);
+			return p;
+		}
+		@Override
+		public ProcessBase getEmptyProcess() {
+			return new ValidateTransportFile();
 		}
 		@Override
 		public String getTaskType() {

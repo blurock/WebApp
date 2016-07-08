@@ -3,6 +3,8 @@ package info.esblurock.reaction.client.panel.inputs;
 import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.description.DataDescription;
+import info.esblurock.reaction.client.panel.transaction.TransactionService;
+import info.esblurock.reaction.client.panel.transaction.TransactionServiceAsync;
 
 //import java.util.StringTokenizer;
 
@@ -28,6 +30,7 @@ import org.apache.tools.ant.taskdefs.Input;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -42,6 +45,7 @@ public class DataInput extends Composite implements HasText {
 	private static DataInputUiBinder uiBinder = GWT.create(DataInputUiBinder.class);
 	public static String textAsSource = "Text";
 	public static String httpAsSource = "Http";
+	public static String fileAsSource = "File";
 
 	interface DataInputUiBinder extends UiBinder<Widget, DataInput> {
 	}
@@ -77,8 +81,13 @@ public class DataInput extends Composite implements HasText {
 	MaterialLink label;
 	boolean requiredInput = true;
 	DataDescription description;
-	String processName;
-
+	String specName;
+	String transName;
+	
+	String keyword;
+	String uploaderPath;
+	SingleUploader uploader;
+	
 	String sourceInputType = inputConstants.unspecified();
 
 	public void setRequiredInput(boolean required) {
@@ -122,20 +131,34 @@ public class DataInput extends Composite implements HasText {
 		uploadHTTP.setText(inputConstants.uploadhttp());
 	}
 
+	public void setKeyword(String keyword, String source) {
+		this.keyword = keyword;
+		String msg = uploaderPath + "?transname=" + transName 
+				+ "&keyword=" + keyword
+				+ "&source=" + source;
+		uploader.setServletPath(msg);
+	}
+	
+	public void setVisibility(boolean visible) {
+		this.setVisibility(visible);
+	}
+	
 	public DataInput() {
 		initWidget(uiBinder.createAndBindUi(this));
 		fillInText();
 		init();
 	}
 	public DataInput(
-			String processName,
+			String specName,
+			String transName,
 			DataDescription description,
 			String type, String title, 
 			String titletooltip, String httptext, String texttitle,
 			String texttext) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.description = description;
-		this.processName = processName;
+		this.specName = specName;
+		this.transName = transName;
 		fillInText();
 
 		datatype.setText(type);
@@ -148,15 +171,17 @@ public class DataInput extends Composite implements HasText {
 		textarea.setPlaceholder(texttitle);
 
 		init();
-		/*
-		*/
 	}
 
 	private void init() {
 		InputConstants inputConstants = GWT.create(InputConstants.class);
 		MaterialButton button = new MaterialButton(inputConstants.upload(),
 				"blue-text text-darken-2 light-blue lighten-5", "");
-		SingleUploader uploader = new SingleUploader(FileInputType.CUSTOM.with(button), new MyUploadStatus());
+		uploader = new SingleUploader(FileInputType.CUSTOM.with(button), new MyUploadStatus());
+		keyword = description.createObjectKeyword();
+		uploaderPath = uploader.getServletPath();
+		String msg = uploaderPath + "?transname=" + transName + "&keyword=" + keyword;
+		uploader.setServletPath(msg);
 		columnfile.add(uploader);
 		uploader.addOnFinishUploadHandler(onFinishUploaderHandler);
 	}
@@ -173,9 +198,10 @@ public class DataInput extends Composite implements HasText {
 				Window.alert(info.getFileName() + "\n" + info.message + "\nField   : " + info.field + "\nFileName: "
 						+ info.getFileName() + "\nURL     : " + info.getFileUrl() + "\nKey     :" + info.getKey()
 						+ "\ngetField: " + info.getField());
-
+				
 				setUpLoadInformation(info.getFileName(), info.getField());
 				setInputSource(inputConstants.upload());
+				
 			} else {
 				Window.alert(uploader.getStatus().toString());
 			}
@@ -235,16 +261,16 @@ public class DataInput extends Composite implements HasText {
 		Window.alert("Keyword: " + description.createObjectKeyword());
 		Window.alert("Name: " + uploadTextName.getText());
 		Window.alert("Text: " + textarea.getText());
-		async.textToDatabase(processName, textAsSource, description.createObjectKeyword(), uploadTextName.getText(),textarea.getText(), callbackText);
+		async.textToDatabase(specName, textAsSource, description.createObjectKeyword(), 
+				uploadTextName.getText(),textarea.getText(), callbackText);
 		MaterialToast.alert("Upload Text");
 	}
 
 	@UiHandler("uploadHTTP")
 	void onHTTPUpload(ClickEvent e) {
 		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
-		//String processName = "HTTPReadChemkinMechanismFile";
-		async.textToDatabase(processName, httpAsSource, description.createObjectKeyword(), httpaddress.getText(), httpaddress.getText(), callbackText);
-		//async.httpToDatabase(description.createObjectKeyword(), httpaddress.getText(), httpaddress.getText(), callbackHTTP);
+		async.textToDatabase(specName, httpAsSource, description.createObjectKeyword(), 
+				httpaddress.getText(), httpaddress.getText(), callbackText);
 		MaterialToast.alert("Upload http");
 	}
 

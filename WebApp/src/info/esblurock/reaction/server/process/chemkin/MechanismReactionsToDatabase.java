@@ -29,6 +29,7 @@ import info.esblurock.reaction.server.queries.ChemicalMechanismDataQuery;
 import info.esblurock.reaction.server.utilities.WriteObjectTransactionToDatabase;
 
 public class MechanismReactionsToDatabase extends ProcessBase {
+	String validateS;
 	String uploadS;
 	String moleculesS;
 	String toDatabaseS;
@@ -58,6 +59,7 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 		uploadS = "info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload";
 		moleculesS = "info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction";
 		toDatabaseS = "info.esblurock.reaction.data.transaction.chemkin.MechanismReactionsToDatabaseTransaction";
+		validateS = "info.esblurock.reaction.data.upload.types.ValidatedChemkinMechanismFile";
 	}
 
 	@Override
@@ -73,6 +75,7 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 	@Override
 	protected ArrayList<String> getInputTransactionObjectNames() {
 		ArrayList<String> input = new ArrayList<String>();
+		input.add(validateS);
 		input.add(moleculesS);
 		input.add(uploadS);
 		return input;
@@ -86,7 +89,7 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 	}
 
 	@Override
-	protected void initializeOutputObjects() {
+	protected void initializeOutputObjects() throws IOException {
 		super.initializeOutputObjects();
 		rxntransaction = new MechanismReactionsToDatabaseTransaction(user,
 				outputSourceCode, keyword);
@@ -97,10 +100,9 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 	protected void createObjects() throws IOException {
 		ChemkinMechanism mechanism = parse();
 
-		MechanismMoleculesToDatabaseTransaction moltransaction = (MechanismMoleculesToDatabaseTransaction) getInputSource(
-				moleculesS);
+		MechanismMoleculesToDatabaseTransaction moltransaction = 
+				(MechanismMoleculesToDatabaseTransaction) getInputSource(moleculesS);
 		moleculeNamesTable = moltransaction.getMoleculeMap();
-
 		ChemkinReactionList reactionList = mechanism.getReactionList();
 
 		ArrayList<DatabaseObject> chemkinReactionList = new ArrayList<DatabaseObject>();

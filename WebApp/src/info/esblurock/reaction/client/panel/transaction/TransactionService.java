@@ -136,5 +136,4 @@ public interface TransactionService extends RemoteService {
 	
 	
 	public String runProcess(String processName,String keyword) throws IOException;
-
 }

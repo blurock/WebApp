@@ -36,7 +36,7 @@ public class RegisterDataDescription extends ProcessBase {
 	}
 
 	@Override
-	protected void initializeOutputObjects() {
+	protected void initializeOutputObjects() throws IOException {
 		super.initializeOutputObjects();
 		objectOutputs.add(data);
 	}

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.jdo.FetchGroup;
 import javax.jdo.PersistenceManager;
 
 import com.google.appengine.api.datastore.Query;
@@ -262,7 +263,9 @@ public class TransactionInfoQueries {
 		String classS = transaction.getTransactionObjectType();
 		Class classC = Class.forName(classS);
 		String key = transaction.getStoredObjectKey();
+		pm.getFetchPlan().setGroup(FetchGroup.ALL);
 		DatabaseObject object = (DatabaseObject) pm.getObjectById(classC, key);
+		pm.close();
 		return object;
 	}
 
@@ -274,18 +277,10 @@ public class TransactionInfoQueries {
 		Filter classfilter = new FilterPredicate("transactionObjectType", FilterOperator.EQUAL, classname);
 		Filter andfilter = CompositeFilterOperator.and(userfilter, keywordfilter, classfilter);
 
+		System.out.println("");
+		
 		Query q = new Query("TransactionInfo").setFilter(andfilter);
 		PreparedQuery pq = datastore.prepare(q);
-		/*
-		 * for(Entity entity : pq.asIterable()) {
-		 * System.out.println(entity.getProperties());
-		 * if(entity.getProperty("keyword").equals(key)) { System.out.println(
-		 * "Key match"); }
-		 * if(entity.getProperty("transactionObjectType").equals(key)) {
-		 * System.out.println("transactionObjectType match"); }
-		 * 
-		 * }
-		 */
 		Iterator<Entity> iter = pq.asIterable().iterator();
 		if (iter.hasNext()) {
 			String msg = "Transaction with key='" + key + " and class='" + classname + "' exists..";

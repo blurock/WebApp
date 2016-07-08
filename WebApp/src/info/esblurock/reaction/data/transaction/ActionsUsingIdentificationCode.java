@@ -18,6 +18,8 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.Text;
+import com.ibm.icu.util.StringTokenizer;
 
 import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.data.upload.FileUploadLines;
@@ -154,7 +156,7 @@ public class ActionsUsingIdentificationCode {
 		boolean notcomplete = true;
 		while (notcomplete) {
 			try {
-				set = getNextLinesPart(totalcount, maxPart, fileCode);
+				set = getNextLinesPart(totalcount, fileCode);
 				notcomplete = false;
 			} catch (IOException ex) {
 				try {
@@ -193,7 +195,6 @@ public class ActionsUsingIdentificationCode {
 	 * @throws {@link
 	 *             IOException} means that not all in the set have been
 	 *             retrieved. A restart is needed to try again.
-	 */
 	static private ArrayList<String> getNextLinesPart(int totalcount, int maxPart, String fileCode) throws IOException {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		ArrayList<String> lines = new ArrayList<String>();
@@ -218,6 +219,31 @@ public class ActionsUsingIdentificationCode {
 				throw new IOException("missing line");
 			}
 		}
+		return lines;
+	}
+	 */
+	static private ArrayList<String> getNextLinesPart(int totalcount, String fileCode) throws IOException {
+		System.out.println("getNextLinesPart: " + fileCode + ", " + totalcount);
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		ArrayList<String> lines = new ArrayList<String>();
+		Filter fileCodeF = new FilterPredicate("fileCode", FilterOperator.EQUAL, fileCode);
+		Filter lower = new FilterPredicate("beginLineCount", FilterOperator.EQUAL, totalcount);
+		Filter totalfilter = CompositeFilterOperator.and(fileCodeF, lower);
+		Query q = new Query("FileUploadTextBlock").setFilter(totalfilter);
+		PreparedQuery pq = datastore.prepare(q);
+		Iterator<Entity> iter = pq.asIterator();
+		int count = 0;
+		while (iter.hasNext()) {
+			Entity entity = iter.next();
+			Text block = (Text) entity.getProperty("textBlock");
+			System.out.println("getNextLinesPart: " + block);
+			StringTokenizer tok = new StringTokenizer(block.getValue(), "\n");
+			while(tok.hasMoreTokens()) {
+				String line = tok.nextToken();
+				lines.add(line);
+			}
+		}
+		System.out.println("getNextLinesPart: " + lines.size());
 		return lines;
 	}
 

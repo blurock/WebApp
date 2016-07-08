@@ -51,13 +51,19 @@ public class RegisteredProcesses {
 			ProcessBase process = processEnum.getEmptyProcess();
 			System.out.println(process.getProcessName());
 			ArrayList<String> input = process.getInputTransactionObjectNames();
+			System.out.println("toBeProcessed (inputs): " + input);
 			if(completed.containsAll(input)) {
+				System.out.println("toBeProcessed: contains all inputs");
 				ArrayList<String> output = process.getOutputTransactionObjectNames();
+				System.out.println("toBeProcessed (outputs): " + output);
+				
 				if(!completed.containsAll(output)) {
+					System.out.println("toBeProcessed: contains no output");
 					valid.add(process.getClass().getName());
 				}
 			}
 		}
+		System.out.println("toBeProcessed\n" + valid.toString());
 		return valid;
 	}
 
@@ -77,9 +83,13 @@ public class RegisteredProcesses {
 		List<DatabaseObject> active = TransactionInfoQueries.getTransactionFromKeywordAndUser(user, keyword);
 		for(DatabaseObject obj : active) {
 			TransactionInfo info = (TransactionInfo) obj;
-			String trans = info.getTransactionObjectType();
-			completed.add(trans);
+			if(info.getStoredObjectKey() != null) {
+				String trans = info.getTransactionObjectType();
+				completed.add(trans);
+			}
 		}
+		System.out.println("getCompletedTransactions\n" + completed.toString());
+
 		return completed;
 	}
 }

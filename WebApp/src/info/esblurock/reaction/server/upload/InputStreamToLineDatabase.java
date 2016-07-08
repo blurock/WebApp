@@ -4,18 +4,19 @@ import info.esblurock.reaction.server.datastore.PMF;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import info.esblurock.reaction.data.transaction.TransactionInfo;
+import com.google.appengine.api.datastore.Text;
+
 import info.esblurock.reaction.data.upload.DeleteTextSetUploadData;
-import info.esblurock.reaction.data.upload.FileUploadLines;
+import info.esblurock.reaction.data.upload.FileUploadTextBlock;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 
 /**
@@ -25,93 +26,69 @@ import info.esblurock.reaction.data.upload.UploadFileTransaction;
 public class InputStreamToLineDatabase {
 	private static final Logger log = Logger.getLogger(InputStreamToLineDatabase.class.getName());
 
-	private int counter;
 	private int totalcount;
+	private int bytecount;
+	
+	private int MAX_BLOCK_BYTE_SIZE = 800000;
 
 	private String transactionKey;
-
-	static public int maxLines = 2000;
-
-	public UploadFileTransaction uploadFile(TransactionInfo info, UploadFileTransaction transaction, String filename,
-			String sourceType, BufferedReader buf) throws IOException {
-		try {
-			counter = 0;
-			totalcount = 0;
-			log.info("uploadFile: intial UploadFileTransaction stored");
-		} catch (Exception ex) {
-			if (transaction != null) {
-				PersistenceManager pm = PMF.get().getPersistenceManager();
-				sourceType = "ERROR";
-				transaction.setLineCount(totalcount);
-				pm.makePersistent(transaction);
-				pm.flush();
-				pm.close();
-				log.log(Level.SEVERE, "ERROR write incomplete transaction: ");
-			}
-			log.log(Level.SEVERE, "ERROR in upload file: " + ex.toString());
-			throw new IOException("ERROR in upload file: " + ex.toString());
-		}
-
-		return transaction;
-	}
-
 	public UploadFileTransaction uploadFile(UploadFileTransaction transaction, BufferedReader buf)
 			throws IOException {
+		System.out.println("UploadFileTransaction uploadFile");
 		log.info("uploadFile: intial UploadFileTransaction stored");
 		try {
-			String fileCode = transaction.getFileCode();
-			ArrayList<FileUploadLines> set = new ArrayList<FileUploadLines>();
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			StringBuffer buffer = new StringBuffer();
 			String line;
-			int partcount = 0;
+			bytecount = 0;
+			int beginLineCount = 0;
 			boolean notdone = true;
 			while (notdone) {
 				line = buf.readLine();
 				if (line != null) {
-					counter++;
-					totalcount++;
-					FileUploadLines uploadlines = new FileUploadLines(totalcount, line, fileCode);
-					set.add(uploadlines);
-					if (counter >= maxLines) {
-						uploadSet(set, fileCode, partcount);
-						partcount++;
-						counter = 0;
-						set = new ArrayList<FileUploadLines>();
+					System.out.println(line.length() + "\t:'" + line + "'");
+					bytecount += line.length() + 3;
+					if(bytecount > MAX_BLOCK_BYTE_SIZE) {
+						writeTextBlock(buffer.toString(),beginLineCount,transaction.getFileCode());
+						bytecount = line.length() + 1;
+						
+						StringTokenizer tok = new StringTokenizer(buffer.toString(),"\n");
+						System.out.println("# line: " + tok.countTokens()
+								+ ", " + beginLineCount + ", " + totalcount);
+						
+						beginLineCount = totalcount;
+						buffer = new StringBuffer();
 					}
+					totalcount++;
+					buffer.append(line);
+					buffer.append("  \n");
 				} else {
 					notdone = false;
-					uploadSet(set, fileCode, partcount);
 				}
 			}
-			log.info("UploadFileTransaction uploadFile: " + totalcount + ", " + partcount);
+			log.info("UploadFileTransaction uploadFile: " + totalcount);
+			writeTextBlock(buffer.toString(),beginLineCount,transaction.getFileCode());
 			transaction.setLineCount(totalcount);
 		} catch (Exception ex) {
 			if (transaction != null) {
-				PersistenceManager pm = PMF.get().getPersistenceManager();
-				transaction.setLineCount(totalcount);
-				pm.makePersistent(transaction);
-				pm.flush();
-				pm.close();
+				transaction.setLineCount(0);
 				log.log(Level.SEVERE, "ERROR write incomplete transaction: ");
 			}
 			log.log(Level.SEVERE, "ERROR in upload file: " + ex.toString());
 			throw new IOException("ERROR in upload file: " + ex.toString());
 		}
-
 		return transaction;
 
 	}
-	private void uploadSet(ArrayList<FileUploadLines> set, String filename, int partcount) {
-		log.info("Persist: UploadFilePartTransaction");
-		log.info("uploadSet: " + partcount + "(" + set.size() + ")");
-		System.out.println("uploadSet: " + partcount + "(" + set.size() + ")");
+	private void writeTextBlock(String text, int beginLineCount, String fileCode) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		pm.makePersistentAll(set);
-		pm.flush();
-		pm.close();
-		log.info("Done Persist Part: UploadFilePartTransaction with " + totalcount + " lines: part=" + partcount + "("
-				+ set.size() + ")");
+		Text textblock = new Text(text);
+		FileUploadTextBlock block = new FileUploadTextBlock(beginLineCount, totalcount-1, 
+				fileCode,textblock);
+		System.out.println("UploadFileTransaction uploadFile: FileUploadTextBlock" + totalcount);
+		pm.makePersistent(block);
 	}
-
+	
 	public Set<UploadFileTransaction> getUploadedFiles() {
 		HashSet<UploadFileTransaction> transset = new HashSet<UploadFileTransaction>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -147,11 +124,6 @@ public class InputStreamToLineDatabase {
 		}
 		return ans;
 	}
-
-	public int getCounter() {
-		return counter;
-	}
-
 	public String getTransactionKey() {
 		return transactionKey;
 	}

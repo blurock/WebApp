@@ -13,6 +13,7 @@ import javax.jdo.PersistenceManager;
 import static com.google.appengine.api.taskqueue.RetryOptions.Builder.*;
 
 import info.esblurock.reaction.client.panel.transaction.TransactionService;
+import info.esblurock.reaction.data.upload.UploadFileTransaction;
 import info.esblurock.reaction.data.delete.DeleteTransactionInfoAndObject;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
@@ -23,7 +24,9 @@ import info.esblurock.reaction.server.event.RegisterTransaction;
 import info.esblurock.reaction.server.process.DataProcesses;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
+import info.esblurock.reaction.server.process.ProcessUtilities;
 import info.esblurock.reaction.server.process.RegisteredProcesses;
+import info.esblurock.reaction.server.process.upload.ReadFileBaseProcess;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -255,4 +258,5 @@ public class TransactionServiceImpl extends ServerBase implements TransactionSer
 		}
 		return answer;
 	}
+
 }

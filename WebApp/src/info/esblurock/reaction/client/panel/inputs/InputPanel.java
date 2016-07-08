@@ -14,9 +14,11 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 			InputConstants inputConstants = GWT.create(InputConstants.class);
 			String text = PanelInputResources.INSTANCE.exampleChemkinMechanismReactions().getText();
-			String processName = "info.esblurock.reaction.data.upload.ChemkinMechanismFileSpecification";
+			String specName = "info.esblurock.reaction.data.upload.ChemkinMechanismFileSpecification";
+			String transName = "info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload";
 			DataInput mechanism = new DataInput(
-					processName,
+					specName,
+					transName,
 					description,
 					inputConstants.chemkinmechanismtype(),
 					inputConstants.chemkinmechanismtitle(),
@@ -33,10 +35,12 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
-			String processName = "info.esblurock.reaction.data.upload.NASAPolynomialFileSpecification";
+			String specName = "info.esblurock.reaction.data.upload.NASAPolynomialFileSpecification";
+			String transName = "info.esblurock.reaction.data.upload.types.NASAPolynomialFileUpload";
 
 			DataInput mechanism = new DataInput(
-					processName,
+					specName,
+					transName,
 					description,
 					inputConstants.nasapolynomialstype(),
 					inputConstants.nasapolynomialstitle(),
@@ -52,9 +56,11 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
-			String processName = "info.esblurock.reaction.data.upload.TransportFileSpecification";
+			String specName = "info.esblurock.reaction.data.upload.TransportFileSpecification";
+			String transName = "info.esblurock.reaction.data.upload.types.TransportFileUpload";
 			DataInput mechanism = new DataInput(
-					processName,
+					specName,
+					transName,
 					description,
 					inputConstants.transporttype(),
 					inputConstants.transporttitle(),
@@ -70,9 +76,11 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
-			String processName = "info.esblurock.reaction.data.upload.";
+			String specName = "info.esblurock.reaction.data.upload.";
+			String transName = "info.esblurock.reaction.data.upload.";
 			DataInput mechanism = new DataInput(
-					processName,
+					specName,
+					transName,
 					description,
 					inputConstants.sdfsubstructurestype(),
 					inputConstants.sdfsubstructurestitle(),
@@ -88,9 +96,11 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 			InputConstants inputConstants = GWT.create(InputConstants.class);
-			String processName = "info.esblurock.reaction.data.upload.";
+			String specName = "info.esblurock.reaction.data.upload.";
+			String transName = "info.esblurock.reaction.data.upload.";
 			DataInput mechanism = new DataInput(
-					processName,
+					specName,
+					transName,
 					description,
 					inputConstants.sdfmoleculetype(),
 					inputConstants.sdfmoleculehttptext(),
@@ -106,9 +116,11 @@ public enum InputPanel {
 		public DataInput getWidget(DataDescription description) {
 
 		InputConstants inputConstants = GWT.create(InputConstants.class);
-		String processName = "info.esblurock.reaction.data.upload.";
+		String specName = "info.esblurock.reaction.data.upload.";
+		String transName = "info.esblurock.reaction.data.upload.";
 		DataInput mechanism = new DataInput(
-				processName,
+				specName,
+				transName,
 				description,
 				inputConstants.thergasmoleculetype(),
 				inputConstants.thergasmoleculestitle(),

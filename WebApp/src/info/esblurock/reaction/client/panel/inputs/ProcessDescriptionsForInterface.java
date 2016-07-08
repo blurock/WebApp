@@ -28,6 +28,23 @@ public enum ProcessDescriptionsForInterface {
 		public String getDescription() {
 			return description.ReadTransportPropertiesFile();
 		}
+	}, ValidateTransportFile {
+		@Override
+		public String getDescription() {
+			return description.ValidatedTransportPropertiesFile();
+		}
+	}, ValidateChemkinMechanismFile {
+
+		@Override
+		public String getDescription() {
+			return description.ValidateChemkinMechanismFile();
+		}
+		 
+	}, ValidateNASAPolynomialFile {
+		@Override
+		public String getDescription() {
+			return description.ValidateNASAPolynomialFile();
+		}
 	}, MechanismMoleculesToDatabase {
 		@Override
 		public String getDescription() {

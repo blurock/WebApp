@@ -66,7 +66,7 @@ public class MechanismMoleculeProcessRDF extends ProcessBase {
 	}
 
 	@Override
-	protected void initializeOutputObjects() {
+	protected void initializeOutputObjects() throws IOException {
 		super.initializeOutputObjects();
 		rdfTransaction = new MechanismMoleculeRDFTransaction(user, outputSourceCode, keyword);
 		objectOutputs.add(rdfTransaction);

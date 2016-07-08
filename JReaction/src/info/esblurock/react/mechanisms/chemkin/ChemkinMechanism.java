@@ -26,6 +26,7 @@ public class ChemkinMechanism {
 		//parseComments(lines, commentChar);
 		mechanismComment = lines.skipOverComments();
 		String next = currentNonBlank(lines);
+		System.out.println("ChemkinMechanism::parse" + next );
 		if (elementStart(next)) {
 			System.out.println("Process ELEMENTS");
 			//next = lines.nextToken().trim();

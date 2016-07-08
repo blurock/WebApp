@@ -64,7 +64,7 @@ public class TransportPropertiesProcessRDF extends ProcessBase {
 		return output;
 	}
 	@Override
-	protected void initializeOutputObjects() {
+	protected void initializeOutputObjects() throws IOException {
 		super.initializeOutputObjects();
 		rdfTransaction = new TransportPropertiesRDFTransaction(user, outputSourceCode, keyword);
 		objectOutputs.add(rdfTransaction);

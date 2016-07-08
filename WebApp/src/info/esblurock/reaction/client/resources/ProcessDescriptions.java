@@ -122,4 +122,31 @@ public interface ProcessDescriptions extends com.google.gwt.i18n.client.Constant
   @DefaultStringValue("Store Transport: Store the CHEMKIN transport properties ")
   @Key("TransportPropertiesToDatabase")
   String TransportPropertiesToDatabase();
+
+  /**
+   * Translated "Validate ChemkinMechanism: Validate in the CHEMKIN mechanism file".
+   * 
+   * @return translated "Validate ChemkinMechanism: Validate in the CHEMKIN mechanism file"
+   */
+  @DefaultStringValue("Validate ChemkinMechanism: Validate in the CHEMKIN mechanism file")
+  @Key("ValidateChemkinMechanismFile")
+  String ValidateChemkinMechanismFile();
+
+  /**
+   * Translated "Validate NASAPolynomial: Validate in a NASA polynomial file".
+   * 
+   * @return translated "Validate NASAPolynomial: Validate in a NASA polynomial file"
+   */
+  @DefaultStringValue("Validate NASAPolynomial: Validate in a NASA polynomial file")
+  @Key("ValidateNASAPolynomialFile")
+  String ValidateNASAPolynomialFile();
+
+  /**
+   * Translated "Validate Transport: Validate in the CHEMKIN transport properties file".
+   * 
+   * @return translated "Validate Transport: Validate in the CHEMKIN transport properties file"
+   */
+  @DefaultStringValue("Validate Transport: Validate in the CHEMKIN transport properties file")
+  @Key("ValidatedTransportPropertiesFile")
+  String ValidatedTransportPropertiesFile();
 }

@@ -54,6 +54,7 @@ public class SetOfInputs extends Composite {
 		submitdata.setText(descriptionConstants.submit());
 		description = set.getDescription();
 		collapsible.addItem(description);
+		description.setInputSet(this);
 		
 
 		List<DataInput> panels = set.getSet(description);
@@ -71,40 +72,19 @@ public class SetOfInputs extends Composite {
 		return inputs;
 	}
 
+	public void setKeyword(String keyword, String source) {
+		for(DataInput input : inputs) {
+			input.setKeyword(keyword, source);
+		}
+	}
+	public void setInputVisibility(boolean visible) {
+		for(DataInput input : inputs) {
+			input.setVisibility(visible);
+		}		
+	}
+	
 	@UiHandler("submitdata")
 	void onSubmitData(ClickEvent e) {
-/*
-		StringBuilder filesS = new StringBuilder();
-		boolean toprocess = true;
-		for (DataInput input : inputs) {
-
-			if (input.requiredInput()) {
-				filesS.append("Required(");
-			} else {
-				filesS.append("Optional(");
-			}
-			if (input.fileUploaded()) {
-				filesS.append("uploaded):" + input.getFileSourceType() + ": ");
-				filesS.append("file: ");
-				filesS.append(input.getUploadfileText());
-				filesS.append("ID: ");
-				filesS.append(input.getUploadIDText());
-				filesS.append("\n");
-			} else {
-				filesS.append("missing)\n");
-			}
-
-			if (input.requiredInput() && !input.fileUploaded())
-				toprocess = false;
-		}
-
-		filesS.append("To Process: " + toprocess);
-
-		if (toprocess) {
-		} else {
-			Window.alert("Inputs Missing\n" + filesS.toString());
-		}
-		*/
 		if(description.keywordEntered()) {
 			DescriptionDataData descrdata = new DescriptionDataData(
 					description.getKeyWord(),
@@ -113,6 +93,8 @@ public class SetOfInputs extends Composite {
 					description.getSourceDate(), description.getSource(), 
 					description.getInputKey(),
 					dataType);
+			//setInputVisibility(true);
+			setKeyword(description.getKeyWord(), description.getSource());
 			RegisterDataDescriptionCallback callback = new RegisterDataDescriptionCallback(dataType,descrdata);
 			TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
 			async.checkSubmitInputData(descrdata, callback);
