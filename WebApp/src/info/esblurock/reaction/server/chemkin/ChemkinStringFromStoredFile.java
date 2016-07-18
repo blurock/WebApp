@@ -11,9 +11,9 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinString;
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.transaction.ActionsUsingIdentificationCode;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
-import info.esblurock.reaction.server.datastore.PMF;
 
 public class ChemkinStringFromStoredFile extends ChemkinString {
 	private static final long serialVersionUID = 1L;
@@ -92,6 +92,10 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 		}
 		System.out.println("nextToken():" + current);
 		return current;
+	}
+
+	public int getLineCount() {
+		return lineCount;
 	}
 
 }

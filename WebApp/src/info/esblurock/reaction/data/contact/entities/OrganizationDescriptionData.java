@@ -1,6 +1,6 @@
 package info.esblurock.reaction.data.contact.entities;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 
 import javax.jdo.annotations.PersistenceCapable;

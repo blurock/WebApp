@@ -1,6 +1,7 @@
 package info.esblurock.reaction.parse.register;
 
-import info.esblurock.reaction.parse.top.singleton.ParseQueryAsSingleton;
+import info.esblurock.reaction.parse.objects.chemical.reaction.ParseQueryAsReactionSimple;
+import info.esblurock.reaction.parse.objects.single.ParseQueryAsSingleton;
 
 public class RegisteredQueries {
 	static SetOfParseQueries queries = null;
@@ -16,5 +17,7 @@ public class RegisteredQueries {
 		queries = new SetOfParseQueries();
 		ParseQueryAsSingleton singleton = new ParseQueryAsSingleton();
 		queries.add(singleton);
+		ParseQueryAsReactionSimple rxnsimple = new ParseQueryAsReactionSimple();
+		queries.add(rxnsimple);
 	}
 }

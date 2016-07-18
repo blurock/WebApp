@@ -2,7 +2,7 @@ package info.esblurock.reaction.data.delete;
 
 import java.io.IOException;
 
-import com.ibm.icu.util.StringTokenizer;
+import java.util.StringTokenizer;
 
 // TODO: Auto-generated Javadoc
 /**

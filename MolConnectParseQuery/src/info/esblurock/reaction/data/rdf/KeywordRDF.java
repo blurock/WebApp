@@ -1,13 +1,13 @@
 package info.esblurock.reaction.data.rdf;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 @PersistenceCapable
 
-public class KeywordRDF   extends DatabaseObject {
+public class KeywordRDF extends DatabaseObject {
 	
 	public static String subjectProp = "subject";
 	public static String predicateProp = "predicate";

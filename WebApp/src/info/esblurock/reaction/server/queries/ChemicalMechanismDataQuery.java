@@ -8,7 +8,8 @@ import javax.jdo.PersistenceManager;
 
 import com.google.appengine.api.datastore.Key;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.chemical.elements.ChemicalElementListData;
 import info.esblurock.reaction.data.chemical.mechanism.ChemicalMechanismData;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
@@ -16,7 +17,6 @@ import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.reaction.MechanismReactionListData;
 import info.esblurock.reaction.data.chemical.thermo.NASAPolynomialData;
 import info.esblurock.reaction.data.chemical.transport.SpeciesTransportProperty;
-import info.esblurock.reaction.server.datastore.PMF;
 
 
 public class ChemicalMechanismDataQuery extends QueryBase {

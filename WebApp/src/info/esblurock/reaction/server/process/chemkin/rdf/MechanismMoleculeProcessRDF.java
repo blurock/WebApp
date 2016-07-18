@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.client.GenerateKeywords;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.StoreObject;
-import info.esblurock.reaction.data.chemical.mechanism.GenerateMechanismName;
 import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction;
@@ -77,8 +77,8 @@ public class MechanismMoleculeProcessRDF extends ProcessBase {
 		StoreObject store = new StoreObject(user,keyword, outputSourceCode);
 		List<DatabaseObject> moleculelist = ChemicalMechanismDataQuery.moleculesFromMechanismName(keyword);
 		
-		store.storeStringRDF(chemkinMechanism, GenerateMechanismName.keywordFromMechanismName(keyword));
-		store.storeStringRDF(mechanismSource, GenerateMechanismName.sourceFromMechanismName(keyword));
+		store.storeStringRDF(chemkinMechanism, GenerateKeywords.keywordFromDataKeyword(keyword));
+		store.storeStringRDF(mechanismSource, GenerateKeywords.sourceFromDataKeyword(keyword));
 
 		for (DatabaseObject object : moleculelist) {
 			MechanismMoleculeData molecule = (MechanismMoleculeData) object;

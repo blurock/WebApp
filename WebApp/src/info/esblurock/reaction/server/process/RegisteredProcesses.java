@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import info.esblurock.reaction.server.process.DataProcesses;
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 

@@ -7,7 +7,7 @@ import javax.jdo.annotations.Persistent;
 
 import com.google.appengine.datanucleus.annotations.Unindexed;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
 
 @PersistenceCapable
 public class IsomerData extends DatabaseObject {

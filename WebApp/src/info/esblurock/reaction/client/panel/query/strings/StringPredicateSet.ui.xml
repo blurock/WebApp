@@ -8,11 +8,9 @@
 	}
 	.customlink {
 		font-size: 0.9em;
-		icon-size: TINY;
 	}
 	.customicon {
 		font-size: 0.9em;
-		icon-size: TINY;
 	}
 	</ui:style>
 	<m:MaterialCollapsibleItem ui:field="item">

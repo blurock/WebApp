@@ -1,7 +1,5 @@
 package info.esblurock.reaction.server.upload;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,6 +7,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import com.google.appengine.api.datastore.Key;
+
+import info.esblurock.reaction.data.DatabaseObject;
 
 @PersistenceCapable
 public class UploadedFileData extends DatabaseObject {

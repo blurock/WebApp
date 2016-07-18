@@ -8,9 +8,6 @@ import javax.jdo.PersistenceManager;
 
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
-import info.esblurock.reaction.server.datastore.PMF;
-
 public class StoreDatabaseObject {
 	private static Logger log = Logger.getLogger(CreateData.class.getName());
 	final static public int maxStored = 3000;

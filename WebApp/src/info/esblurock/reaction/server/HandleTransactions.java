@@ -6,9 +6,8 @@ import java.util.logging.Level;
 
 import javax.jdo.PersistenceManager;
 
-
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
-import info.esblurock.reaction.server.datastore.PMF;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 
 public class HandleTransactions {

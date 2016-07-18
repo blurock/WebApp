@@ -13,12 +13,12 @@ import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialModal.TYPE;
-import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.client.panel.data.BaseDataPresentation;
 import info.esblurock.reaction.client.panel.data.DataPresentation;
 import info.esblurock.reaction.client.panel.query.QueryPath;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.client.panel.query.ReactionSearchServiceAsync;
+import info.esblurock.reaction.data.DatabaseObject;
 
 public class ObjectQueryResult extends Composite implements HasText {
 

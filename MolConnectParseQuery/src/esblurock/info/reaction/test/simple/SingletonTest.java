@@ -17,7 +17,7 @@ public class SingletonTest {
 		
 		System.out.println("Query a single token: ");
 		String token = "token";
-		SetOfInterpretations set = queries.parseInput(token);
+		SetOfInterpretations set = queries.parseInput();
 		System.out.println("Interpretations: \n" + set.toString());
 		
 		

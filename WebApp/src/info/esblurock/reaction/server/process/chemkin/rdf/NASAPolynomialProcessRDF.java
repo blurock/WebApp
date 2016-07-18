@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.client.GenerateKeywords;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.molecule.isomer.CreateIsomerData;
@@ -79,8 +80,8 @@ public class NASAPolynomialProcessRDF extends ProcessBase {
 		for (DatabaseObject object : nasalist) {
 			NASAPolynomialData data = (NASAPolynomialData) object;
 			String standard = CreateIsomerData.standardIsomerName(data.getMoleculeComposition());
-			String fullname = GenerateMoleculeKeywords.generateKeyword(keyword, data.getMoleculeName());
-			store.setKeyword(fullname);
+			String fullname = GenerateKeywords.generateMoleculeKeyword(keyword, data.getMoleculeName());
+				store.setKeyword(fullname);
 			store.storeStringRDF(isomerPredicate, standard);
 			if (data.getStandardEnthalpy() != null)
 				store.storeStringRDF(standardEnthalpy, data.getStandardEnthalpy().toString());

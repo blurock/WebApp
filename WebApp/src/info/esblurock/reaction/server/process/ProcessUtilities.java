@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import javax.jdo.PersistenceManager;
 
 import info.esblurock.reaction.client.FindShortNameFromString;
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
-import info.esblurock.reaction.server.datastore.PMF;
 import info.esblurock.reaction.server.process.upload.ReadFileBaseProcess;
 
 public class ProcessUtilities {

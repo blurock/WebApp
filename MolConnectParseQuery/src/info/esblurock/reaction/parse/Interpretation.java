@@ -1,18 +1,15 @@
 package info.esblurock.reaction.parse;
 
-import com.google.appengine.api.datastore.Query.Filter;
+import java.util.ArrayList;
 
-import info.esblurock.reaction.parse.objects.SetOfParseObjects;
+
+import info.esblurock.reaction.data.rdf.KeywordRDF;
 
 public abstract class Interpretation {
-	String input;
+	protected String keywordRDF = "KeywordRDF";
 
-	public Interpretation(String input) {
-		super();
-		this.input = input;
-	}
-	
-	abstract public Filter getFilter();
+	abstract public boolean interpretable(String input);
+	abstract public ArrayList<KeywordRDF> getResults(String input);
 	public String toString() {
 		return "empty interpretation";
 	}

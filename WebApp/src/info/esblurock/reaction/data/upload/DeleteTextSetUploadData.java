@@ -11,11 +11,10 @@ import javax.jdo.PersistenceManager;
 import java.util.logging.Logger;
 import org.mortbay.log.Log;
 
-
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.delete.DeleteStructuresBase;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.ActionsUsingIdentificationCode;
-import info.esblurock.reaction.server.datastore.PMF;
 
 /**
  * @author edwardblurock

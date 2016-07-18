@@ -4,7 +4,8 @@ import java.util.Map;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import info.esblurock.reaction.client.data.DatabaseObject;
+
+import info.esblurock.reaction.data.DatabaseObject;
 
 @PersistenceCapable
 public class MechanismMoleculesToDatabaseTransaction extends DatabaseObject {

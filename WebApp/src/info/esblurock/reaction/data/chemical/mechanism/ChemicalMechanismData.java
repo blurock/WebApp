@@ -3,7 +3,7 @@ package info.esblurock.reaction.data.chemical.mechanism;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
 
 /**
  * The Class ChemicalMechanismData which stores all the information from a CHEMKIN mech file

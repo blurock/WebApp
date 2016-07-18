@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import com.ibm.icu.util.StringTokenizer;
+import java.util.StringTokenizer;
 
 import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.server.TextToDatabaseImpl;

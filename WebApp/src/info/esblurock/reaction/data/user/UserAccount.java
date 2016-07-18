@@ -5,7 +5,7 @@ import javax.jdo.annotations.Persistent;
 
 import com.google.appengine.api.datastore.Email;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
 
 @PersistenceCapable
 public class UserAccount  extends DatabaseObject {

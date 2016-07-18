@@ -12,10 +12,10 @@ import info.esblurock.react.mechanisms.chemkin.ChemkinReaction;
 import info.esblurock.react.mechanisms.chemkin.ChemkinReactionList;
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyMolecules;
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyWeight;
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
-import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywords;
+import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywordsServer;
 import info.esblurock.reaction.data.chemical.reaction.ThirdBodyMoleculesData;
 import info.esblurock.reaction.data.chemical.reaction.ThirdBodyWeightsData;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction;
@@ -26,7 +26,6 @@ import info.esblurock.reaction.server.datastore.StorageAndRetrievalUtilities;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
 import info.esblurock.reaction.server.queries.ChemicalMechanismDataQuery;
-import info.esblurock.reaction.server.utilities.WriteObjectTransactionToDatabase;
 
 public class MechanismReactionsToDatabase extends ProcessBase {
 	String validateS;
@@ -39,7 +38,7 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 	 * keyword (including the keywordBase -- which basically is the mechanism
 	 * name)
 	 */
-	GenerateReactionKeywords keywordGenerator;
+	GenerateReactionKeywordsServer keywordGenerator;
 	Map<String, String> moleculeNamesTable;
 	ChemicalMechanismDataQuery mechanismQuery;
 	MechanismReactionsToDatabaseTransaction rxntransaction;
@@ -55,7 +54,7 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 	@Override
 	public void initialization() {
 		mechanismQuery = new ChemicalMechanismDataQuery();
-		keywordGenerator = new GenerateReactionKeywords(keyword);
+		keywordGenerator = new GenerateReactionKeywordsServer(keyword);
 		uploadS = "info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload";
 		moleculesS = "info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction";
 		toDatabaseS = "info.esblurock.reaction.data.transaction.chemkin.MechanismReactionsToDatabaseTransaction";

@@ -1,40 +1,18 @@
 package info.esblurock.react.mechanisms.test;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 import javax.jdo.annotations.PersistenceCapable;
 
 import info.esblurock.react.mechanisms.chemkin.entity.MechanismEntityFactory;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 
 @PersistenceCapable
 public class InputMechanismEntity {
-	
-	private final LocalServiceTestHelper helper =
-		      new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-
-		  @Before
-		  public void setUp() {
-		    helper.setUp();
-		  }
-
-		  @After
-		  public void tearDown() {
-		    helper.tearDown();
-		  }
 
 	@Test
 	public void test() {
@@ -43,8 +21,8 @@ public class InputMechanismEntity {
 
 		MechanismEntityFactory factory = new MechanismEntityFactory();
 		
-		String text1 = "/Users/edwardblurock/Box Sync/ScientificNotebook/Project/";
-		String text2 = "JReaction/src/info/esblurock/react/resources/mechanisms/";
+		//String text1 = "/Users/edwardblurock/Box Sync/ScientificNotebook/Project/";
+		//String text2 = "JReaction/src/info/esblurock/react/resources/mechanisms/";
 		String text0 ="/Users/edwardblurock/Desktop/";
 		String text3 = "LLNL-NHeptane-2011v3.1";
 		String line = "FILE " + text0 + text3;
@@ -87,7 +65,6 @@ public class InputMechanismEntity {
 			 */
 			
 		} catch (IOException | ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

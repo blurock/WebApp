@@ -5,11 +5,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
-import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywords;
+import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywordsServer;
 import info.esblurock.reaction.data.chemical.reaction.ThirdBodyMoleculesData;
 import info.esblurock.reaction.data.chemical.reaction.ThirdBodyWeightsData;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismReactionsToDatabaseTransaction;
@@ -48,7 +48,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 	 * keyword (including the keywordBase -- which basically is the mechanism
 	 * name)
 	 */
-	GenerateReactionKeywords generateReactions;
+	GenerateReactionKeywordsServer generateReactions;
 	StoreObject store;
 	
 	public MechanismReactionsProcessRDF() {
@@ -99,7 +99,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 	protected void createObjects() throws IOException {
 		store = new StoreObject(user,keyword, outputSourceCode);
 		List<DatabaseObject> reactionlist = ChemicalMechanismDataQuery.reactionsFromMechanismName(keyword);
-		generateReactions = new GenerateReactionKeywords(keyword);
+		generateReactions = new GenerateReactionKeywordsServer(keyword);
 		for(DatabaseObject object : reactionlist) {
 			ChemkinReactionData data = (ChemkinReactionData) object;
 			String fullrxnS = data.getReactionName();

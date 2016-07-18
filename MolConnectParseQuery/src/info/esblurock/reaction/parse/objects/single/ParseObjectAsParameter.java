@@ -10,15 +10,14 @@ public class ParseObjectAsParameter extends ParseObject {
 	protected String reference;
 
 
-	public ParseObjectAsParameter(String input) {
-		super(input);
+	public ParseObjectAsParameter() {
 	}
-	public Filter getFilter() {
+	public Filter getFilter(String input) {
 		Filter subjectfilter =
 				  new FilterPredicate(reference,FilterOperator.EQUAL,input);
 		return subjectfilter;
 	}
 	public String toString() {
-		return reference + "=" + input;
+		return reference + "= input token";
 	}
 }

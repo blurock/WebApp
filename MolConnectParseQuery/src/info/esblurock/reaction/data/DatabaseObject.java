@@ -1,4 +1,4 @@
-package info.esblurock.reaction.client.data;
+package info.esblurock.reaction.data;
 
 
 import java.io.Serializable;

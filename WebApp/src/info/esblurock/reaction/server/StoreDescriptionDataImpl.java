@@ -10,6 +10,7 @@ import info.esblurock.reaction.client.panel.contact.ContactInfoPanel;
 import info.esblurock.reaction.client.panel.contact.ContactLocationPanel;
 import info.esblurock.reaction.client.panel.contact.OrganizationInput;
 import info.esblurock.reaction.client.panel.description.DataDescription;
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.contact.entities.ContactInfoData;
 import info.esblurock.reaction.data.contact.entities.ContactLocationData;
 import info.esblurock.reaction.data.contact.entities.OrganizationDescriptionData;
@@ -18,12 +19,10 @@ import info.esblurock.reaction.data.contact.entities.StoreUserDescriptionData;
 import info.esblurock.reaction.data.contact.entities.UserDescriptionData;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
-import info.esblurock.reaction.server.datastore.PMF;
 import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class StoreDescriptionDataImpl.
  */

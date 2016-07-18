@@ -1,6 +1,6 @@
 package info.esblurock.reaction.client.panel.query;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
 import info.esblurock.reaction.data.rdf.SetOfKeywordQueryAnswers;
 

@@ -1,9 +1,9 @@
 package info.esblurock.reaction.data.upload;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
-
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+
+import info.esblurock.reaction.data.DatabaseObject;
 
 /**
  * @author edwardblurock

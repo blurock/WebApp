@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.client.GenerateKeywords;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.transport.SpeciesTransportProperty;
@@ -77,7 +78,7 @@ public class TransportPropertiesProcessRDF extends ProcessBase {
 		for(DatabaseObject object : transportlist) {
 			SpeciesTransportProperty data = (SpeciesTransportProperty) object;
 			String propsS = propertiesToString(data);
-			String fullname = GenerateMoleculeKeywords.generateKeyword(data.getMechanismKeyword(), data.getSpeciesName());
+			String fullname = GenerateKeywords.generateMoleculeKeyword(data.getMechanismKeyword(), data.getSpeciesName());
 			store.setKeyword(fullname);
 			store.storeStringRDF(transportS, propsS);
 			store.storeStringRDF(dipoleS, data.getDipole());

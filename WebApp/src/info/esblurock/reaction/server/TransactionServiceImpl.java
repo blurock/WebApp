@@ -14,12 +14,12 @@ import static com.google.appengine.api.taskqueue.RetryOptions.Builder.*;
 
 import info.esblurock.reaction.client.panel.transaction.TransactionService;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.delete.DeleteTransactionInfoAndObject;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 import info.esblurock.reaction.server.authorization.TaskTypes;
-import info.esblurock.reaction.server.datastore.PMF;
 import info.esblurock.reaction.server.event.RegisterTransaction;
 import info.esblurock.reaction.server.process.DataProcesses;
 import info.esblurock.reaction.server.process.ProcessBase;
@@ -43,7 +43,6 @@ import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.RetryOptions;
 import com.google.appengine.api.taskqueue.TaskOptions;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TransactionServiceImpl.
  */
@@ -152,7 +151,6 @@ public class TransactionServiceImpl extends ServerBase implements TransactionSer
 	 */
 	@Override
 	public Set<String> getUserSet() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

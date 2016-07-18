@@ -1,4 +1,4 @@
-package info.esblurock.reaction.server.datastore;
+package info.esblurock.reaction.data;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;

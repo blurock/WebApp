@@ -2,9 +2,9 @@ package info.esblurock.reaction.server.utilities;
 
 import javax.jdo.PersistenceManager;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
-import info.esblurock.reaction.server.datastore.PMF;
 
 public class WriteObjectTransactionToDatabase {
 /**

@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.upload.DataSourceIdentification;
-import info.esblurock.reaction.server.datastore.PMF;
 
 public class ManageDataSourceIdentification {
 	private static final Logger log = Logger.getLogger(ManageDataSourceIdentification.class.getName());

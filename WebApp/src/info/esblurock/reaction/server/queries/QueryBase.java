@@ -19,8 +19,8 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
-import info.esblurock.reaction.server.datastore.PMF;
+import info.esblurock.reaction.data.DatabaseObject;
+import info.esblurock.reaction.data.PMF;
 
 /**
  * A set of routines performing general queries (the object is to isolate the
@@ -185,13 +185,10 @@ public class QueryBase {
 			throw new IOException(example.getClass().getName() + " not found with filter");
 		}
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return set;

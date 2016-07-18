@@ -1,6 +1,6 @@
 package info.esblurock.reaction.data.upload;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.description.StoreDescriptionData;

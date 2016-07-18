@@ -1,6 +1,6 @@
 package info.esblurock.reaction.data.transaction;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import java.util.Date;

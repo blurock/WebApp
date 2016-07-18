@@ -3,7 +3,8 @@ package info.esblurock.reaction.data.upload;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import com.google.appengine.api.datastore.Text;
-import info.esblurock.reaction.client.data.DatabaseObject;
+
+import info.esblurock.reaction.data.DatabaseObject;
 
 @PersistenceCapable
 public class FileUploadTextBlock  extends DatabaseObject {

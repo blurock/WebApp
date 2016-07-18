@@ -9,10 +9,8 @@ import javax.jdo.PersistenceManager;
 
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
-import info.esblurock.reaction.server.datastore.PMF;
 
 /**
  * The Class StoreObject. this is the base object for the storage of objects in

@@ -3,10 +3,6 @@ package info.esblurock.reaction.client.panel.inputs;
 import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.description.DataDescription;
-import info.esblurock.reaction.client.panel.transaction.TransactionService;
-import info.esblurock.reaction.client.panel.transaction.TransactionServiceAsync;
-
-//import java.util.StringTokenizer;
 
 import info.esblurock.reaction.client.resources.InputConstants;
 import gwt.material.design.client.ui.MaterialButton;
@@ -25,12 +21,9 @@ import gwtupload.client.IUploader;
 import gwtupload.client.IUploader.UploadedInfo;
 import gwtupload.client.SingleUploader;
 
-import org.apache.tools.ant.taskdefs.Input;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;

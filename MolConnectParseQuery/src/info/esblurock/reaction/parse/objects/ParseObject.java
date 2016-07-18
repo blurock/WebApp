@@ -3,15 +3,11 @@ package info.esblurock.reaction.parse.objects;
 import com.google.appengine.api.datastore.Query.Filter;
 
 public class ParseObject {
-	protected String input;
-	
-	
-	public ParseObject(String input) {
+	public ParseObject() {
 		super();
-		this.input = input;
 	}
 	
-	public Filter getFilter() {
+	public Filter getFilter(String input) {
 		return null;
 	}
 	public String toString() {

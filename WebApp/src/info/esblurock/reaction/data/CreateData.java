@@ -6,9 +6,6 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
-import info.esblurock.reaction.server.datastore.PMF;
-
 /**
  * The Class CreateData.
  */

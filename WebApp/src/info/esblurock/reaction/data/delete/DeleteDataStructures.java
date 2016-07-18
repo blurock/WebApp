@@ -2,7 +2,7 @@ package info.esblurock.reaction.data.delete;
 
 import java.io.IOException;
 
-import com.ibm.icu.util.StringTokenizer;
+import java.util.StringTokenizer;
 
 import info.esblurock.reaction.data.upload.FileUploadLines;
 import info.esblurock.reaction.server.queries.QueryBase;

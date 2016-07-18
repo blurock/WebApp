@@ -23,9 +23,9 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
-import info.esblurock.reaction.server.datastore.PMF;
 
 public class TransactionInfoQueries {
 	private static final Logger log = Logger.getLogger(TransactionInfoQueries.class.getName());

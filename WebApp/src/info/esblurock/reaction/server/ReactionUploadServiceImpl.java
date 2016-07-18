@@ -1,9 +1,9 @@
 package info.esblurock.reaction.server;
 
 import info.esblurock.reaction.client.panel.inputs.DataInput;
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
-import info.esblurock.reaction.server.datastore.PMF;
 import info.esblurock.reaction.server.process.ProcessUtilities;
 import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 import info.esblurock.reaction.server.upload.StoreUploadedFileData;

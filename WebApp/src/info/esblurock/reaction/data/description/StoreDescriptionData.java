@@ -2,7 +2,7 @@ package info.esblurock.reaction.data.description;
 
 import java.util.Date;
 
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.DateAsString;
 import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.transaction.TransactionInfo;

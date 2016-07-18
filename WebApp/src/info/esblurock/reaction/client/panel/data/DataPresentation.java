@@ -7,15 +7,16 @@ import com.google.gwt.i18n.client.NumberFormat;
 
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialRow;
-import info.esblurock.reaction.client.data.DatabaseObject;
+import info.esblurock.reaction.client.GenerateReactionKeywords;
 import info.esblurock.reaction.client.panel.data.reaction.FormatChemkinCoefficientsData;
 import info.esblurock.reaction.client.panel.data.reaction.FormatChemkinReactionData;
 import info.esblurock.reaction.client.panel.data.thermo.FormatNASAPolynomialData;
 import info.esblurock.reaction.client.panel.data.thermo.NASAThermoPanel;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
 import info.esblurock.reaction.data.chemical.molecule.isomer.IsomerData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
-import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywords;
+import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywordsServer;
 import info.esblurock.reaction.data.chemical.thermo.NASAPolynomialData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 
@@ -54,7 +55,7 @@ public enum DataPresentation {
 			ChemkinReactionData reaction = (ChemkinReactionData) data;
 
 			StringBuilder build = new StringBuilder();
-			GenerateReactionKeywords gen = new GenerateReactionKeywords(null);
+			GenerateReactionKeywordsServer gen = new GenerateReactionKeywordsServer(null);
 			build.append(gen.getReactionSimpleName(reaction));
 			build.append("   Coefs: ");
 			if (reaction.getForwardCoefficients() != null)
@@ -73,7 +74,7 @@ public enum DataPresentation {
 		public String multiLineString(DatabaseObject data) {
 			ChemkinReactionData reaction = (ChemkinReactionData) data;
 			StringBuilder build = new StringBuilder();
-			GenerateReactionKeywords gen = new GenerateReactionKeywords(null);
+			GenerateReactionKeywordsServer gen = new GenerateReactionKeywordsServer(null);
 			build.append(gen.getReactionSimpleName(reaction));
 
 			if (reaction.getForwardCoefficients() != null) {

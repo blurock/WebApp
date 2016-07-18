@@ -1,7 +1,5 @@
 package info.esblurock.reaction.server.upload;
 
-import info.esblurock.reaction.server.datastore.PMF;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashSet;
@@ -15,6 +13,7 @@ import javax.jdo.PersistenceManager;
 
 import com.google.appengine.api.datastore.Text;
 
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.upload.DeleteTextSetUploadData;
 import info.esblurock.reaction.data.upload.FileUploadTextBlock;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;

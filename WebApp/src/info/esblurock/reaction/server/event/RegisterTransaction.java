@@ -6,8 +6,8 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 
 import info.esblurock.reaction.client.ui.login.UserDTO;
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.delete.DeleteTransactionInfoAndObject;
-import info.esblurock.reaction.server.datastore.PMF;
 
 
 public class RegisterTransaction {

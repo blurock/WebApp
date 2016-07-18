@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 
+import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.transaction.ActionsUsingIdentificationCode;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
-import info.esblurock.reaction.server.datastore.PMF;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 
 /**
