@@ -8,8 +8,9 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 
+
 public class StoreSetOfEntities {
-	private ArrayList<DatabaseObject> entities;
+	private ArrayList<DataPropertyValue> entities;
 	private ArrayList<Key> setOfKeys;
 	private DatastoreService datastore;
 	private String owner;
@@ -26,18 +27,18 @@ public class StoreSetOfEntities {
 
 	private void initialize() {
 		datastore = DatastoreServiceFactory.getDatastoreService();
-		entities = new ArrayList<DatabaseObject>();
+		entities = new ArrayList<DataPropertyValue>();
 		setOfKeys = new ArrayList<Key>();
 	}
 
-	public void addEntity(DatabaseObject entity) {
+	public void addEntity(DataPropertyValue entity) {
 		entities.add(entity);
 	}
 
 	public Key store() {
 		Date date = new Date();
 		ArrayList<Key> keys = new ArrayList<Key>();
-		for (DatabaseObject entity : entities) {
+		for (DataPropertyValue entity : entities) {
 			entity.addProperty("owner", owner);
 			entity.addProperty("time", date);
 			Key key = datastore.put(entity.getEntity());

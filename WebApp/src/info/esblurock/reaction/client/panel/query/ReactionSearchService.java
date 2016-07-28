@@ -10,7 +10,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
-import info.esblurock.reaction.data.rdf.SetOfKeywordQueryAnswers;
 
 @RemoteServiceRelativePath("reactionqueryservice")
 public interface ReactionSearchService  extends RemoteService {

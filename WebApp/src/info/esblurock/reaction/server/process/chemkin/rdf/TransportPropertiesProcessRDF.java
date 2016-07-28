@@ -6,9 +6,9 @@ import java.util.List;
 
 import info.esblurock.reaction.client.GenerateKeywords;
 import info.esblurock.reaction.data.DatabaseObject;
-import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.transport.SpeciesTransportProperty;
+import info.esblurock.reaction.data.store.StoreObject;
 import info.esblurock.reaction.data.transaction.chemkin.rdf.TransportPropertiesRDFTransaction;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;

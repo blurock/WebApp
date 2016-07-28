@@ -1,7 +1,6 @@
 package info.esblurock.reaction.server.datastore;
 
-
-public class RDFDataKey extends DatabaseObject {
+public class RDFDataKey extends DataPropertyValue {
 	public static String RDF ="RDFKey";
 	public static String subjectKey ="subject";
 	public static String predicateKey ="predicate";

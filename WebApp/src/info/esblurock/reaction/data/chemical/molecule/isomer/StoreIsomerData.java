@@ -3,7 +3,7 @@ package info.esblurock.reaction.data.chemical.molecule.isomer;
 import java.util.Set;
 
 import info.esblurock.reaction.data.DatabaseObject;
-import info.esblurock.reaction.data.StoreObject;
+import info.esblurock.reaction.data.store.StoreObject;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
 public class StoreIsomerData  extends StoreObject {

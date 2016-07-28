@@ -1,8 +1,8 @@
 package info.esblurock.reaction.data.contact.entities;
 
 import info.esblurock.reaction.data.DatabaseObject;
-import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.description.StoreDescriptionData;
+import info.esblurock.reaction.data.store.StoreObject;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
 public class StoreOrganizationDescriptionData extends StoreObject {

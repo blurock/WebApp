@@ -1,8 +1,9 @@
 package info.esblurock.reaction.data.transaction;
 
 import info.esblurock.reaction.data.DatabaseObject;
-import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
+import info.esblurock.reaction.data.store.StoreObject;
+
 import java.util.Date;
 
 import javax.jdo.annotations.PersistenceCapable;

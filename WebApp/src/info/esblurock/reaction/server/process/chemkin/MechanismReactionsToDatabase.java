@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.react.mechanisms.chemkin.ChemkinCoefficients;
 import info.esblurock.react.mechanisms.chemkin.ChemkinMechanism;
 import info.esblurock.react.mechanisms.chemkin.ChemkinMolecule;
@@ -12,7 +13,6 @@ import info.esblurock.react.mechanisms.chemkin.ChemkinReaction;
 import info.esblurock.react.mechanisms.chemkin.ChemkinReactionList;
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyMolecules;
 import info.esblurock.react.mechanisms.chemkin.ThirdBodyWeight;
-import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywordsServer;

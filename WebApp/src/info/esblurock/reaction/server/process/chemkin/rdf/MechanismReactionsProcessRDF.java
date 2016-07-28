@@ -5,13 +5,14 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import info.esblurock.reaction.client.GenerateKeywords;
 import info.esblurock.reaction.data.DatabaseObject;
-import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywordsServer;
 import info.esblurock.reaction.data.chemical.reaction.ThirdBodyMoleculesData;
 import info.esblurock.reaction.data.chemical.reaction.ThirdBodyWeightsData;
+import info.esblurock.reaction.data.store.StoreObject;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismReactionsToDatabaseTransaction;
 import info.esblurock.reaction.data.transaction.chemkin.rdf.MechanismReactionsRDFTransaction;
 import info.esblurock.reaction.server.process.ProcessBase;
@@ -24,6 +25,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 	MechanismReactionsToDatabaseTransaction rxntransaction;
 	MechanismReactionsRDFTransaction rdfTransaction;
 
+	static public String sourceOfReaction = "SourceOfReaction";
 	static public String isAProduct  = "isAsProduct";
 	static public String isAReactant = "isAsReactant";
 	static public String reactionS = "isReaction";
@@ -100,6 +102,10 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 		store = new StoreObject(user,keyword, outputSourceCode);
 		List<DatabaseObject> reactionlist = ChemicalMechanismDataQuery.reactionsFromMechanismName(keyword);
 		generateReactions = new GenerateReactionKeywordsServer(keyword);
+
+		String datakey = GenerateKeywords.keywordFromDataKeyword(keyword);
+		String sourcekey = GenerateKeywords.sourceFromDataKeyword(keyword);
+
 		for(DatabaseObject object : reactionlist) {
 			ChemkinReactionData data = (ChemkinReactionData) object;
 			String fullrxnS = data.getReactionName();
@@ -110,7 +116,8 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 			store.storeStringRDF(isMechanismReaction, rxnS);
 			store.setKeyword(keyword);
 			store.storeStringRDF(mechanismReaction,fullrxnS);
-
+			store.setKeyword(sourcekey);
+			store.storeStringRDF(sourceOfReaction, rxnS);
 			store.setKeyword(fullrxnS);
 			for(String name : data.getReactantKeys()) {
 				store.setKeyword(fullrxnS);

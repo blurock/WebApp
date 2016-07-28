@@ -4,7 +4,7 @@ import java.util.Date;
 
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.DateAsString;
-import info.esblurock.reaction.data.StoreObject;
+import info.esblurock.reaction.data.store.StoreObject;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
 public class StoreDescriptionData extends StoreObject {

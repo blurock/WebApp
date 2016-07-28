@@ -4,9 +4,9 @@ import java.util.Date;
 
 import com.google.appengine.api.datastore.Entity;
 
-public class DatabaseObject {
+public class DataPropertyValue {
 	Entity entity;
-	public DatabaseObject(String type) {
+	public DataPropertyValue(String type) {
 		entity = new Entity(type);
 	}
 

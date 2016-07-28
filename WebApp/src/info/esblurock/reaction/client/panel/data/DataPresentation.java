@@ -7,12 +7,12 @@ import com.google.gwt.i18n.client.NumberFormat;
 
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialRow;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.client.GenerateReactionKeywords;
 import info.esblurock.reaction.client.panel.data.reaction.FormatChemkinCoefficientsData;
 import info.esblurock.reaction.client.panel.data.reaction.FormatChemkinReactionData;
 import info.esblurock.reaction.client.panel.data.thermo.FormatNASAPolynomialData;
 import info.esblurock.reaction.client.panel.data.thermo.NASAThermoPanel;
-import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
 import info.esblurock.reaction.data.chemical.molecule.isomer.IsomerData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;

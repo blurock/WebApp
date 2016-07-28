@@ -3,8 +3,8 @@ package info.esblurock.reaction.server;
 import java.io.IOException;
 import java.util.HashSet;
 
-import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.data.DatabaseObject;
+import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.rdf.CreateSetOfKeywordQueryAnswers;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
@@ -18,7 +18,6 @@ import javax.jdo.PersistenceManager;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -38,13 +37,18 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		Query q = new Query("KeywordRDF").setFilter(subjectfilter);
 		PreparedQuery pq = datastore.prepare(q);
 		CreateSetOfKeywordQueryAnswers create = new CreateSetOfKeywordQueryAnswers(pq,true);
+		pm.close();
+		System.out.println("RDFBySubjectSet basicSearch: 1");
 		RDFBySubjectSet hierarchy = create.getAnswers();
 		System.out.println(hierarchy.toString());
+		System.out.println("RDFBySubjectSet basicSearch: 2");
 		SetOfKeywordQueryAnswers  answers = create.getAnswers().get(search);
+		System.out.println("RDFBySubjectSet basicSearch: 3");
 		
 		RDFBySubjectSet set = new RDFBySubjectSet();
+		System.out.println("RDFBySubjectSet basicSearch: 4");
 		set.put(search, answers);
-		pm.close();
+		System.out.println("RDFBySubjectSet basicSearch: 5");
 		return set;
 	}
 	
@@ -55,8 +59,11 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 				  new FilterPredicate("object",FilterOperator.EQUAL,search);
 		Query q = new Query("KeywordRDF").setFilter(objectfilter);
 		PreparedQuery pq = datastore.prepare(q);
+		System.out.println("RDFBySubjectSet objectSearch: 1");
 		CreateSetOfKeywordQueryAnswers create = new CreateSetOfKeywordQueryAnswers(pq,false);
+		System.out.println("RDFBySubjectSet objectSearch: 2");
 		pm.close();
+		System.out.println("RDFBySubjectSet objectSearch: 3");
 		return create.getAnswers();
 	}
 	public RDFBySubjectSet singleKeyQuery(String key) throws IOException {
@@ -64,8 +71,9 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		RegisterTransaction.register(util.getUserInfo(),TaskTypes.query, key, RegisterTransaction.checkLevel1);
 		RDFBySubjectSet oset = objectSearch(key);
 		RDFBySubjectSet sset = basicSearch(key);
+		System.out.println("RDFBySubjectSet singleKeyQuery: 1");
 		oset.mergeValue(sset);
-		
+		System.out.println("RDFBySubjectSet singleKeyQuery: 2");
 		return oset;
 		
 	}
@@ -94,19 +102,23 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 
 	@Override
 	public DatabaseObject getObjectFromKey(String clsName, String key) throws Exception {
+		System.out.println("getObjectFromKey:  " + clsName + "(" + key + ")");
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Class<?> cls;
-		DatabaseObject object = null;
+		Object object = null;
 		pm.getFetchPlan().setGroup(FetchGroup.ALL);
 		try {
 			cls = Class.forName(clsName);
-			object = (DatabaseObject) pm.getObjectById(cls,key);
+			object = pm.getObjectById(cls,key);
 		} catch (ClassNotFoundException e) {
 			throw new Exception(e.toString());
 		}
 		pm.retrieve(object,true);
-		DatabaseObject ans = pm.detachCopy(object);
+		DatabaseObject result = (DatabaseObject)  pm.detachCopy(object);
+		System.out.println("getObjectFromKey:  Result=" 
+				+ result.getClass().getCanonicalName() 
+				+ "(" + result.getKey() + ")");
 		pm.close();
-		return ans;
+		return result;
 	}
 }

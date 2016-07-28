@@ -6,9 +6,9 @@ import java.util.List;
 
 import info.esblurock.reaction.client.GenerateKeywords;
 import info.esblurock.reaction.data.DatabaseObject;
-import info.esblurock.reaction.data.StoreObject;
 import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
+import info.esblurock.reaction.data.store.StoreObject;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction;
 import info.esblurock.reaction.data.transaction.chemkin.rdf.MechanismMoleculeRDFTransaction;
 import info.esblurock.reaction.server.process.ProcessBase;
@@ -20,6 +20,7 @@ public class MechanismMoleculeProcessRDF extends ProcessBase {
 	String rdfTransactionS;
 	MechanismMoleculesToDatabaseTransaction moltransaction;
 	MechanismMoleculeRDFTransaction rdfTransaction;
+	static public String sourceMolecule = "MoleculeOfSource";
 	static public String mechanismSource = "mechanismSource";
 	static public String chemkinMechanism = "CHEMKINMechanism";
 	static public String mechanismMolecule = "MechanismMolecule";
@@ -76,9 +77,10 @@ public class MechanismMoleculeProcessRDF extends ProcessBase {
 	protected void createObjects() throws IOException {
 		StoreObject store = new StoreObject(user,keyword, outputSourceCode);
 		List<DatabaseObject> moleculelist = ChemicalMechanismDataQuery.moleculesFromMechanismName(keyword);
-		
-		store.storeStringRDF(chemkinMechanism, GenerateKeywords.keywordFromDataKeyword(keyword));
-		store.storeStringRDF(mechanismSource, GenerateKeywords.sourceFromDataKeyword(keyword));
+		String datakey = GenerateKeywords.keywordFromDataKeyword(keyword);
+		String sourcekey = GenerateKeywords.sourceFromDataKeyword(keyword);
+		store.storeStringRDF(chemkinMechanism, datakey);
+		store.storeStringRDF(mechanismSource, sourcekey);
 
 		for (DatabaseObject object : moleculelist) {
 			MechanismMoleculeData molecule = (MechanismMoleculeData) object;
@@ -89,6 +91,8 @@ public class MechanismMoleculeProcessRDF extends ProcessBase {
 			store.setKeyword(fullname);
 			store.storeObjectRDF(fullname, molecule);
 			store.storeStringRDF(isMechanismMolecule, name);
+			store.setKeyword(sourcekey);
+			store.storeStringRDF(sourceMolecule,name);
 		}
 		store.finish();
 		rdfTransaction.setRdfCount(store.getRdfCount());

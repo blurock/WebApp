@@ -3,7 +3,6 @@ package info.esblurock.reaction.server.process.chemkin;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import info.esblurock.reaction.data.StoreDatabaseObject;
 import info.esblurock.reaction.data.chemical.transport.ListOfTransportProperties;
 import info.esblurock.reaction.data.transaction.chemkin.TransportPropertiesToDatabaseTransaction;
 import info.esblurock.reaction.data.upload.types.TransportFileUpload;
@@ -12,6 +11,7 @@ import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
 import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 import info.esblurock.reaction.data.chemical.transport.SpeciesTransportProperty;
+import info.esblurock.reaction.data.store.StoreDatabaseObject;
 
 public class TransportPropertiesToDatabase extends ProcessBase {
 	String validateS;

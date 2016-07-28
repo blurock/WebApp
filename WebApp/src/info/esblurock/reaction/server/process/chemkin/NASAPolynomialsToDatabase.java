@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import info.esblurock.reaction.client.GenerateKeywords;
-import info.esblurock.reaction.data.StoreDatabaseObject;
 import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.molecule.isomer.CreateIsomerData;
 import info.esblurock.reaction.data.chemical.molecule.isomer.IsomerData;
 import info.esblurock.reaction.data.chemical.thermo.NASAPolynomialData;
 import info.esblurock.reaction.data.chemical.thermo.ParseNASAPolynomialSet;
+import info.esblurock.reaction.data.store.StoreDatabaseObject;
 import info.esblurock.reaction.data.transaction.chemkin.NASAPolynomialsToDatabaseTransaction;
 import info.esblurock.reaction.data.upload.types.NASAPolynomialFileUpload;
 import info.esblurock.reaction.server.chemkin.ChemkinStringFromStoredFile;

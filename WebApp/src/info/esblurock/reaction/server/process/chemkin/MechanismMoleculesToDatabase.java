@@ -9,10 +9,11 @@ import info.esblurock.react.mechanisms.chemkin.ChemkinElementList;
 import info.esblurock.react.mechanisms.chemkin.ChemkinMechanism;
 import info.esblurock.react.mechanisms.chemkin.ChemkinMolecule;
 import info.esblurock.react.mechanisms.chemkin.ChemkinMoleculeList;
-import info.esblurock.reaction.data.StoreObject;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.chemical.elements.ChemicalElementListData;
 import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
+import info.esblurock.reaction.data.store.StoreObject;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction;
 import info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload;
 import info.esblurock.reaction.data.upload.types.ValidatedChemkinMechanismFile;
@@ -92,7 +93,8 @@ public class MechanismMoleculesToDatabase extends ProcessBase {
 		
 		ArrayList<MechanismMoleculeData> mollist = create(mechanism.getSpeciesList());
 		for (MechanismMoleculeData mol : mollist) {
-			store.store(mol);
+			DatabaseObject obj = (DatabaseObject) mol;
+			store.store(obj);
 		}
 		store.flushStore();
 		moltransaction.setMoleculeCount(mollist.size());

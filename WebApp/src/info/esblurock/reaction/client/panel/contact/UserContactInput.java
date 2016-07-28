@@ -6,8 +6,6 @@ import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialToast;
-import info.esblurock.reaction.client.OrganizationDescriptionService;
-import info.esblurock.reaction.client.OrganizationDescriptionServiceAsync;
 import info.esblurock.reaction.client.StoreDescriptionData;
 import info.esblurock.reaction.client.StoreDescriptionDataAsync;
 import info.esblurock.reaction.client.panel.description.DataDescription;
@@ -15,7 +13,6 @@ import info.esblurock.reaction.client.resources.DescriptionConstants;
 import info.esblurock.reaction.client.resources.InputConstants;
 import info.esblurock.reaction.data.contact.entities.ContactInfoData;
 import info.esblurock.reaction.data.contact.entities.ContactLocationData;
-import info.esblurock.reaction.data.contact.entities.OrganizationDescriptionData;
 import info.esblurock.reaction.data.contact.entities.UserDescriptionData;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 
