@@ -1,7 +1,5 @@
 package info.esblurock.reaction.client.ui;
 
-import java.util.Date;
-
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialNavBar;
@@ -10,6 +8,9 @@ import gwt.material.design.client.ui.MaterialSlideItem;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialModal.TYPE;
+import info.esblurock.reaction.client.StoreDescriptionData;
+import info.esblurock.reaction.client.StoreDescriptionDataAsync;
+import info.esblurock.reaction.client.panel.contact.UserContactInput;
 import info.esblurock.reaction.client.ui.login.CheckSessionLoginCallback;
 import info.esblurock.reaction.client.ui.login.ClientLogout;
 import info.esblurock.reaction.client.ui.login.LoginModal;
@@ -18,7 +19,6 @@ import info.esblurock.reaction.client.ui.login.LoginServiceAsync;
 import info.esblurock.reaction.client.ui.login.UserDTO;
 import info.esblurock.reaction.client.ui.modal.TopPageLinks;
 import info.esblurock.reaction.client.ui.resource.ReactionTopViewResources;
-import info.esblurock.reaction.client.ui.ReactionTopView.Presenter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,9 +26,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ReactionTopImpl extends UiImplementationBase implements ReactionTopView {
@@ -49,6 +46,8 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	MaterialNavBar navbar;
 	@UiField
 	MaterialLink linkmenu;
+	@UiField
+	MaterialLink profile;
 	
 	@UiField
 	MaterialSlideItem item1;
@@ -98,6 +97,9 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		links = new TopPageLinks();
 		String sessionid = Cookies.getCookie("sid");
 		String username = Cookies.getCookie("user");
+		
+		profile.setVisible(false);
+		
 		if(username != null) {
 			LoginServiceAsync async = LoginService.Util.getInstance();
 			CheckSessionLoginCallback callback = new CheckSessionLoginCallback(username, this);
@@ -121,6 +123,7 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		toplogout.setVisible(true);
 		toplogin.setVisible(false);
 		linkmenu.setVisible(true);
+		profile.setVisible(true);
 	}
 	@Override
 	public void setLoggedOut() {
@@ -128,6 +131,7 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		toplogout.setVisible(false);
 		toplogin.setVisible(true);
 		linkmenu.setVisible(false);	
+		profile.setVisible(false);
 		Cookies.removeCookie("user");
 		Cookies.removeCookie("sid");
 
@@ -146,6 +150,15 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	@UiHandler("linkmenu")
 	void onLinkClick(ClickEvent e) {
 		MaterialModal.showModal(links, TYPE.DEFAULT);
+	}
+	@UiHandler("profile")
+	void onProfileClick(ClickEvent e) {
+		String name = Cookies.getCookie("user");
+		UserContactInput user = new UserContactInput(name);
+		MaterialModal.showModal(user, TYPE.FIXED_FOOTER);
+		FillInUserContactInputCallback callback = new FillInUserContactInputCallback(user);
+		StoreDescriptionDataAsync async = StoreDescriptionData.Util.getInstance();
+		async.getUserDescriptionData(name, callback);
 	}
 
 

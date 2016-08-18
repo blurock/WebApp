@@ -33,8 +33,6 @@
 							<m:MaterialPanel>
 								<m:MaterialTitle title="Login"
 									description="Please provide your account credentials." />
-								<m:MaterialCheckBox ui:field="keepme"
-									text="Keep me logged in" />
 								<m:MaterialButton ui:field="btnCreate" color="gray"
 									waves="light" text="Create an account" width="100%" align="bottom" />
 

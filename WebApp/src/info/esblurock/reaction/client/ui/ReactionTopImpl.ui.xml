@@ -50,9 +50,12 @@
 			<m:nav>
 				<m:MaterialLink ui:field="linkmenu"  textColor="black" icon="mdi-action-list" />
 			</m:nav>
+			<m:nav>
+				<m:MaterialLink ui:field="profile"  textColor="black" icon="mdi-action-perm-identity" />
+			</m:nav>
 		</m:MaterialNavBar>
 		<m:MaterialTitle 
-		title="ChemConnect" 
+		title="ChemConnect (Prototype v20160818.1)" 
 		description="Connecting chemical kinetic and thermodynamic data for searching and evaluation. 
 		Login and search through the detailed informatin available."></m:MaterialTitle>
 		<m:MaterialParallax ui:field="firstfield" height="200"

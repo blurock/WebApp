@@ -1,5 +1,7 @@
 package info.esblurock.reaction.client.panel.inputs.place;
 
+import info.esblurock.reaction.client.StoreDescriptionData;
+import info.esblurock.reaction.client.StoreDescriptionDataAsync;
 import info.esblurock.reaction.client.panel.contact.OrganizationInput;
 import info.esblurock.reaction.client.panel.contact.UserContactInput;
 import info.esblurock.reaction.client.panel.inputs.InputSet;
@@ -7,9 +9,14 @@ import info.esblurock.reaction.client.panel.inputs.SetOfInputs;
 import info.esblurock.reaction.client.panel.transaction.ObjectTransaction;
 import info.esblurock.reaction.client.panel.transaction.TransactionSources;
 import info.esblurock.reaction.client.panel.transaction.UploadFileSetsTransactions;
+import info.esblurock.reaction.client.ui.FillInUserContactInputCallback;
+
 import com.google.gwt.user.client.Cookies;
 
 import com.google.gwt.user.client.ui.Widget;
+
+import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialModal.TYPE;
 
 public enum Place {
 	organization {
@@ -45,7 +52,12 @@ public enum Place {
 			if(name == null) {
 				name = "UserContact";
 			}
-			return new UserContactInput(name);
+			UserContactInput user = new UserContactInput(name);
+			FillInUserContactInputCallback callback = new FillInUserContactInputCallback(user);
+			StoreDescriptionDataAsync async = StoreDescriptionData.Util.getInstance();
+			async.getUserDescriptionData(name, callback);
+			return user;
+			
 		}
 	},
 	chemkin {

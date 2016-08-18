@@ -90,7 +90,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 				user = new UserDTO(name, sessionid, ip, host, lvl);
 				user.setPrivledges(getPrivledges(lvl));
 				util.setUserInfo(user);
-				System.out.println("Verifying user");
+				System.out.println("Verifying user: " + login);
 				verify(login, login);
 				System.out.println("Verified user");
 			} else {
@@ -189,8 +189,8 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 				DatabaseObject toverify = pm.makePersistent(unverified);
 				
 				String msg = "http://9-dot-blurock-reaction.appspot.com/WebApp.html?id=2#ReactionLoginValidation:bbb";
-				String host = "http://127.0.0.1:8080/";
-				//String host = "http://9-dot-blurock-reaction.appspot.com/";
+				//String host = "http://127.0.0.1:8080/";
+				String host = "http://blurock-reaction.appspot.com/";
 				String webappS = "WebApp.html";
 				String page = "ReactionLoginValidationPlace:validate";
 				String charset = StandardCharsets.UTF_8.name();

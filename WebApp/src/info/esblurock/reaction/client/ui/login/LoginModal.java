@@ -42,8 +42,6 @@ public class LoginModal extends Composite implements HasText {
 	@UiField
 	MaterialTextBox userpassword;
 	@UiField
-	MaterialCheckBox keepme;
-	@UiField
 	MaterialButton btnCreate;
 
 	private String name;
@@ -78,9 +76,7 @@ public class LoginModal extends Composite implements HasText {
 					@Override
 					public void onSuccess(UserDTO result) {
 						if (result.getLoggedIn()) {
-
 							String sessionID = result.getSessionId();
-
 							final long DURATION = 1000 * 60 * 60;
 							Date expires = new Date(System.currentTimeMillis()
 									+ DURATION);
@@ -88,7 +84,6 @@ public class LoginModal extends Composite implements HasText {
 									"/", false);
 							Cookies.setCookie("user", result.getName(),
 									expires, null, "/", false);
-							Window.alert("User: " + result.getName());
 							String level = result.getUserLevel();
 							Cookies.setCookie("level", result.getUserLevel(),
 									expires, null, "/", false);
