@@ -16,19 +16,8 @@
 					<g:HTMLPanel>
 						<m:MaterialRow>
 							<m:MaterialColumn grid="s12 m6">
-								<m:MaterialTextArea ui:field="addressName"
-									placeholder="title (can be multiple lines)">
-									Division of Chemical Kinetics
-									Whatsamatta U
-								</m:MaterialTextArea>
-							</m:MaterialColumn>
-						</m:MaterialRow>
-						<m:MaterialRow>
-							<m:MaterialColumn grid="s12 m6">
 								<m:MaterialTextArea ui:field="addressAddress"
-									placeholder="Address">
-									Box 1000
-								</m:MaterialTextArea>
+									placeholder="Address"/>
 							</m:MaterialColumn>
 						</m:MaterialRow>
 						<m:MaterialRow>
@@ -49,6 +38,11 @@
 							</m:MaterialColumn>
 						</m:MaterialRow>
 						<m:MaterialRow>
+							<m:MaterialColumn grid="s4">
+								<m:MaterialButton
+									ui:field="getCoordinates"
+									text="Get Coordinates" />
+							</m:MaterialColumn>
 							<m:MaterialColumn grid="s4">
 								<m:MaterialTextBox 
 									ui:field="gpslatitude"

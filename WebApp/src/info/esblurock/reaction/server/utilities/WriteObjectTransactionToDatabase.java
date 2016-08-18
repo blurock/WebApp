@@ -24,4 +24,9 @@ public class WriteObjectTransactionToDatabase {
 		pm.makePersistent(transaction);
 		pm.close();
 	}
+	static public void writeObjectWithoutTransaction(DatabaseObject object) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		pm.makePersistent(object);
+		pm.close();		
+	}
 }

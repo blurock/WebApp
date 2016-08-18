@@ -2,6 +2,7 @@ package info.esblurock.reaction.client.activity;
 //import info.blurock.hellomvp.client.ui.HelloView;
 
 import info.esblurock.reaction.client.ui.ReactionFirstView;
+import info.esblurock.reaction.client.ui.ReactionLoginValidationView;
 import info.esblurock.reaction.client.ui.ReactionQueryView;
 import info.esblurock.reaction.client.ui.ReactionTopView;
 
@@ -14,4 +15,5 @@ public interface ClientFactory {
 	ReactionTopView getReactionTopView();
 	ReactionFirstView getReactionFirstView();
 	ReactionQueryView getReactionQueryView();
+	ReactionLoginValidationView getReactionLoginValidationView();
 }

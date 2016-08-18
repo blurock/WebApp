@@ -1,7 +1,9 @@
-package info.esblurock.reaction.parse.objects.single;
+package info.esblurock.reaction.server.parse.query;
 
-import info.esblurock.reaction.parse.SetOfInterpretations;
-import info.esblurock.reaction.parse.objects.ParseQuery;
+import info.esblurock.reaction.parse.objects.single.ParseObjectAsObject;
+import info.esblurock.reaction.parse.objects.single.ParseObjectAsSubject;
+import info.esblurock.reaction.server.parse.interpretation.SetOfInterpretations;
+import info.esblurock.reaction.server.parse.interpretation.SingletonInterpretation;
 
 public class ParseQueryAsSingleton implements ParseQuery {
 

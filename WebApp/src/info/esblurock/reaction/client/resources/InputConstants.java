@@ -2,7 +2,7 @@ package info.esblurock.reaction.client.resources;
 
 /**
  * Interface to represent the messages contained in resource bundle:
- * 	/Users/edwardblurock/git/WebApp/src/info/esblurock/reaction/client/resources/InputConstants.properties'.
+ * 	/Users/edwardblurock/.git/WebApp/WebApp/src/info/esblurock/reaction/client/resources/InputConstants.properties'.
  */
 public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   
@@ -70,11 +70,11 @@ public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   String contactaddressadress();
 
   /**
-   * Translated "Bandelsv�gen 1".
+   * Translated "Edward S. Blurock, ChemConnect".
    * 
-   * @return translated "Bandelsv�gen 1"
+   * @return translated "Edward S. Blurock, ChemConnect"
    */
-  @DefaultMessage("Bandelsv�gen 1")
+  @DefaultMessage("Edward S. Blurock, ChemConnect")
   @Key("contactaddressadresssample")
   String contactaddressadresssample();
 
@@ -151,11 +151,11 @@ public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   String contactemailsample();
 
   /**
-   * Translated "GPS Latitute".
+   * Translated "GPS Latitude".
    * 
-   * @return translated "GPS Latitute"
+   * @return translated "GPS Latitude"
    */
-  @DefaultMessage("GPS Latitute")
+  @DefaultMessage("GPS Latitude")
   @Key("contactgpslatitude")
   String contactgpslatitude();
 
@@ -196,11 +196,11 @@ public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   String contactphone();
 
   /**
-   * Translated "+46 6633463".
+   * Translated "+46 70 6633463".
    * 
-   * @return translated "+46 6633463"
+   * @return translated "+46 70 6633463"
    */
-  @DefaultMessage("+46 6633463")
+  @DefaultMessage("+46 70 6633463")
   @Key("contactphonesample")
   String contactphonesample();
 
@@ -500,6 +500,15 @@ public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Post-Doc")
   @Key("postdoc")
   String postdoc();
+
+  /**
+   * Translated "Process".
+   * 
+   * @return translated "Process"
+   */
+  @DefaultMessage("Process")
+  @Key("process")
+  String process();
 
   /**
    * Translated "Professor".

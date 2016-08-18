@@ -1,5 +1,4 @@
-package esblurock.info.reaction.test.simple;
-
+package info.esblurock.reaction.parse;
 import static org.junit.Assert.*;
 
 import org.junit.Test;

@@ -1,8 +1,5 @@
 package info.esblurock.reaction.client;
 
-import info.esblurock.reaction.data.contact.entities.OrganizationDescriptionData;
-
-import com.google.appengine.api.datastore.Key;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -27,6 +24,5 @@ public interface OrganizationDescriptionService extends RemoteService {
 			String full, String email, String phone, String homepage,
 			String name, String address, String city, String country,
 			String postcode, String gpsLatitude, String gpsLongitude);
-	
 	
 }

@@ -2,7 +2,7 @@ package info.esblurock.reaction.client.resources;
 
 /**
  * Interface to represent the messages contained in resource bundle:
- * 	/Users/edwardblurock/git/WebApp/src/info/esblurock/reaction/client/resources/DescriptionConstants.properties'.
+ * 	/Users/edwardblurock/.git/WebApp/WebApp/src/info/esblurock/reaction/client/resources/DescriptionConstants.properties'.
  */
 public interface DescriptionConstants extends com.google.gwt.i18n.client.Messages {
   
@@ -338,6 +338,69 @@ public interface DescriptionConstants extends com.google.gwt.i18n.client.Message
   @DefaultMessage("Transport constants")
   @Key("transporttitle")
   String transporttitle();
+
+  /**
+   * Translated "Contact Info".
+   * 
+   * @return translated "Contact Info"
+   */
+  @DefaultMessage("Contact Info")
+  @Key("usercontact")
+  String usercontact();
+
+  /**
+   * Translated "Account Creation".
+   * 
+   * @return translated "Account Creation"
+   */
+  @DefaultMessage("Account Creation")
+  @Key("userdateplaceholder")
+  String userdateplaceholder();
+
+  /**
+   * Translated "Describe your work and how do you intend to use the database?".
+   * 
+   * @return translated "Describe your work and how do you intend to use the database?"
+   */
+  @DefaultMessage("Describe your work and how do you intend to use the database?")
+  @Key("userdescriptionplaceholder")
+  String userdescriptionplaceholder();
+
+  /**
+   * Translated "User Location".
+   * 
+   * @return translated "User Location"
+   */
+  @DefaultMessage("User Location")
+  @Key("userlocation")
+  String userlocation();
+
+  /**
+   * Translated "User Name".
+   * 
+   * @return translated "User Name"
+   */
+  @DefaultMessage("User Name")
+  @Key("usernameplaceholder")
+  String usernameplaceholder();
+
+  /**
+   * Translated "User Affiliation".
+   * 
+   * @return translated "User Affiliation"
+   */
+  @DefaultMessage("User Affiliation")
+  @Key("useronelineplaceholder")
+  String useronelineplaceholder();
+
+  /**
+   * Translated "User Profile".
+   * 
+   * @return translated "User Profile"
+   */
+  @DefaultMessage("User Profile")
+  @Key("usertitle")
+  String usertitle();
 
   /**
    * Translated "Welcome.  The current time is {0}.".

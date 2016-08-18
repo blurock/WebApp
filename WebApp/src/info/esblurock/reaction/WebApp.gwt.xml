@@ -25,10 +25,12 @@
 
 	<!-- Specify the app entry point class. -->
 	<entry-point class="info.esblurock.reaction.client.ReactionTop"></entry-point>
-	
+
 	<!-- Use ClientFactoryImpl by default -->
-	<replace-with class="info.esblurock.reaction.client.activity.ClientFactoryImpl">
-		<when-type-is class="info.esblurock.reaction.client.activity.ClientFactory" />
+	<replace-with
+		class="info.esblurock.reaction.client.activity.ClientFactoryImpl">
+		<when-type-is
+			class="info.esblurock.reaction.client.activity.ClientFactory" />
 	</replace-with>
 
 	<!-- Specify the paths for translatable code -->

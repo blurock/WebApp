@@ -1,11 +1,7 @@
 package info.esblurock.reaction.data.contact.entities;
 
-import java.io.Serializable;
-
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 import info.esblurock.reaction.data.DatabaseObject;
 
@@ -14,9 +10,6 @@ public class ContactLocationData extends DatabaseObject  {
     @Persistent
     String parentKey = "";
 
-    @Persistent
-    String addressName;
-	
     @Persistent
     String addressAddress;
 	
@@ -38,45 +31,16 @@ public class ContactLocationData extends DatabaseObject  {
     public ContactLocationData() {
     	
     }
-	public ContactLocationData(String addressName, String addressAddress,
-			String city, String country, String postcode, String gpslatitute,
-			String gpslongitude) {
+	public ContactLocationData(String addressAddress,
+			String city, String country, String postcode, 
+			String gpslatitute, String gpslongitude) {
 		super();
-		this.addressName = addressName;
 		this.addressAddress = addressAddress;
 		this.city = city;
 		this.country = country;
 		this.postcode = postcode;
 		this.gpslatitute = gpslatitute;
 		this.gpslongitude = gpslongitude;
-	}
-	/*
-	public ContactLocationData(String keyset, ContactLocation location) {
-		SetOfAttributeValuePairs set = location.getPropertySet(keyset);
-		for(AttributeValuePair pair : set) {
-			if(pair.getAttributeValue().equals(ContactLocation.addressNameKey)) {
-				this.addressName = pair.getPropertyValue();
-			} else if(pair.getAttributeValue().equals(ContactLocation.addressAddressKey)) {
-				this.addressAddress = pair.getPropertyValue();
-			} else if(pair.getAttributeValue().equals(ContactLocation.cityKey)) {
-				this.city = pair.getPropertyValue();
-			} else if(pair.getAttributeValue().equals(ContactLocation.countryKey)) {
-				this.country = pair.getPropertyValue();
-			} else if(pair.getAttributeValue().equals(ContactLocation.postCodeKey)) {
-				this.postcode = pair.getPropertyValue();
-			} else if(pair.getAttributeValue().equals(ContactLocation.gpsLatitute)) {
-				this.gpslatitute = pair.getPropertyValue();
-			} else if(pair.getAttributeValue().equals(ContactLocation.gpsLongitude)) {
-				this.gpslongitude = pair.getPropertyValue();
-			}
-		}
-	}
-	*/
-	public String getAddressName() {
-		return addressName;
-	}
-	public void setAddressName(String addressName) {
-		this.addressName = addressName;
 	}
 	public String getAddressAddress() {
 		return addressAddress;

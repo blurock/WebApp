@@ -3,6 +3,7 @@ package info.esblurock.reaction.client.panel.contact;
 import java.io.Serializable;
 
 import info.esblurock.reaction.client.resources.InputConstants;
+import info.esblurock.reaction.data.contact.entities.ContactInfoData;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTextBox;
 
@@ -25,6 +26,18 @@ public class ContactInfoPanel extends Composite implements HasText {
 
 	InputConstants constants = GWT.create(InputConstants.class);
 
+	@UiField
+	MaterialLink organizationcontact;
+	@UiField
+	MaterialTextBox email;
+	@UiField
+	MaterialTextBox phone;
+	@UiField
+	MaterialTextBox mainhomepage;
+
+	String parentKey = null;
+	String title; 
+
 	private void setText() {
 		email.setPlaceholder(constants.contactemail());
 		phone.setPlaceholder(constants.contactphone());
@@ -45,19 +58,19 @@ public class ContactInfoPanel extends Composite implements HasText {
 		this.title = title;
 		setText();
 	}
-
-	@UiField
-	MaterialLink organizationcontact;
-	@UiField
-	MaterialTextBox email;
-	@UiField
-	MaterialTextBox phone;
-	@UiField
-	MaterialTextBox mainhomepage;
-
-	String parentKey = null;
-	String title; 
-
+	public ContactInfoPanel(ContactInfoData contact) {
+		this.fill(contact);
+	}
+	public void fill(ContactInfoData contact) {
+		email.setText(contact.getEmail());
+		phone.setText(contact.getPhone());
+		mainhomepage.setText(contact.getWebpage());
+	}
+	
+	public void fill(String emailS) {
+		email.setText(emailS);
+		email.setEnabled(false);
+	}
 	public void fill(String parent, String emailS, String phoneS, String mainhomepageS) {
 		parentKey = parent;
 		email.setText(emailS);

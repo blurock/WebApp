@@ -1,13 +1,9 @@
-package info.esblurock.reaction.parse.objects.chemical.reaction;
-
-import java.util.ArrayList;
+package info.esblurock.reaction.server.parse.interpretation.reaction;
 
 import info.esblurock.react.mechanisms.chemkin.ReactionForwardReverseType;
 import info.esblurock.react.mechanisms.chemkin.SetOfReactionForwardReverseTypes;
-import info.esblurock.reaction.data.rdf.KeywordRDF;
-import info.esblurock.reaction.parse.Interpretation;
-import info.esblurock.reaction.parse.objects.ParseObject;
-import info.esblurock.reaction.parse.objects.single.SingletonInterpretation;
+import info.esblurock.reaction.parse.objects.chemical.reaction.ParseObjectAsReaction;
+import info.esblurock.reaction.server.parse.interpretation.SingletonInterpretation;
 
 public class InterpretationAsReactionSimple extends SingletonInterpretation {
 

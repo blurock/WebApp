@@ -20,52 +20,58 @@ public class ParseChemkinReaction {
 	private String comment;
 	private boolean ThirdBodyFlag;
 	private ReactionForwardReverseType rtype;
-	
+
 	public ParseChemkinReaction() {
 		recognizer = new PatternRecognizer();
 		ThirdBodyFlag = false;
 	}
-	
+
 	public String normalize(String rxn) {
+		String ans = rxn;
 		SetOfReactionForwardReverseTypes types = new SetOfReactionForwardReverseTypes();
-		ReactionForwardReverseType rtype = types.findReactionType(rxn);
-		String react = reduce(types.getReactants());
-		String prod = reduce(types.getProducts());
-		return react.trim() + rtype.getEquivString() + prod.trim();
+		rtype = types.findReactionType(rxn);
+		System.out.println("ReactionForwardReverseType:normalize: '" + rtype + "'");
+		if (rtype != null) {
+			String react = reduce(types.getReactants());
+			String prod = reduce(types.getProducts());
+			ans = react.trim() + rtype.getEquivString() + prod.trim();
+		}
+		return ans;
 	}
-	
+
 	private String reduce(String rxn) {
 		String rxn1 = plusSpace(rxn);
-		return spacePlus(rxn1);				
+		return spacePlus(rxn1);
 	}
+
 	private String plusSpace(String rxn) {
 		String reduced = rxn;
 		boolean notdone = true;
-		while(notdone) {
+		while (notdone) {
 			int pos = reduced.indexOf("+ ");
-			if(pos > 0) {
-				reduced = reduced.substring(0, pos) + "+" + reduced.substring(pos+2);
+			if (pos > 0) {
+				reduced = reduced.substring(0, pos) + "+" + reduced.substring(pos + 2);
 			} else {
 				notdone = false;
 			}
 		}
 		return reduced;
 	}
+
 	private String spacePlus(String rxn) {
 		String reduced = rxn;
 		boolean notdone = true;
-		while(notdone) {
+		while (notdone) {
 			int pos = reduced.indexOf(" +");
-			if(pos > 0) {
-				reduced = reduced.substring(0, pos) + "+" + reduced.substring(pos+2);
+			if (pos > 0) {
+				reduced = reduced.substring(0, pos) + "+" + reduced.substring(pos + 2);
 			} else {
 				notdone = false;
 			}
 		}
 		return reduced;
 	}
-	
-	
+
 	public StringTokenizer parse(String rxn, boolean withCoefficients) throws IOException {
 		int pos = rxn.indexOf(commentChar);
 		String next;
@@ -79,23 +85,24 @@ public class ParseChemkinReaction {
 		SetOfReactionForwardReverseTypes types = new SetOfReactionForwardReverseTypes();
 		types.findReactionType(next);
 		reactantsAsString = types.getReactants();
-		parseReactants(reactantsAsString,withCoefficients);
+		parseReactants(reactantsAsString, withCoefficients);
 		productsAsString = types.getProducts();
-		StringTokenizer tok = parseProducts(productsAsString,withCoefficients);
+		StringTokenizer tok = parseProducts(productsAsString, withCoefficients);
 		return tok;
 	}
 
 	private void parseReactants(String react, boolean withCoefficients) throws IOException {
-		parseMolList(react, true,withCoefficients);
+		parseMolList(react, true, withCoefficients);
 	}
 
 	private StringTokenizer parseProducts(String react, boolean withCoefficients) throws IOException {
 		StringTokenizer tok;
-		tok = parseMolList(react, false,withCoefficients);
+		tok = parseMolList(react, false, withCoefficients);
 		return tok;
 	}
 
-	private StringTokenizer parseMolList(String mollist, boolean reactants, boolean withCoefficients) throws IOException {
+	private StringTokenizer parseMolList(String mollist, boolean reactants, boolean withCoefficients)
+			throws IOException {
 		StringTokenizer tok = new StringTokenizer(mollist, " ");
 		int num = tok.countTokens();
 		if (!reactants && withCoefficients)
@@ -115,7 +122,7 @@ public class ParseChemkinReaction {
 			String molS = tok1.nextToken();
 			if (molS.endsWith("(")) {
 				tok1.nextToken();
-				molS = molS.substring(0,molS.length()-1);
+				molS = molS.substring(0, molS.length() - 1);
 				ThirdBodyFlag = true;
 			}
 			if (molS.equals("M") || molS.equals("m")) {
@@ -135,19 +142,6 @@ public class ParseChemkinReaction {
 				if (mol.getLabel().equals(hvS)) {
 
 				} else {
-					/*
-					 * if (!molecules.containsKey(mol.getLabel())) { molS =
-					 * mol.getLabel(); char ch[] = new char[molS.length()]; int
-					 * cnt = 0; int length = molS.length(); while
-					 * (!molecules.containsKey(mol.getLabel()) && cnt < length)
-					 * { ch[cnt] = molS.charAt(0); cnt++; molS =
-					 * molS.substring(1); } if (cnt < length) { String cntS =
-					 * new String(ch, 0, cnt); try { dupcnt =
-					 * Integer.parseInt(cntS); } catch (NumberFormatException
-					 * ex) { throw new IOException("Multiplicity Error"); } }
-					 * else { throw new IOException("Species Name Error: '" +
-					 * mol.getLabel() + "'"); } }
-					 */
 					while (dupcnt > 0) {
 						if (reactants)
 							Reactants.add(mol);

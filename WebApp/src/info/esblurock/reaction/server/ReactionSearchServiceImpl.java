@@ -1,16 +1,24 @@
 package info.esblurock.reaction.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.rdf.CreateSetOfKeywordQueryAnswers;
+import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
 import info.esblurock.reaction.data.rdf.SetOfKeywordQueryAnswers;
+import info.esblurock.reaction.data.rdf.SetOfKeywordRDF;
 import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.event.RegisterTransaction;
+import info.esblurock.reaction.server.parse.interpretation.Interpretation;
+import info.esblurock.reaction.server.parse.interpretation.SetOfInterpretations;
+import info.esblurock.reaction.server.parse.query.ParseQuery;
+import info.esblurock.reaction.server.parse.query.SetOfParseQueries;
+import info.esblurock.reaction.server.parse.register.RegisteredQueries;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
 
 import javax.jdo.FetchGroup;
@@ -74,6 +82,26 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		System.out.println("RDFBySubjectSet singleKeyQuery: 1");
 		oset.mergeValue(sset);
 		System.out.println("RDFBySubjectSet singleKeyQuery: 2");
+		
+		
+		System.out.println("RegisteredQueries.getRegistered()");
+		SetOfParseQueries queries = RegisteredQueries.getRegistered();
+		SetOfKeywordRDF total = new SetOfKeywordRDF();
+		for(ParseQuery query : queries) {
+			System.out.println("Query: " + query.toString());
+			SetOfInterpretations interpretations = query.parseInput();
+			for(Interpretation interpret : interpretations) {
+				System.out.println("Interpretation: " + interpret.toString());
+				if(interpret.interpretable(key)) {
+					System.out.println("Interpretable: " + interpret.toString());
+					HashSet<KeywordRDF> results = interpret.getResults(key);
+					System.out.println("Results: " + results);
+					total.addAll(results);
+				}
+			}
+		}
+		System.out.println("Total: " + total.toString());
+		
 		return oset;
 		
 	}

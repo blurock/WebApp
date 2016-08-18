@@ -7,9 +7,8 @@ import com.google.gwt.place.shared.WithTokenizers;
 
 import info.esblurock.reaction.client.activity.place.ReactionFirstPlace;
 import info.esblurock.reaction.client.activity.place.ReactionQueryPlace;
-//import info.blurock.hellomvp.client.place.GoodbyePlace;
-//import info.blurock.hellomvp.client.place.HelloPlace;
 import info.esblurock.reaction.client.activity.place.ReactionTopPlace;
+import info.esblurock.reaction.client.activity.place.ReactionLoginValidationPlace;
 
 /**
  * PlaceHistoryMapper interface is used to attach all places which the
@@ -18,7 +17,10 @@ import info.esblurock.reaction.client.activity.place.ReactionTopPlace;
  * separate TokenizerFactory.
  */
 //@WithTokenizers( { HelloPlace.Tokenizer.class, GoodbyePlace.Tokenizer.class })
-@WithTokenizers( { ReactionTopPlace.Tokenizer.class, ReactionFirstPlace.Tokenizer.class,ReactionQueryPlace.Tokenizer.class})
+@WithTokenizers( { ReactionTopPlace.Tokenizer.class, 
+	ReactionFirstPlace.Tokenizer.class,
+	ReactionQueryPlace.Tokenizer.class,
+	ReactionLoginValidationPlace.Tokenizer.class})
 
 public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {
 }

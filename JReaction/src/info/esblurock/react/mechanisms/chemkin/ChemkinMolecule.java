@@ -1,8 +1,5 @@
 package info.esblurock.react.mechanisms.chemkin;
 
-import java.util.Comparator;
-
-
 /**
  *
  * @author  reaction

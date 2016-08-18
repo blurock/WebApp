@@ -1,0 +1,31 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:user="urn:import:info.esblurock.reaction.client.panel">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<m:MaterialCard ui:field="card" type="basic" title="Card Title"
+			description="Here is some more information about this product that is only revealed once clicked on.">
+			<m:link>
+				<m:MaterialLink ui:field="activate" text="Activate"
+					icon="mdi-action-done-all" />
+			</m:link>
+			<m:link>
+				<m:MaterialLink ui:field="login" text="First Login"
+					icon="mdi-action-done-all" />
+			</m:link>
+			<m:link>
+				<m:MaterialLink ui:field="profile" text="Profile"
+					icon="mdi-action-done-all" />
+			</m:link>
+			<m:link>
+				<m:MaterialLink ui:field="mainPage" text="Home"
+					icon="mdi-action-done-all" />
+			</m:link>
+		</m:MaterialCard>
+	</g:HTMLPanel>
+</ui:UiBinder> 

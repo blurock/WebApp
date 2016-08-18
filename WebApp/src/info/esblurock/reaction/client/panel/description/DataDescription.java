@@ -1,9 +1,10 @@
 package info.esblurock.reaction.client.panel.description;
 
-import info.esblurock.reaction.client.panel.inputs.InputSet;
 import info.esblurock.reaction.client.panel.inputs.SetOfInputs;
 import info.esblurock.reaction.client.resources.DescriptionConstants;
+import info.esblurock.reaction.data.description.DescriptionDataData;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 import gwt.material.design.client.ui.MaterialDatePicker;
@@ -13,13 +14,11 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
@@ -114,10 +113,40 @@ public class DataDescription extends Composite implements HasText {
 		description.setPlaceholder(descriptiontitle);
 		initData();
 	}
+	
+	public void setTextAsUserDescription(String username) {
+		sourcekey.setText(username);
+		keyword.setText(username);
+		inputkey.setText(username);
+		MaterialToast.alert("UserContactInput 7");
+		date.setVisible(false);
+		sourcekey.setVisible(false);
+		inputkey.setVisible(false);
+		keyword.setEnabled(false);
+		MaterialToast.alert("UserContactInput 8");
+		keywordChanged = true;
+		sourcekeyChanged = true;
+		objecttitle.setText(descriptionConstants.usertitle());
+		keyword.setPlaceholder(descriptionConstants.usernameplaceholder());
+		keyword.setText(username);
+		oneline.setText(descriptionConstants.useronelineplaceholder());
+		oneline.setPlaceholder(descriptionConstants.useronelineplaceholder());
+		description.setText(descriptionConstants.userdescriptionplaceholder());
+		description.setPlaceholder(descriptionConstants.userdescriptionplaceholder());
+	}
 	public void fill(String keywordS, String onlineS, String descriptionS) {
 		keyword.setText(keywordS);
 		oneline.setText(onlineS);
 		description.setText(descriptionS);
+	}
+	
+	public void fill(DescriptionDataData descr) {
+		keyword.setText(descr.getKeyword());
+		oneline.setText(descr.getOnlinedescription());
+		description.setText(descr.getFulldescription());
+		date.setDate(descr.getSourceDate());
+		sourcekey.setText(descr.getSourcekey());
+		inputkey.setText(descr.getInputkey());
 	}
 	public String getKeyWord() {
 		return keyword.getText();
@@ -142,7 +171,17 @@ public class DataDescription extends Composite implements HasText {
 		return inputkey.getText();
 	}
 	public Date getSourceDate() {
-		return date.getDate();
+		MaterialToast.alert("getSourceDate():");
+		//DateFormat format = DateFormat.getInstance();
+		Date current = date.getDate();
+		MaterialToast.alert("getSourceDate():" + current);
+		
+		if(current == null) {
+			MaterialToast.alert("getSourceDate(): null (today)");
+			current = new Date();
+		}
+		MaterialToast.alert("getSourceDate(): " + current.getDate());
+		return current;
 	}
 	
 	public String createObjectKeyword() {

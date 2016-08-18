@@ -19,5 +19,9 @@ public interface LoginServiceAsync {
 	void removeUser(String key, AsyncCallback<String> callback);
 
 	void getAccount(String key, AsyncCallback<UserAccount> callback);
+
+	void loginVerification(String username, String key, AsyncCallback<String> callback);
+
+	void firstLoginToServer(String name, AsyncCallback<String> callback);
 }
 

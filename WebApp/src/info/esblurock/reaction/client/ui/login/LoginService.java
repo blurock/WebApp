@@ -41,4 +41,8 @@ public interface LoginService extends RemoteService {
    public String removeUser(String key);
    
    public UserAccount getAccount(String key);
+
+String loginVerification(String username, String key) throws IOException;
+
+String firstLoginToServer(String name) throws IOException;
 }

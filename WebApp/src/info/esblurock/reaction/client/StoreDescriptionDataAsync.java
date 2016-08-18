@@ -12,20 +12,6 @@ import java.util.Set;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface StoreDescriptionDataAsync {
-
-	/*
-	void getContactInfoData(String keyS, ContactInfoPanel panel,
-			AsyncCallback<ContactInfoPanel> callback);
-
-	void getContactLocationData(String keyS, ContactLocationPanel panel,
-			AsyncCallback<ContactLocationPanel> callback);
-
-	void getDescriptionDataData(String keyS, DataDescription panel,
-			AsyncCallback<DataDescription> callback);
-
-	void getOrganizationDescriptionData(String keyS, OrganizationInput panel,
-			AsyncCallback<OrganizationInput> callback);
-*/
 	
 	void removeOrganizationDescriptionData(String key,
 			AsyncCallback<String> callback);
@@ -58,5 +44,9 @@ public interface StoreDescriptionDataAsync {
 
 	void storeUserDescriptionData(UserDescriptionData organization,
 			AsyncCallback<String> callback);
+
+	void getCoordinates(String city, String country, AsyncCallback<String> callback);
+
+	void getUserDescriptionData(String keyword, AsyncCallback<UserDescriptionData> callback);
 
 }

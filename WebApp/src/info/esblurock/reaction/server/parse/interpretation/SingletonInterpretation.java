@@ -1,6 +1,5 @@
-package info.esblurock.reaction.parse.objects.single;
-
-import java.util.ArrayList;
+package info.esblurock.reaction.server.parse.interpretation;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
@@ -14,7 +13,6 @@ import com.google.appengine.api.datastore.Query;
 
 import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
-import info.esblurock.reaction.parse.Interpretation;
 import info.esblurock.reaction.parse.objects.ParseObject;
 
 public class SingletonInterpretation extends Interpretation {
@@ -30,9 +28,9 @@ public class SingletonInterpretation extends Interpretation {
 	}
 
 	@Override
-	public ArrayList<KeywordRDF> getResults(String input) {
+	public HashSet<KeywordRDF> getResults(String input) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		ArrayList<KeywordRDF> output = new ArrayList<KeywordRDF>();
+		HashSet<KeywordRDF> output = new HashSet<KeywordRDF>();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query q = new Query(keywordRDF).setFilter(filter.getFilter(input));
 		PreparedQuery pq = datastore.prepare(q);

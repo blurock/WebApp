@@ -134,7 +134,7 @@ public class OrganizationInput extends Composite implements HasText,
 		ContactInfoData contact = new ContactInfoData(contactinfo.getEmail(), 
 				contactinfo.getPhone(), 
 				contactinfo.getMainhomepage());
-		ContactLocationData location = new ContactLocationData(locationinfo.getAddressName(), 
+		ContactLocationData location = new ContactLocationData(
 				locationinfo.getAddressAddress(), locationinfo.getCity(), 
 				locationinfo.getCountry(), locationinfo.getPostcode(),
 				locationinfo.getGpslatitude(), locationinfo.getGpslongitude());

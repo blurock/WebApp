@@ -1,7 +1,6 @@
 package info.esblurock.reaction.client.ui.login;
 
 import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.panel.description.DataDescription;
@@ -15,8 +14,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
@@ -76,26 +73,7 @@ public class CreateNewUser extends Composite implements HasText {
 
 				LoginServiceAsync async = LoginService.Util.getInstance();
 				((ServiceDefTarget) async).setServiceEntryPoint("loginservice");
-				AsyncCallback<String> callback = new AsyncCallback<String>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert(caught.toString());
-					}
-
-					@Override
-					public void onSuccess(String result) {
-						if (result != null) {
-							String message = "Account created (Key= " + result + ")";
-							MaterialToast.alert(message);
-							MaterialModal.closeModal();
-						} else {
-							String message = "Username and/or email already exists";
-							MaterialToast.alert(message);
-						}
-					}
-
-				};
+				CreateLoginAccountCallback callback = new CreateLoginAccountCallback();
 				async.storeUserAccount(account, callback);
 
 			} else {

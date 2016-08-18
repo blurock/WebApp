@@ -15,6 +15,8 @@ public class ServerBase  extends RemoteServiceServlet {
 
 	private static final long serialVersionUID = 1L;
 	
+	public static final String googleAPIKey = "AIzaSyAM533K4aia4ObLQLsix476xrQ1YBqpdVo";
+	
 	protected ContextAndSessionUtilities getUtilities() {
 		HttpSession session = getThreadLocalRequest().getSession();
 		ContextAndSessionUtilities util 

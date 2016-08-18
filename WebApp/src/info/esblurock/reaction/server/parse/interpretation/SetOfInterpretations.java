@@ -1,4 +1,4 @@
-package info.esblurock.reaction.parse;
+package info.esblurock.reaction.server.parse.interpretation;
 
 import java.util.ArrayList;
 

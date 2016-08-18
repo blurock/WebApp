@@ -65,5 +65,17 @@ public class KeywordRDF extends DatabaseObject {
 		this.object = object;
 	}
 
-
+	public String toString() {
+		StringBuilder build = new StringBuilder();
+		build.append(subject);
+		build.append(" -> ");
+		build.append(predicate);
+		build.append(" -> ");
+		if(predicate.endsWith("String")) {
+			build.append(object);
+		} else {
+			build.append("(key");
+		}
+		return build.toString();
+	}
 }

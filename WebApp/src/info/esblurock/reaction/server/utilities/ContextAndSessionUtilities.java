@@ -19,7 +19,7 @@ public class ContextAndSessionUtilities {
 		this.context = context;
 		this.session = session;
 	}
-
+	
 	public String getId() {
 		return session.getId();
 	}

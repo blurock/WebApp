@@ -1,13 +1,11 @@
 package info.esblurock.reaction.client.activity;
 
 import info.esblurock.reaction.client.activity.place.ReactionQueryPlace;
-import info.esblurock.reaction.client.ui.ReactionFirstView;
 import info.esblurock.reaction.client.ui.ReactionQueryView;
 
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 public class ReactionQueryActivity  extends AbstractActivity implements ReactionQueryView.Presenter {

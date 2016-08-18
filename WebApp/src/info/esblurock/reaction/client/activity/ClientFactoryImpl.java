@@ -2,6 +2,8 @@ package info.esblurock.reaction.client.activity;
 
 import info.esblurock.reaction.client.ui.ReactionFirstImpl;
 import info.esblurock.reaction.client.ui.ReactionFirstView;
+import info.esblurock.reaction.client.ui.ReactionLoginValidationImpl;
+import info.esblurock.reaction.client.ui.ReactionLoginValidationView;
 import info.esblurock.reaction.client.ui.ReactionQueryImpl;
 import info.esblurock.reaction.client.ui.ReactionQueryView;
 import info.esblurock.reaction.client.ui.ReactionTopView;
@@ -19,6 +21,7 @@ public class ClientFactoryImpl implements ClientFactory
 	private static final ReactionTopView reactionTopView = new ReactionTopImpl();
 	private static final ReactionFirstView reactionFirstView = new ReactionFirstImpl();
 	private static final ReactionQueryView reactionQueryView = new ReactionQueryImpl();
+	private static final ReactionLoginValidationView reactionLoginValidationView = new ReactionLoginValidationImpl();
 
 	@Override
 	public EventBus getEventBus() {
@@ -39,6 +42,10 @@ public class ClientFactoryImpl implements ClientFactory
 	@Override
 	public ReactionQueryView getReactionQueryView() {
 		return reactionQueryView;
+	}
+	@Override
+	public ReactionLoginValidationView getReactionLoginValidationView() {
+		return reactionLoginValidationView;
 	}
 
 

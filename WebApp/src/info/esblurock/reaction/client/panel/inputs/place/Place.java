@@ -7,6 +7,7 @@ import info.esblurock.reaction.client.panel.inputs.SetOfInputs;
 import info.esblurock.reaction.client.panel.transaction.ObjectTransaction;
 import info.esblurock.reaction.client.panel.transaction.TransactionSources;
 import info.esblurock.reaction.client.panel.transaction.UploadFileSetsTransactions;
+import com.google.gwt.user.client.Cookies;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -40,7 +41,11 @@ public enum Place {
 
 		@Override
 		public Widget getContent() {
-			return new UserContactInput("UserContact");
+			String name = Cookies.getCookie("user");
+			if(name == null) {
+				name = "UserContact";
+			}
+			return new UserContactInput(name);
 		}
 	},
 	chemkin {
@@ -58,7 +63,6 @@ public enum Place {
 		public Widget getContent() {
 			SetOfInputs inputs = new SetOfInputs(InputSet.chemkin, "Chemkin");
 			return inputs;
-			//return new ChemkinMechanismInput("ChemkinInput");
 		}
 	},
 	molecules {

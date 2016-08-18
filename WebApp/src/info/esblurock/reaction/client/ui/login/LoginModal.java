@@ -2,25 +2,17 @@ package info.esblurock.reaction.client.ui.login;
 
 import java.util.Date;
 
-import info.esblurock.reaction.client.activity.place.ReactionFirstPlace;
-import info.esblurock.reaction.client.activity.place.ReactionQueryPlace;
 import info.esblurock.reaction.client.ui.ReactionTopImpl;
 import info.esblurock.reaction.client.ui.ReactionTopView.Presenter;
 import info.esblurock.reaction.client.ui.resource.LoginResources;
 import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialCheckBox;
-import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTextBox;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.MaterialModal.TYPE;
 
-import com.google.appengine.api.search.Results;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.thirdparty.javascript.jscomp.Result;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -96,6 +88,7 @@ public class LoginModal extends Composite implements HasText {
 									"/", false);
 							Cookies.setCookie("user", result.getName(),
 									expires, null, "/", false);
+							Window.alert("User: " + result.getName());
 							String level = result.getUserLevel();
 							Cookies.setCookie("level", result.getUserLevel(),
 									expires, null, "/", false);

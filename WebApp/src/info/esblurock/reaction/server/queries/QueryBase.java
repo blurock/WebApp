@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.jdo.FetchGroup;
 import javax.jdo.PersistenceManager;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -125,15 +126,6 @@ public class QueryBase {
 						+ propertyname + "=" + propertyvalue);
 		}
 		return set;
-		/*
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		javax.jdo.Query q = pm.newQuery(classtype);
-		String filterS = propertyname + " == '" + propertyvalue + "'";
-		log.info("deleteFromIdentificationCode: " + filterS);
-		q.setFilter(filterS);
-		List<DatabaseObject> objects = (List<DatabaseObject>) q.execute();
-		return objects;
-		*/
 	}
 	/**
 	 * Fetch objects of classtype with propertyname == propertyvalue for a given user
@@ -179,7 +171,9 @@ public class QueryBase {
 			while (iter.hasNext()) {
 				Entity entity = iter.next();
 				DatabaseObject info = (DatabaseObject) pm.getObjectById(example.getClass(), entity.getKey());
-				set.add(info);
+				pm.getFetchPlan().setGroup(FetchGroup.ALL);
+				DatabaseObject detached = pm.detachCopy(info);
+				set.add(detached);
 			}
 		} else {
 			throw new IOException(example.getClass().getName() + " not found with filter");

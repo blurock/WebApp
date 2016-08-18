@@ -9,6 +9,9 @@ import info.esblurock.reaction.data.description.DescriptionDataData;
 @PersistenceCapable
 public class UserDescriptionData  extends DatabaseObject {
     @Persistent
+    String keyword;
+
+    @Persistent
     String userrole;
     
     @Persistent(dependent = "true")
@@ -28,6 +31,7 @@ public class UserDescriptionData  extends DatabaseObject {
 			ContactInfoData contactinfo, 
 			ContactLocationData location) {
 		super();
+		keyword = description.getKeyword();
 		this.userrole = userrole;
 		this.description = description;
 		this.contactinfo = contactinfo;
@@ -53,6 +57,9 @@ public class UserDescriptionData  extends DatabaseObject {
 	}
 	public String getUserRole() {
 		return userrole;
+	}
+	public String getKeyword() {
+		return keyword;
 	}
 	
 

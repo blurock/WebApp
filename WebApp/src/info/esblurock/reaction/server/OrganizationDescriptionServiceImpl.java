@@ -1,8 +1,5 @@
 package info.esblurock.reaction.server;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import info.esblurock.reaction.client.OrganizationDescriptionService;
 import info.esblurock.reaction.data.description.DescriptionData;
 import info.esblurock.reaction.server.datastore.contact.ContactInfo;
@@ -44,7 +41,5 @@ public class OrganizationDescriptionServiceImpl extends RemoteServiceServlet imp
 		String descriptionS = description.toString();
 		return descriptionS;
 	}
-
-	
 
 }

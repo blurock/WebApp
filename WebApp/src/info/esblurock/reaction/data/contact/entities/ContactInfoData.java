@@ -1,11 +1,7 @@
 package info.esblurock.reaction.data.contact.entities;
 
-import java.io.Serializable;
-
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 import info.esblurock.reaction.data.DatabaseObject;
 
@@ -32,6 +28,12 @@ public class ContactInfoData  extends DatabaseObject {
 		this.email = email;
 		this.phone = phone;
 		this.webpage = webpage;
+	}
+	
+	public void fill(String email, String phone, String webpage) {
+		this.email = email;
+		this.phone = phone;
+		this.webpage = webpage;		
 	}
 	/*
 	public ContactInfoData(String keyset, ContactInfo info) {

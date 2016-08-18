@@ -1,10 +1,10 @@
 package info.esblurock.reaction.client.panel.contact;
 
-import java.io.Serializable;
-
+import info.esblurock.reaction.client.StoreDescriptionData;
+import info.esblurock.reaction.client.StoreDescriptionDataAsync;
 import info.esblurock.reaction.client.resources.InputConstants;
 import info.esblurock.reaction.data.contact.entities.ContactLocationData;
-import info.esblurock.reaction.server.datastore.contact.ContactLocation;
+import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
@@ -14,8 +14,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,8 +29,26 @@ public class ContactLocationPanel extends Composite implements HasText {
 
 	InputConstants constants = GWT.create(InputConstants.class);
 	
+	@UiField
+	MaterialLink adresscontact;
+	@UiField
+	MaterialTextArea addressAddress;
+	@UiField
+	MaterialTextBox city;
+	@UiField
+	MaterialTextBox country;
+	@UiField
+	MaterialTextBox postcode;
+	@UiField
+	MaterialButton getCoordinates;
+	@UiField
+	MaterialTextBox gpslatitude;
+	@UiField
+	MaterialTextBox gpslongitude;
+
+	String parentKey = null;
+
 	private void setText() {
-		addressName.setPlaceholder(constants.contactaddressadress());
 		addressAddress.setPlaceholder(constants.contactaddressadress());
 		city.setPlaceholder(constants.contactcity());
 		country.setPlaceholder(constants.contactcountry());
@@ -40,7 +56,6 @@ public class ContactLocationPanel extends Composite implements HasText {
 		gpslatitude.setPlaceholder(constants.contactgpslatitude());
 		gpslongitude.setPlaceholder(constants.contactgpslongitude());
 		
-		addressName.setText(constants.contactaddressadresssample());
 		addressAddress.setText(constants.contactaddressadresssample());
 		city.setText(constants.contactcitysample());
 		country.setText(constants.contactcountrysample());
@@ -59,31 +74,24 @@ public class ContactLocationPanel extends Composite implements HasText {
 		setText();
 	}
 
-	@UiField
-	MaterialLink adresscontact;
-	@UiField
-	MaterialTextArea addressName;
-	@UiField
-	MaterialTextArea addressAddress;
-	@UiField
-	MaterialTextBox city;
-	@UiField
-	MaterialTextBox country;
-	@UiField
-	MaterialTextBox postcode;
-	@UiField
-	MaterialTextBox gpslatitude;
-	@UiField
-	MaterialTextBox gpslongitude;
-
-	String parentKey = null;
-	
+	public void fill(ContactLocationData data) {
+		addressAddress.setText(data.getAddressAddress());
+		city.setText(data.getCity());
+		country.setText(data.getCountry());
+		postcode.setText(data.getPostcode());
+		gpslatitude.setText(data.getGpslatitute());
+		gpslongitude.setText(data.getGpslongitude());
+		
+	}
+	public void fillInCoordinates(String latitude, String longitude) {
+		gpslatitude.setText(latitude);
+		gpslongitude.setText(longitude);
+	}
 	public void fill(String parentkey,
 			String nameS, String addressS, 
 			String cityS, String countryS, String postcodeS, 
 			String latitude, String longitude) {
 		parentKey = parentkey;
-		addressName.setText(nameS);
 		addressAddress.setText(addressS);
 		city.setText(cityS);
 		country.setText(countryS);
@@ -91,18 +99,24 @@ public class ContactLocationPanel extends Composite implements HasText {
 		gpslatitude.setText(latitude);
 		gpslongitude.setText(longitude);
 	}
+	
+	@UiHandler("getCoordinates")
+	void onClick(ClickEvent e) {
+		String cityS = city.getText();
+		String countryS = country.getText();
+		ContactCoordinatesCallback callback = new ContactCoordinatesCallback(this);
+		StoreDescriptionDataAsync async = StoreDescriptionData.Util.getInstance();
+		async.getCoordinates(cityS, countryS, callback);
+		
+	}
+	
+	
 	@Override
 	public String getText() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public void setText(String text) {
-		// TODO Auto-generated method stub
-		
-	}
-	public String getAddressName() {
-		return addressName.getText();
 	}
 	public String getAddressAddress() {
 		return addressAddress.getText();

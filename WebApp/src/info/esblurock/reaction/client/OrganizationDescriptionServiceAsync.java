@@ -11,5 +11,4 @@ public interface OrganizationDescriptionServiceAsync {
 			String gpsLatitude, String gpsLongitude,
 			AsyncCallback<String> callback);
 
-
 }

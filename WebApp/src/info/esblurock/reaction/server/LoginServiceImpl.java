@@ -1,15 +1,25 @@
 package info.esblurock.reaction.server;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import info.esblurock.reaction.client.ui.login.LoginService;
 import info.esblurock.reaction.client.ui.login.UserDTO;
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.PMF;
+import info.esblurock.reaction.data.user.UnverifiedUserAccount;
 import info.esblurock.reaction.data.user.UserAccount;
+import info.esblurock.reaction.server.datastore.contact.GeocodingLatituteAndLongitude;
 import info.esblurock.reaction.server.event.TransactionCount;
+import info.esblurock.reaction.server.mail.SendMail;
+import info.esblurock.reaction.server.queries.QueryBase;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
+import info.esblurock.reaction.server.utilities.WriteObjectTransactionToDatabase;
 
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Entity;
@@ -26,6 +36,8 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 
 public class LoginServiceImpl extends ServerBase implements LoginService {
 	private static final long serialVersionUID = 4456105400553118785L;
+	
+	String from = "edward.blurock@gmail.com";
 
 	PersistenceManager pm = PMF.get().getPersistenceManager();
 
@@ -42,7 +54,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		ContextAndSessionUtilities util = getUtilities();
 		String passwd = null;
 		String lvl = null;
-		if (admin.equals(name)) {
+		if (admin.equals(name)) {	
 			System.out.println("Login: System Administrator");
 			passwd = adminpass;
 			lvl = level;
@@ -54,6 +66,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 			}
 		} else {
 			System.out.println("Login: Normal user: " + name);
+			
 			UserAccount account = getAccount(name);
 			if (account != null) {
 				passwd = account.getPassword();
@@ -88,7 +101,61 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		}
 		return user;
 	}
+	
+	private UnverifiedUserAccount getUnverifiedAccount(String username) throws IOException {
+		UnverifiedUserAccount unverified = null;
+		List<DatabaseObject> lst = QueryBase.getDatabaseObjectsFromSingleProperty(UnverifiedUserAccount.class.getName(),"username",username);
+		if(lst.size() > 0) {
+			unverified = (UnverifiedUserAccount) lst.get(0);
+		} else {
+			throw new IOException("Account not available to be activated for " + username);
+		}
+		System.out.println("loginVerification: " + unverified);
+		return unverified;
+	}
+	@Override
+	public String loginVerification(String username, String key) throws IOException {
+		System.out.println("loginVerification: " + username);
+		System.out.println("loginVerification: " + key);
+		//UnverifiedUserAccount unverified = (UnverifiedUserAccount) QueryBase.getObjectById(UnverifiedUserAccount.class, key);
+		List<DatabaseObject> lst = QueryBase.getDatabaseObjectsFromSingleProperty(UnverifiedUserAccount.class.getName(),"username",username);
+		UnverifiedUserAccount unverified = getUnverifiedAccount(username);
+		System.out.println("loginVerification: " + unverified);
+		String email = unverified.getEmail();
+		if(unverified.getUsername().equals(username)) {
+			String password = unverified.getPassword();
+			Date creation = unverified.getCreationDate();
+			String userrole = "StandardUser";
+			
+			UserAccount account = new UserAccount(username,password,userrole,email);
+			WriteObjectTransactionToDatabase.writeObjectWithoutTransaction(account);
 
+			String subject = "Welcome to MolConnect";
+			String msg = "Your account has been verified<br>"
+					+ "This account is under a limited usage agreement <br>"
+					+ "Have fun.<br>"
+					+ "<br>"
+					+ "Updates and instructions will be posted on the website<br>"
+					+ "<br>"
+					+ "If you have any questions, don't hesitate to email me<br>"
+					+ "Regards<br>"
+					+ "Edward Blurock<br>";
+			SendMail send = new SendMail();
+			send.sendMail(email, from, subject, msg);
+			
+		} else {
+			throw new IOException("'" + username + "' does not match authorization key");
+		}
+		return email;
+	}
+
+	@Override
+	public String firstLoginToServer(String username)  throws IOException{
+		UnverifiedUserAccount unverified = getUnverifiedAccount(username);
+		loginServer(unverified.getUsername(), unverified.getPassword());
+		QueryBase.deleteFromIdentificationCode(UnverifiedUserAccount.class,"username",username);
+		return username;
+	}
 	@Override
 	public UserDTO loginFromSessionServer() {
 		ContextAndSessionUtilities util = getUtilities();
@@ -108,23 +175,58 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		// change password logic
 	}
 
-	public String storeUserAccount(UserAccount account) {
+	public String storeUserAccount(UserAccount account)  {
 		UserAccount userexists = getAccount(account.getUsername());
-		String key = null;
+		String useremail = null;
 		if (userexists == null) {
 			userexists = getAccountFromEmail(account.getEmail());
 			if (userexists == null) {
+
+				UnverifiedUserAccount unverified = 
+						new UnverifiedUserAccount(account.getUsername(), 
+								account.getPassword(),
+								account.getEmail());
+				DatabaseObject toverify = pm.makePersistent(unverified);
+				
+				String msg = "http://9-dot-blurock-reaction.appspot.com/WebApp.html?id=2#ReactionLoginValidation:bbb";
+				String host = "http://127.0.0.1:8080/";
+				//String host = "http://9-dot-blurock-reaction.appspot.com/";
+				String webappS = "WebApp.html";
+				String page = "ReactionLoginValidationPlace:validate";
+				String charset = StandardCharsets.UTF_8.name();
+
+				String id;
+				try {
+					id = "id=" + URLEncoder.encode(toverify.getKey(),charset);
+					String name = "name=" + URLEncoder.encode(account.getUsername(),charset);
+					String vlink = host + webappS + "?" + id +"&" + name + "#" + page;
+					
+					String message = "Thank you for registering for an account in MolConnect. "
+					+ "<br>To activate your account, just follow the following link:"
+					+ "<br><a href=\"" + vlink + "\">MolConnect email Validation</a>"
+					+ "<br><br>Regards"
+					+ "<br><b>MolConnect<b> at"
+					+ "<br><it>Blurock Consulting AB<it>";
+					
+					System.out.println("Send Message: (" + account.getEmail() + ")\n" + message);
+					SendMail mail = new SendMail();
+					String to = "edward.blurock@esblurock.info";
+					String subject = "MolConnect: account email validation";
+					mail.sendMail(to, from, subject, message);
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
 				DatabaseObject o = pm.makePersistent(account);
 				TransactionCount count = new TransactionCount(account.getUsername());
 				pm.makePersistent(count);
-				key = o.getKey();
+				useremail = account.getEmail();
 			} else {
 				System.out.println("ERROR: email already exists");
 			}
 		} else {
 			System.out.println("ERROR: user name already exists");
 		}
-		return key;
+		return useremail;
 	}
 
 	public UserAccount getAccount(String username) {

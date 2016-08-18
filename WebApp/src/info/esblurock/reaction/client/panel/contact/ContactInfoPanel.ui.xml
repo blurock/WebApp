@@ -33,18 +33,6 @@
 									text="http://www.toppage.com" 
 									placeholder="homepage" />
 							</m:MaterialColumn>
-							<m:MaterialColumn grid="s4 m4">
-								<m:MaterialTextBox 
-									ui:field="gpslatitude"
-									text="55.7 N" 
-									placeholder="Latitude" />
-							</m:MaterialColumn>
-							<m:MaterialColumn grid="s4 m4">
-								<m:MaterialTextBox 
-									ui:field="gpslongitude"
-									text="13.2 E" 
-									placeholder="Longitude" />
-							</m:MaterialColumn>
 						</m:MaterialRow>
 					</g:HTMLPanel>
 				</m:content>

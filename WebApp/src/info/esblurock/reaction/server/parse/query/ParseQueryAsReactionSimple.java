@@ -1,10 +1,8 @@
-package info.esblurock.reaction.parse.objects.chemical.reaction;
+package info.esblurock.reaction.server.parse.query;
 
-import info.esblurock.react.mechanisms.chemkin.ReactionForwardReverseType;
-import info.esblurock.react.mechanisms.chemkin.SetOfReactionForwardReverseTypes;
-import info.esblurock.reaction.parse.SetOfInterpretations;
-import info.esblurock.reaction.parse.objects.ParseQuery;
-import info.esblurock.reaction.parse.objects.single.SingletonInterpretation;
+import info.esblurock.reaction.parse.objects.chemical.reaction.ParseObjectAsReaction;
+import info.esblurock.reaction.server.parse.interpretation.SetOfInterpretations;
+import info.esblurock.reaction.server.parse.interpretation.SingletonInterpretation;
 
 /** interpretable if 
  * There is a proper (set of) symbol(s) separating the product and reaction strings
