@@ -1,6 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+<ui:UiBinder 
+	xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:m="urn:import:gwt.material.design.client.ui">
 	<ui:style>
 		.panelPager{
 			display: inline-block;
@@ -11,8 +13,12 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<g:HTMLPanel>
+<m:MaterialModal type="DEFAULT" dismissable="false" inDuration="500" outDuration="500">
+<m:MaterialModalContent>
+<g:HTMLPanel>
 		<g:SimplePanel ui:field="gridPanel" />
 		<g:SimplePanel ui:field="pagerPanel" addStyleNames="{style.panelPager} right" />
 	</g:HTMLPanel>
+	</m:MaterialModalContent>
+	</m:MaterialModal>
 </ui:UiBinder> 

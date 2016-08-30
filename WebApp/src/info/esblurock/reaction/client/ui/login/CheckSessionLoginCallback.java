@@ -30,7 +30,7 @@ public class CheckSessionLoginCallback implements AsyncCallback<UserDTO> {
 			LogoutCallback callback = new LogoutCallback(base);
 			async.logout(callback);			
 		} else if(result.getName().equals(user)) {
-			MaterialToast.alert("Valid user session: ");
+			MaterialToast.fireToast("Valid user session: ");
 			base.setUser(result);
 		} else {
 			base.setLoggedOut();

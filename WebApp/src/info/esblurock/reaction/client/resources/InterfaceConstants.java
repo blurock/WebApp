@@ -2,7 +2,7 @@ package info.esblurock.reaction.client.resources;
 
 /**
  * Interface to represent the constants contained in resource bundle:
- * 	'/Users/edwardblurock/git/WebApp/src/info/esblurock/reaction/client/resources/InterfaceConstants.properties'.
+ * 	'/Users/edwardblurock/.git/WebApp/WebApp/src/info/esblurock/reaction/client/resources/InterfaceConstants.properties'.
  */
 public interface InterfaceConstants extends com.google.gwt.i18n.client.Constants {
   
@@ -32,6 +32,24 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Constants
   @DefaultStringValue("Perform an action on the data file")
   @Key("actiontooltip")
   String actiontooltip();
+
+  /**
+   * Translated "Create new account".
+   * 
+   * @return translated "Create new account"
+   */
+  @DefaultStringValue("Create new account")
+  @Key("createbuttontext")
+  String createbuttontext();
+
+  /**
+   * Translated "Register as new user".
+   * 
+   * @return translated "Register as new user"
+   */
+  @DefaultStringValue("Register as new user")
+  @Key("createlogintitle")
+  String createlogintitle();
 
   /**
    * Translated "Set Keyword".
@@ -178,6 +196,60 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Constants
   String keywordtooltip();
 
   /**
+   * Translated "Choose the ChemConnect Operation".
+   * 
+   * @return translated "Choose the ChemConnect Operation"
+   */
+  @DefaultStringValue("Choose the ChemConnect Operation")
+  @Key("linkwindowtitle")
+  String linkwindowtitle();
+
+  /**
+   * Translated "Account name".
+   * 
+   * @return translated "Account name"
+   */
+  @DefaultStringValue("Account name")
+  @Key("loginaccountnameplaceholder")
+  String loginaccountnameplaceholder();
+
+  /**
+   * Translated "Login".
+   * 
+   * @return translated "Login"
+   */
+  @DefaultStringValue("Login")
+  @Key("loginbutton")
+  String loginbutton();
+
+  /**
+   * Translated "Password".
+   * 
+   * @return translated "Password"
+   */
+  @DefaultStringValue("Password")
+  @Key("loginpasswordplaceholder")
+  String loginpasswordplaceholder();
+
+  /**
+   * Translated "Register as new user".
+   * 
+   * @return translated "Register as new user"
+   */
+  @DefaultStringValue("Register as new user")
+  @Key("logintitledescription")
+  String logintitledescription();
+
+  /**
+   * Translated "Login".
+   * 
+   * @return translated "Login"
+   */
+  @DefaultStringValue("Login")
+  @Key("logintitletitle")
+  String logintitletitle();
+
+  /**
    * Translated "Number Lines".
    * 
    * @return translated "Number Lines"
@@ -320,6 +392,15 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Constants
   @DefaultStringValue("Data Entry: Enter raw data into database")
   @Key("toplinksentry")
   String toplinksentry();
+
+  /**
+   * Translated "ChemConnect Operations".
+   * 
+   * @return translated "ChemConnect Operations"
+   */
+  @DefaultStringValue("ChemConnect Operations")
+  @Key("toplinksheader")
+  String toplinksheader();
 
   /**
    * Translated "User Profile: Edit user profile and account information".

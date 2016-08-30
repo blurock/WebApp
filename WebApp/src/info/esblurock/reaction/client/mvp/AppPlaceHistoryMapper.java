@@ -20,7 +20,8 @@ import info.esblurock.reaction.client.activity.place.ReactionLoginValidationPlac
 @WithTokenizers( { ReactionTopPlace.Tokenizer.class, 
 	ReactionFirstPlace.Tokenizer.class,
 	ReactionQueryPlace.Tokenizer.class,
-	ReactionLoginValidationPlace.Tokenizer.class})
+	ReactionLoginValidationPlace.Tokenizer.class}
+)
 
 public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {
 }

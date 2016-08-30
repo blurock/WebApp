@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialModal;
@@ -57,10 +58,12 @@ public class UploadFileProcessModal extends Composite implements HasText {
 	@UiField
 	MaterialLabel deletelabel;
 	
-
+	@UiField
+	MaterialModal modal;
+	
 	@UiHandler("testbutton")
 	void onTestClick(ClickEvent e) {
-		MaterialToast.alert("Process Data (Test): " + object.getTextType());
+		MaterialToast.fireToast("Process Data (Test): " + object.getTextType());
 		ProcessUploadFiles process = ProcessUploadFiles.valueOf(object.getTextType());
 		DescriptionDataData description = data.getDescription();
 		process.process(description,object.getID(), object.getTextname(), false);
@@ -68,7 +71,7 @@ public class UploadFileProcessModal extends Composite implements HasText {
 
 	@UiHandler("processbutton")
 	void onProcessClick(ClickEvent e) {
-		MaterialToast.alert("Process Data: " + object.getTextType());
+		MaterialToast.fireToast("Process Data: " + object.getTextType());
 		ProcessUploadFiles process = ProcessUploadFiles.valueOf(object.getTextType());
 		DescriptionDataData description = data.getDescription();
 		process.process(description,object.getID(), object.getTextname(), true);
@@ -86,9 +89,17 @@ public class UploadFileProcessModal extends Composite implements HasText {
 		async.removeTransactionWithTypeAndKeyword(transactionType, keyword, callback);
 	}
 
+	public void openModal(ModalType type) {
+		modal.setType(type);
+		modal.openModal();
+	}
+	public void openModal() {
+		modal.openModal();
+	}
+	
 	@UiHandler("btnOK")
 	void onOKClick(ClickEvent e) {
-		MaterialModal.closeModal();
+		modal.closeModal();
 	}
 
 	public void setText(String text) {

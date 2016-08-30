@@ -1,10 +1,13 @@
 package info.esblurock.reaction.client.panel.transaction;
 
-import gwt.material.design.client.custom.MaterialButtonCell;
+import gwt.material.design.client.base.MaterialButtonCell;
+import gwt.material.design.client.constants.IconPosition;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.ModalType;
+import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialToast;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
 import info.esblurock.reaction.client.FindShortNameFromString;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
@@ -93,13 +96,14 @@ public class ObjectTransaction extends Composite implements HasText {
 			@Override
 			public MaterialButton getValue(TransactionInfo object) {
 
+				MaterialButton button = new MaterialButton();
+				button.setText(interfaceConstants.process());
+				button.setTextColor("blue-text text-darken-2 light-blue lighten-5");
+				button.setWaves(WavesType.LIGHT);
 				
-				MaterialButton button = new MaterialButton(interfaceConstants.process(),
-						"blue-text text-darken-2 light-blue lighten-5",
-						"light");
 				button.setTooltip(object.getKeyword());
-				button.setIcon("mdi-action-list");
-				button.setIconPosition("left");
+				button.setIconType(IconType.LIST);
+				button.setIconPosition(IconPosition.LEFT);
 				button.getElement().getStyle()
 						.setProperty("display", "inline-flex");
 				return button;
@@ -110,7 +114,7 @@ public class ObjectTransaction extends Composite implements HasText {
 					@Override
 					public void update(int index, TransactionInfo object, MaterialButton value) {		
 						ObjectTransactionActions popup = new ObjectTransactionActions(object);
-						MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+						popup.openModal(ModalType.FIXED_FOOTER);
 					}
 				});
 		

@@ -9,6 +9,7 @@ import info.esblurock.reaction.client.panel.transaction.process.RemoveTransactio
 import info.esblurock.reaction.client.panel.transaction.process.upload.ProcessUploadCallback;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
+import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
@@ -67,6 +68,9 @@ public class TransactionActions extends Composite implements HasText {
 	@UiField
 	MaterialButton btndelete;
 	
+	@UiField
+	MaterialModal modal;
+	
 	UploadFileTransaction source;
 	
 	public TransactionActions(UploadFileTransaction source) {
@@ -117,18 +121,26 @@ public class TransactionActions extends Composite implements HasText {
 		String file = filename.getText();
 		async.processUploadedMechanism(key, file, callback);
 		*/
-		MaterialModal.closeModal();
+		modal.closeModal();
 	}
 
 	@UiHandler("btndelete")
 	void onClickDelete(ClickEvent e) {
-		MaterialModal.closeModal();
+		modal.closeModal();
 		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
 		RemoveTransactionCallback callback = new RemoveTransactionCallback();
 		async.removeUploadedFile(source.getKey(), callback);
-		MaterialToast.alert("Delete");
+		MaterialToast.fireToast("Delete");
 	}
 
+	public void openModal(ModalType type) {
+		modal.setType(type);
+		modal.openModal();
+	}
+	public void openModal() {
+		modal.openModal();
+	}
+	
 	public void setText(String text) {
 	}
 

@@ -25,10 +25,13 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionModel;
 
-import gwt.material.design.client.custom.MaterialButtonCell;
+import gwt.material.design.client.base.MaterialButtonCell;
+import gwt.material.design.client.constants.IconPosition;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.ModalType;
+import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 import info.esblurock.reaction.data.upload.InputTextSource;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
@@ -89,12 +92,14 @@ public class UploadFileSetsTransactions extends Composite implements HasText {
 				new MaterialButtonCell()) {
 			@Override
 			public MaterialButton getValue(TextSetUploadData object) {
-				MaterialButton button = new MaterialButton(object.getDescription().getInputkey(),
-						"blue-text text-darken-2 light-blue lighten-5",
-						"light");
+				
+				MaterialButton button = new MaterialButton();
+				button.setText(object.getDescription().getInputkey());
+				button.setTextColor("blue-text text-darken-2 light-blue lighten-5");
+				button.setWaves(WavesType.LIGHT);
 				button.setTooltip(interfaceConstants.processtooltip());
-				button.setIcon("mdi-action-list");
-				button.setIconPosition("left");
+				button.setIconType(IconType.NAVIGATION);
+				button.setIconPosition(IconPosition.LEFT);
 				button.getElement().getStyle()
 						.setProperty("display", "inline-flex");
 				button.setText(object.getDescription().getInputkey());
@@ -110,7 +115,7 @@ public class UploadFileSetsTransactions extends Composite implements HasText {
 					public void update(int index, TextSetUploadData object,
 							MaterialButton value) {
 						UploadFileTransaction popup = new UploadFileTransaction(object);
-						MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+						popup.openModal(ModalType.FIXED_FOOTER);
 					}
 				});
 		return processbutton;

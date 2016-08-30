@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.StoreDescriptionData;
 import info.esblurock.reaction.client.StoreDescriptionDataAsync;
@@ -26,12 +26,12 @@ public class ClientStoreOrganizationInput {
 			public void onFailure(Throwable caught) {
 				TextMessagePopup popup = new TextMessagePopup("ERROR",
 						caught.toString());
-				MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+				popup.openModal(ModalType.FIXED_FOOTER);
 			}
 
 			@Override
 			public void onSuccess(String result) {
-				MaterialToast.alert(result.toString());
+				MaterialToast.fireToast(result.toString());
 			}
 		};
 		async.storeOrganizationDescriptionData(input, callback);
@@ -43,12 +43,12 @@ public class ClientStoreOrganizationInput {
 			public void onFailure(Throwable caught) {
 				TextMessagePopup popup = new TextMessagePopup("ERROR",
 						caught.toString());
-				MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+				popup.openModal(ModalType.FIXED_FOOTER);
 			}
 
 			@Override
 			public void onSuccess(String result) {
-				MaterialToast.alert(result.toString());
+				MaterialToast.fireToast(result.toString());
 			}
 		};
 		async.storeContactInfo(parent, input, callback);
@@ -60,12 +60,12 @@ public class ClientStoreOrganizationInput {
 			public void onFailure(Throwable caught) {
 				TextMessagePopup popup = new TextMessagePopup("ERROR",
 						caught.toString());
-				MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+				popup.openModal(ModalType.FIXED_FOOTER);
 			}
 
 			@Override
 			public void onSuccess(String result) {
-				MaterialToast.alert(result.toString());
+				MaterialToast.fireToast(result.toString());
 			}
 		};
 		async.storeContactLocation(parent, input, callback);
@@ -77,12 +77,12 @@ public class ClientStoreOrganizationInput {
 			public void onFailure(Throwable caught) {
 				TextMessagePopup popup = new TextMessagePopup("ERROR",
 						caught.toString());
-				MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+				popup.openModal(ModalType.FIXED_FOOTER);
 			}
 
 			@Override
 			public void onSuccess(String result) {
-				MaterialToast.alert(result.toString());
+				MaterialToast.fireToast(result.toString());
 			}
 		};
 		async.storeDescriptionDataData(parent, input, callback);
@@ -94,7 +94,7 @@ public class ClientStoreOrganizationInput {
 			public void onFailure(Throwable caught) {
 				TextMessagePopup popup = new TextMessagePopup("ERROR",
 						caught.toString());
-				MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+				popup.openModal(ModalType.FIXED_FOOTER);
 			}
 
 			@Override
@@ -104,7 +104,7 @@ public class ClientStoreOrganizationInput {
 					build.append(name);
 					build.append("\t  \n");
 				}
-				MaterialToast.alert(build.toString());
+				MaterialToast.fireToast(build.toString());
 			}
 		};
 		async.getListOfOrganizationsKeywords(callback);
@@ -117,7 +117,7 @@ public class ClientStoreOrganizationInput {
 			public void onFailure(Throwable caught) {
 				TextMessagePopup popup = new TextMessagePopup("ERROR",
 						caught.toString());
-				MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+				popup.openModal(ModalType.FIXED_FOOTER);
 			}
 
 			@Override

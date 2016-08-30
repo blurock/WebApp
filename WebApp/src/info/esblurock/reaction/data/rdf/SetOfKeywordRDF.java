@@ -2,8 +2,9 @@ package info.esblurock.reaction.data.rdf;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
-public class SetOfKeywordRDF extends ArrayList<KeywordRDF> implements Serializable{
+public class SetOfKeywordRDF extends HashSet<KeywordRDF> implements Serializable{
 	private static final long serialVersionUID = 1363420428188231616L;
 
 	public String toString() {

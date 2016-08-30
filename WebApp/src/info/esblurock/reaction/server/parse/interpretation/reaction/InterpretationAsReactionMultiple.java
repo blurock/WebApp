@@ -32,5 +32,4 @@ public class InterpretationAsReactionMultiple extends Interpretation {
 		}
 		return set;
 	}
-
 }

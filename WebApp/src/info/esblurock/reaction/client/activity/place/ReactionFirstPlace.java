@@ -21,8 +21,7 @@ public class ReactionFirstPlace extends Place {
 	{
 
 		@Override
-		public String getToken(ReactionFirstPlace place)
-		{
+		public String getToken(ReactionFirstPlace place) {
 			return place.getHelloName();
 		}
 

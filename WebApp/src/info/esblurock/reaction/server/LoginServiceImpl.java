@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,7 +13,6 @@ import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.user.UnverifiedUserAccount;
 import info.esblurock.reaction.data.user.UserAccount;
-import info.esblurock.reaction.server.datastore.contact.GeocodingLatituteAndLongitude;
 import info.esblurock.reaction.server.event.TransactionCount;
 import info.esblurock.reaction.server.mail.SendMail;
 import info.esblurock.reaction.server.queries.QueryBase;
@@ -118,13 +116,13 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 		System.out.println("loginVerification: " + username);
 		System.out.println("loginVerification: " + key);
 		//UnverifiedUserAccount unverified = (UnverifiedUserAccount) QueryBase.getObjectById(UnverifiedUserAccount.class, key);
-		List<DatabaseObject> lst = QueryBase.getDatabaseObjectsFromSingleProperty(UnverifiedUserAccount.class.getName(),"username",username);
+		//List<DatabaseObject> lst = QueryBase.getDatabaseObjectsFromSingleProperty(UnverifiedUserAccount.class.getName(),"username",username);
 		UnverifiedUserAccount unverified = getUnverifiedAccount(username);
 		System.out.println("loginVerification: " + unverified);
 		String email = unverified.getEmail();
 		if(unverified.getUsername().equals(username)) {
 			String password = unverified.getPassword();
-			Date creation = unverified.getCreationDate();
+			//Date creation = unverified.getCreationDate();
 			String userrole = "StandardUser";
 			
 			UserAccount account = new UserAccount(username,password,userrole,email);
@@ -188,7 +186,6 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 								account.getEmail());
 				DatabaseObject toverify = pm.makePersistent(unverified);
 				
-				String msg = "http://9-dot-blurock-reaction.appspot.com/WebApp.html?id=2#ReactionLoginValidation:bbb";
 				//String host = "http://127.0.0.1:8080/";
 				String host = "http://blurock-reaction.appspot.com/";
 				String webappS = "WebApp.html";
@@ -216,7 +213,7 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
-				DatabaseObject o = pm.makePersistent(account);
+				pm.makePersistent(account);
 				TransactionCount count = new TransactionCount(account.getUsername());
 				pm.makePersistent(count);
 				useremail = account.getEmail();

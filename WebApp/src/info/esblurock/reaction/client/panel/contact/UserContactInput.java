@@ -2,7 +2,6 @@ package info.esblurock.reaction.client.panel.contact;
 
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCollapsible;
-import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialToast;
@@ -45,7 +44,7 @@ public class UserContactInput extends Composite implements HasText {
 	@UiField
 	MaterialButton submit;
 	@UiField
-	MaterialDropDown userrolelist;
+	MaterialButton userrolelist;
 	@UiField
 	MaterialLink professorchoice;
 	@UiField
@@ -87,11 +86,11 @@ public class UserContactInput extends Composite implements HasText {
 	private void init() {
 		description = new DataDescription(descriptionconstants.contactinputtitle(), descriptionconstants.keywordtext(),
 				descriptionconstants.onelinetext(), descriptionconstants.descriptiontext());
-		datasets.addItem(description);
+		datasets.add(description);
 		contactinfo = new ContactInfoPanel(descriptionconstants.usercontact());
-		datasets.addItem(contactinfo);
+		datasets.add(contactinfo);
 		locationinfo = new ContactLocationPanel(descriptionconstants.userlocation());
-		datasets.addItem(locationinfo);
+		datasets.add(locationinfo);
 		userrolelist.setText(constants.researcher());
 		userrole = "Researcher";
 	}
@@ -130,12 +129,12 @@ public class UserContactInput extends Composite implements HasText {
 
 			@Override
 			public void onSuccess(String result) {
-				MaterialToast.alert("Profile Submitted " + result);
+				MaterialToast.fireToast("Profile Submitted " + result);
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
-				MaterialToast.alert("onFailure: " + caught.toString());
+				MaterialToast.fireToast("onFailure: " + caught.toString());
 
 			}
 		};

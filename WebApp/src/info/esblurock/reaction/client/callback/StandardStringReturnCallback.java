@@ -1,7 +1,6 @@
 package info.esblurock.reaction.client.callback;
 
-import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
+import gwt.material.design.client.constants.ModalType;
 import info.esblurock.reaction.client.panel.modal.TextMessagePopup;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 
@@ -26,7 +25,7 @@ public class StandardStringReturnCallback   implements AsyncCallback<String> {
 		Window.alert(caught.toString());
 		TextMessagePopup popup = new TextMessagePopup(errorTitle,
 				caught.toString());
-		MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+		popup.openModal(ModalType.FIXED_FOOTER);
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class StandardStringReturnCallback   implements AsyncCallback<String> {
 		String message = prefix + result;
 		TextMessagePopup popup = new TextMessagePopup(successTitle,
 				message);
-		MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+		popup.openModal(ModalType.FIXED_FOOTER);
 	}
 
 	public String getErrorTitle() {

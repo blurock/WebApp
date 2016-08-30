@@ -1,24 +1,32 @@
 package info.esblurock.reaction.client.ui;
 
+import gwt.material.design.addins.client.window.MaterialWindow;
+import gwt.material.design.client.constants.ModalType;
+import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialNavBar;
 import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.client.ui.MaterialSlideItem;
+import gwt.material.design.client.ui.MaterialRow;
+import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
 import info.esblurock.reaction.client.StoreDescriptionData;
 import info.esblurock.reaction.client.StoreDescriptionDataAsync;
 import info.esblurock.reaction.client.panel.contact.UserContactInput;
+import info.esblurock.reaction.client.resources.InputConstants;
+import info.esblurock.reaction.client.resources.InterfaceConstants;
+import info.esblurock.reaction.client.resources.LoginInterface;
 import info.esblurock.reaction.client.ui.login.CheckSessionLoginCallback;
 import info.esblurock.reaction.client.ui.login.ClientLogout;
-import info.esblurock.reaction.client.ui.login.LoginModal;
+import info.esblurock.reaction.client.ui.login.CreateNewUser;
+import info.esblurock.reaction.client.ui.login.LoginCallback;
 import info.esblurock.reaction.client.ui.login.LoginService;
 import info.esblurock.reaction.client.ui.login.LoginServiceAsync;
 import info.esblurock.reaction.client.ui.login.UserDTO;
 import info.esblurock.reaction.client.ui.modal.TopPageLinks;
 import info.esblurock.reaction.client.ui.resource.ReactionTopViewResources;
+
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -35,74 +43,100 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 
 	interface ReactionTopImplUiBinder extends UiBinder<Widget, ReactionTopImpl> {
 	}
-
+	
+	InputConstants inputConstants = GWT.create(InputConstants.class);
+	InterfaceConstants interfaceconstants = GWT.create(InterfaceConstants.class);
 	@UiField
 	MaterialTitle firstdescription;
 
 	@UiField
 	MaterialTitle seconddescription;
-		
-	@UiField
-	MaterialNavBar navbar;
-	@UiField
-	MaterialLink linkmenu;
+
 	@UiField
 	MaterialLink profile;
+	@UiField
+	MaterialLabel username;
+	@UiField
+	MaterialLink linkmenu;
 	
-	@UiField
-	MaterialSlideItem item1;
-	@UiField
-	MaterialSlideItem item2;
-	@UiField
-	MaterialSlideItem item3;
-	@UiField
-	MaterialSlideItem item4;
-	
+	/*
 	@UiField
 	MaterialLink toplogin;
-	
+	*/
 	@UiField
 	MaterialLink toplogout;
+
+	@UiField
+	MaterialTitle logintitle;
+	@UiField
+	MaterialTextBox accountname;
+	@UiField
+	MaterialTextBox userpassword;
+	@UiField
+	MaterialButton btnCreate;
+	@UiField
+	MaterialButton btnLogin;
+
+	
+	@UiField
+	MaterialTitle item1caption;
+	@UiField
+	MaterialTitle item2caption;
+	@UiField
+	MaterialTitle item3caption;
+	@UiField
+	MaterialTitle item4caption;
+
+	@UiField
+	MaterialWindow linkWindow;
+	@UiField
+	MaterialWindow userCreateWindow;
+	
+	@UiField 
+	MaterialRow loginrow;
+	@UiField
+	MaterialPanel createLogin;
 	
 	MaterialPanel mpanel;
 
 	private Presenter listener;
 	private ClientLogout logout = new ClientLogout();
-	private LoginModal popup;
 	TopPageLinks links;
+	boolean create = true;
+	CreateNewUser newuser;
 	
 	public ReactionTopImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 
 		String item1text = ReactionTopViewResources.INSTANCE.exampleItem1().getText();
-		item1.setDescription(item1text);
+		item1caption.setDescription(item1text);
 		String item2text = ReactionTopViewResources.INSTANCE.exampleItem2().getText();
-		item2.setDescription(item2text);
+		item2caption.setDescription(item2text);
 		String item3text = ReactionTopViewResources.INSTANCE.exampleItem3().getText();
-		item3.setDescription(item3text);
+		item3caption.setDescription(item3text);
 		String item4text = ReactionTopViewResources.INSTANCE.exampleItem4().getText();
-		item4.setDescription(item4text);
+		item4caption.setDescription(item4text);
 		
-		item1.setTextColor("black");
-		item2.setTextColor("white");
-		item3.setTextColor("white");
-		item4.setTextColor("green");
+		item1caption.setTextColor("black");
+		item2caption.setTextColor("white");
+		item3caption.setTextColor("white");
+		item4caption.setTextColor("green");
 		
-		item1.setTitle("");
-		item2.setTitle("");
-		item3.setTitle("");
-		item4.setTitle("");
+		item1caption.setTitle("");
+		item2caption.setTitle("");
+		item3caption.setTitle("");
+		item4caption.setTitle("");
 		
-		popup = new LoginModal(this);
 		links = new TopPageLinks();
 		String sessionid = Cookies.getCookie("sid");
-		String username = Cookies.getCookie("user");
+		String user = Cookies.getCookie("user");
 		
 		profile.setVisible(false);
+		username.setVisible(false);
 		
 		if(username != null) {
 			LoginServiceAsync async = LoginService.Util.getInstance();
-			CheckSessionLoginCallback callback = new CheckSessionLoginCallback(username, this);
+			CheckSessionLoginCallback callback = new CheckSessionLoginCallback(user, this);
 			async.loginFromSessionServer(callback);
 		} else {
 			setLoggedOut();
@@ -118,55 +152,97 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		seconddescription.setDescription(description2text);
 		seconddescription.setTitle(title2);
 		
+		linkWindow.setTitle(interfaceconstants.linkwindowtitle());
+		
+		//userCreateWindow.setTitle(interfaceconstants.createlogintitle());
+		accountname.setPlaceholder(interfaceconstants.loginaccountnameplaceholder());
+		btnCreate.setText(interfaceconstants.createbuttontext());
+		userpassword.setPlaceholder(interfaceconstants.loginpasswordplaceholder());
+		btnLogin.setText(interfaceconstants.loginbutton());
+		logintitle.setDescription(interfaceconstants.createlogintitle());
+		
+		links = new TopPageLinks(username.getText());
+		links.setPresenter(listener);
+		linkWindow.add(links);
+		
+		newuser = new CreateNewUser();
+		userCreateWindow.add(newuser);
 	}
 	public void setLoggedIn() {
+
 		toplogout.setVisible(true);
-		toplogin.setVisible(false);
-		linkmenu.setVisible(true);
+		//toplogin.setVisible(false);
+		
 		profile.setVisible(true);
+		String name = Cookies.getCookie("user");
+		if(name != null) {
+			username.setVisible(true);
+			username.setText(name);
+		}
+		loginrow.setVisible(false);
+		createLogin.setVisible(false);
+		linkmenu.setVisible(true);
 	}
+	
 	@Override
 	public void setLoggedOut() {
 		super.setLoggedOut();
 		toplogout.setVisible(false);
-		toplogin.setVisible(true);
-		linkmenu.setVisible(false);	
+		//toplogin.setVisible(true);
 		profile.setVisible(false);
 		Cookies.removeCookie("user");
 		Cookies.removeCookie("sid");
-
-	}
-	@UiHandler("toplogin")
-	void onTopLoginClick(ClickEvent e) {
-		MaterialModal.showModal(popup, TYPE.BOTTOM_SHEET);
+		username.setVisible(false);
+		loginrow.setVisible(true);
+		linkmenu.setVisible(false);
 	}
 
 	@UiHandler("toplogout")
 	void onTopLogoutClick(ClickEvent e) {
 		logout.logout(this);
 		setLoggedOut();
-	}
-
-	@UiHandler("linkmenu")
-	void onLinkClick(ClickEvent e) {
-		MaterialModal.showModal(links, TYPE.DEFAULT);
+	
 	}
 	@UiHandler("profile")
 	void onProfileClick(ClickEvent e) {
 		String name = Cookies.getCookie("user");
 		UserContactInput user = new UserContactInput(name);
-		MaterialModal.showModal(user, TYPE.FIXED_FOOTER);
+		MaterialModal modal = new MaterialModal();
+		modal.add(user);
+		modal.setType(ModalType.FIXED_FOOTER);
+		modal.openModal();
 		FillInUserContactInputCallback callback = new FillInUserContactInputCallback(user);
 		StoreDescriptionDataAsync async = StoreDescriptionData.Util.getInstance();
 		async.getUserDescriptionData(name, callback);
 	}
+	@UiHandler("btnLogin")
+	void onLoginClick(ClickEvent e) {
 
+		LoginServiceAsync async = LoginService.Util.getInstance();
+		//((ServiceDefTarget) async).setServiceEntryPoint("loginservice");
+		String msg = "Username: " + accountname.getText() + ", password: " + userpassword.getText();
+		LoginCallback callback = new LoginCallback(this);
+		MaterialToast.fireToast(msg);
+		async.loginServer(accountname.getText(), userpassword.getText(),callback);
+	}
+	@UiHandler("btnCreate")
+	void onCreateLoginClick(ClickEvent e) {
+		if (create) {
+			userCreateWindow.openWindow();
+		}
+	}
 
+	@UiHandler("linkmenu")
+	void onLinkClick(ClickEvent e) {
+		MaterialToast.fireToast("Links:");
+		linkWindow.openWindow();
+		MaterialToast.fireToast("Links");		
+	}
+	
 	@Override
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;
 		links.setPresenter(listener);
-		popup.setPresenter(listener);
 	}
 	public void setUser(UserDTO user) {
 		super.setUser(user);

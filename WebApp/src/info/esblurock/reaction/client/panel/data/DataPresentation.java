@@ -271,7 +271,8 @@ public enum DataPresentation {
 
 	public MaterialRow addRow(BaseDataPresentation presentation, String line) {
 		MaterialRow row = new MaterialRow();
-		MaterialColumn col = new MaterialColumn(line);
+		MaterialColumn col = new MaterialColumn();
+		col.setTitle(line);
 		row.add(col);
 		presentation.getModalContent().add(row);
 		return row;

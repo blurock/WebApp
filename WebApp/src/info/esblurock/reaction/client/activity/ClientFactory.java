@@ -12,6 +12,7 @@ import com.google.gwt.place.shared.PlaceController;
 public interface ClientFactory {
 	EventBus getEventBus();
 	PlaceController getPlaceController();
+	
 	ReactionTopView getReactionTopView();
 	ReactionFirstView getReactionFirstView();
 	ReactionQueryView getReactionQueryView();

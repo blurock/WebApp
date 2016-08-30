@@ -61,7 +61,7 @@ public class ReactionFirstImpl extends Composite implements ReactionFirstView {
 	}
 
 	private void displayLoginWindow() {
-		MaterialToast.alert("failed login");
+		MaterialToast.fireToast("failed login");
 	}
 	
 	private void handleHistoryToken(String token) {

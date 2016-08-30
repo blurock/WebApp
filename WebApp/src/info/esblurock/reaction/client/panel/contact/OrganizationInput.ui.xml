@@ -8,38 +8,25 @@
 	}
 	</ui:style>
 
-	<m:MaterialCollapsible ui:field="datasets" type="popout">
-		<m:item>
-			<m:MaterialRow color="indigo lighten-4" >
+	<m:MaterialCollapsible ui:field="datasets" type="POPOUT">
+			<m:MaterialRow>
 				<m:MaterialColumn grid="s4">
 					<m:MaterialLabel ui:field="title" fontSize="2"/>
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s4">
-					<m:MaterialButton ui:field="submit" color="indigo lighten-2" waves="light"/>
+					<m:MaterialButton ui:field="submit" textColor="indigo lighten-2" waves="LIGHT"/>
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s4">
-					<m:MaterialDropDown color="indigo lighten-2"
-						 waves="light" divider="true" activates="myDropDown"
-						ui:field="orgtype">
-						<m:item>
-							<m:MaterialLink ui:field="unichoice" text="University" />
-						</m:item>
-						<m:item>
-							<m:MaterialLink ui:field="indchoice" text="Industry" />
-						</m:item>
-						<m:item>
-							<m:MaterialLink ui:field="instchoice" text="Institute" />
-						</m:item>
-						<m:item>
-							<m:MaterialLink ui:field="govchoice" text="Goverment" />
-						</m:item>
-						<m:item>
-							<m:MaterialLink ui:field="otherchoice" text="Other" />
-						</m:item>
-					</m:MaterialDropDown>
+					<m:MaterialButton ui:field="orgtype" iconType="ARROW_DROP_DOWN" 
+					iconPosition="RIGHT" textColor="white" backgroundColor="blue" activates="orgtypedropdown"/>
+ 					<m:MaterialDropDown activator="orgtypedropdown" constrainWidth="true">
+ 					<m:MaterialLink ui:field="unichoice" text="University" />
+ 					<m:MaterialLink ui:field="indchoice" text="Industry" />
+ 					<m:MaterialLink ui:field="instchoice" text="Institute" />
+ 					<m:MaterialLink ui:field="govchoice" text="Goverment" />
+ 					<m:MaterialLink ui:field="otherchoice" text="Other" />
+ 					</m:MaterialDropDown>
 				</m:MaterialColumn>
 			</m:MaterialRow>
-
-		</m:item>
 	</m:MaterialCollapsible>
 </ui:UiBinder> 

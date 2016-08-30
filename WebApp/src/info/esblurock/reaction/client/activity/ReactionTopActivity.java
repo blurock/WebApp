@@ -6,6 +6,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.activity.place.ReactionTopPlace;
 import info.esblurock.reaction.client.ui.ReactionTopView;
 
@@ -27,6 +28,8 @@ public class ReactionTopActivity extends AbstractActivity implements ReactionTop
 	 */
 	@Override
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
+		Window.alert("ReactionTopActivity.start");
+		Window.alert("ReactionTopActivity-ContainerWidget:  " + containerWidget.toString());		
 		ReactionTopView reactionTopView = clientFactory.getReactionTopView();
 		reactionTopView.setName(name);
 		reactionTopView.setPresenter(this);
@@ -47,6 +50,7 @@ public class ReactionTopActivity extends AbstractActivity implements ReactionTop
 	 */
 	@Override
 	public void goTo(Place place) {
+		MaterialToast.fireToast("ReactionTopActivity.goTo: " + place.toString());
 		clientFactory.getPlaceController().goTo(place);
 	}
 	

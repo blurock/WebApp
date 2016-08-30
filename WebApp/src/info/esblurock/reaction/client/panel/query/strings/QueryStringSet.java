@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.constants.CollapsibleType;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
@@ -113,7 +114,7 @@ public class QueryStringSet extends Composite implements HasText {
 				count++;
 				QueryPath next = topPath.addToNewPath(key, subkey,false);
 				StringQueryResult subtext = new StringQueryResult(next, key, subkey,stringset.isKeysAsObject());
-				collapse.addItem(subtext);
+				collapse.add(subtext);
 			}
 		}
 		if(iter.hasNext()) {
@@ -122,7 +123,7 @@ public class QueryStringSet extends Composite implements HasText {
 				restlist.add(iter.next());
 			}
 			StringPredicateSet set = new StringPredicateSet(key,restlist,this,collapse);
-			collapse.addItem(set);
+			collapse.add(set);
 		}
 	}
 	
@@ -132,9 +133,9 @@ public class QueryStringSet extends Composite implements HasText {
 		HTMLPanel toppanel = new HTMLPanel("");
 		set.addItem(toppanel);
 		MaterialCollapsible collapse = new MaterialCollapsible();
-		collapse.setType("Popout");
+		collapse.setType(CollapsibleType.POPOUT);
 		toppanel.add(collapse);
-		parent.addItem(set);
+		parent.add(set);
 		displayObjects(key,stringkeys,collapse);
 	}
 	

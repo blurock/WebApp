@@ -12,138 +12,123 @@
 		padding-left: 320px;
 	}
 	</ui:style>
-	<m:MaterialNavBar wave="light" align="right" color="blue"
-		text="ChemConnect" sideBar="fixed" sideBarWidth="300">
-		<m:nav>
-			<m:MaterialLink icon="mdi-action-list" textColor="white"
-				tooltip="Other Windows" />
-		</m:nav>
-		<m:sidebaritem>
-			<m:MaterialTopNav profileName="Data Input and Query"
-				resource="{res.blackboardbackground}" ui:field="topNav" textColor="white"
-				type="sidebar">
-				<m:child>
+	<m:MaterialNavBar type="FIXED">
+			<m:MaterialLink iconType="LIST" textColor="white"/>
+		<m:MaterialSideNav width="300" m:id="mysidebar" type="FIXED" closeOnClick="false">
+			<m:MaterialTopNav
+				 ui:field="topNav" textColor="white">
 					<m:MaterialLink text="edward.blurock@esblurock.info"
-						textColor="white" fontSize="0.8" icon="mdi-navigation-arrow-drop-down"
-						iconPosition="right" />
-				</m:child>
+						textColor="white" fontSize="0.8"
+						iconPosition="RIGHT" />
+						<m:MaterialImage resource="{res.blackboardbackground}"/>
 			</m:MaterialTopNav>
-		</m:sidebaritem>
-		<m:sidebaritem>
 			<m:MaterialCollapsible>
-				<m:item>
 					<m:MaterialCollapsibleItem>
-						<m:header>
-							<m:MaterialLink text="Contact Input" icon="mdi-content-add-circle"
-								textColor="blue"
-								tooltip="Input contact information for people and organizations"
-								tooltipLocation="right" />
-						</m:header>
-						<m:content>
-							<m:UnorderedList>
-								<m:ListItem>
+						<m:MaterialCollapsibleHeader>
+							<m:MaterialLink text="Contact Input"
+								textColor="blue" />
+						</m:MaterialCollapsibleHeader>
+						<m:MaterialCollapsibleBody>
+							<m:MaterialRow>
+								<m:MaterialColumn>
 									<m:MaterialLink ui:field="inputorganization"
-										iconPosition="left" text="Organization" textColor="blue"
-										tooltip="Input organization description" tooltipLocation="right" />
-								</m:ListItem>
-								<m:ListItem>
+										iconPosition="LEFT" text="Organization" textColor="blue" />
+								</m:MaterialColumn>
+							</m:MaterialRow>
+							<m:MaterialRow>
+								<m:MaterialColumn>
 									<m:MaterialLink ui:field="inputcontact"
-										iconPosition="left" text="User" textColor="blue"
-										tooltip="Input user description" tooltipLocation="right" />
-								</m:ListItem>
-							</m:UnorderedList>
-						</m:content>
+										iconPosition="LEFT" text="User" textColor="blue" />
+								</m:MaterialColumn>
+							</m:MaterialRow>
+						</m:MaterialCollapsibleBody>
 					</m:MaterialCollapsibleItem>
-				</m:item>
-				<m:item>
 					<m:MaterialCollapsibleItem>
-						<m:header>
-							<m:MaterialLink icon="mdi-content-add-circle"
-								text="Data Input" textColor="blue" tooltip="Enter data in database"
-								tooltipLocation="right" />
-						</m:header>
-						<m:content>
+						<m:MaterialCollapsibleHeader>
+							<m:MaterialLink
+								text="Data Input" textColor="blue"  />
+						</m:MaterialCollapsibleHeader>
+						<m:MaterialCollapsibleBody>
 							<m:MaterialCollapsible>
 
 								<m:MaterialCollapsibleItem>
-									<m:header>
-										<m:MaterialLink icon="mdi-content-add-circle"
-											text="CHEMKIN" textColor="blue" tooltip="File in CHEMKIN format"
-											tooltipLocation="right" />
-									</m:header>
-									<m:content>
-										<m:UnorderedList>
-											<m:ListItem>
+									<m:MaterialCollapsibleHeader>
+										<m:MaterialLink 
+											text="CHEMKIN" textColor="blue"/>
+									</m:MaterialCollapsibleHeader>
+									<m:MaterialCollapsibleBody>
+										<m:MaterialRow>
+											<m:MaterialColumn>
 												<m:MaterialLink ui:field="chemkin"
-													iconPosition="left" textColor="blue" tooltipLocation="right" />
-											</m:ListItem>
-											<m:ListItem>
+													iconPosition="LEFT" textColor="blue"  />
+											</m:MaterialColumn>
+										</m:MaterialRow>
+										<m:MaterialRow>
+											<m:MaterialColumn>
 												<m:MaterialLink ui:field="nasapolynomials"
-													iconPosition="left" tooltipLocation="right" textColor="blue" />
-											</m:ListItem>
-
-										</m:UnorderedList>
-									</m:content>
+													iconPosition="LEFT" />
+											</m:MaterialColumn>
+										</m:MaterialRow>
+									</m:MaterialCollapsibleBody>
 								</m:MaterialCollapsibleItem>
 								<m:MaterialCollapsibleItem>
-									<m:header>
-										<m:MaterialLink icon="mdi-content-add-circle"
-											text="2D graphical information" textColor="blue"
-											tooltip="Transactions to process and have been processed"
-											tooltipLocation="right" />
-									</m:header>
-									<m:content>
-										<m:UnorderedList>
-											<m:ListItem>
-												<m:MaterialLink ui:field="sdfmolecules"
-													iconPosition="left" tooltipLocation="right" textColor="blue" />
-											</m:ListItem>
-											<m:ListItem>
-												<m:MaterialLink ui:field="sdfsubstructures"
-													iconPosition="left" tooltipLocation="right" textColor="blue" />
-											</m:ListItem>
-											<m:ListItem>
+									<m:MaterialCollapsibleHeader>
+										<m:MaterialLink 
+											text="2D graphical information" textColor="blue"/>
+									</m:MaterialCollapsibleHeader>
+									<m:MaterialCollapsibleBody>
+										<m:MaterialRow>
+											<m:MaterialColumn>
+												<m:MaterialLink ui:field="sdfmolecules" textColor="blue" />
+											</m:MaterialColumn>
+										</m:MaterialRow>
+										<m:MaterialRow>
+											<m:MaterialColumn>
+												<m:MaterialLink ui:field="sdfsubstructures"  textColor="blue" />
+											</m:MaterialColumn>
+										</m:MaterialRow>
+										<m:MaterialRow>
+											<m:MaterialColumn>
 												<m:MaterialLink ui:field="thergasmolecules"
-													iconPosition="left" tooltipLocation="right" textColor="blue" />
-											</m:ListItem>
-										</m:UnorderedList>
-
-									</m:content>
+													iconPosition="LEFT" textColor="blue" />
+											</m:MaterialColumn>
+										</m:MaterialRow>
+									</m:MaterialCollapsibleBody>
 								</m:MaterialCollapsibleItem>
 							</m:MaterialCollapsible>
-						</m:content>
+						</m:MaterialCollapsibleBody>
 					</m:MaterialCollapsibleItem>
-				</m:item>
-				<m:item>
 					<m:MaterialCollapsibleItem>
-						<m:header>
-							<m:MaterialLink icon="mdi-content-add-circle"
-								text="Transactions" textColor="blue"
-								tooltip="Transactions to process and have been processed"
-								tooltipLocation="right" />
-						</m:header>
-						<m:content>
-							<m:UnorderedList>
-								<m:ListItem>
+						<m:MaterialCollapsibleHeader>
+							<m:MaterialLink 
+								text="Transactions" textColor="blue"/>
+						</m:MaterialCollapsibleHeader>
+						<m:MaterialCollapsibleBody>
+							<m:MaterialRow>
+								<m:MaterialColumn>
 									<m:MaterialLink ui:field="uploadsets"
-										iconPosition="left" text="File Sets" textColor="blue"
-										tooltip="File sets to process" tooltipLocation="right" />
-								</m:ListItem>
-								<m:ListItem>
+										iconPosition="LEFT" text="File Sets" textColor="blue" />
+								</m:MaterialColumn>
+							</m:MaterialRow>
+							<m:MaterialRow>
+								<m:MaterialColumn>
 									<m:MaterialLink ui:field="toprocess"
-										iconPosition="left" text="To Process" textColor="blue"
-										tooltip="Transactions to process" tooltipLocation="right" />
-								</m:ListItem>
-								<m:ListItem>
+										iconPosition="LEFT" text="To Process" textColor="blue"/>
+								</m:MaterialColumn>
+							</m:MaterialRow>
+							<m:MaterialRow>
+								<m:MaterialColumn>
 									<m:MaterialLink ui:field="transactions"
-										iconPosition="left" text="Transactions" textColor="blue"
-										tooltip="Transactions" tooltipLocation="right" />
-								</m:ListItem>
-							</m:UnorderedList>
-						</m:content>
+										iconPosition="LEFT" text="Transactions" textColor="blue" />
+								</m:MaterialColumn>
+							</m:MaterialRow>
+							<m:MaterialRow>
+								<m:MaterialColumn>
+								</m:MaterialColumn>
+							</m:MaterialRow>
+						</m:MaterialCollapsibleBody>
 					</m:MaterialCollapsibleItem>
-				</m:item>
 			</m:MaterialCollapsible>
-		</m:sidebaritem>
+		</m:MaterialSideNav>
 	</m:MaterialNavBar>
 </ui:UiBinder> 

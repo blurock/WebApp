@@ -3,8 +3,8 @@ package info.esblurock.reaction.client.panel.inputs;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
 import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.description.DataDescriptionAsRows;
@@ -35,7 +35,7 @@ public class RegisterDataDescriptionCallback  implements AsyncCallback<String> {
 	@Override
 	public void onSuccess(String result) {
 		DataDescriptionAsRows panel = new DataDescriptionAsRows(result,description);
-		MaterialModal.showModal(panel, TYPE.FIXED_FOOTER);
+		panel.openModal(ModalType.FIXED_FOOTER);
 		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
 		SuccessfulRegistrationCallback callback = new SuccessfulRegistrationCallback();
 		async.registerDataInputDescription(description,callback);

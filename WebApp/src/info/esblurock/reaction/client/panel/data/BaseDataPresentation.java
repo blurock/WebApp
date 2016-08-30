@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialModalContent;
@@ -27,6 +28,8 @@ public class BaseDataPresentation extends Composite implements HasText {
 	MaterialButton close;
 	@UiField
 	MaterialModalContent modalcontent;
+	@UiField
+	MaterialModal modal;
 	
 	
 	public BaseDataPresentation() {
@@ -41,9 +44,17 @@ public class BaseDataPresentation extends Composite implements HasText {
 
 	@UiHandler("close")
 	void onClick(ClickEvent e) {
-		MaterialModal.closeModal();
+		modal.closeModal();
 	}
 
+	public void openModal() {
+		modal.openModal();
+	}
+	public void openModal(ModalType type) {
+		modal.setType(type);
+		modal.openModal();
+	}
+	
 	public void setText(String text) {
 		title.setTitle(text);
 	}

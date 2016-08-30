@@ -13,14 +13,16 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialCard;
+import gwt.material.design.client.ui.MaterialCardTitle;
+import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
 import info.esblurock.reaction.client.StoreDescriptionData;
 import info.esblurock.reaction.client.StoreDescriptionDataAsync;
-import info.esblurock.reaction.client.activity.place.ReactionFirstPlace;
 import info.esblurock.reaction.client.activity.place.ReactionTopPlace;
 import info.esblurock.reaction.client.panel.contact.UserContactInput;
 import info.esblurock.reaction.client.resources.LoginInterface;
@@ -52,21 +54,31 @@ public class ReactionLoginValidationImpl extends Composite implements ReactionLo
 	
 	@UiField
 	MaterialLink mainPage;
+
+	@UiField
+	MaterialCardTitle cardtitle;
+	@UiField
+	MaterialLabel cardlabel;
 	
 	String userID;
 	String userCode;
-
+	MaterialModal usermodal;
+	
 	LoginInterface loginConstants = GWT.create(LoginInterface.class);
 
 	public ReactionLoginValidationImpl() {
+		MaterialToast.fireToast("ReactionLoginValidationImpl()");
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
+		MaterialToast.fireToast("ReactionLoginValidationImpl()");
 	}
 
 	public ReactionLoginValidationImpl(String firstName) {
+		MaterialToast.fireToast("ReactionLoginValidationImpl(String firstName)");
 		initWidget(uiBinder.createAndBindUi(this));
 		this.helloName = firstName;
 		init();
+		MaterialToast.fireToast("ReactionLoginValidationImpl(String firstName)");
 	}
 
 	private void init() {
@@ -74,25 +86,30 @@ public class ReactionLoginValidationImpl extends Composite implements ReactionLo
 		List<String> emaillist = parameters.get("id");
 		List<String> codelist = parameters.get("name");
 		userID = "UserID";
+		
+		String congrats = loginConstants.LoginValidationTitle();
+		
 		if(emaillist != null ) {
 			userID = emaillist.get(0);
 		}
-		userCode = "UserCode";
+		userCode = "Unknown";
 		if(codelist != null) {
 			userCode = codelist.get(0);
+			congrats += " " + userCode;
 		}
-		card.setTitle(userID);		
-		card.setTitle(loginConstants.LoginValidationTitle());
-		card.setDescription(loginConstants.LoginValidationText());
+		cardtitle.setTitle(congrats);
+		cardtitle.setText(loginConstants.LoginValidationTitle());
+		cardlabel.setText(loginConstants.LoginValidationText());
 		activate.setText(loginConstants.LoginValidationActivate());
 		profile.setVisible(false);
 		login.setVisible(false);
+		
+		usermodal = new MaterialModal();
 	}
 	
 	@UiHandler("activate")
 	void onActivateButton(ClickEvent e) {
-		UserContactInput user = contactModal(userCode);
-		MaterialToast.alert("Activate email: " + userID);
+		MaterialToast.fireToast("Activate email: " + userID);
 		LoginServiceAsync async = LoginService.Util.getInstance();
 		LoginVerificationCallback callback = new LoginVerificationCallback(this);
 		async.loginVerification(userCode, userID, callback);
@@ -100,7 +117,7 @@ public class ReactionLoginValidationImpl extends Composite implements ReactionLo
 	@UiHandler("profile")
 	void onProfileButton(ClickEvent e) {
 		UserContactInput user = contactModal(userCode);
-		MaterialToast.alert("Profile .... Activate email: " + userCode);
+		MaterialToast.fireToast("Profile .... Activate email: " + userCode);
 		FillInUserContactInputCallback callback = new FillInUserContactInputCallback(user);
 		StoreDescriptionDataAsync async = StoreDescriptionData.Util.getInstance();
 		async.getUserDescriptionData(userCode, callback);
@@ -127,8 +144,13 @@ public class ReactionLoginValidationImpl extends Composite implements ReactionLo
 		login.setVisible(false);		
 	}
 	private UserContactInput contactModal(String usercode) {
+		
 		UserContactInput user = new UserContactInput(userCode);
-		MaterialModal.showModal(user, TYPE.FIXED_FOOTER);
+		MaterialModal usermodal = new MaterialModal();
+		usermodal.add(user);
+		usermodal.setType(ModalType.FIXED_FOOTER);
+		usermodal.openModal();
+
 		return user;
 	}
 	public void setText(String text) {

@@ -1,5 +1,6 @@
 package info.esblurock.reaction.client.panel.modal;
 
+import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialModalContent;
 import gwt.material.design.client.ui.MaterialTitle;
@@ -32,12 +33,23 @@ public class TextMessagePopup extends Composite implements HasText {
 	@UiField
 	MaterialModalContent modalcontent;
 
+	@UiField
+	MaterialModal popup;
+	
 	public TextMessagePopup(String title, String text) {
 		initWidget(uiBinder.createAndBindUi(this));
 		textarea.setTitle(title);
 		textarea.setDescription(text);
 	}
 
+	public void openModal(ModalType type) {
+		popup.setType(type);
+		popup.openModal();
+	}
+	public void openModal() {
+		popup.openModal();
+	}
+	
 	@Override
 	public String getTitle() {
 		return textarea.getTitle();
@@ -49,7 +61,7 @@ public class TextMessagePopup extends Composite implements HasText {
 	}
 	@Override
 	public String getText() {
-		return textarea.getDescription();
+		return textarea.getTitle();
 	}
 
 	@Override
@@ -59,7 +71,7 @@ public class TextMessagePopup extends Composite implements HasText {
 
 	@UiHandler("btnOK")
 	void onSubmitData(ClickEvent e) {
-		MaterialModal.closeModal();
+		popup.closeModal();
 	}
 
 }

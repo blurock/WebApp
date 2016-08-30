@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
@@ -53,8 +54,10 @@ public class StringQueryResult extends Composite implements HasText {
 			this.keysAsObject = keysAsObject;
 			predicate.setText(p);
 			
-			if(!keysAsObject) 
-				actionicon.setIcon("mdi-navigation-arrow-back");
+			if(!keysAsObject) {
+				actionicon.setIconType(IconType.ARROW_BACK);
+				//actionicon.setIcon("mdi-navigation-arrow-back");
+			}
 			
 			if(result.length() < 60) {
 				textarea.setText(result);

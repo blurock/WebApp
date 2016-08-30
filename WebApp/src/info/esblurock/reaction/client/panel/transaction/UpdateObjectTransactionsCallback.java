@@ -1,8 +1,8 @@
 package info.esblurock.reaction.client.panel.transaction;
 
+import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialToast;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
 import info.esblurock.reaction.client.panel.modal.TextMessagePopup;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 
@@ -22,10 +22,10 @@ public class UpdateObjectTransactionsCallback implements
 
 	@Override
 	public void onFailure(Throwable caught) {
-		MaterialToast.alert("ERROR");
+		MaterialToast.fireToast("ERROR");
 		TextMessagePopup popup = new TextMessagePopup("ERROR",
 				caught.toString());
-		MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+		popup.openModal(ModalType.FIXED_FOOTER);
 	}
 
 	@Override

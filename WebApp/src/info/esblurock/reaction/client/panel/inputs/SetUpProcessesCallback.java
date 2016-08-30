@@ -6,8 +6,8 @@ import java.util.Set;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
 
 public class SetUpProcessesCallback  implements AsyncCallback<Set<String>> {
 
@@ -30,6 +30,6 @@ public class SetUpProcessesCallback  implements AsyncCallback<Set<String>> {
 		}
 		ValidProcesses valid = new ValidProcesses(keyword);
 		valid.setGrid(lst);
-		MaterialModal.showModal(valid, TYPE.FIXED_FOOTER);
+		valid.openModal(ModalType.FIXED_FOOTER);
 	}
 }

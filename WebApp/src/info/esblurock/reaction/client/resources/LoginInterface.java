@@ -16,6 +16,33 @@ public interface LoginInterface extends com.google.gwt.i18n.client.Constants {
   String ClassName();
 
   /**
+   * Translated "The purpose of login is for security".
+   * 
+   * @return translated "The purpose of login is for security"
+   */
+  @DefaultStringValue("The purpose of login is for security")
+  @Key("LoginModalLoginDescription")
+  String LoginModalLoginDescription();
+
+  /**
+   * Translated "Login".
+   * 
+   * @return translated "Login"
+   */
+  @DefaultStringValue("Login")
+  @Key("LoginModalLoginTitle")
+  String LoginModalLoginTitle();
+
+  /**
+   * Translated "Create".
+   * 
+   * @return translated "Create"
+   */
+  @DefaultStringValue("Create")
+  @Key("LoginModalLoginbutton")
+  String LoginModalLoginbutton();
+
+  /**
    * Translated "User Profile".
    * 
    * @return translated "User Profile"

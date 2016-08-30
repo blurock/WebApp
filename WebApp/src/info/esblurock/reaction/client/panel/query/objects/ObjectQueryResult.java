@@ -9,10 +9,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.client.panel.data.BaseDataPresentation;
 import info.esblurock.reaction.client.panel.data.DataPresentation;
@@ -63,7 +63,8 @@ public class ObjectQueryResult extends Composite implements HasText {
 		classname.setText(shortClassname(classnameS));
 		textarea.setText("(key)");
 		classname.setTooltip(path.toString());
-		actions.setActive(true);
+		//actions.setActive(true);
+		actions.setVisible(true);
 		
 		GetDataObjectCallback callback = new GetDataObjectCallback(this);
 		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
@@ -76,7 +77,7 @@ public class ObjectQueryResult extends Composite implements HasText {
 		String classnameS = getClassname().getText();		
 		DataPresentation presentation = DataPresentation.valueOf(classnameS);
 		BaseDataPresentation popup = presentation.asDisplayObject(getObject());
-		MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+		popup.openModal(ModalType.FIXED_FOOTER);
 	}
 	
 	public void setText(String text) {
@@ -111,7 +112,8 @@ public class ObjectQueryResult extends Composite implements HasText {
 		this.object = object;
 	}
 	public void activateActions() {
-		actions.setActive(true);
+		actions.setVisible(true);
+		//actions.setActive(true);
 	}
 	
 }

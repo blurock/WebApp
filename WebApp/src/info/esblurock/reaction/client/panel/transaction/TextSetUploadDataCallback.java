@@ -5,9 +5,9 @@ import java.util.List;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialToast;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
 import info.esblurock.reaction.client.panel.modal.TextMessagePopup;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
@@ -22,10 +22,10 @@ public class TextSetUploadDataCallback implements AsyncCallback<List<TextSetUplo
 
 	@Override
 	public void onFailure(Throwable caught) {
-		MaterialToast.alert("ERROR");
+		MaterialToast.fireToast("ERROR");
 		TextMessagePopup popup = new TextMessagePopup("ERROR",
 				caught.toString());
-		MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+		popup.openModal(ModalType.FIXED_FOOTER);
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class TextSetUploadDataCallback implements AsyncCallback<List<TextSetUplo
 			Window.alert(ex.toString());
 		}
 		} else {
-			MaterialToast.alert("No upload sets found");
+			MaterialToast.fireToast("No upload sets found");
 		}
 	}
 

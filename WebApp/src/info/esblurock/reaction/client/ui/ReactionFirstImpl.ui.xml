@@ -19,8 +19,7 @@
 		</m:MaterialContainer>
 
 
-		<m:MaterialFooter color="blue"
-			copyright="© 2015 Very Open Data Project: Prototype" type="fixed">
+		<m:MaterialFooter>
 		</m:MaterialFooter>
 	</g:HTMLPanel>
 </ui:UiBinder> 

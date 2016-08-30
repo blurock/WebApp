@@ -15,9 +15,6 @@ import com.google.gwt.user.client.Cookies;
 
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
-
 public enum Place {
 	organization {
 		@Override

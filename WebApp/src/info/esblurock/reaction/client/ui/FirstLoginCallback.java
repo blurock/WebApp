@@ -14,14 +14,14 @@ public class FirstLoginCallback implements AsyncCallback<String> {
 	
 	@Override
 	public void onFailure(Throwable caught) {
-		MaterialToast.alert("Login unsuccessful: Registration error");
-		MaterialModal.closeModal();
+		MaterialToast.fireToast("Login unsuccessful: Registration error");
+		//MaterialModal.closeModal();
 	}
 
 	@Override
 	public void onSuccess(String result) {
-		MaterialToast.alert("Login Successful: " + result);
-		MaterialToast.alert("Please fill in user profile");
+		MaterialToast.fireToast("Login Successful: " + result);
+		MaterialToast.fireToast("Please fill in user profile");
 		validate.firstLogin();
 	}
 

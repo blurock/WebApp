@@ -47,7 +47,7 @@ public class OrganizationInput extends Composite implements HasText,
 	@UiField
 	MaterialButton submit;
 	@UiField
-	MaterialDropDown orgtype;
+	MaterialButton orgtype;
 	@UiField
 	MaterialLink unichoice;
 	@UiField
@@ -92,13 +92,13 @@ public class OrganizationInput extends Composite implements HasText,
 				descriptionconstants.keywordtext(),
 				descriptionconstants.onelinetext(),
 				descriptionconstants.descriptiontext());
-		datasets.addItem(description);
+		datasets.add(description);
 		String title = constants.organizationcontacttitle() + ": "
 				+ constants.contacttype();
 		contactinfo = new ContactInfoPanel(title);
-		datasets.addItem(contactinfo);
+		datasets.add(contactinfo);
 		locationinfo = new ContactLocationPanel(title);
-		datasets.addItem(locationinfo);
+		datasets.add(locationinfo);
 	}
 
 	public OrganizationInput() {
@@ -121,12 +121,12 @@ public class OrganizationInput extends Composite implements HasText,
 
 			@Override
 			public void onSuccess(String result) {
-				MaterialToast.alert(result.toString());
+				MaterialToast.fireToast(result.toString());
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
-				MaterialToast.alert("onFailure: " + caught.toString());
+				MaterialToast.fireToast("onFailure: " + caught.toString());
 
 			}
 		};

@@ -5,6 +5,7 @@ import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.description.DataDescription;
 
 import info.esblurock.reaction.client.resources.InputConstants;
+import gwt.material.design.client.constants.ButtonType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -168,8 +169,12 @@ public class DataInput extends Composite implements HasText {
 
 	private void init() {
 		InputConstants inputConstants = GWT.create(InputConstants.class);
-		MaterialButton button = new MaterialButton(inputConstants.upload(),
-				"blue-text text-darken-2 light-blue lighten-5", "");
+		MaterialButton button = new MaterialButton();
+		
+		button.setType(ButtonType.FLOATING);
+		button.setText(inputConstants.upload());
+		button.setTextColor("blue-text text-darken-2 light-blue lighten-5");
+		
 		uploader = new SingleUploader(FileInputType.CUSTOM.with(button), new MyUploadStatus());
 		keyword = description.createObjectKeyword();
 		uploaderPath = uploader.getServletPath();
@@ -218,7 +223,7 @@ public class DataInput extends Composite implements HasText {
 
 			} else {
 				if (result != null) {
-					MaterialToast.alert("Key: " + result);
+					MaterialToast.fireToast("Key: " + result);
 					setuUploadFile(httpaddress.getText());
 					setUploadID(result);
 					setInputSource(inputConstants.uploadhttp());
@@ -241,7 +246,7 @@ public class DataInput extends Composite implements HasText {
 
 		@Override
 		public void onSuccess(String result) {
-			MaterialToast.alert("Key: " + result);
+			MaterialToast.fireToast("Key: " + result);
 			setUploadID(result);
 			setuUploadFile(uploadTextName.getText());
 			setInputSource(inputConstants.textfile());
@@ -256,7 +261,7 @@ public class DataInput extends Composite implements HasText {
 		Window.alert("Text: " + textarea.getText());
 		async.textToDatabase(specName, textAsSource, description.createObjectKeyword(), 
 				uploadTextName.getText(),textarea.getText(), callbackText);
-		MaterialToast.alert("Upload Text");
+		MaterialToast.fireToast("Upload Text");
 	}
 
 	@UiHandler("uploadHTTP")
@@ -264,22 +269,22 @@ public class DataInput extends Composite implements HasText {
 		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
 		async.textToDatabase(specName, httpAsSource, description.createObjectKeyword(), 
 				httpaddress.getText(), httpaddress.getText(), callbackText);
-		MaterialToast.alert("Upload http");
+		MaterialToast.fireToast("Upload http");
 	}
 
 	@UiHandler("submitHTTP")
 	void onHTTPClick(ClickEvent e) {
-		MaterialToast.alert("Input as HTTP");
+		MaterialToast.fireToast("Input as HTTP");
 	}
 
 	@UiHandler("submitText")
 	void onSubmitClick(ClickEvent e) {
-		MaterialToast.alert("Input as pasted text");
+		MaterialToast.fireToast("Input as pasted text");
 	}
 
 	@UiHandler("fileinput")
 	void onSubmitFileClick(ClickEvent e) {
-		MaterialToast.alert("Input as uploaded file");
+		MaterialToast.fireToast("Input as uploaded file");
 	}
 
 	public String getType() {

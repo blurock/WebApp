@@ -11,22 +11,18 @@
 	</ui:style>
 
 	<m:MaterialCollapsibleItem ui:field="stringitem">
-		<m:header>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s1">
 					<m:MaterialLink ui:field="remove" 
-						icon="mdi-navigation-close" />
+						iconType="DONE" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s10">
 					<m:MaterialLink  ui:field="stringlabel" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
-		</m:header>
-		<m:content>
 			<g:HTMLPanel ui:field="stringpanel">
 				<m:MaterialCollapsible ui:field="stringsetcollapse" />
 			</g:HTMLPanel>
-		</m:content>
 	</m:MaterialCollapsibleItem>
 
 </ui:UiBinder> 

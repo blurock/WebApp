@@ -4,6 +4,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
+import gwt.material.design.client.constants.CollapsibleType;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialToast;
@@ -25,16 +26,20 @@ public class BasicObjectSearchCallback implements AsyncCallback<RDFBySubjectSet>
 
 	@Override
 	public void onFailure(Throwable caught) {
+		if(caught.toString().contains("NO LOGIN")) {
+			MaterialToast.fireToast("User must be logged in to use query");
+		} else {
 		Window.alert(caught.toString());
+		}
 	}
 
 	@Override
 	public void onSuccess(RDFBySubjectSet answers) {
 		if(answers.size() > 0) {
 		HTMLPanel toppanel = new HTMLPanel("");
-		topSearch.addContent(toppanel);
+		topSearch.add(toppanel);
 		MaterialCollapsible collapse = new MaterialCollapsible();
-		collapse.setType("Popout");
+		collapse.setType(CollapsibleType.POPOUT);
 		toppanel.add(collapse);
 		for (String key : answers.keySet()) {
 			SetOfKeywordQueryAnswers result = answers.get(key);
@@ -58,7 +63,7 @@ public class BasicObjectSearchCallback implements AsyncCallback<RDFBySubjectSet>
 			}
 		}
 		} else {
-			MaterialToast.alert("No objects found in Query");
+			MaterialToast.fireToast("No objects found in Query");
 		}
 	}
 

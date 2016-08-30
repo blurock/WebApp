@@ -1,11 +1,15 @@
-package info.esblurock.reaction.client.panel;
+package info.esblurock.reaction.client.ui.modal;
 
+import gwt.material.design.addins.client.window.MaterialWindow;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.activity.place.ReactionFirstPlace;
+import info.esblurock.reaction.client.activity.place.ReactionQueryPlace;
 import info.esblurock.reaction.client.activity.place.ReactionTopPlace;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
+import info.esblurock.reaction.client.ui.ReactionQueryImpl;
 import info.esblurock.reaction.client.ui.ReactionQueryView.Presenter;
 import info.esblurock.reaction.client.ui.login.UserDTO;
 
@@ -15,7 +19,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
@@ -36,8 +39,6 @@ public class QueryLinks extends Composite implements HasText {
 	MaterialLink top;
 	@UiField
 	MaterialLink dataentry;
-	@UiField
-	MaterialButton close;
 	
 	private Presenter listener;
 	UserDTO user;
@@ -61,18 +62,17 @@ public class QueryLinks extends Composite implements HasText {
 	}
 	
 	@UiHandler("dataentry")
-	void onQueryClick(ClickEvent e) {
+	void onDataEntryClick(ClickEvent e) {
 		String username = Cookies.getCookie("user");
 		listener.goTo(new ReactionFirstPlace(username));
 	}
 	@UiHandler("top")
-	void onEntryClick(ClickEvent e) {
+	void onTopClick(ClickEvent e) {
+		MaterialToast.fireToast("top: ");
 		String username = Cookies.getCookie("user");
+		MaterialToast.fireToast("top: " + listener.toString());
+		MaterialToast.fireToast("top: " + username);
 		listener.goTo(new ReactionTopPlace(username));
-	}
-	@UiHandler("close")
-	void onClose(ClickEvent e) {
-		MaterialModal.closeModal();
 	}
 
 	public void setText(String text) {

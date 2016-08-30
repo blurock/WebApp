@@ -75,7 +75,7 @@ public class StandardNavigation extends Composite implements HasText {
 	
 	
 	private void handleHistoryToken(String token) {
-		topNav.setProfileName(token);
+		topNav.setTitle(token);
 		Place place = Place.organization;
 		if (!"".equals(token)) {
 			place = Place.valueOf(token);
@@ -85,7 +85,7 @@ public class StandardNavigation extends Composite implements HasText {
 
 	
 	private void changeNav(Place place) {
-		MaterialToast.alert(place.getTitle());
+		MaterialToast.fireToast(place.getTitle());
 		// navBar.hide();
 		Window.scrollTo(0, 0);
 		content.clear();
@@ -103,52 +103,52 @@ public class StandardNavigation extends Composite implements HasText {
 	}
 	@UiHandler("inputorganization")
 	void onInputOrganization(ClickEvent e) {
-		MaterialToast.alert("inputorganization");
+		MaterialToast.fireToast("inputorganization");
 		handleHistoryToken("organization");
 	}
 	@UiHandler("inputcontact")
 	void onOnInputContact(ClickEvent e) {
-		MaterialToast.alert("inputcontact");
+		MaterialToast.fireToast("inputcontact");
 		handleHistoryToken("usercontact");
 	}
 	@UiHandler("chemkin")
 	void onOnInputChemkin(ClickEvent e) {
-		MaterialToast.alert("chemkin");
+		MaterialToast.fireToast("chemkin");
 		handleHistoryToken("chemkin");
 	}
 	@UiHandler("sdfmolecules")
 	void onOnInputMolecules(ClickEvent e) {
-		MaterialToast.alert("sdfmolecules");
+		MaterialToast.fireToast("sdfmolecules");
 		handleHistoryToken("sdfmolecules");
 	}
 	@UiHandler("sdfsubstructures")
 	void onOnInputSubstructures(ClickEvent e) {
-		MaterialToast.alert("sdfsubstructures");
+		MaterialToast.fireToast("sdfsubstructures");
 		handleHistoryToken("sdfsubstructures");
 	}
 	@UiHandler("thergasmolecules")
 	void onOnTHERGASMolecules(ClickEvent e) {
-		MaterialToast.alert("thergasmolecules");
+		MaterialToast.fireToast("thergasmolecules");
 		handleHistoryToken("thergasmolecules");
 	}
 	@UiHandler("nasapolynomials")
 	void onOnNASAPolynomials(ClickEvent e) {
-		MaterialToast.alert("nasapolynomials");
+		MaterialToast.fireToast("nasapolynomials");
 		handleHistoryToken("nasapolynomials");
 	}
 	@UiHandler("toprocess")
 	void onToProcess(ClickEvent e) {
-		MaterialToast.alert("toprocess");
+		MaterialToast.fireToast("toprocess");
 		handleHistoryToken("toprocess");
 	}
 	@UiHandler("transactions")
 	void onTransaction(ClickEvent e) {
-		MaterialToast.alert("transactions");
+		MaterialToast.fireToast("transactions");
 		handleHistoryToken("transactions");
 	}
 	@UiHandler("uploadsets")
 	void onUploads(ClickEvent e) {
-		MaterialToast.alert("uploadsets");
+		MaterialToast.fireToast("uploadsets");
 		handleHistoryToken("uploadsets");
 	}
 

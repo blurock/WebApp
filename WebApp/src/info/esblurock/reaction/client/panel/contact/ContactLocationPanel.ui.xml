@@ -8,11 +8,10 @@
 	}
 	</ui:style>
 			<m:MaterialCollapsibleItem>
-				<m:header>
-					<m:MaterialLink ui:field="adresscontact" text="Organization Address"
-						icon="mdi-communication-contacts" />
-				</m:header>
-				<m:content>
+				<m:MaterialCollapsibleHeader>
+					<m:MaterialLink ui:field="adresscontact" text="Organization Address"/>
+				</m:MaterialCollapsibleHeader>
+				<m:MaterialCollapsibleBody>
 					<g:HTMLPanel>
 						<m:MaterialRow>
 							<m:MaterialColumn grid="s12 m6">
@@ -57,6 +56,6 @@
 							</m:MaterialColumn>
 						</m:MaterialRow>
 					</g:HTMLPanel>
-				</m:content>
+				</m:MaterialCollapsibleBody>
 			</m:MaterialCollapsibleItem>
 </ui:UiBinder> 

@@ -8,10 +8,10 @@
 	}
 	</ui:style>
 	<m:MaterialCollapsibleItem ui:field="item">
-		<m:header>
+		<m:MaterialCollapsibleHeader>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s1">
-					<m:MaterialLink icon="mdi-action-view-headline" ui:field="actions"/>
+					<m:MaterialLink ui:field="actions"/>
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s3">
 					<m:MaterialLink ui:field="classname" />
@@ -20,6 +20,6 @@
 					<m:MaterialLink ui:field="textarea" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
-		</m:header>
+		</m:MaterialCollapsibleHeader>
 	</m:MaterialCollapsibleItem>
 </ui:UiBinder> 

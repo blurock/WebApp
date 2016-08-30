@@ -6,16 +6,16 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<g:HTMLPanel>
+	<m:MaterialModal ui:field="modal" type="FIXED_FOOTER" dismissable="true" inDuration="500" outDuration="800">
 		<m:MaterialModalContent ui:field="modalcontent">
 			<m:MaterialTitle ui:field="title" />
 		</m:MaterialModalContent>
 
-		<m:MaterialModalFooter align="right">
-			<m:MaterialButton ui:field="close" waves="green"
-				type="flat" text="Close" />
-			<m:MaterialButton ui:field="basket" waves="green"
-				type="flat" text="Save" tooltip="Save to set" />
+		<m:MaterialModalFooter>
+			<m:MaterialButton ui:field="close" waves="GREEN"
+				type="FLAT" text="Close" />
+			<m:MaterialButton ui:field="basket" waves="GREEN"
+				type="FLAT" text="Save" tooltip="Save to set" />
 		</m:MaterialModalFooter>
-	</g:HTMLPanel>
+	</m:MaterialModal>
 </ui:UiBinder> 

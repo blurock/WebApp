@@ -13,13 +13,13 @@ public class LoginVerificationCallback implements AsyncCallback<String> {
 	}
 	@Override
 	public void onFailure(Throwable caught) {
-		MaterialToast.alert("failure to verify (or verification already completed)");
+		MaterialToast.fireToast("failure to verify (or verification already completed)");
 		verify.firstLogin();
 	}
 
 	@Override
 	public void onSuccess(String email) {
-		MaterialToast.alert("Verification email has been sent to " + email);
+		MaterialToast.fireToast("Verification email has been sent to " + email);
 		verify.deActivate();
 	}
 

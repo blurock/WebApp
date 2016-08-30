@@ -1,13 +1,9 @@
 package info.esblurock.reaction.client.panel.transaction;
 
-import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialToast;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
+import gwt.material.design.client.constants.ModalType;
 import info.esblurock.reaction.client.panel.modal.TextMessagePopup;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.Window;
@@ -26,7 +22,7 @@ public class UpdateUploadTransactionsCallback implements
 	public void onFailure(Throwable caught) {
 		TextMessagePopup popup = new TextMessagePopup("ERROR",
 				caught.toString());
-		MaterialModal.showModal(popup, TYPE.FIXED_FOOTER);
+		popup.openModal(ModalType.FIXED_FOOTER);
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package info.esblurock.reaction.client.panel.transaction;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
@@ -17,7 +16,6 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -27,22 +25,20 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionModel;
 
-import gwt.material.design.client.custom.MaterialButtonCell;
+import gwt.material.design.client.base.MaterialButtonCell;
+import gwt.material.design.client.constants.IconPosition;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.ModalType;
+import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialModalContent;
 import gwt.material.design.client.ui.MaterialToast;
-import gwt.material.design.client.ui.MaterialModal.TYPE;
-import info.esblurock.reaction.client.ReactionProcessUploadedLines;
-import info.esblurock.reaction.client.ReactionProcessUploadedLinesAsync;
 import info.esblurock.reaction.client.panel.description.DataDescriptionAsRows;
 import info.esblurock.reaction.client.panel.transaction.process.RemoveTransactionCallback;
-import info.esblurock.reaction.client.panel.transaction.process.upload.ProcessUploadCallback;
 import info.esblurock.reaction.client.panel.transaction.process.upload.ProcessUploadFiles;
 import info.esblurock.reaction.client.resources.DescriptionConstants;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
-import info.esblurock.reaction.data.description.DescriptionDataData;
-import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.InputTextSource;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 
@@ -76,6 +72,8 @@ public class UploadFileTransaction extends Composite implements HasText {
 	MaterialModalContent content;
 	@UiField
 	SimplePanel gridPanel, pagerPanel,descriptionPanel;
+	@UiField
+	MaterialModal modal;
 
 	TextSetUploadData data;
 	InputTextSource inputTextSource;
@@ -122,7 +120,7 @@ public class UploadFileTransaction extends Composite implements HasText {
 
 	@UiHandler("close")
 	void onClose(ClickEvent e) {
-		MaterialModal.closeModal();
+		modal.closeModal();
 	}
 
 	@UiHandler("delete")
@@ -151,9 +149,14 @@ public class UploadFileTransaction extends Composite implements HasText {
 				new MaterialButtonCell()) {
 			@Override
 			public MaterialButton getValue(InputTextSource object) {
-				MaterialButton button = new MaterialButton("Test", "blue-text text-darken-2 light-blue lighten-5","light");
-				button.setIcon("mdi-action-list");
-				button.setIconPosition("left");
+				
+				MaterialButton button = new MaterialButton();
+				button.setText("Test");
+				button.setTextColor("blue-text text-darken-2 light-blue lighten-5");
+				button.setWaves(WavesType.LIGHT);
+				
+				button.setIconType(IconType.LIST);
+				button.setIconPosition(IconPosition.LEFT);
 				button.getElement().getStyle().setProperty("display", "inline-flex");
 				return button;
 			}
@@ -164,7 +167,7 @@ public class UploadFileTransaction extends Composite implements HasText {
 
 			@Override
 			public void update(int index, InputTextSource object, MaterialButton value) {
-				MaterialToast.alert("Test Data: " + object.getTextType());
+				MaterialToast.fireToast("Test Data: " + object.getTextType());
 				ProcessUploadFiles process = ProcessUploadFiles.valueOf(object.getTextType());
 				process.process(data.getDescription(),object.getID(), object.getTextname(), false);
 			}
@@ -178,9 +181,13 @@ public class UploadFileTransaction extends Composite implements HasText {
 				new MaterialButtonCell()) {
 			@Override
 			public MaterialButton getValue(InputTextSource object) {
-				MaterialButton button = new MaterialButton("Process", "blue-text text-darken-2 light-blue lighten-5","light");
-				button.setIcon("mdi-action-list");
-				button.setIconPosition("left");
+				MaterialButton button = new MaterialButton();
+				button.setText("Process");
+				button.setTextColor("blue-text text-darken-2 light-blue lighten-5");
+				button.setWaves(WavesType.LIGHT);
+
+				button.setIconType(IconType.CHECK);
+				button.setIconPosition(IconPosition.LEFT);
 				button.getElement().getStyle().setProperty("display","inline-flex");
 				return button;
 			}
@@ -192,14 +199,14 @@ public class UploadFileTransaction extends Composite implements HasText {
 			@Override
 			public void update(int index, InputTextSource object, MaterialButton value) {
 				/*
-				MaterialToast.alert("Process Data: " + object.getTextType());
+				MaterialToast.fireToast("Process Data: " + object.getTextType());
 				ProcessUploadFiles process = ProcessUploadFiles.valueOf(object.getTextType());
 				DescriptionDataData description = data.getDescription();
 				process.process(description,object.getID(), object.getTextname(), true);
 				*/
 				
 				UploadFileProcessModal modal = new UploadFileProcessModal(data,object);
-				MaterialModal.showModal(modal, TYPE.FIXED_FOOTER);
+				modal.openModal(ModalType.FIXED_FOOTER);
 			}
 		});
 		return processbutton;
@@ -210,7 +217,11 @@ public class UploadFileTransaction extends Composite implements HasText {
 				new MaterialButtonCell()) {
 			@Override
 			public MaterialButton getValue(InputTextSource object) {
-				MaterialButton link = new MaterialButton(object.getTextType(),"blue-text text-darken-2 light-blue lighten-5", "light");
+				MaterialButton link = new MaterialButton();
+				link.setText(object.getTextType());
+				link.setTextColor("blue-text text-darken-2 light-blue lighten-5");
+				link.setWaves(WavesType.LIGHT);
+
 				return link;
 			}
 		};
@@ -230,7 +241,11 @@ public class UploadFileTransaction extends Composite implements HasText {
 				new MaterialButtonCell()) {
 			@Override
 			public MaterialButton getValue(InputTextSource object) {
-				MaterialButton link = new MaterialButton(object.getSourceType(),"blue-text text-darken-2 light-blue lighten-5", "light");
+				MaterialButton link = new MaterialButton();
+				link.setText(object.getSourceType());
+				link.setTextColor("blue-text text-darken-2 light-blue lighten-5");
+				link.setWaves(WavesType.LIGHT);
+
 				return link;
 			}
 		};
@@ -270,6 +285,15 @@ public class UploadFileTransaction extends Composite implements HasText {
 
 		return dataGrid;
 	}
+	
+	public void openModal(ModalType type) {
+		modal.setType(type);
+		modal.openModal();
+	}
+	public void openModal() {
+		modal.openModal();
+	}
+	
 	public void refresh() {
 		InputTextSourceProvider.setList(orders);
 		sortDataHandler.setList(InputTextSourceProvider.getList());

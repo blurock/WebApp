@@ -6,17 +6,15 @@
 	<ui:style>
 	
 	</ui:style>
-	<m:MaterialCollapsible ui:field="collapsible" type="popout">
-		<m:item>
+	<m:MaterialCollapsible ui:field="collapsible" type="POPOUT">
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s5">
 					<m:MaterialLabel ui:field="settitle" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s3">
-					<m:MaterialButton ui:field="submitdata" color="blue-text text-darken-2 light-blue lighten-5">
+					<m:MaterialButton ui:field="submitdata" textColor="blue-text text-darken-2 light-blue lighten-5">
 					</m:MaterialButton>
 				</m:MaterialColumn>
 			</m:MaterialRow>
-		</m:item>
 	</m:MaterialCollapsible>
 </ui:UiBinder> 

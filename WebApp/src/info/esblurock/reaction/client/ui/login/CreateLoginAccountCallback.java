@@ -17,11 +17,11 @@ public class CreateLoginAccountCallback implements AsyncCallback<String> {
 	public void onSuccess(String result) {
 		if (result != null) {
 			String message = "Account activation email sent to result";
-			MaterialToast.alert(message);
-			MaterialModal.closeModal();
+			MaterialToast.fireToast(message);
+			//MaterialModal.closeModal();
 		} else {
 			String message = "Username and/or email already exists";
-			MaterialToast.alert(message);
+			MaterialToast.fireToast(message);
 		}
 	}
 

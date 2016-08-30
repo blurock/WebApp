@@ -15,12 +15,12 @@ public class FillInUserContactInputCallback implements AsyncCallback<UserDescrip
 	}
 	@Override
 	public void onFailure(Throwable caught) {
-		MaterialToast.alert("No profile found, fill in information");
+		MaterialToast.fireToast("No profile found, fill in information");
 	}
 
 	@Override
 	public void onSuccess(UserDescriptionData result) {
-		MaterialToast.alert("Profile found for " + result.getDescription().getKeyword());
+		MaterialToast.fireToast("Profile found for " + result.getDescription().getKeyword());
 		panel.fill(result);
 	}
 

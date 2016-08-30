@@ -15,7 +15,7 @@ public class ContactCoordinatesCallback implements AsyncCallback<String> {
 	
 	@Override
 	public void onFailure(Throwable caught) {
-		MaterialToast.alert("City and Country not valid");
+		MaterialToast.fireToast("City and Country not valid");
 	}
 
 	@Override

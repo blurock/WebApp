@@ -6,14 +6,14 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<g:HTMLPanel>
+<m:MaterialModal ui:field="modal" type="FIXED_FOOTER" dismissable="false" inDuration="500" outDuration="500">
 		<m:MaterialModalContent ui:field="modalcontent">
 			<g:HTMLPanel>
 
-				<m:MaterialRow color="indigo lighten-3">
+				<m:MaterialRow>
 					<m:MaterialColumn grid="s2">
 						<m:MaterialButton ui:field="testbutton"
-							icon="mdi-action-info-outline" tooltip="Test the object without storing" />
+							tooltip="Test the object without storing" />
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s10">
 						<m:MaterialLabel ui:field="testlabel"
@@ -21,9 +21,9 @@
 					</m:MaterialColumn>
 				</m:MaterialRow>
 
-				<m:MaterialRow color="indigo lighten-3">
+				<m:MaterialRow>
 					<m:MaterialColumn grid="s2">
-						<m:MaterialButton ui:field="processbutton" icon="mdi-content-add"
+						<m:MaterialButton ui:field="processbutton" iconType="LAUNCH"
 							tooltip="Process the object to database" />
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s10">
@@ -32,9 +32,9 @@
 					</m:MaterialColumn>
 				</m:MaterialRow>
 
-				<m:MaterialRow color="indigo lighten-3">
+				<m:MaterialRow>
 					<m:MaterialColumn grid="s2">
-						<m:MaterialButton ui:field="deletebutton" icon="mdi-action-delete"
+						<m:MaterialButton ui:field="deletebutton" iconType="DELETE"
 							tooltip="Delete the object from the database" />
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s10">
@@ -48,9 +48,9 @@
 
 		</m:MaterialModalContent>
 
-		<m:MaterialModalFooter align="right">
-			<m:MaterialButton ui:field="btnOK" waves="green"
-				type="flat" text="Close" />
+		<m:MaterialModalFooter>
+			<m:MaterialButton ui:field="btnOK" waves="GREEN"
+				type="FLAT" text="Close" />
 		</m:MaterialModalFooter>
-	</g:HTMLPanel>
+	</m:MaterialModal>
 </ui:UiBinder> 

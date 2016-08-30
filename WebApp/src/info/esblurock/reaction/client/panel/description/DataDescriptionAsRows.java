@@ -1,18 +1,17 @@
 package info.esblurock.reaction.client.panel.description;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialModal;
 import info.esblurock.reaction.client.resources.DescriptionConstants;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 import info.esblurock.reaction.data.description.DescriptionDataData;
@@ -59,6 +58,8 @@ public class DataDescriptionAsRows extends Composite implements HasText {
 	MaterialLabel entrydatelabel;
 	@UiField
 	MaterialLink entrydate;
+	@UiField	
+	MaterialModal modal;
 
 	public DataDescriptionAsRows(String datakey, DescriptionDataData description) {
 		Window.alert("DataDescriptionAsRows");
@@ -95,6 +96,14 @@ public class DataDescriptionAsRows extends Composite implements HasText {
 
 	}
 
+	public void openModal(ModalType type) {
+		modal.setType(type);
+		modal.openModal();
+	}
+	
+	public void openModal() {
+		modal.openModal();
+	}
 	public void setText(String text) {
 	}
 

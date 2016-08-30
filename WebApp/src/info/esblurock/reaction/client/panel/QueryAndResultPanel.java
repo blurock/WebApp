@@ -3,6 +3,7 @@ package info.esblurock.reaction.client.panel;
 import info.esblurock.reaction.client.ui.UiImplementationBase;
 import info.esblurock.reaction.client.ui.ReactionQueryView.Presenter;
 import info.esblurock.reaction.client.ui.login.UserDTO;
+import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLabel;
 
@@ -21,32 +22,45 @@ public class QueryAndResultPanel extends UiImplementationBase implements HasText
 	interface QueryAndResultPanelUiBinder extends
 			UiBinder<Widget, QueryAndResultPanel> {
 	}
+	@UiField
+	MaterialCollapsible topoftree;
+	
+	MaterialCollapsibleItem search0;
 	Presenter listener;
 	
 	public QueryAndResultPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
+		init("Search");
 	}
-	@UiField
-	MaterialCollapsibleItem search0;
-	@UiField
-	MaterialLabel searchlabel;
-	
 	public QueryAndResultPanel(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
+		init(firstName);
+	}
+	private void init(String text) {
+		search0 = new MaterialCollapsibleItem();
+		search0.setText(text);
 	}
 	public MaterialCollapsibleItem getQueryTop() {
+		topoftree.add(search0);
+		return search0;
+	}
+	public MaterialCollapsibleItem getQueryTop(String text) {
+		search0 = new MaterialCollapsibleItem();
+		search0.setText(text);
+		topoftree.add(search0);
 		return search0;
 	}
 	
 	
 	@Override
 	public void setText(String text) {
-		searchlabel.setText(text);
+		search0.setText(text);
 	}
 
+	
 	@Override
 	public String getText() {
-		return searchlabel.getText();
+		return search0.getText();
 	}
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;

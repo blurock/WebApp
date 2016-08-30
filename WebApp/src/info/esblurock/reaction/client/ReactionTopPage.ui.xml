@@ -16,20 +16,20 @@
 	<g:HTMLPanel>
 <!--
 		<m:MaterialNavBar text="Logo" wave="light" color="brown"
-			align="right">
+			align="RIGHT">
 			<m:nav>
-				<m:MaterialLink icon="mdi-action-dashboard"
+				<m:MaterialLink
 					textColor="white" />
 			</m:nav>
 			<m:nav>
-				<m:MaterialLink icon="mdi-action-delete" textColor="white" />
+				<m:MaterialLink iconType="DELETE" textColor="white" />
 			</m:nav>
 			<m:nav>
-				<m:MaterialLink icon="mdi-action-settings-ethernet"
+				<m:MaterialLink 
 					textColor="white" />
 			</m:nav>
 			<m:nav>
-				<m:MaterialLink icon="mdi-navigation-more-vert"
+				<m:MaterialLink
 					textColor="white" />
 			</m:nav>
 		</m:MaterialNavBar>
@@ -59,7 +59,7 @@
 			<m:content>
 				<m:MaterialPanel>
 					<m:MaterialButton ui:field="btnMaterial"
-						text="GWT Material" color="brown" waves="light" />
+						text="GWT Material" textColor="brown" waves="LIGHT" />
 				</m:MaterialPanel>
 			</m:content>
 		</m:MaterialParallax>

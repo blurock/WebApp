@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui"
-	xmlns:user="urn:import:info.esblurock.reaction.client.panel">
-
+	xmlns:user="urn:import:info.esblurock.reaction.client.panel" xmlns:ma="urn:import:gwt.material.design.addins.client">
 	<ui:with field='res'
 		type='info.esblurock.reaction.client.ui.resource.MaterialResources' />
 	<ui:with field='loginres'
 		type='info.esblurock.reaction.client.ui.resource.LoginResources' />
+
 	<ui:style>
 	.important {
 		font-weight: bold;
@@ -40,75 +40,115 @@
 	}
 	</ui:style>
 	<g:HTMLPanel>
-		<m:MaterialNavBar ui:field="navbar" wave="light" color="white">		
-			<m:nav>
-				<m:MaterialLink ui:field="toplogin" textColor="black" text="login" icon="mdi-action-lock-open" />
-			</m:nav>
-			<m:nav>
-				<m:MaterialLink ui:field="toplogout"  textColor="black" text="logout" icon="mdi-action-lock-open" />
-			</m:nav>
-			<m:nav>
-				<m:MaterialLink ui:field="linkmenu"  textColor="black" icon="mdi-action-list" />
-			</m:nav>
-			<m:nav>
-				<m:MaterialLink ui:field="profile"  textColor="black" icon="mdi-action-perm-identity" />
-			</m:nav>
+		<m:MaterialNavBar ui:field="navbar" activates="mysidebar"
+			backgroundColor="aqua">
+			<m:MaterialNavSection float="LEFT">
+				<m:MaterialLink ui:field="toplogout" textColor="black"
+					text="logout" iconType="LOCK" />
+				<m:MaterialLink ui:field="linkmenu" textColor="black"
+					iconType="LIST" />
+				<m:MaterialLink ui:field="profile" textColor="black"
+					iconType="PERSON" />
+				<m:MaterialLabel ui:field="username" textColor="black" />
+			</m:MaterialNavSection>
 		</m:MaterialNavBar>
-		<m:MaterialTitle 
-		title="ChemConnect (Prototype v20160818.1)" 
-		description="Connecting chemical kinetic and thermodynamic data for searching and evaluation. 
-		Login and search through the detailed informatin available."></m:MaterialTitle>
-		<m:MaterialParallax ui:field="firstfield" height="200"
-			resource="{res.blackboardbackground}">
-			<m:content>
-				<m:MaterialSlide fullScreen="false">
-					<m:slide>
-						<m:MaterialSlideItem ui:field="item1"
-							ui:align="center"
-							url="http://mcensustainableenergy.pbworks.com/w/page/20638179/f/Combustion.jpg" />
-					</m:slide>
-					<m:slide>
-						<m:MaterialSlideItem ui:field="item2" align="left"
-							url="http://www.ecm2013.lth.se/fileadmin/forbrf/ecm2013/ECM2013_group_photo_small.JPG" />
-					</m:slide>
-					<m:slide>
-						<m:MaterialSlideItem ui:field="item3" align="right"
-							url="http://www.soilworx.com.au/data/img/products/sand/Sand-Bulk-Brick-White.jpg" />
-					</m:slide>
-					<m:slide>
-						<m:MaterialSlideItem ui:field="item4" align="center"
-							url="http://physics.aps.org/assets/d30f8977-219e-4566-a6fc-1138bbe2a9b0/e130_1.png" />
-					</m:slide>
-				</m:MaterialSlide>
-			</m:content>
-		</m:MaterialParallax>
-		<m:MaterialParallax height="200"
-			url="http://atm.ulb.ac.be/wp-content/uploads/2014/11/isoLLNL874-eps-converted-to.png">
-			<m:content>
-				<m:MaterialTitle ui:field="firstdescription"/>
-			</m:content>
-		</m:MaterialParallax>
-		<m:MaterialParallax height="200"
-			url="http://impactcity.nl/wp-content/uploads/2016/02/big-data-word-cloud.jpg">
-			<m:content>
-				<m:MaterialTitle ui:field="seconddescription">
-				</m:MaterialTitle>
-			</m:content>
-			</m:MaterialParallax>
-		<m:MaterialParallax height="200"
-			url="http://impactcity.nl/wp-content/uploads/2016/02/big-data-word-cloud.jpg">
-			<m:content>
-				<m:MaterialRow>
-				<m:MaterialColumn grid="s6">
-				<m:MaterialLabel  text="Contact: Edward Blurock, Blurock Consulting AB, Sweden"/>
-				</m:MaterialColumn>
-				<m:MaterialColumn grid="s6">
-				<m:MaterialLabel  text="email: edward.blurock@gmail.com"/>
-				</m:MaterialColumn>
-				</m:MaterialRow>
-			</m:content>
+
+		<ma:window.MaterialWindow ui:field="linkWindow" width="70%" >
+		</ma:window.MaterialWindow>
+
+		<ma:window.MaterialWindow ui:field="userCreateWindow" width="70%">
+		</ma:window.MaterialWindow>
+		
+		
+
+		<m:MaterialTitle title="ChemConnect (Prototype v20160818.1)"
+			description="Connecting chemical kinetic and thermodynamic data for searching and evaluation. 
+		Login and search through the detailed informatin available.">
+		</m:MaterialTitle>
+
+		<m:MaterialRow ui:field="loginrow">
+			<m:MaterialColumn grid="s12 m6">
+				<m:MaterialPanel ui:field="createLogin">
+					<m:MaterialTitle ui:field= "logintitle"
+						description="Please provide your account credentials." />
+					<m:MaterialButton ui:field="btnCreate" waves="LIGHT" width="100%" />
+				</m:MaterialPanel>
+			</m:MaterialColumn>
+			<m:MaterialColumn grid="s12 m6">
+				<m:MaterialPanel addStyleNames="{style.fieldPanel}">
+					<m:MaterialImage resource="{loginres.OneKey}" type="CIRCLE"
+						addStyleNames="{style.imgProfile} z-depth-1" />
+					<m:MaterialTextBox ui:field="accountname" />
+					<m:MaterialTextBox ui:field="userpassword" type="PASSWORD"/>
+					<m:MaterialButton ui:field="btnLogin" waves="LIGHT" width="100%" />
+				</m:MaterialPanel>
+			</m:MaterialColumn>
+		</m:MaterialRow>
+
+		<m:MaterialSlider fullscreen="false">
+			<m:MaterialSlideItem>
+				<m:MaterialImage
+					url="http://mcensustainableenergy.pbworks.com/w/page/20638179/f/Combustion.jpg" />
+				<m:MaterialSlideCaption textAlign="CENTER">
+					<m:MaterialTitle ui:field="item1caption" title="Item 1"
+						description="slogan 1." />
+				</m:MaterialSlideCaption>
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem>
+				<m:MaterialImage
+					url="http://www.ecm2013.lth.se/fileadmin/forbrf/ecm2013/ECM2013_group_photo_small.JPG" />
+				<m:MaterialSlideCaption textAlign="CENTER">
+					<m:MaterialTitle ui:field="item2caption" title="Item 2"
+						description="slogan 2." />
+				</m:MaterialSlideCaption>
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="item3">
+				<m:MaterialImage
+					url="http://www.soilworx.com.au/data/img/products/sand/Sand-Bulk-Brick-White.jpg" />
+				<m:MaterialSlideCaption textAlign="CENTER">
+					<m:MaterialTitle ui:field="item3caption" title="Item 3"
+						description="slogan 3." />
+				</m:MaterialSlideCaption>
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="item4">
+				<m:MaterialImage
+					url="http://physics.aps.org/assets/d30f8977-219e-4566-a6fc-1138bbe2a9b0/e130_1.png" />
+				<m:MaterialSlideCaption textAlign="CENTER">
+					<m:MaterialTitle ui:field="item4caption" title="Item 4"
+						description="slogan 4." />
+				</m:MaterialSlideCaption>
+			</m:MaterialSlideItem>
+		</m:MaterialSlider>
+
+		<m:MaterialTitle ui:field="firstdescription" />
+
+		<m:MaterialParallax height="200">
+			<m:MaterialImage
+				url="http://atm.ulb.ac.be/wp-content/uploads/2014/11/isoLLNL874-eps-converted-to.png" />
 		</m:MaterialParallax>
 
+		<m:MaterialTitle ui:field="seconddescription" />
+
+		<m:MaterialParallax height="200">
+			<m:MaterialImage
+				url="http://impactcity.nl/wp-content/uploads/2016/02/big-data-word-cloud.jpg" />
+		</m:MaterialParallax>
+
+		<m:MaterialFooter backgroundColor="blue">
+
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s6">
+					<m:MaterialLabel
+						text="Contact: Edward Blurock, Blurock Consulting AB, Sweden" />
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s6">
+					<m:MaterialLabel text="email: edward.blurock@gmail.com" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+			<m:MaterialFooterCopyright>
+				<m:MaterialLabel text="© 2016 Copyright ChemConnect" />
+			</m:MaterialFooterCopyright>
+		</m:MaterialFooter>
 	</g:HTMLPanel>
 </ui:UiBinder> 
 

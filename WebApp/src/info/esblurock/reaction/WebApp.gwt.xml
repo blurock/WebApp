@@ -11,7 +11,6 @@
 	<inherits name="com.google.gwt.place.Place" />
 	<inherits name="gwtupload.GWTUpload" />
 	<inherits name="com.google.gwt.resources.Resources" />
-
 	<!-- Inherit the default GWT style sheet. You can change -->
 	<!-- the theme of your GWT application by uncommenting -->
 	<!-- any one of the following lines. -->
@@ -21,8 +20,9 @@
 	<inherits name='com.google.gwt.user.theme.dark.Dark' />
 
 	<!-- Other module inherits -->
-	<inherits name="gwt.material.design.GwtMaterialDesign" />
-
+	<inherits name="gwt.material.design.GwtMaterialBasicWithJQuery" />
+	<inherits name="gwt.material.design.themes.GwtMaterialThemeGrey"/>
+	<inherits name="gwt.material.design.addins.GwtMaterialAddins"/>
 	<!-- Specify the app entry point class. -->
 	<entry-point class="info.esblurock.reaction.client.ReactionTop"></entry-point>
 

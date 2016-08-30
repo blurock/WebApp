@@ -13,13 +13,13 @@
 		font-size: 0.9em;
 	}
 	</ui:style>
-	<m:MaterialCollapsibleItem ui:field="item">
-		<m:header>
+	<m:MaterialCollapsibleItem ui:field="colitem">
+		<m:MaterialCollapsibleHeader>
 			<g:HTMLPanel>
 				<m:MaterialRow>
 					<m:MaterialColumn grid="s1">
 						<m:MaterialLink ui:field="actions" styleName="{style.customlink}">
-						<m:MaterialIcon  ui:field="actionicon" icon="mdi-content-clear" styleName="{style.customicon}"/> 
+						<m:MaterialIcon  ui:field="actionicon" iconType="CLEAR" styleName="{style.customicon}"/> 
 						</m:MaterialLink>
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s3">
@@ -27,6 +27,8 @@
 					</m:MaterialColumn>
 				</m:MaterialRow>
 			</g:HTMLPanel>
-		</m:header>
+		</m:MaterialCollapsibleHeader>
+		<m:MaterialCollapsibleBody>
+		</m:MaterialCollapsibleBody>
 	</m:MaterialCollapsibleItem>
 </ui:UiBinder> 

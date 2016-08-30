@@ -7,8 +7,8 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<g:HTMLPanel>
-		<m:MaterialModalContent ui:field="modalcontent">
+<m:MaterialModal ui:field="modal"  type="DEFAULT" dismissable="false" inDuration="500" outDuration="500">
+ 		<m:MaterialModalContent ui:field="modalcontent">
 			<m:MaterialTitle ui:field="title" />
 		
 		<m:MaterialRow>
@@ -56,10 +56,10 @@
 		</m:MaterialModalContent>
 		<m:MaterialModalFooter>
 				<m:MaterialButton ui:field="btnprocess"
-					waves="text-black  indigo lighten-3" icon="mdi-action-launch" type="flat" />
+					textColor="text-black  indigo lighten-3" iconType="LABEL" type="FLAT" />
 				<m:MaterialButton ui:field="btndelete"
-					waves="text-black   indigo lighten-3" icon="mdi-action-delete"
-					type="flat" />
+					textColor="text-black   indigo lighten-3" iconType="DELETE"
+					type="FLAT" />
 		</m:MaterialModalFooter>
-	</g:HTMLPanel>
+	</m:MaterialModal>
 </ui:UiBinder> 

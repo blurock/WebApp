@@ -14,19 +14,19 @@ public class LoginFromSessionServerCallBack implements AsyncCallback<UserDTO> {
 	}
 	@Override
 	public void onFailure(Throwable caught) {
-		MaterialToast.alert("failure: " + caught.toString());
+		MaterialToast.fireToast("failure: " + caught.toString());
 	}
 
 	@Override
 	public void onSuccess(UserDTO result) {
 		if (result == null) {
-			MaterialToast.alert("No User information");
+			MaterialToast.fireToast("No User information");
 		} else {
 			if (result.getLoggedIn()) {
 				uiBase.setUser(result);
 				
 			} else {
-				MaterialToast.alert("No User information from getLoggedIn()");
+				MaterialToast.fireToast("No User information from getLoggedIn()");
 			}
 		}
 	}

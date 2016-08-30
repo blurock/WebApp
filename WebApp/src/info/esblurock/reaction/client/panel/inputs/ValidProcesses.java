@@ -25,7 +25,11 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionModel;
 
-import gwt.material.design.client.custom.MaterialButtonCell;
+import gwt.material.design.client.base.MaterialButtonCell;
+import gwt.material.design.client.constants.IconPosition;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.ModalType;
+import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialModal;
 import info.esblurock.reaction.client.FindShortNameFromString;
@@ -42,6 +46,7 @@ public class ValidProcesses extends Composite implements HasText {
 	}
 
 	String keyword;
+	MaterialModal modal;
 	
 	public ValidProcesses(String keyword) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -91,12 +96,13 @@ public class ValidProcesses extends Composite implements HasText {
 				new MaterialButtonCell()) {
 			@Override
 			public MaterialButton getValue(String object) {
-				MaterialButton button = new MaterialButton(object,
-						"blue-text text-darken-2 light-blue lighten-5",
-						"light");
+				MaterialButton button = new MaterialButton();
+				button.setText(object);
+				button.setTextColor("blue-text text-darken-2 light-blue lighten-5");
+				button.setWaves(WavesType.LIGHT);
 				button.setTooltip(interfaceConstants.processtooltip());
-				button.setIcon("mdi-action-list");
-				button.setIconPosition("left");
+				button.setIconPosition(IconPosition.LEFT);
+				button.setIconType(IconType.FILE_DOWNLOAD);
 				button.getElement().getStyle().setProperty("display", "inline-flex");
 				String shortname = FindShortNameFromString.findShortName(object, ".");
 				button.setTooltip(shortname);
@@ -111,7 +117,7 @@ public class ValidProcesses extends Composite implements HasText {
 						ValidProcessesRunCallback callback = new ValidProcessesRunCallback();
 						TransactionServiceAsync async = TransactionService.Util.getInstance();
 						async.runProcess(name, keyword, callback);
-						MaterialModal.closeModal();
+						modal.closeModal();
 					}
 				});
 		return processbutton;
@@ -167,6 +173,14 @@ public class ValidProcesses extends Composite implements HasText {
 		
 	}
 
+	public void openModal(ModalType type) {
+		modal.setType(type);
+		modal.openModal();
+	}
+	
+	public void openModal() {
+		modal.openModal();
+	}
 	public String getProcessName() {
 		return processName;
 	}

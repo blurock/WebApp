@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.constants.CollapsibleType;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
 import info.esblurock.reaction.client.panel.query.QueryPath;
@@ -119,7 +120,7 @@ public class QueryObjectSet extends Composite implements HasText {
 				objectsDisplayed.add(subkey);
 				QueryPath next = topPath.addToNewPath(ObjectQueryResult.shortClassname(key), subkey, true);
 				ObjectQueryResult subtext = new ObjectQueryResult(next, key, subkey);
-				parent.addItem(subtext);
+				parent.add(subtext);
 			}
 		}		
 	}
@@ -137,7 +138,7 @@ public class QueryObjectSet extends Composite implements HasText {
 		HTMLPanel toppanel = new HTMLPanel("");
 		set.addItem(toppanel);
 		MaterialCollapsible collapse = new MaterialCollapsible();
-		collapse.setType("Popout");
+		collapse.setType(CollapsibleType.POPOUT);
 		toppanel.add(collapse);
 		
 		displayObjects(key,stringkeys,collapse);

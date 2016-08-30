@@ -8,24 +8,29 @@
 	}
 	</ui:style>
 	<g:HTMLPanel>
-		<m:MaterialCard ui:field="card" type="basic" title="Card Title"
-			description="Here is some more information about this product that is only revealed once clicked on.">
-			<m:link>
+	<m:MaterialCard ui:field="card">
+		<m:MaterialCardContent>
+		<m:MaterialCardTitle ui:field="cardtitle" iconType="POLYMER" iconPosition="RIGHT"/>
+		<m:MaterialLabel  ui:field="cardlabel" />
+		<m:MaterialCollection>
+		<m:MaterialCollectionItem>
 				<m:MaterialLink ui:field="activate" text="Activate"
-					icon="mdi-action-done-all" />
-			</m:link>
-			<m:link>
+					iconType="LABEL" />
+			</m:MaterialCollectionItem>
+			<m:MaterialCollectionItem>
 				<m:MaterialLink ui:field="login" text="First Login"
-					icon="mdi-action-done-all" />
-			</m:link>
-			<m:link>
+					iconType="DONE" />
+			</m:MaterialCollectionItem>
+			<m:MaterialCollectionItem>
 				<m:MaterialLink ui:field="profile" text="Profile"
-					icon="mdi-action-done-all" />
-			</m:link>
-			<m:link>
+					iconType="PERSON" />
+			</m:MaterialCollectionItem>
+			<m:MaterialCollectionItem>
 				<m:MaterialLink ui:field="mainPage" text="Home"
-					icon="mdi-action-done-all" />
-			</m:link>
+					iconType="HOME" />
+			</m:MaterialCollectionItem>
+			</m:MaterialCollection>
+			</m:MaterialCardContent>
 		</m:MaterialCard>
 	</g:HTMLPanel>
 </ui:UiBinder> 

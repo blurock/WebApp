@@ -53,13 +53,13 @@ public class SetOfInputs extends Composite {
 		this.dataType = dataType;
 		submitdata.setText(descriptionConstants.submit());
 		description = set.getDescription();
-		collapsible.addItem(description);
+		collapsible.add(description);
 		description.setInputSet(this);
 		
 
 		List<DataInput> panels = set.getSet(description);
 		for (DataInput panel : panels) {
-			collapsible.addItem(panel);
+			collapsible.add(panel);
 			inputs.add(panel);
 		}
 	}

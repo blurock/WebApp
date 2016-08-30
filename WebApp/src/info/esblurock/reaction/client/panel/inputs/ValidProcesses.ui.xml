@@ -11,7 +11,7 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<g:HTMLPanel>
+	<m:MaterialModal ui:field="modal" type="FIXED_FOOTER" dismissable="true" inDuration="500" outDuration="800">
 		<m:MaterialModalContent ui:field="content"
 			title="Pages">
 			<g:HTMLPanel>
@@ -23,5 +23,5 @@
 			<m:MaterialButton ui:field="close" text="Close" />
 			<m:MaterialButton ui:field="delete" text="Delete" />
 		</m:MaterialModalFooter>
-	</g:HTMLPanel>
+	</m:MaterialModal>
 </ui:UiBinder> 

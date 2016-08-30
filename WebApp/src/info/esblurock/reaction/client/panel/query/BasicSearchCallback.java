@@ -3,6 +3,7 @@ package info.esblurock.reaction.client.panel.query;
 import java.util.ArrayList;
 import java.util.Set;
 
+import gwt.material.design.client.constants.CollapsibleType;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -39,8 +40,8 @@ public class BasicSearchCallback implements AsyncCallback<RDFBySubjectSet> {
 		HTMLPanel toppanel = new HTMLPanel("");
 
 		MaterialCollapsible collapse = new MaterialCollapsible();
-		collapse.setType("Popout");
-		topSearch.addContent(collapse);
+		collapse.setType(CollapsibleType.POPOUT);
+		topSearch.add(collapse);
 
 		for (String key : keys) {
 			SetOfKeywordQueryAnswers result = answer.get(key);

@@ -22,6 +22,7 @@ public class RegisterTransaction {
 	
 	
 	static public void register(UserDTO user, String event, String eventinfo, int checklevel) throws IOException {
+		if(user != null) {
 		log.info("RegisterTransaction: " + user.getName() + ": " + event + ":" + eventinfo);
 		SessionEvent sessionevent = new SessionEvent(
 				user.getName(), user.getIP(), event, eventinfo);
@@ -36,5 +37,8 @@ public class RegisterTransaction {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		VerifyServerTransaction.pm.makePersistent(sessionevent);
 		pm.close();
+		} else {
+			throw new IOException("NO LOGIN: User not logged in");
+		}
 	}
 }

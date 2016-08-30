@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialIcon;
@@ -42,7 +43,7 @@ public class StringPredicateSet extends Composite implements HasText {
 	@UiField
 	MaterialLink actions;
 	@UiField
-	MaterialCollapsibleItem item;
+	MaterialCollapsibleItem colitem;
 	@UiField
 	MaterialIcon actionicon;
 	
@@ -65,12 +66,12 @@ public class StringPredicateSet extends Composite implements HasText {
 		this.set = set;
 		this.collapse = collapse;
 		predicate.setText(restObjectS);
-		actionicon.setIcon("mdi-content-add");
+		actionicon.setIconType(IconType.CONTACTS);
 		this.stringKeys = stringkeys;
 	}
 
 	public void addItem(Widget result) {
-		item.addContent(result);
+		colitem.add(result);
 	}
 	
 	@UiHandler("actions")

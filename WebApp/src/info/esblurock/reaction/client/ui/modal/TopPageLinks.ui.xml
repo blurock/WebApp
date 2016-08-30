@@ -6,25 +6,14 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<g:HTMLPanel>
-		<m:MaterialModalContent ui:field="content"
-			title="Pages">
-			<m:MaterialRow>
-				<m:MaterialColumn>
+	<m:MaterialCollection ui:field="collection" header="ChemConnect Links">
+	<m:MaterialCollectionItem>
 					<m:MaterialLink ui:field="query"
 						text="Query: Enter keyword queries to database" />
-				</m:MaterialColumn>
-			</m:MaterialRow>
-			<m:MaterialRow>
-				<m:MaterialColumn>
+	</m:MaterialCollectionItem>
+	<m:MaterialCollectionItem>
 					<m:MaterialLink ui:field="dataentry"
 						text="Data Entry: Enter raw data into database" />
-				</m:MaterialColumn>
-			</m:MaterialRow>
-		</m:MaterialModalContent>
-		>
-		<m:MaterialModalFooter>
-			<m:MaterialButton ui:field="close" text="Close" />
-		</m:MaterialModalFooter>
-	</g:HTMLPanel>
+	</m:MaterialCollectionItem>
+	</m:MaterialCollection>
 </ui:UiBinder> 

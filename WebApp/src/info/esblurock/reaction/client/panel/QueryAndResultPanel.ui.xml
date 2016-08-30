@@ -7,11 +7,6 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<m:MaterialCollapsible type="popout">
-			<m:MaterialCollapsibleItem ui:field="search0">
-			<m:header>
-				<m:MaterialLabel ui:field="searchlabel"  text="Query" />
-			</m:header>
-			</m:MaterialCollapsibleItem>
+	<m:MaterialCollapsible ui:field="topoftree" type="POPOUT">
 	</m:MaterialCollapsible>
 </ui:UiBinder>

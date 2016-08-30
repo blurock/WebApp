@@ -52,18 +52,18 @@
 	}
 	</ui:style>
 	<m:MaterialCollapsibleItem>
-		<m:header>
-			<m:MaterialLink ui:field="objecttitle" icon="mdi-communication-vpn-key" />
-		</m:header>
+		<m:MaterialCollapsibleHeader>
+			<m:MaterialLink ui:field="objecttitle" />
+		</m:MaterialCollapsibleHeader>
 
-		<m:content>
+		<m:MaterialCollapsibleBody>
 			<g:HTMLPanel>
-				<m:MaterialRow color="light-blue lighten-4">
+				<m:MaterialRow>
 					<m:MaterialColumn grid="s6">
 						<m:MaterialLabel ui:field="uploadfile" />
 					</m:MaterialColumn>
 					</m:MaterialRow>
-				<m:MaterialRow color="light-blue lighten-4">
+				<m:MaterialRow>
 					<m:MaterialColumn grid="s6">
 						<m:MaterialLabel ui:field="uploadID" />
 					</m:MaterialColumn>
@@ -73,9 +73,9 @@
 						<m:MaterialRadioButton ui:field="submitHTTP"
 							name="type" />
 					</m:MaterialColumn>
-					<m:MaterialColumn grid="s2" color="blue-text text-darken-2">
+					<m:MaterialColumn grid="s2">
 						<m:MaterialButton ui:field="uploadHTTP" 
-							color="blue-text text-darken-2 light-blue lighten-5" waves="light" />
+							textColor="blue-text text-darken-2 light-blue lighten-5" waves="LIGHT" />
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s9">
 						<m:MaterialTextBox ui:field="httpaddress" />
@@ -94,11 +94,11 @@
 						<m:MaterialRadioButton ui:field="submitText"
 							name="type" />
 					</m:MaterialColumn>
-					<m:MaterialColumn grid="s2" color="blue-text text-darken-2">
+					<m:MaterialColumn grid="s2">
 						<m:MaterialButton   ui:field="uploadText" 
-						color="blue-text text-darken-2 light-blue lighten-5" waves="light"/>
+						textColor="blue-text text-darken-2 light-blue lighten-5" waves="LIGHT"/>
 					</m:MaterialColumn>
-					<m:MaterialColumn grid="s5" color="blue-text text-darken-2">
+					<m:MaterialColumn grid="s5">
 						<m:MaterialTextBox   ui:field="uploadTextName" />
 					</m:MaterialColumn>
 					</m:MaterialRow>
@@ -109,6 +109,6 @@
 					</m:MaterialColumn>
 				</m:MaterialRow>
 			</g:HTMLPanel>
-		</m:content>
+		</m:MaterialCollapsibleBody>
 	</m:MaterialCollapsibleItem>
 </ui:UiBinder> 

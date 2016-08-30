@@ -8,43 +8,31 @@
 	}
 	</ui:style>
 
-	<m:MaterialCollapsible ui:field="datasets" type="popout">
-		<m:item>
+	<m:MaterialCollapsible ui:field="datasets" type="POPOUT">
+		<m:MaterialCollapsibleItem>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s4">
 					<m:MaterialLabel ui:field="title" fontSize="2" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s4">
-					<m:MaterialButton ui:field="submit" waves="light" />
+					<m:MaterialButton ui:field="submit" waves="LIGHT" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s4">
+					<m:MaterialButton ui:field="userrolelist" iconType="ARROW_DROP_DOWN" 
+					iconPosition="RIGHT" textColor="white" backgroundColor="blue" activates="userrolelistdropdown"/>
 					<m:MaterialDropDown 
-						waves="light" divider="true" activates="myDropDown" 
-						ui:field="userrolelist">
-						<m:item>
+						waves="LIGHT" 
+						activator="userrolelistdropdown">
 							<m:MaterialLink ui:field="professorchoice" text="Professor" />
-						</m:item>
-						<m:item>
 							<m:MaterialLink ui:field="researcherchoice" text="Researcher" />
-						</m:item>
-						<m:item>
 							<m:MaterialLink ui:field="lecturerchoice" text="Lecturer" />
-						</m:item>
-						<m:item>
 							<m:MaterialLink ui:field="postdocchoice" text="Post-Doc" />
-						</m:item>
-						<m:item>
 							<m:MaterialLink ui:field="studentchoice" text="Student" />
-						</m:item>
-						<m:item>
 							<m:MaterialLink ui:field="managerchoice" text="Manager" />
-						</m:item>
-						<m:item>
 							<m:MaterialLink ui:field="otherchoice" text="other" />
-						</m:item>
 					</m:MaterialDropDown>
 				</m:MaterialColumn>
 			</m:MaterialRow>
-		</m:item>
+		</m:MaterialCollapsibleItem>
 	</m:MaterialCollapsible>
 </ui:UiBinder> 

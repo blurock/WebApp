@@ -12,6 +12,9 @@ import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
 import info.esblurock.reaction.data.rdf.SetOfKeywordQueryAnswers;
 import info.esblurock.reaction.data.rdf.SetOfKeywordRDF;
+import info.esblurock.reaction.data.rdf.graph.RDFSubTreeParentNode;
+import info.esblurock.reaction.data.rdf.graph.RDFTreeNode;
+import info.esblurock.reaction.data.rdf.graph.TreeNodeFactory;
 import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.event.RegisterTransaction;
 import info.esblurock.reaction.server.parse.interpretation.Interpretation;
@@ -100,8 +103,14 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 				}
 			}
 		}
+		System.out.println("------------------------------------------------------");
 		System.out.println("Total: " + total.toString());
-		
+		TreeNodeFactory factory = new TreeNodeFactory();
+		RDFTreeNode node = factory.addAllRDF(key, total);
+		System.out.println("------------------------------------------------------");
+		System.out.println("The RDF Tree");
+		System.out.println(node.toString());
+		System.out.println("------------------------------------------------------");
 		return oset;
 		
 	}

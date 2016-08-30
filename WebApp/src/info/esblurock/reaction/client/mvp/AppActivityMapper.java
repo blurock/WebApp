@@ -43,13 +43,14 @@ public class AppActivityMapper implements ActivityMapper {
 	public Activity getActivity(Place place) {
 		if (place instanceof ReactionTopPlace) {
 			return new ReactionTopActivity((ReactionTopPlace) place, clientFactory);
-		} else if (place instanceof ReactionFirstPlace) {
-			return new ReactionFirstActivity((ReactionFirstPlace) place, clientFactory);
 		} else if (place instanceof ReactionQueryPlace) {
 			return new ReactionQueryActivity((ReactionQueryPlace) place, clientFactory);
+		} else if (place instanceof ReactionFirstPlace) {
+			return new ReactionFirstActivity((ReactionFirstPlace) place, clientFactory);
 		} else if (place instanceof ReactionLoginValidationPlace) {
 			return new ReactionLoginValidationActivity((ReactionLoginValidationPlace) place, clientFactory);
 		}
+	
 		return null;
 	}
 }

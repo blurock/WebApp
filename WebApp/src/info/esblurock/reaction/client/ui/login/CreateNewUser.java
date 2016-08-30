@@ -80,11 +80,11 @@ public class CreateNewUser extends Composite implements HasText {
 				password.setText("");
 				repeatpassword.setText("");
 				String message = "Passwords do not match... retype";
-				MaterialToast.alert(message);
+				MaterialToast.fireToast(message);
 			}
 		} else {
 			String message = "Not a valid email address";
-			MaterialToast.alert(message);
+			MaterialToast.fireToast(message);
 		}
 
 	}

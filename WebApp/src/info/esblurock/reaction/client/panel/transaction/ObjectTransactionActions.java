@@ -1,5 +1,6 @@
 package info.esblurock.reaction.client.panel.transaction;
 
+import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
@@ -28,6 +29,9 @@ public class ObjectTransactionActions extends Composite implements HasText {
 	
 	InterfaceConstants interfaceConstants = GWT
 			.create(InterfaceConstants.class);
+	
+	@UiField
+	MaterialModal modal;
 	
 	public ObjectTransactionActions() {
 		
@@ -89,13 +93,20 @@ public class ObjectTransactionActions extends Composite implements HasText {
 	
 	@UiHandler("btndelete")
 	void onClickDelete(ClickEvent e) {
-		MaterialModal.closeModal();
+		modal.closeModal();
 		TransactionServiceAsync async = TransactionService.Util.getInstance();
 		RemoveTransactionCallback callback = new RemoveTransactionCallback();
 		async.deleteTransactionInfoFromKey(source.getTransactionObjectType(), source.getKeyword(), source.getKey(), callback);
-		MaterialToast.alert("Delete: "  + source.getTransactionObjectType());
+		MaterialToast.fireToast("Delete: "  + source.getTransactionObjectType());
 	}
 
+	public void openModal(ModalType type) {
+		modal.setType(type);
+		modal.openModal();
+	}
+	public void openModal() {
+		modal.openModal();
+	}
 	public void setText(String text) {
 	}
 

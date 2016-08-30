@@ -118,12 +118,12 @@ public class DataDescription extends Composite implements HasText {
 		sourcekey.setText(username);
 		keyword.setText(username);
 		inputkey.setText(username);
-		MaterialToast.alert("UserContactInput 7");
+		MaterialToast.fireToast("UserContactInput 7");
 		date.setVisible(false);
 		sourcekey.setVisible(false);
 		inputkey.setVisible(false);
 		keyword.setEnabled(false);
-		MaterialToast.alert("UserContactInput 8");
+		MaterialToast.fireToast("UserContactInput 8");
 		keywordChanged = true;
 		sourcekeyChanged = true;
 		objecttitle.setText(descriptionConstants.usertitle());
@@ -171,16 +171,16 @@ public class DataDescription extends Composite implements HasText {
 		return inputkey.getText();
 	}
 	public Date getSourceDate() {
-		MaterialToast.alert("getSourceDate():");
+		MaterialToast.fireToast("getSourceDate():");
 		//DateFormat format = DateFormat.getInstance();
 		Date current = date.getDate();
-		MaterialToast.alert("getSourceDate():" + current);
+		MaterialToast.fireToast("getSourceDate():" + current);
 		
 		if(current == null) {
-			MaterialToast.alert("getSourceDate(): null (today)");
+			MaterialToast.fireToast("getSourceDate(): null (today)");
 			current = new Date();
 		}
-		MaterialToast.alert("getSourceDate(): " + current.getDate());
+		MaterialToast.fireToast("getSourceDate(): " + current.getDate());
 		return current;
 	}
 	
@@ -209,7 +209,7 @@ public class DataDescription extends Composite implements HasText {
 		String text = keyword.getText();
 		keywordChanged = true;
 		if(text.length() >= maxKeywordSize) {
-			MaterialToast.alert(descriptionConstants.keywordlimit());
+			MaterialToast.fireToast(descriptionConstants.keywordlimit());
 			keyword.setText(text.substring(0,maxKeywordSize-1));
 		}
 		resetKeyword();		
@@ -219,7 +219,7 @@ public class DataDescription extends Composite implements HasText {
 		
 		String text = oneline.getText();
 		if(text.length() >= maxOnlineSize) {
-			MaterialToast.alert(descriptionConstants.onelinelimit());
+			MaterialToast.fireToast(descriptionConstants.onelinelimit());
 			oneline.setText(text.substring(0,maxOnlineSize-1));
 		}
 		
@@ -228,7 +228,7 @@ public class DataDescription extends Composite implements HasText {
 	void onDescription(KeyUpEvent e) {
 		String text = description.getText();
 		if(text.length() >= maxFullDescriptionSize) {
-			MaterialToast.alert(descriptionConstants.descriptionlimit());
+			MaterialToast.fireToast(descriptionConstants.descriptionlimit());
 			description.setText(text.substring(0,maxFullDescriptionSize-1));
 		}
 		

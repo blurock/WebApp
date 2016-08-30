@@ -12,7 +12,7 @@
 					<m:MaterialLabel ui:field="settitle" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s3">
-					<m:MaterialButton ui:field="submitdata" color="blue-text text-darken-2 light-blue lighten-5">
+					<m:MaterialButton ui:field="submitdata" textColor="blue-text text-darken-2 light-blue lighten-5">
 					</m:MaterialButton>
 				</m:MaterialColumn>
 			</m:MaterialRow>
@@ -28,12 +28,12 @@
 				</m:MaterialRow>
 				<m:MaterialRow>
 					<m:MaterialColumn grid="s12">
-						<m:MaterialTextBox ui:field="password" type="password"/>
+						<m:MaterialTextBox ui:field="password" type="PASSWORD"/>
 					</m:MaterialColumn>
 				</m:MaterialRow>
 				<m:MaterialRow>
 					<m:MaterialColumn grid="s12">
-						<m:MaterialTextBox ui:field="repeatpassword" type="password"/>
+						<m:MaterialTextBox ui:field="repeatpassword" type="PASSWORD"/>
 					</m:MaterialColumn>
 				</m:MaterialRow>
 	</g:HTMLPanel>

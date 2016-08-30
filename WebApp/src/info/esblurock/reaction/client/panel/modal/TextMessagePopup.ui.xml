@@ -7,14 +7,13 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<g:HTMLPanel>
+	<m:MaterialModal ui:field="popup"  type="BOTTOM_SHEET" dismissable="false" inDuration="500" outDuration="500">
 		<m:MaterialModalContent ui:field="modalcontent">
 			<m:MaterialTitle ui:field="textarea" />
 		</m:MaterialModalContent>
-
-		<m:MaterialModalFooter align="right">
-			<m:MaterialButton ui:field="btnOK" waves="green"
-				type="flat" text="Close" />
+		<m:MaterialModalFooter>
+			<m:MaterialButton ui:field="btnOK" waves="GREEN"
+				type="FLAT" text="Close" />
 		</m:MaterialModalFooter>
-	</g:HTMLPanel>
+	</m:MaterialModal>
 </ui:UiBinder> 
