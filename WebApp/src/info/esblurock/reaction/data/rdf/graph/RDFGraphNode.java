@@ -10,6 +10,12 @@ public class RDFGraphNode implements Serializable {
 	boolean predicateNode;
 	boolean objectNode;
 	
+	public RDFGraphNode() {
+		super();
+		this.subjectNode = false;
+		this.predicateNode = false;
+		this.objectNode = false;
+	}
 	
 	public RDFGraphNode(boolean subjectNode, boolean predicateNode, boolean objectNode) {
 		super();
@@ -19,16 +25,13 @@ public class RDFGraphNode implements Serializable {
 	}
 	public boolean matchesNode(RDFGraphNode obj) {
 		boolean ans = true;
-		/*
-		RDFGraphNode graphnode = (RDFGraphNode) obj;
-		if(!(subjectNode && graphnode.isSubjectNode())) {
-			if(!(predicateNode && graphnode.isPredicateNode())) {
-				if(!(objectNode && graphnode.isObjectNode())) {
-					ans = false;
-				}
-			}
+		if(subjectNode) {
+			ans = obj.isSubjectNode();
+		} else if(objectNode) {
+			ans = obj.isObjectNode();
+		} else {
+			ans = obj.isPredicateNode();
 		}
-		*/
 		return ans;
 		
 	}

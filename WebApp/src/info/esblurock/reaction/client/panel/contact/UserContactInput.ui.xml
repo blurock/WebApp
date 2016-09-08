@@ -8,28 +8,26 @@
 	}
 	</ui:style>
 
-	<m:MaterialCollapsible ui:field="datasets" type="POPOUT">
-		<m:MaterialCollapsibleItem>
+	<m:MaterialCollapsible ui:field="datasets" >
+		<m:MaterialCollapsibleItem active="false">
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s4">
-					<m:MaterialLabel ui:field="title" fontSize="2" />
+					<m:MaterialLabel ui:field="title" text="User Contact"/>
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s4">
-					<m:MaterialButton ui:field="submit" waves="LIGHT" />
+					<m:MaterialLink ui:field="submit" text="Submit"/>
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s4">
-					<m:MaterialButton ui:field="userrolelist" iconType="ARROW_DROP_DOWN" 
-					iconPosition="RIGHT" textColor="white" backgroundColor="blue" activates="userrolelistdropdown"/>
-					<m:MaterialDropDown 
-						waves="LIGHT" 
-						activator="userrolelistdropdown">
-							<m:MaterialLink ui:field="professorchoice" text="Professor" />
-							<m:MaterialLink ui:field="researcherchoice" text="Researcher" />
-							<m:MaterialLink ui:field="lecturerchoice" text="Lecturer" />
-							<m:MaterialLink ui:field="postdocchoice" text="Post-Doc" />
-							<m:MaterialLink ui:field="studentchoice" text="Student" />
-							<m:MaterialLink ui:field="managerchoice" text="Manager" />
-							<m:MaterialLink ui:field="otherchoice" text="other" />
+					<m:MaterialLink text="User Role" ui:field="userrolelink"
+						activates="userrolelist" iconType="ARROW_DROP_DOWN" iconPosition="RIGHT"/>
+					<m:MaterialDropDown waves="LIGHT" activator="userrolelist" >
+						<m:MaterialLink ui:field="professorchoice" text="Professor" />
+						<m:MaterialLink ui:field="researcherchoice" text="Researcher" />
+						<m:MaterialLink ui:field="lecturerchoice" text="Lecturer" />
+						<m:MaterialLink ui:field="postdocchoice" text="Post-Doc" />
+						<m:MaterialLink ui:field="studentchoice" text="Student" />
+						<m:MaterialLink ui:field="managerchoice" text="Manager" />
+						<m:MaterialLink ui:field="otherchoice" text="other" />
 					</m:MaterialDropDown>
 				</m:MaterialColumn>
 			</m:MaterialRow>

@@ -5,6 +5,9 @@ import info.esblurock.reaction.data.DatabaseObject;
 public class RDFGraphObjectObject extends RDFGraphNode {
 	DatabaseObject object;
 	
+	public RDFGraphObjectObject() {
+		object = null;
+	}
 	public RDFGraphObjectObject(DatabaseObject object) {
 		super(false,false,true);
 		this.object = object;

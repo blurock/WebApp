@@ -1,6 +1,5 @@
 package info.esblurock.reaction.client.panel.contact;
 
-import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
@@ -42,9 +41,10 @@ public class UserContactInput extends Composite implements HasText {
 	@UiField
 	MaterialLabel title;
 	@UiField
-	MaterialButton submit;
+	MaterialLink submit;
+	
 	@UiField
-	MaterialButton userrolelist;
+	MaterialLink userrolelink;
 	@UiField
 	MaterialLink professorchoice;
 	@UiField
@@ -59,6 +59,7 @@ public class UserContactInput extends Composite implements HasText {
 	MaterialLink managerchoice;
 	@UiField
 	MaterialLink otherchoice;
+	
 	@UiField
 	MaterialCollapsible datasets;
 
@@ -67,34 +68,7 @@ public class UserContactInput extends Composite implements HasText {
 	ContactLocationPanel locationinfo;
 	String userrole;
 
-	private void setText() {
-		title.setText(constants.individualcontacttitle());
-		submit.setText(constants.submit());
-
-		professorchoice.setText(constants.professor());
-		researcherchoice.setText(constants.researcher());
-		lecturerchoice.setText(constants.lecturer());
-		postdocchoice.setText(constants.postdoc());
-		studentchoice.setText(constants.student());
-		managerchoice.setText(constants.manager());
-		otherchoice.setText(constants.other());
-
-		userrole = "Researcher";
-		userrolelist.setText(constants.researcher());
-	}
-
-	private void init() {
-		description = new DataDescription(descriptionconstants.contactinputtitle(), descriptionconstants.keywordtext(),
-				descriptionconstants.onelinetext(), descriptionconstants.descriptiontext());
-		datasets.add(description);
-		contactinfo = new ContactInfoPanel(descriptionconstants.usercontact());
-		datasets.add(contactinfo);
-		locationinfo = new ContactLocationPanel(descriptionconstants.userlocation());
-		datasets.add(locationinfo);
-		userrolelist.setText(constants.researcher());
-		userrole = "Researcher";
-	}
-
+	
 	public UserContactInput() {
 		initWidget(uiBinder.createAndBindUi(this));
 		setText();
@@ -115,8 +89,32 @@ public class UserContactInput extends Composite implements HasText {
 		fill(userdescr);
 	}
 
+	private void setText() {
+		title.setText(constants.individualcontacttitle());
+		submit.setText(constants.submit());
+
+		professorchoice.setText(constants.professor());
+		researcherchoice.setText(constants.researcher());
+		lecturerchoice.setText(constants.lecturer());
+		postdocchoice.setText(constants.postdoc());
+		studentchoice.setText(constants.student());
+		managerchoice.setText(constants.manager());
+		otherchoice.setText(constants.other());
+		userrole = "";
+	}
+
+	private void init() {
+		description = new DataDescription(descriptionconstants.contactinputtitle(), descriptionconstants.keywordtext(),
+				descriptionconstants.onelinetext(), descriptionconstants.descriptiontext());
+		datasets.add(description);
+		contactinfo = new ContactInfoPanel(descriptionconstants.usercontact());
+		datasets.add(contactinfo);
+		locationinfo = new ContactLocationPanel(descriptionconstants.userlocation());
+		datasets.add(locationinfo);
+		userrole = "";
+	}
 	public void fill(UserDescriptionData userdescr) {
-		userrolelist.setText(userdescr.getUserRole());
+		userrolelink.setText(userdescr.getUserRole());
 		contactinfo.fill(userdescr.getContactinfo());
 		description.fill(userdescr.getDescription());
 		locationinfo.fill(userdescr.getLocation());		
@@ -155,46 +153,45 @@ public class UserContactInput extends Composite implements HasText {
 
 	@UiHandler("professorchoice")
 	void onProfessorClick(ClickEvent e) {
-		userrolelist.setText(constants.professor());
+		userrolelink.setText(constants.professor());
 		userrole = "Professor";
 	}
 
 	@UiHandler("lecturerchoice")
 	void onLecturerClick(ClickEvent e) {
-		userrolelist.setText(constants.lecturer());
+		userrolelink.setText(constants.lecturer());
 		userrole = "Lecturer";
 	}
 
 	@UiHandler("postdocchoice")
 	void onPostDocrClick(ClickEvent e) {
-		userrolelist.setText(constants.postdoc());
+		userrolelink.setText(constants.postdoc());
 		userrole = "PostDoc";
 	}
 
 	@UiHandler("studentchoice")
 	void onStudentClick(ClickEvent e) {
-		userrolelist.setText(constants.student());
+		userrolelink.setText(constants.student());
 		userrole = "Student";
 	}
 
 	@UiHandler("managerchoice")
 	void onManagerClick(ClickEvent e) {
-		userrolelist.setText(constants.manager());
+		userrolelink.setText(constants.manager());
 		userrole = "Manager";
 	}
 
 	@UiHandler("researcherchoice")
 	void onResearcherClick(ClickEvent e) {
-		userrolelist.setText(constants.researcher());
+		userrolelink.setText(constants.researcher());
 		userrole = "Researcher";
 	}
 
 	@UiHandler("otherchoice")
 	void onOtherClick(ClickEvent e) {
-		userrolelist.setText(constants.other());
+		userrolelink.setText(constants.other());
 		userrole = "Other";
 	}
-
 	@Override
 	public void setText(String text) {
 		// button.setText(text);

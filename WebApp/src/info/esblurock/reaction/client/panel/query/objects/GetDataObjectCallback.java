@@ -10,7 +10,7 @@ import info.esblurock.reaction.client.panel.data.DataPresentation;
 public class GetDataObjectCallback implements AsyncCallback<DatabaseObject> {
 
 	ObjectQueryResult displayLine;
-	
+
 	public GetDataObjectCallback(ObjectQueryResult displayLine) {
 		super();
 		this.displayLine = displayLine;
@@ -19,12 +19,12 @@ public class GetDataObjectCallback implements AsyncCallback<DatabaseObject> {
 	@Override
 	public void onFailure(Throwable caught) {
 		Window.alert(caught.toString());
-		
+
 	}
 
 	@Override
 	public void onSuccess(DatabaseObject result) {
-		String classname = displayLine.getClassname().getText();		
+		String classname = displayLine.getClassname().getText();
 		DataPresentation presentation = DataPresentation.valueOf(classname);
 		String oneline = presentation.asOnLine(result);
 		displayLine.setObject(result);

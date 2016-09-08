@@ -71,9 +71,9 @@ public class StringQueryResult extends Composite implements HasText {
 	
 	@UiHandler("actions")
 	void onExpandClick(ClickEvent e) {
-		BasicObjectSearchCallback callback = new BasicObjectSearchCallback(path, item);
-		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
-		async.singleKeyQuery(textarea.getText(), callback);
+		//BasicObjectSearchCallback callback = new BasicObjectSearchCallback(path, item);
+		//ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
+		//async.singleKeyQuery(textarea.getText(), callback);
 	}
 
 	public void setText(String text) {

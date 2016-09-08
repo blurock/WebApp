@@ -27,4 +27,12 @@ public interface MaterialResources extends ClientBundle {
 	ImageResource template_parallax();
 	ImageResource template_starter();
 	ImageResource template_wrenx();
+	
+	ImageResource RDF_ConnectionThroughIsomers();
+	ImageResource RDF_LinkingDifferentModels();
+	ImageResource RDF_Ontologies();
+	ImageResource RDF_PassiveConnection();
+	ImageResource RDF_RDFExamplesFromMechanism();
+	ImageResource RDF_ReactionData();
+	ImageResource RDF_ResourceDescriptionFramework();
 }

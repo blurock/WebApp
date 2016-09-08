@@ -2,20 +2,30 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui"
 	xmlns:user="urn:import:info.esblurock.reaction.client.panel" xmlns:ma="urn:import:gwt.material.design.addins.client">
+
 	<ui:with field='res'
 		type='info.esblurock.reaction.client.ui.resource.MaterialResources' />
 	<ui:with field='loginres'
 		type='info.esblurock.reaction.client.ui.resource.LoginResources' />
+	<ui:with field='topres'
+		type='info.esblurock.reaction.client.ui.resource.ReactionTopViewResources' />
 
 	<ui:style>
 	.important {
 		font-weight: bold;
 	}
-	
 	body {
 		background: #fff;
+		color: black;
 	}
-	
+	p {
+		background: #fff;
+		color: black;
+	}
+	h2 {
+	color: #666;
+	margin-left: 30px;
+	}
 	.panel {
 		background: aqua;
 		background-size: 100%;
@@ -53,37 +63,81 @@
 			</m:MaterialNavSection>
 		</m:MaterialNavBar>
 
-		<ma:window.MaterialWindow ui:field="linkWindow" width="70%" >
+		<ma:window.MaterialWindow ui:field="linkWindow"
+			width="70%">
 		</ma:window.MaterialWindow>
 
-		<ma:window.MaterialWindow ui:field="userCreateWindow" width="70%">
+		<ma:window.MaterialWindow ui:field="userCreateWindow"
+			width="70%">
 		</ma:window.MaterialWindow>
-		
-		
 
-		<m:MaterialTitle title="ChemConnect (Prototype v20160818.1)"
-			description="Connecting chemical kinetic and thermodynamic data for searching and evaluation. 
-		Login and search through the detailed informatin available.">
-		</m:MaterialTitle>
+		<m:MaterialPanel height="300px" backgroundColor="grey">
+			<!-- <m:MaterialPanel width="70%" backgroundColor="grey"> -->
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s12">
+					<m:MaterialLabel textAlign="CENTER" fontSize="3em"
+						width="100%" text="ChemConnect" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s12">
+					<m:MaterialLabel textAlign="CENTER" fontSize="2em"
+						width="100%"
+						text="Keyword Search through a connected network of Combustion data" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s12">
+					<m:MaterialLabel ui:field="topsummary"
+						text="ChemConnect2016's unique search organization allows the user to traverse
+						a interconnected network of combustion data. This database differs from traditional
+						combustion databases in establishing a interconnection between combustion data sources allowing 
+						critical comparison of similar data from different sources. The current database
+						has taken data from a variety public domain detailed chemical mechanisms (in CHEMKIN) 
+						and automatic generation system data.
+						Click below and start exploring"
+						fontSize="1em" textColor="white" textAlign="CENTER" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s12">
+					<m:MaterialButton ui:field="getstarted" textAlign="CENTER"
+						backgroundColor="white" fontSize="1.5em" textColor="black" text="Get Started"
+						grid="s12" width="100%" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s12">
+					<m:MaterialLabel ui:field="prototype" text="Prototype: 20160910"
+						textAlign="CENTER" textColor="white" grid="s12" width="100%" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+		</m:MaterialPanel>
+		<!-- </m:MaterialPanel> -->
 
-		<m:MaterialRow ui:field="loginrow">
-			<m:MaterialColumn grid="s12 m6">
-				<m:MaterialPanel ui:field="createLogin">
-					<m:MaterialTitle ui:field= "logintitle"
-						description="Please provide your account credentials." />
-					<m:MaterialButton ui:field="btnCreate" waves="LIGHT" width="100%" />
-				</m:MaterialPanel>
-			</m:MaterialColumn>
-			<m:MaterialColumn grid="s12 m6">
-				<m:MaterialPanel addStyleNames="{style.fieldPanel}">
-					<m:MaterialImage resource="{loginres.OneKey}" type="CIRCLE"
-						addStyleNames="{style.imgProfile} z-depth-1" />
-					<m:MaterialTextBox ui:field="accountname" />
-					<m:MaterialTextBox ui:field="userpassword" type="PASSWORD"/>
-					<m:MaterialButton ui:field="btnLogin" waves="LIGHT" width="100%" />
-				</m:MaterialPanel>
-			</m:MaterialColumn>
-		</m:MaterialRow>
+		<ma:window.MaterialWindow ui:field="loginWindow"
+			width="70%">
+			<m:MaterialRow ui:field="loginrow">
+				<m:MaterialColumn grid="s12 m6">
+					<m:MaterialPanel ui:field="createLogin">
+						<m:MaterialTitle ui:field="logintitle"
+							description="Please provide your account credentials." />
+						<m:MaterialButton ui:field="btnCreate" waves="LIGHT"
+							width="100%" />
+					</m:MaterialPanel>
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s12 m6">
+					<m:MaterialPanel addStyleNames="{style.fieldPanel}">
+						<m:MaterialImage resource="{loginres.OneKey}"
+							type="CIRCLE" addStyleNames="{style.imgProfile} z-depth-1" />
+						<m:MaterialTextBox ui:field="accountname" />
+						<m:MaterialTextBox ui:field="userpassword" type="PASSWORD" />
+						<m:MaterialButton ui:field="btnLogin" waves="LIGHT"
+							width="100%" />
+					</m:MaterialPanel>
+				</m:MaterialColumn>
+			</m:MaterialRow>
+		</ma:window.MaterialWindow>
 
 		<m:MaterialSlider fullscreen="false">
 			<m:MaterialSlideItem>
@@ -120,7 +174,7 @@
 			</m:MaterialSlideItem>
 		</m:MaterialSlider>
 
-		<m:MaterialTitle ui:field="firstdescription" />
+	<g:HorizontalPanel ui:field="firstdescription"/>
 
 		<m:MaterialParallax height="200">
 			<m:MaterialImage
@@ -133,6 +187,35 @@
 			<m:MaterialImage
 				url="http://impactcity.nl/wp-content/uploads/2016/02/big-data-word-cloud.jpg" />
 		</m:MaterialParallax>
+
+		<g:HorizontalPanel  ui:field="rdfdescription" />
+
+		<m:MaterialSlider height="300" fullscreen="false">
+			<m:MaterialSlideItem ui:field="rdf1">
+				<m:MaterialImage resource="{res.RDF_Ontologies}"
+					width="800" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="rdf2">
+				<m:MaterialImage resource="{res.RDF_ResourceDescriptionFramework}" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="rdf3">
+				<m:MaterialImage resource="{res.RDF_RDFExamplesFromMechanism}" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="rdf4">
+				<m:MaterialImage resource="{res.RDF_ReactionData}" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="rdf6">
+				<m:MaterialImage resource="{res.RDF_PassiveConnection}" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="rdf5">
+				<m:MaterialImage resource="{res.RDF_LinkingDifferentModels}" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="rdf7">
+				<m:MaterialImage resource="{res.RDF_ConnectionThroughIsomers}" />
+			</m:MaterialSlideItem>
+		</m:MaterialSlider>
+
+
 
 		<m:MaterialFooter backgroundColor="blue">
 

@@ -4,6 +4,9 @@ public class RDFGraphStringObject extends RDFGraphNode {
 	
 	String object;
 
+	public RDFGraphStringObject() {
+		object = null;
+	}
 	public RDFGraphStringObject(String object) {
 		super(false,false,true);
 		this.object = object;
@@ -21,9 +24,22 @@ public class RDFGraphStringObject extends RDFGraphNode {
 	 */
 	public boolean matchesNode(RDFGraphNode obj) {
 		boolean ans = false;
-		if(super.equals(obj)) {
+		if(super.matchesNode(obj)) {
 			RDFGraphStringObject stringobj = (RDFGraphStringObject) obj;
-			ans = object.matches(stringobj.getObject());
+			String objS = stringobj.getObject();
+			if(objS != null) {
+				if(object != null) {
+					ans = object.compareTo(objS) == 0;
+				} else {
+					ans = false;
+				}
+			} else {
+				if(object != null) {
+					ans = false;
+				} else {
+					ans = true;
+				}
+			}
 		}
 		return ans;
 	}

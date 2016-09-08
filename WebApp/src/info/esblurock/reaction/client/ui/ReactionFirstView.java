@@ -7,8 +7,7 @@ public interface ReactionFirstView extends IsWidget {
 	void setName(String helloName);
 	void setPresenter(Presenter listener);
 
-	public interface Presenter
-	{
+	public interface Presenter {
 		void goTo(Place place);
 	}
 

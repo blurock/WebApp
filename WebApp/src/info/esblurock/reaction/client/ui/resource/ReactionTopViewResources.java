@@ -24,6 +24,10 @@ public interface ReactionTopViewResources extends ClientBundle {
 	
 	@Source("chemconnectdescription.txt")
 	public TextResource chemconnectdescription();
+
+	@Source("usersearching.txt")
+	public TextResource usersearching();
 	
+
 	
 }

@@ -10,6 +10,9 @@ public class RDFTreeNode implements Serializable {
 	RDFGraphNode parent;
 	SetOfGraphNodes children;
 	
+	public RDFTreeNode() {
+	}
+	
 	/** Constructor 
 	 * 
 	 * @param node
@@ -41,6 +44,7 @@ public class RDFTreeNode implements Serializable {
 			boolean objectB, DatabaseObject object) {
 		RDFGraphSubjectNode subjectparent = new RDFGraphSubjectNode(rdfsubject);
 		RDFTreeNode subjectsub = children.findMatchingNode(subjectparent);
+		
 		SetOfGraphNodes predicateNodes = subjectsub.getChildren();
 		RDFGraphPredicateNode predicatenode = new RDFGraphPredicateNode(rdfpredicate);
 		RDFTreeNode predicatesub = predicateNodes.findMatchingNode(predicatenode);
@@ -69,6 +73,11 @@ public class RDFTreeNode implements Serializable {
 	public void setNode(RDFGraphNode node) {
 		this.parent = node;
 	}
+
+public RDFGraphNode getParent() {
+	return parent;
+}
+
 /** The sub-nodes of the parent.
  * 
  * @return

@@ -1,6 +1,8 @@
-ChemConnect is a database that interconnects fine-grained information extracted from chemical kinetic and thermodynamic sources such as 
+<b>ChemConnect</b> is a database that interconnects fine-grained information extracted from chemical kinetic and thermodynamic sources such as 
 CHEMKIN mechanism files, NASA polynomial files, and even the information behind automatic generation files.
-The key to the interconnection is the Resource Description Framework (RDF) from Semantic Web technologies.
+<br>
+The key to the interconnection is the <i>Resource Description Framework</i> (RDF) 
+from Semantic Web technologies.
 The RDF is a triplet where an object item (first) is associated through a descriptor (second) to a subject item.
 In this way the information of the object is connected (through the descriptor) to the subject. 
 In ChemConnect the object is word (text) and the subject can be text or a database item. 

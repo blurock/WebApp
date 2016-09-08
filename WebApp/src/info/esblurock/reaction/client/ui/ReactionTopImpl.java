@@ -16,7 +16,6 @@ import info.esblurock.reaction.client.StoreDescriptionDataAsync;
 import info.esblurock.reaction.client.panel.contact.UserContactInput;
 import info.esblurock.reaction.client.resources.InputConstants;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
-import info.esblurock.reaction.client.resources.LoginInterface;
 import info.esblurock.reaction.client.ui.login.CheckSessionLoginCallback;
 import info.esblurock.reaction.client.ui.login.ClientLogout;
 import info.esblurock.reaction.client.ui.login.CreateNewUser;
@@ -34,6 +33,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ReactionTopImpl extends UiImplementationBase implements ReactionTopView {
@@ -46,8 +48,9 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	
 	InputConstants inputConstants = GWT.create(InputConstants.class);
 	InterfaceConstants interfaceconstants = GWT.create(InterfaceConstants.class);
+	
 	@UiField
-	MaterialTitle firstdescription;
+	HorizontalPanel firstdescription;
 
 	@UiField
 	MaterialTitle seconddescription;
@@ -77,6 +80,8 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	@UiField
 	MaterialButton btnLogin;
 
+	MaterialLabel topsummary;
+	MaterialButton getstarted;
 	
 	@UiField
 	MaterialTitle item1caption;
@@ -88,9 +93,15 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	MaterialTitle item4caption;
 
 	@UiField
+	HorizontalPanel rdfdescription;
+
+	@UiField
 	MaterialWindow linkWindow;
 	@UiField
 	MaterialWindow userCreateWindow;
+	
+	@UiField
+	MaterialWindow loginWindow;
 	
 	@UiField 
 	MaterialRow loginrow;
@@ -134,6 +145,8 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		profile.setVisible(false);
 		username.setVisible(false);
 		
+		
+		
 		if(username != null) {
 			LoginServiceAsync async = LoginService.Util.getInstance();
 			CheckSessionLoginCallback callback = new CheckSessionLoginCallback(user, this);
@@ -143,14 +156,19 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		}
 
 		String descriptiontext = ReactionTopViewResources.INSTANCE.chemconnectdescription().getText();
-		String title = "ChemConnect: Interconnecting Chemical Data";
-		firstdescription.setTitle(title);
-		firstdescription.setDescription(descriptiontext);
+		String title = "<h1>ChemConnect: Interconnecting Chemical Data</h1>";
+		HTML deschtml = new HTML(title + descriptiontext);
+		firstdescription.add(deschtml);
+		//topsummary.setText(descriptiontext);
 
 		String description2text = ReactionTopViewResources.INSTANCE.firstdescription().getText();
 		String title2 = "The Very Open Data Project";
 		seconddescription.setDescription(description2text);
 		seconddescription.setTitle(title2);
+		
+		String searchtext = ReactionTopViewResources.INSTANCE.usersearching().getText();
+		HTML searchhtml = new HTML(searchtext);
+		rdfdescription.add(searchhtml);
 		
 		linkWindow.setTitle(interfaceconstants.linkwindowtitle());
 		
@@ -182,6 +200,9 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		loginrow.setVisible(false);
 		createLogin.setVisible(false);
 		linkmenu.setVisible(true);
+		getstarted.setVisible(false);
+		getstarted.setEnabled(false);
+		linkWindow.openWindow();
 	}
 	
 	@Override
@@ -195,8 +216,14 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		username.setVisible(false);
 		loginrow.setVisible(true);
 		linkmenu.setVisible(false);
+		getstarted.setVisible(true);
+		getstarted.setEnabled(true);
 	}
 
+	@UiHandler("getstarted")
+	void onGetStarted(ClickEvent e) {
+		loginWindow.openWindow();
+	}
 	@UiHandler("toplogout")
 	void onTopLogoutClick(ClickEvent e) {
 		logout.logout(this);
@@ -224,19 +251,19 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		LoginCallback callback = new LoginCallback(this);
 		MaterialToast.fireToast(msg);
 		async.loginServer(accountname.getText(), userpassword.getText(),callback);
+		loginWindow.closeWindow();
 	}
 	@UiHandler("btnCreate")
 	void onCreateLoginClick(ClickEvent e) {
 		if (create) {
+			loginWindow.closeWindow();
 			userCreateWindow.openWindow();
 		}
 	}
 
 	@UiHandler("linkmenu")
 	void onLinkClick(ClickEvent e) {
-		MaterialToast.fireToast("Links:");
 		linkWindow.openWindow();
-		MaterialToast.fireToast("Links");		
 	}
 	
 	@Override

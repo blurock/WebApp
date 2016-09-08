@@ -4,19 +4,24 @@ import java.io.Serializable;
 
 public class QueryPathElement implements Serializable{
 	private static final long serialVersionUID = 1L;
-	String keyword;
-	String predicate;
+	public static String SUBJECT = "Subject";
+	public static String PREDICATE = "Predicate";
+	public static String OBJECTSTRING = "ObjectKey";
+	public static String OBJECTOBJECT = "Object";
+	public static String SEARCHSTRING = "Search";
 	
-	public QueryPathElement(String keyword, String predicate) {
+	String keyword;
+	String type;
+	
+	public QueryPathElement(String keyword, String type) {
 		this.keyword = keyword;
-		this.predicate = predicate;
+		this.type = type;
 	}
 	public String toString() {
 		StringBuilder build = new StringBuilder();
-		build.append(keyword);
+		build.append(type);
 		build.append(":");
-		build.append(predicate);
-		
+		build.append(keyword);
 		return build.toString();
 	}
 }

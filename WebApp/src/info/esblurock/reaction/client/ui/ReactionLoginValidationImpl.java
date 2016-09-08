@@ -19,7 +19,6 @@ import gwt.material.design.client.ui.MaterialCardTitle;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.StoreDescriptionData;
 import info.esblurock.reaction.client.StoreDescriptionDataAsync;
@@ -67,18 +66,14 @@ public class ReactionLoginValidationImpl extends Composite implements ReactionLo
 	LoginInterface loginConstants = GWT.create(LoginInterface.class);
 
 	public ReactionLoginValidationImpl() {
-		MaterialToast.fireToast("ReactionLoginValidationImpl()");
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
-		MaterialToast.fireToast("ReactionLoginValidationImpl()");
 	}
 
 	public ReactionLoginValidationImpl(String firstName) {
-		MaterialToast.fireToast("ReactionLoginValidationImpl(String firstName)");
 		initWidget(uiBinder.createAndBindUi(this));
 		this.helloName = firstName;
 		init();
-		MaterialToast.fireToast("ReactionLoginValidationImpl(String firstName)");
 	}
 
 	private void init() {

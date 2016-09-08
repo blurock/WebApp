@@ -2,6 +2,7 @@ package info.esblurock.reaction.client.panel.query;
 
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
+import info.esblurock.reaction.data.rdf.graph.RDFTreeNode;
 
 import java.util.HashSet;
 
@@ -19,5 +20,7 @@ public interface ReactionSearchServiceAsync {
 
 	void getObjectFromKey(String classname, String key,
 			AsyncCallback<DatabaseObject> callback);
+
+	void searchedRegisteredQueries(String query, AsyncCallback<RDFTreeNode> callback);
 
 }

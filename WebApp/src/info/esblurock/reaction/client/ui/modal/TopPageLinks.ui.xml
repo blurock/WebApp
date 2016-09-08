@@ -15,5 +15,9 @@
 					<m:MaterialLink ui:field="dataentry"
 						text="Data Entry: Enter raw data into database" />
 	</m:MaterialCollectionItem>
+	<m:MaterialCollectionItem>
+					<m:MaterialLink ui:field="information"
+						text="Information about ChemConnect and how to use it" />
+	</m:MaterialCollectionItem>
 	</m:MaterialCollection>
 </ui:UiBinder> 

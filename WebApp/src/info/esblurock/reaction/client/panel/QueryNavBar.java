@@ -3,6 +3,7 @@ package info.esblurock.reaction.client.panel;
 import info.esblurock.reaction.client.panel.query.BasicObjectSearchCallback;
 import info.esblurock.reaction.client.panel.query.BasicSearchCallback;
 import info.esblurock.reaction.client.panel.query.QueryPath;
+import info.esblurock.reaction.client.panel.query.QueryPathElement;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.client.panel.query.ReactionSearchServiceAsync;
 import info.esblurock.reaction.client.ui.ReactionQueryImpl;
@@ -12,6 +13,7 @@ import gwt.material.design.addins.client.window.MaterialWindow;
 //import gwt.material.design.addins.client.window.MaterialWindow;
 import gwt.material.design.client.events.SearchFinishEvent;
 import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
@@ -63,8 +65,8 @@ public class QueryNavBar extends Composite implements HasText {
 	 * 
 	 * @UiField MaterialLink linkmenu;
 	 */
-	MaterialCollapsibleItem search0;
 	QueryAndResultPanel qrpanel;
+	MaterialCollapsible topsearch;
 	Presenter listener;
 	String name;
 	UserDTO user;
@@ -99,9 +101,7 @@ public class QueryNavBar extends Composite implements HasText {
 		txtSearch.addSearchFinishHandler(new SearchFinishEvent.SearchFinishHandler() {
 			@Override
 			public void onSearchFinish(SearchFinishEvent event) {
-				MaterialToast.fireToast("Search Finish");
 				String searchText = txtSearch.getText();
-				MaterialToast.fireToast("Search: '" + searchText);
 			}
 		});
 		txtSearch.addKeyDownHandler(new KeyDownHandler() {
@@ -119,12 +119,11 @@ public class QueryNavBar extends Composite implements HasText {
 	private void doSearch(String text) {
 		String searchText = txtSearch.getText();
 		MaterialToast.fireToast("Start Search: '" + searchText + "'");
-		this.search0 = qrpanel.getQueryTop(text);
-		//qrpanel.setText(text);
-		QueryPath path = new QueryPath(text);
-		BasicObjectSearchCallback callback = new BasicObjectSearchCallback(path, search0);
+		this.topsearch = qrpanel.getQueryTop();
+		QueryPath path = new QueryPath(QueryPathElement.SEARCHSTRING,text);
+		BasicObjectSearchCallback callback = new BasicObjectSearchCallback(path, topsearch);
 		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
-		async.singleKeyQuery(text, callback);
+		async.searchedRegisteredQueries(text, callback);
 	}
 
 	@Override

@@ -25,7 +25,8 @@ public class QueryAndResultPanel extends UiImplementationBase implements HasText
 	@UiField
 	MaterialCollapsible topoftree;
 	
-	MaterialCollapsibleItem search0;
+	String text;
+	//MaterialCollapsibleItem search0;
 	Presenter listener;
 	
 	public QueryAndResultPanel() {
@@ -37,30 +38,32 @@ public class QueryAndResultPanel extends UiImplementationBase implements HasText
 		init(firstName);
 	}
 	private void init(String text) {
+		/*
 		search0 = new MaterialCollapsibleItem();
 		search0.setText(text);
+		*/
 	}
-	public MaterialCollapsibleItem getQueryTop() {
-		topoftree.add(search0);
-		return search0;
+	public MaterialCollapsible getQueryTop() {
+		return topoftree;
 	}
+/*	
 	public MaterialCollapsibleItem getQueryTop(String text) {
 		search0 = new MaterialCollapsibleItem();
 		search0.setText(text);
 		topoftree.add(search0);
 		return search0;
 	}
-	
+*/
 	
 	@Override
 	public void setText(String text) {
-		search0.setText(text);
+		this.text = text;
 	}
 
 	
 	@Override
 	public String getText() {
-		return search0.getText();
+		return this.text;
 	}
 	public void setPresenter(Presenter listener) {
 		this.listener = listener;

@@ -30,8 +30,8 @@ public class LoginCallback implements AsyncCallback<UserDTO> {
 					expires, null, "/", false);
 			Cookies.setCookie("level", result.getUserLevel(),
 					expires, null, "/", false);
-			toplevel.setLoggedIn();
 			toplevel.setUser(result);
+			toplevel.setLoggedIn();
 		} else {
 			Window.alert("Access Denied. Check your user-name and password.");
 		}

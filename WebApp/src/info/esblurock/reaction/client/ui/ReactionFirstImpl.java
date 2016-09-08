@@ -1,6 +1,7 @@
 package info.esblurock.reaction.client.ui;
 
 import gwt.material.design.client.ui.MaterialContainer;
+import gwt.material.design.client.ui.MaterialHeader;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.activity.place.ReactionTopPlace;
 import info.esblurock.reaction.client.panel.StandardNavigation;
@@ -30,7 +31,10 @@ public class ReactionFirstImpl extends Composite implements ReactionFirstView {
 
 	@UiField
 	HTMLPanel wholepanel;
+	@UiField
 	MaterialContainer content;
+	@UiField
+	MaterialHeader header;
 
 	public ReactionFirstImpl() {
 		setName("First");
@@ -40,10 +44,9 @@ public class ReactionFirstImpl extends Composite implements ReactionFirstView {
 
 	private void init() {
 		StandardNavigation nav = new StandardNavigation();
-		MaterialContainer content = new MaterialContainer();
+		nav.setPresenter(listener);
 		nav.setContent(content);
-		wholepanel.add(nav);
-		wholepanel.add(content);
+		header.add(nav);
 	}
 
 	private void createNext() {

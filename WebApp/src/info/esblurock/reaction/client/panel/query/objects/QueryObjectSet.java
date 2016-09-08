@@ -118,9 +118,9 @@ public class QueryObjectSet extends Composite implements HasText {
 			if(!objectsDisplayed.contains(subkey)) {
 				count++;
 				objectsDisplayed.add(subkey);
-				QueryPath next = topPath.addToNewPath(ObjectQueryResult.shortClassname(key), subkey, true);
-				ObjectQueryResult subtext = new ObjectQueryResult(next, key, subkey);
-				parent.add(subtext);
+				//QueryPath next = topPath.addToNewPath(ObjectQueryResult.shortClassname(key), subkey, true);
+				//ObjectQueryResult subtext = new ObjectQueryResult(next, key, subkey);
+				//parent.add(subtext);
 			}
 		}		
 	}

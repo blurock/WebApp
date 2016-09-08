@@ -3,6 +3,9 @@ package info.esblurock.reaction.data.rdf.graph;
 public class RDFGraphPredicateNode extends RDFGraphNode {
 	String predicate;
 	
+	public RDFGraphPredicateNode() {
+		predicate = null;
+	}
 	public RDFGraphPredicateNode(String predicate) {
 		super(false,true,false);
 		this.predicate = predicate;
@@ -16,7 +19,11 @@ public class RDFGraphPredicateNode extends RDFGraphNode {
 		return predicate;
 	}
 	public boolean matchesNode(RDFGraphNode obj) {
-		RDFGraphPredicateNode node = (RDFGraphPredicateNode) obj;
-		return node.getPredicate().matches(predicate);
+		boolean ans = false;
+		if(super.matchesNode(obj)) {
+			RDFGraphPredicateNode node = (RDFGraphPredicateNode) obj;
+			ans = node.getPredicate().compareTo(predicate) == 0;
+		}
+		return ans;
 	}
 }

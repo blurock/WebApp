@@ -68,10 +68,7 @@ public class QueryLinks extends Composite implements HasText {
 	}
 	@UiHandler("top")
 	void onTopClick(ClickEvent e) {
-		MaterialToast.fireToast("top: ");
 		String username = Cookies.getCookie("user");
-		MaterialToast.fireToast("top: " + listener.toString());
-		MaterialToast.fireToast("top: " + username);
 		listener.goTo(new ReactionTopPlace(username));
 	}
 

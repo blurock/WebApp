@@ -111,6 +111,7 @@ public class DataInput extends Composite implements HasText {
 
 	private void fillInText() {
 		objecttitle.setText(inputConstants.title());
+		objecttitle.setTitle(inputConstants.title());
 		uploadText.setText(inputConstants.uploadtext());
 		httpaddress.setPlaceholder(inputConstants.httptitle());
 		httpaddress.setText(inputConstants.httptext());
@@ -157,9 +158,12 @@ public class DataInput extends Composite implements HasText {
 
 		datatype.setText(type);
 
+		MaterialToast.fireToast("Data Input: '" + title + "'");
 		objecttitle.setText(title);
+		/*
+		objecttitle.setTitle(title);
 		objecttitle.setTooltip(titletooltip);
-
+		 */
 		httpaddress.setText(httptext);
 		textarea.setText(texttext);
 		textarea.setPlaceholder(texttitle);

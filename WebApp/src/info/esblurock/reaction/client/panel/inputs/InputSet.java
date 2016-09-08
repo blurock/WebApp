@@ -9,6 +9,8 @@ import info.esblurock.reaction.server.process.ProcessBase;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Window;
 
+import gwt.material.design.client.ui.MaterialToast;
+
 public enum InputSet {
 	organization {
 		@Override
@@ -50,7 +52,6 @@ public enum InputSet {
 		@Override
 		public ArrayList<DataInput> getSet(DataDescription description) {
 			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
-
 			inputset.add(InputPanel.chemkinReactions.getWidget(description));
 			inputset.add(InputPanel.nasapolynomials.getWidget(description));
 			DataInput transport = InputPanel.transport.getWidget(description);

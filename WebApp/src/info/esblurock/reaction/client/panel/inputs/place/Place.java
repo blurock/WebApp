@@ -15,6 +15,8 @@ import com.google.gwt.user.client.Cookies;
 
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.ui.MaterialToast;
+
 public enum Place {
 	organization {
 		@Override
@@ -35,7 +37,7 @@ public enum Place {
 	usercontact {
 		@Override
 		public String getTitle() {
-			return "UserContact";
+			return "User Contact";
 		}
 
 		@Override

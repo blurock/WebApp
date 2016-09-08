@@ -10,6 +10,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
+import info.esblurock.reaction.data.rdf.graph.RDFTreeNode;
 
 @RemoteServiceRelativePath("reactionqueryservice")
 public interface ReactionSearchService  extends RemoteService {
@@ -31,7 +32,7 @@ public interface ReactionSearchService  extends RemoteService {
 	   RDFBySubjectSet objectSearch(String search);
 	   RDFBySubjectSet mergeSearch(HashSet<String> keyset) throws IOException;
 	   RDFBySubjectSet singleKeyQuery(String key) throws IOException;
-	   
+	   RDFTreeNode searchedRegisteredQueries(String query) throws IOException;
 	   DatabaseObject getObjectFromKey(String classname, String key) throws Exception;
 	   
 }

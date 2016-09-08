@@ -1,0 +1,44 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:user="urn:import:info.esblurock.reaction.client.panel" 
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
+
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s4">
+				<m:MaterialCard backgroundColor="white">
+					<m:MaterialVideo url="https://youtu.be/nqu_vb39iyI" />
+					<m:MaterialCardContent textColor="black">
+						<m:MaterialLabel
+							text="This set of slides gives an outline of cloud computing with 
+ 									examples of using the Google Cloud Platform in the implementation 
+ 									of ChemConnect. In addition, the ChemConnect database is introduced. 
+ 									Presented at the COST Action 1404 SMARTCATS workshop." />
+					</m:MaterialCardContent>
+				</m:MaterialCard>
+			</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="l6 s7 m7">
+				<m:MaterialCard backgroundColor="white" width="615px">
+					<m:MaterialVideo url="http://www.slideshare.net/blurock/slideshelf"
+						width="490px" height="470px" />
+					<m:MaterialCardContent textColor="black">
+						<m:MaterialLabel
+							text="SlideShare: This set of slides gives an outline of cloud computing with 
+ examples of using the Google Cloud Platform in the implementation of ChemConnect. In addition, the ChemConnect database is introduced. 
+ Presented at the COST Action 1404 SMARTCATS workshop." />
+					</m:MaterialCardContent>
+				</m:MaterialCard>
+			</m:MaterialColumn>
+		</m:MaterialRow>
+
+	</g:HTMLPanel>
+</ui:UiBinder> 

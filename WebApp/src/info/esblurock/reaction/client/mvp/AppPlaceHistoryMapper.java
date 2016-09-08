@@ -9,7 +9,7 @@ import info.esblurock.reaction.client.activity.place.ReactionFirstPlace;
 import info.esblurock.reaction.client.activity.place.ReactionQueryPlace;
 import info.esblurock.reaction.client.activity.place.ReactionTopPlace;
 import info.esblurock.reaction.client.activity.place.ReactionLoginValidationPlace;
-
+import info.esblurock.reaction.client.activity.place.ReactionInformationPlace;
 /**
  * PlaceHistoryMapper interface is used to attach all places which the
  * PlaceHistoryHandler should be aware of. This is done via the @WithTokenizers
@@ -20,7 +20,8 @@ import info.esblurock.reaction.client.activity.place.ReactionLoginValidationPlac
 @WithTokenizers( { ReactionTopPlace.Tokenizer.class, 
 	ReactionFirstPlace.Tokenizer.class,
 	ReactionQueryPlace.Tokenizer.class,
-	ReactionLoginValidationPlace.Tokenizer.class}
+	ReactionLoginValidationPlace.Tokenizer.class,
+	ReactionInformationPlace.Tokenizer.class}
 )
 
 public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {

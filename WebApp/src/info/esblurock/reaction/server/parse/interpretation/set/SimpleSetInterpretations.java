@@ -37,7 +37,7 @@ public class SimpleSetInterpretations extends Interpretation {
 				output.retainAll(rdfs);
 			}
 		}
-		ArrayList<KeywordRDF> lst = new ArrayList<KeywordRDF>(output);
+		//ArrayList<KeywordRDF> lst = new ArrayList<KeywordRDF>(output);
 		return output;
 	}
 	public HashSet<KeywordRDF> union(String inputS) {
@@ -62,7 +62,10 @@ public class SimpleSetInterpretations extends Interpretation {
 			lst.addAll(union(inputS));
 		}
 		if(intersectionB) {
-			lst.addAll(intersection(inputS));
+			HashSet<KeywordRDF> inters = intersection(inputS);
+			if(inters != null) {
+				lst.addAll(inters);
+			}
 		}
 		return lst;
 	}

@@ -13,12 +13,10 @@
 	}
 	</ui:style>
 	<g:HTMLPanel ui:field="wholepanel" >
-	
-
+	<m:MaterialHeader ui:field="header">
+	</m:MaterialHeader>
 		<m:MaterialContainer  ui:field="content">
 		</m:MaterialContainer>
-
-
 		<m:MaterialFooter>
 		</m:MaterialFooter>
 	</g:HTMLPanel>

@@ -1,7 +1,6 @@
 package info.esblurock.reaction.server;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import info.esblurock.reaction.data.DatabaseObject;
@@ -87,17 +86,21 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		System.out.println("RDFBySubjectSet singleKeyQuery: 2");
 		
 		
+		return oset;
+		
+	}
+	public RDFTreeNode searchedRegisteredQueries(String query)  throws IOException {
 		System.out.println("RegisteredQueries.getRegistered()");
 		SetOfParseQueries queries = RegisteredQueries.getRegistered();
 		SetOfKeywordRDF total = new SetOfKeywordRDF();
-		for(ParseQuery query : queries) {
-			System.out.println("Query: " + query.toString());
-			SetOfInterpretations interpretations = query.parseInput();
+		for(ParseQuery pquery : queries) {
+			System.out.println("Query: " + pquery.toString());
+			SetOfInterpretations interpretations = pquery.parseInput();
 			for(Interpretation interpret : interpretations) {
 				System.out.println("Interpretation: " + interpret.toString());
-				if(interpret.interpretable(key)) {
+				if(interpret.interpretable(query)) {
 					System.out.println("Interpretable: " + interpret.toString());
-					HashSet<KeywordRDF> results = interpret.getResults(key);
+					HashSet<KeywordRDF> results = interpret.getResults(query);
 					System.out.println("Results: " + results);
 					total.addAll(results);
 				}
@@ -106,14 +109,14 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		System.out.println("------------------------------------------------------");
 		System.out.println("Total: " + total.toString());
 		TreeNodeFactory factory = new TreeNodeFactory();
-		RDFTreeNode node = factory.addAllRDF(key, total);
+		RDFTreeNode node = factory.addAllRDF(query, total);
 		System.out.println("------------------------------------------------------");
 		System.out.println("The RDF Tree");
 		System.out.println(node.toString());
 		System.out.println("------------------------------------------------------");
-		return oset;
-		
+		return node;
 	}
+	
 	public RDFBySubjectSet sameObjectSearch(String search) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

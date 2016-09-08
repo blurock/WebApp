@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.7.0//EN" "http://gwtproject.org/doctype/2.7.0/gwt-module.dtd">
+<module>
+	<inherits name="com.google.gwt.user.User" />
+	<source path="client"/>
+
+  <!-- implicitly includes com.example.foo.client package          -->
+
+  <!-- OPTIONAL STUFF FOLLOWS -->
+
+  <!-- It's okay for your module to declare an entry point.        -->
+  <!-- This gets ignored when running under JUnit.                 -->
+  <entry-point class='com.example.foo.FooModule'/>
+	<!-- Specify the paths for translatable code -->
+	<source path='client' />
+	<source path='shared' />
+	<source path='data' />
+
+  <!-- You can also test remote services during a JUnit run.       -->
+  <servlet path='/webapp/reactionqueryservice' class='info.esblurock.reaction.server.ReactionSearchServiceImpl'/>
+  <servlet path='/loginservice' class='info.esblurock.reaction.server.LoginServiceImpl'/>
+</module>

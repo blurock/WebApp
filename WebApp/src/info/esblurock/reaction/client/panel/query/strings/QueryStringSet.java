@@ -112,9 +112,9 @@ public class QueryStringSet extends Composite implements HasText {
 			String subkey = iter.next();
 			if(!objectsDisplayed.contains(subkey)) {
 				count++;
-				QueryPath next = topPath.addToNewPath(key, subkey,false);
-				StringQueryResult subtext = new StringQueryResult(next, key, subkey,stringset.isKeysAsObject());
-				collapse.add(subtext);
+				//QueryPath next = topPath.addToNewPath(key, subkey,false);
+				//StringQueryResult subtext = new StringQueryResult(next, key, subkey,stringset.isKeysAsObject());
+				//collapse.add(subtext);
 			}
 		}
 		if(iter.hasNext()) {

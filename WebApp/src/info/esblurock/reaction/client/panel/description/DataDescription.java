@@ -4,7 +4,6 @@ import info.esblurock.reaction.client.panel.inputs.SetOfInputs;
 import info.esblurock.reaction.client.resources.DescriptionConstants;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 
-import java.text.DateFormat;
 import java.util.Date;
 
 import gwt.material.design.client.ui.MaterialDatePicker;
@@ -20,7 +19,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -45,8 +43,6 @@ public class DataDescription extends Composite implements HasText {
 	@UiField
 	MaterialTextArea description;
 	
-	@UiField
-	HTMLPanel contentpanel;
 	@UiField
 	MaterialLink objecttitle;
 	@UiField
@@ -74,7 +70,7 @@ public class DataDescription extends Composite implements HasText {
 	private void setText() {
 		keywordChanged = false;
 		sourcekeyChanged = false;
-		objecttitle.setText(descriptionConstants.title());
+		objecttitle.setText(descriptionConstants.descriptionpaneltitle());
 		keyword.setPlaceholder(descriptionConstants.keywordplaceholder());
 		keyword.setText(descriptionConstants.keywordtext());
 		oneline.setText(descriptionConstants.onelinetext());
@@ -101,13 +97,14 @@ public class DataDescription extends Composite implements HasText {
 	public DataDescription(String title) {
 		initWidget(uiBinder.createAndBindUi(this));
 		setText();
+		objecttitle.setTitle(title);
 		objecttitle.setText(title);
 		initData();
 	}
 	public DataDescription(String title, String keywordtitle, String onelinetitle, String descriptiontitle) {
 		initWidget(uiBinder.createAndBindUi(this));
 		setText();
-		objecttitle.setText(title);
+		objecttitle.setTitle(title);
 		keyword.setPlaceholder(keywordtitle);
 		oneline.setPlaceholder(onelinetitle);
 		description.setPlaceholder(descriptiontitle);
@@ -118,15 +115,13 @@ public class DataDescription extends Composite implements HasText {
 		sourcekey.setText(username);
 		keyword.setText(username);
 		inputkey.setText(username);
-		MaterialToast.fireToast("UserContactInput 7");
 		date.setVisible(false);
 		sourcekey.setVisible(false);
 		inputkey.setVisible(false);
 		keyword.setEnabled(false);
-		MaterialToast.fireToast("UserContactInput 8");
 		keywordChanged = true;
 		sourcekeyChanged = true;
-		objecttitle.setText(descriptionConstants.usertitle());
+		objecttitle.setTitle(descriptionConstants.usertitle());
 		keyword.setPlaceholder(descriptionConstants.usernameplaceholder());
 		keyword.setText(username);
 		oneline.setText(descriptionConstants.useronelineplaceholder());
@@ -171,16 +166,10 @@ public class DataDescription extends Composite implements HasText {
 		return inputkey.getText();
 	}
 	public Date getSourceDate() {
-		MaterialToast.fireToast("getSourceDate():");
-		//DateFormat format = DateFormat.getInstance();
 		Date current = date.getDate();
-		MaterialToast.fireToast("getSourceDate():" + current);
-		
 		if(current == null) {
-			MaterialToast.fireToast("getSourceDate(): null (today)");
 			current = new Date();
 		}
-		MaterialToast.fireToast("getSourceDate(): " + current.getDate());
 		return current;
 	}
 	

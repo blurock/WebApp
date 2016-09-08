@@ -7,8 +7,6 @@ import info.esblurock.reaction.server.ReactionSearchServiceImpl;
 
 public class TreeNodeFactory {
 	
-	ReactionSearchServiceImpl searchservice = new ReactionSearchServiceImpl();
-	
 	public RDFTreeNode  addAllRDF(String nodeS, SetOfKeywordRDF set) {
 		RDFSubTreeParentNode node = new RDFSubTreeParentNode(nodeS);
 		RDFTreeNode treenode = new RDFTreeNode(node);
@@ -26,7 +24,7 @@ public class TreeNodeFactory {
  * @param treenode
  * @param rdf
  */
-	void addRDF(RDFTreeNode treenode, KeywordRDF rdf) {
+	public boolean addRDF(RDFTreeNode treenode, KeywordRDF rdf) {
 		System.out.println("addRDF: " + rdf.toString());
 		String rdfsubject = rdf.getSubject();
 		String rdfpredicate = rdf.getPredicate();
@@ -35,15 +33,13 @@ public class TreeNodeFactory {
 		int pos = rdfpredicate.indexOf("#");
 		String typeS = rdfpredicate.substring(pos+1);
 		String predicateS = rdfpredicate.substring(0, pos);
-
-		boolean objectB = typeS.endsWith("Object");
+		
 		DatabaseObject object = null;
-		if(objectB) {
-			try {
-				object = searchservice.getObjectFromKey(predicateS, rdfobject);
-			} catch (Exception e) {
-			}
+		boolean objectB = typeS.endsWith("Object");
+		if(!objectB) {
+			treenode.addRDF(rdfsubject, predicateS, rdfobject, objectB, object);
+			typeS = null;
 		}
-		treenode.addRDF(rdfsubject, predicateS, rdfobject, objectB, object);
+		return objectB;
 	}
 }

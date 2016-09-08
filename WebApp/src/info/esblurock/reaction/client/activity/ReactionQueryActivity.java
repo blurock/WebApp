@@ -15,7 +15,6 @@ public class ReactionQueryActivity  extends AbstractActivity implements Reaction
 
 	// Used to obtain views, eventBus, placeController
 	private ClientFactory clientFactory;
-	// Name that will be appended to "Hello,"
 	private String name;
 
 	public ReactionQueryActivity(ReactionQueryPlace place, ClientFactory clientFactory) {
@@ -26,15 +25,10 @@ public class ReactionQueryActivity  extends AbstractActivity implements Reaction
 	
 	@Override
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
-		Window.alert("ReactionQueryActivity.start");
-		Window.alert("ContainerWidget:  " + containerWidget.toString());
 		ReactionQueryView reactionQueryView = clientFactory.getReactionQueryView();
-		Window.alert("ReactionQueryView:  " + containerWidget.toString());		
 		reactionQueryView.setName(name);
 		reactionQueryView.setPresenter(this);
 		containerWidget.setWidget(reactionQueryView.asWidget());
-		Window.alert("ReactionQueryActivity.start finished");
-		
 	}
 	   @Override
 	    public String mayStop() {
@@ -44,7 +38,6 @@ public class ReactionQueryActivity  extends AbstractActivity implements Reaction
 
 	@Override
 	public void goTo(Place place) {
-		MaterialToast.fireToast("ReactionQueryActivity.goTo: " + place.toString());
 		clientFactory.getPlaceController().goTo(place);
 	}
 

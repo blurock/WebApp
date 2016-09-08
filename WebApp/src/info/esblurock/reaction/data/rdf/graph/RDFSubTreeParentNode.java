@@ -4,8 +4,12 @@ public class RDFSubTreeParentNode extends RDFGraphNode {
 	
 	String object;
 
-	public RDFSubTreeParentNode(String object) {
+	public RDFSubTreeParentNode() {
 		super(false,false,false);
+		object = null;
+	}
+	public RDFSubTreeParentNode(String object) {
+		
 		this.object = object;
 	}
 	public String getObject() {

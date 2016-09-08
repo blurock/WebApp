@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import gwt.material.design.addins.client.stepper.MaterialStepper;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import info.esblurock.reaction.client.TextToDatabase;
@@ -21,6 +22,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SetOfInputs extends Composite {
@@ -35,10 +37,9 @@ public class SetOfInputs extends Composite {
 	InterfaceConstants interfaceConstants = GWT.create(InterfaceConstants.class);
 
 	@UiField
-	MaterialCollapsible collapsible;
-
-	@UiField
 	MaterialButton submitdata;
+	@UiField
+	MaterialCollapsible collapsable;
 
 	DescriptionConstants descriptionConstants = GWT
 			.create(DescriptionConstants.class);
@@ -53,13 +54,12 @@ public class SetOfInputs extends Composite {
 		this.dataType = dataType;
 		submitdata.setText(descriptionConstants.submit());
 		description = set.getDescription();
-		collapsible.add(description);
+		collapsable.add(description);
 		description.setInputSet(this);
 		
-
 		List<DataInput> panels = set.getSet(description);
 		for (DataInput panel : panels) {
-			collapsible.add(panel);
+			collapsable.add(panel);
 			inputs.add(panel);
 		}
 	}

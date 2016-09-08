@@ -1,6 +1,7 @@
 package info.esblurock.reaction.client.ui.modal;
 
 import info.esblurock.reaction.client.activity.place.ReactionFirstPlace;
+import info.esblurock.reaction.client.activity.place.ReactionInformationPlace;
 import info.esblurock.reaction.client.activity.place.ReactionQueryPlace;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 import gwt.material.design.client.ui.MaterialCollection;
@@ -33,6 +34,8 @@ public class TopPageLinks extends Composite implements HasText {
 	@UiField
 	MaterialLink dataentry;
 	@UiField
+	MaterialLink information;
+	@UiField
 	MaterialCollection collection;
 	
 	private Presenter listener;
@@ -60,8 +63,11 @@ public class TopPageLinks extends Composite implements HasText {
 	}
 	@UiHandler("query")
 	void onEntryClick(ClickEvent e) {
-		MaterialToast.fireToast("TopPageLinks: goTo ReactionQueryPlace: " + user.getName());
 		listener.goTo(new ReactionQueryPlace(user.getName()));
+	}
+	@UiHandler("information")
+	void onInformationClick(ClickEvent e) {
+		listener.goTo(new ReactionInformationPlace(user.getName()));
 	}
 
 	public void setText(String text) {

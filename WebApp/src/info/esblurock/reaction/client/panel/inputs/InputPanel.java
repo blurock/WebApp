@@ -26,7 +26,6 @@ public enum InputPanel {
 					inputConstants.chemkinmechanismhttptext(),
 					inputConstants.chemkinmechanismtexttooltip(),
 					text);
-					
 			return mechanism;
 		}
 	},

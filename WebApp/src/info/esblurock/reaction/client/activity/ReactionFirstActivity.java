@@ -11,7 +11,6 @@ import info.esblurock.reaction.client.ui.ReactionFirstView;
 public class ReactionFirstActivity extends AbstractActivity implements ReactionFirstView.Presenter {
 	// Used to obtain views, eventBus, placeController
 	private ClientFactory clientFactory;
-	// Name that will be appended to "Hello,"
 	private String name;
 
 	public ReactionFirstActivity(ReactionFirstPlace place, ClientFactory clientFactory) {

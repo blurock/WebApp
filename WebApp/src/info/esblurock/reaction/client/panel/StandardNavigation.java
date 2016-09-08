@@ -1,17 +1,21 @@
 package info.esblurock.reaction.client.panel;
 
+import info.esblurock.reaction.client.activity.place.ReactionQueryPlace;
+import info.esblurock.reaction.client.activity.place.ReactionTopPlace;
 import info.esblurock.reaction.client.panel.inputs.place.Place;
 import info.esblurock.reaction.client.resources.DescriptionConstants;
+import info.esblurock.reaction.client.ui.ReactionFirstView.Presenter;
 import gwt.material.design.client.ui.MaterialContainer;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialNavBrand;
 import gwt.material.design.client.ui.MaterialToast;
-import gwt.material.design.client.ui.MaterialTopNav;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
@@ -25,10 +29,9 @@ public class StandardNavigation extends Composite implements HasText {
 	interface StandardNavigationUiBinder extends
 			UiBinder<Widget, StandardNavigation> {
 	}
-
-	
 	@UiField
-	MaterialTopNav topNav;
+	MaterialNavBrand toptext;
+	
 	@UiField
 	MaterialLink inputorganization;
 	@UiField
@@ -36,16 +39,22 @@ public class StandardNavigation extends Composite implements HasText {
 	@UiField
 	MaterialLink chemkin;
 	@UiField
+	MaterialLink nasapolynomials;
+	@UiField
 	MaterialLink sdfmolecules;
 	@UiField
 	MaterialLink sdfsubstructures;
 	@UiField
 	MaterialLink thergasmolecules;
+	
 	@UiField
-	MaterialLink nasapolynomials;
+	MaterialLink toplink;
+	@UiField
+	MaterialLink querylink;
 	
 	DescriptionConstants descriptionConstants = GWT.create(DescriptionConstants.class);
 	MaterialContainer content;
+	Presenter listener;
 	
 	public void setContent(MaterialContainer content) {
 		this.content = content;
@@ -60,33 +69,32 @@ public class StandardNavigation extends Composite implements HasText {
 		initText();
 	}
 	private void initText() {
+		/*
 		chemkin.setText(descriptionConstants.chemkinsettitle());
 		chemkin.setTooltip(descriptionConstants.chemkinsettooltip());
+		nasapolynomials.setText(descriptionConstants.nasapolynomialssettitle());
+		nasapolynomials.setTooltip(descriptionConstants.nasapolynomialssettooltip());
+		*/
 		sdfmolecules.setText(descriptionConstants.sdfmoleculessettitle());
 		sdfmolecules.setTooltip(descriptionConstants.sdfmoleculessettooltip());
 		sdfsubstructures.setText(descriptionConstants.sdfsubstructuressettitle());
 		sdfsubstructures.setTooltip(descriptionConstants.sdfsubstructuressettooltip());
 		thergasmolecules.setText(descriptionConstants.thergasmoleculessettitle());
 		thergasmolecules.setTooltip(descriptionConstants.thergasmoleculessettooltip());
-		nasapolynomials.setText(descriptionConstants.nasapolynomialssettitle());
-		nasapolynomials.setTooltip(descriptionConstants.nasapolynomialssettooltip());
-		
 	}
 	
-	
 	private void handleHistoryToken(String token) {
-		topNav.setTitle(token);
+		toptext.setText(token);
 		Place place = Place.organization;
 		if (!"".equals(token)) {
 			place = Place.valueOf(token);
+			toptext.setText(place.getTitle());
 		}
 		changeNav(place);
 	}
 
-	
 	private void changeNav(Place place) {
 		MaterialToast.fireToast(place.getTitle());
-		// navBar.hide();
 		Window.scrollTo(0, 0);
 		content.clear();
 		Widget widget = place.getContent();
@@ -101,6 +109,7 @@ public class StandardNavigation extends Composite implements HasText {
 	public String getText() {
 		return new String("Navigation");
 	}
+
 	@UiHandler("inputorganization")
 	void onInputOrganization(ClickEvent e) {
 		MaterialToast.fireToast("inputorganization");
@@ -116,6 +125,25 @@ public class StandardNavigation extends Composite implements HasText {
 		MaterialToast.fireToast("chemkin");
 		handleHistoryToken("chemkin");
 	}
+	@UiHandler("nasapolynomials")
+	void onOnNASAPolynomials(ClickEvent e) {
+		MaterialToast.fireToast("nasapolynomials");
+		handleHistoryToken("nasapolynomials");
+	}
+	
+	@UiHandler("toplink")
+	void onTopClick(ClickEvent e) {
+		String username = Cookies.getCookie("user");
+		MaterialToast.fireToast("top: " + username);
+		listener.goTo(new ReactionTopPlace(username));
+	}
+	@UiHandler("querylink")
+	void onQueryClick(ClickEvent e) {
+		String username = Cookies.getCookie("user");
+		MaterialToast.fireToast("Query: " + username);
+		listener.goTo(new ReactionQueryPlace(username));
+	}
+
 	@UiHandler("sdfmolecules")
 	void onOnInputMolecules(ClickEvent e) {
 		MaterialToast.fireToast("sdfmolecules");
@@ -130,11 +158,6 @@ public class StandardNavigation extends Composite implements HasText {
 	void onOnTHERGASMolecules(ClickEvent e) {
 		MaterialToast.fireToast("thergasmolecules");
 		handleHistoryToken("thergasmolecules");
-	}
-	@UiHandler("nasapolynomials")
-	void onOnNASAPolynomials(ClickEvent e) {
-		MaterialToast.fireToast("nasapolynomials");
-		handleHistoryToken("nasapolynomials");
 	}
 	@UiHandler("toprocess")
 	void onToProcess(ClickEvent e) {
@@ -151,5 +174,7 @@ public class StandardNavigation extends Composite implements HasText {
 		MaterialToast.fireToast("uploadsets");
 		handleHistoryToken("uploadsets");
 	}
-
+	public void setPresenter(Presenter presenter) {
+		listener = presenter;
+	}
 }

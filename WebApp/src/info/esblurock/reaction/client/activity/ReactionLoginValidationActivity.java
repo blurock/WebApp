@@ -6,7 +6,6 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import info.esblurock.reaction.client.activity.place.ReactionLoginValidationPlace;
-import info.esblurock.reaction.client.activity.place.ReactionQueryPlace;
 import info.esblurock.reaction.client.ui.ReactionLoginValidationView;
 
 public class ReactionLoginValidationActivity extends AbstractActivity implements ReactionLoginValidationView.Presenter {

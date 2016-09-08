@@ -79,6 +79,24 @@ public interface DescriptionConstants extends com.google.gwt.i18n.client.Message
   String descriptionlimit();
 
   /**
+   * Translated "Description of data set: ".
+   * 
+   * @return translated "Description of data set: "
+   */
+  @DefaultMessage("Description of data set: ")
+  @Key("descriptionpaneltext")
+  String descriptionpaneltext();
+
+  /**
+   * Translated "Description".
+   * 
+   * @return translated "Description"
+   */
+  @DefaultMessage("Description")
+  @Key("descriptionpaneltitle")
+  String descriptionpaneltitle();
+
+  /**
    * Translated "A more complete description which can be several lines (will be parsed for keys)".
    * 
    * @return translated "A more complete description which can be several lines (will be parsed for keys)"
