@@ -307,7 +307,7 @@ public abstract class ProcessBase {
 	protected ArrayList<TransactionInfo> getSetOfTransactionInfos(ArrayList<String> objectnames) throws IOException {
 		ArrayList<TransactionInfo> infos = new ArrayList<TransactionInfo>();
 		for (String objectname : objectnames) {
-			ArrayList<TransactionInfo> info = getTransactionInfo(objectname);
+			ArrayList<TransactionInfo> info = getTransactionInfo(objectname,true);
 			infos.addAll(info);
 		}
 		return infos;
@@ -323,9 +323,9 @@ public abstract class ProcessBase {
 	 * @return
 	 * @throws IOException
 	 */
-	protected ArrayList<TransactionInfo> getTransactionInfo(String objecttype) throws IOException {
+	protected ArrayList<TransactionInfo> getTransactionInfo(String objecttype, boolean singleton) throws IOException {
 		ArrayList<TransactionInfo> info = TransactionInfoQueries.getTransactionFromKeywordAndObjectType(user, keyword,
-				objecttype);
+				objecttype, singleton);
 		return info;
 	}
 

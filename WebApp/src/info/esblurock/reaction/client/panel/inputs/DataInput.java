@@ -5,23 +5,33 @@ import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.description.DataDescription;
 
 import info.esblurock.reaction.client.resources.InputConstants;
+import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
+import gwt.material.design.addins.client.fileuploader.base.UploadFile;
+import gwt.material.design.addins.client.fileuploader.events.DragOverEvent;
+import gwt.material.design.addins.client.fileuploader.events.SuccessEvent;
+import gwt.material.design.addins.client.fileuploader.events.TotalUploadProgressEvent;
 import gwt.material.design.client.constants.ButtonType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialColumn;
+import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialProgress;
 import gwt.material.design.client.ui.MaterialRadioButton;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.animate.MaterialAnimator;
+import gwt.material.design.client.ui.animate.Transition;
 import gwtupload.client.BaseUploadStatus;
 import gwtupload.client.HasProgress;
+/*
 import gwtupload.client.IFileInput.FileInputType;
 import gwtupload.client.IUploadStatus.Status;
 import gwtupload.client.IUploader;
 import gwtupload.client.IUploader.UploadedInfo;
 import gwtupload.client.SingleUploader;
-
+*/
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -66,11 +76,18 @@ public class DataInput extends Composite implements HasText {
 	@UiField
 	MaterialTextArea textarea;
 	@UiField
-	MaterialColumn columnfile;
-	@UiField
 	MaterialButton uploadText;
 	@UiField
 	MaterialButton uploadHTTP;
+	
+	@UiField 
+	MaterialFileUploader cardUploader;
+	 @UiField 
+	 MaterialImage imgPreview;
+	 @UiField 
+	 MaterialProgress progress;
+	 @UiField 
+	 MaterialLabel lblName, lblSize;
 
 	MaterialLink label;
 	boolean requiredInput = true;
@@ -80,7 +97,7 @@ public class DataInput extends Composite implements HasText {
 	
 	String keyword;
 	String uploaderPath;
-	SingleUploader uploader;
+	//SingleUploader uploader;
 	
 	String sourceInputType = inputConstants.unspecified();
 
@@ -128,10 +145,12 @@ public class DataInput extends Composite implements HasText {
 
 	public void setKeyword(String keyword, String source) {
 		this.keyword = keyword;
+		/*
 		String msg = uploaderPath + "?transname=" + transName 
 				+ "&keyword=" + keyword
 				+ "&source=" + source;
 		uploader.setServletPath(msg);
+		*/
 	}
 	
 	public void setVisibility(boolean visible) {
@@ -179,66 +198,32 @@ public class DataInput extends Composite implements HasText {
 		button.setText(inputConstants.upload());
 		button.setTextColor("blue-text text-darken-2 light-blue lighten-5");
 		
-		uploader = new SingleUploader(FileInputType.CUSTOM.with(button), new MyUploadStatus());
-		keyword = description.createObjectKeyword();
-		uploaderPath = uploader.getServletPath();
-		String msg = uploaderPath + "?transname=" + transName + "&keyword=" + keyword;
-		uploader.setServletPath(msg);
-		columnfile.add(uploader);
-		uploader.addOnFinishUploadHandler(onFinishUploaderHandler);
-	}
-
-	// Load the file in the document and in the case of success attach it to the
-	// viewer
-	private IUploader.OnFinishUploaderHandler onFinishUploaderHandler = new IUploader.OnFinishUploaderHandler() {
-		@Override
-		public void onFinish(IUploader uploader) {
-			if (uploader.getStatus() == Status.SUCCESS) {
-
-				UploadedInfo info = uploader.getServerInfo();
-
-				Window.alert(info.getFileName() + "\n" + info.message + "\nField   : " + info.field + "\nFileName: "
-						+ info.getFileName() + "\nURL     : " + info.getFileUrl() + "\nKey     :" + info.getKey()
-						+ "\ngetField: " + info.getField());
-				
-				setUpLoadInformation(info.getFileName(), info.getField());
-				setInputSource(inputConstants.upload());
-				
-			} else {
-				Window.alert(uploader.getStatus().toString());
-			}
-		}
-
-		private void setUpLoadInformation(String fileName, String field) {
-			uploadfile.setText(fileName);
-			uploadID.setText(field);
-		}
-	};
-
-	AsyncCallback<String> callbackHTTP = new AsyncCallback<String>() {
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert(caught.toString());
-		}
-
-		@Override
-		public void onSuccess(String result) {
-			if (result.startsWith("ERROR")) {
-
-			} else {
-				if (result != null) {
-					MaterialToast.fireToast("Key: " + result);
-					setuUploadFile(httpaddress.getText());
-					setUploadID(result);
-					setInputSource(inputConstants.uploadhttp());
-				} else {
-
+		// Added the progress to card uploader
+		cardUploader.addTotalUploadProgressHandler(new TotalUploadProgressEvent.TotalUploadProgressHandler() {
+			@Override
+			public void onTotalUploadProgress(TotalUploadProgressEvent event) {
+				progress.setPercent(event.getProgress());
 				}
-			}
-		}
+			});
+		 cardUploader.addSuccessHandler(new SuccessEvent.SuccessHandler<UploadFile>() {
+			 @Override
+			 public void onSuccess(SuccessEvent<UploadFile> event) {
+				 MaterialToast.fireToast("Success");
+				 lblName.setText(event.getTarget().getName());
+				 lblSize.setText(event.getTarget().getType());
+				 
+				 String message = event.getResponse().getMessage();
+				 MaterialToast.fireToast(message);
+				 }
+			 });
 
-	};
-
+		 cardUploader.addDragOverHandler(new DragOverEvent.DragOverHandler() {
+			 @Override
+			 public void onDragOver(DragOverEvent event) {
+				 MaterialAnimator.animate(Transition.RUBBERBAND, cardUploader, 0);
+				 }
+			 });
+	}
 	AsyncCallback<String> callbackText = new AsyncCallback<String>() {
 		
 		@Override
@@ -285,12 +270,12 @@ public class DataInput extends Composite implements HasText {
 	void onSubmitClick(ClickEvent e) {
 		MaterialToast.fireToast("Input as pasted text");
 	}
-
+/*
 	@UiHandler("fileinput")
 	void onSubmitFileClick(ClickEvent e) {
 		MaterialToast.fireToast("Input as uploaded file");
 	}
-
+*/
 	public String getType() {
 		return datatype.getText();
 	}
@@ -324,10 +309,13 @@ public class DataInput extends Composite implements HasText {
 		} else if (source.equals(inputConstants.textfile())) {
 			submitText.setValue(true);
 			sourceInputType = inputConstants.textfile();
-		} else if (source.equals(inputConstants.upload())) {
+		} 
+		/*
+		else if (source.equals(inputConstants.upload())) {
 			fileinput.setValue(true);
 			sourceInputType = inputConstants.upload();
 		}
+		*/
 	}
 
 	// progress bar using HTML5 <progress> tag

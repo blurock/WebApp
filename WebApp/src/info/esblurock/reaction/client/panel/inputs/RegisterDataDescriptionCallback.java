@@ -5,6 +5,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialModalContent;
 import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.description.DataDescriptionAsRows;
@@ -19,23 +20,30 @@ public class RegisterDataDescriptionCallback  implements AsyncCallback<String> {
 	//InterfaceConstants interfaceConstants = GWT.create(InterfaceConstants.class);
 
 	private DescriptionDataData description;
-
-	RegisterDataDescriptionCallback(String dataType, DescriptionDataData description) {
+	MaterialModalContent modalcontent;
+	MaterialModal modal;
+	
+	public RegisterDataDescriptionCallback(String dataType, DescriptionDataData description,
+			MaterialModal modal,MaterialModalContent modalcontent) {
 		this.description = description;
+		this.modalcontent = modalcontent;
+		this.modal = modal;
 	}
 	
 	@Override
 	public void onFailure(Throwable caught) {
 		String keyword = GenerateKeywordFromDescription.createKeyword(description);
 		TransactionServiceAsync findprocess = TransactionService.Util.getInstance();
-		SetUpProcessesCallback callback = new SetUpProcessesCallback(keyword);
+		SetUpProcessesCallback callback = new SetUpProcessesCallback(keyword,modal,modalcontent);
 		findprocess.findValidProcessing(keyword, callback);
 	}
 
 	@Override
 	public void onSuccess(String result) {
 		DataDescriptionAsRows panel = new DataDescriptionAsRows(result,description);
-		panel.openModal(ModalType.FIXED_FOOTER);
+		modalcontent.clear();
+		modalcontent.add(panel);
+		modal.openModal();
 		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
 		SuccessfulRegistrationCallback callback = new SuccessfulRegistrationCallback();
 		async.registerDataInputDescription(description,callback);

@@ -4,9 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import gwt.material.design.addins.client.stepper.MaterialStepper;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCollapsible;
+import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialModalContent;
 import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.description.DataDescription;
@@ -22,7 +23,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SetOfInputs extends Composite {
@@ -40,6 +40,10 @@ public class SetOfInputs extends Composite {
 	MaterialButton submitdata;
 	@UiField
 	MaterialCollapsible collapsable;
+	@UiField
+	MaterialModal modal;
+	@UiField
+	MaterialModalContent modalcontent;
 
 	DescriptionConstants descriptionConstants = GWT
 			.create(DescriptionConstants.class);
@@ -95,7 +99,7 @@ public class SetOfInputs extends Composite {
 					dataType);
 			//setInputVisibility(true);
 			setKeyword(description.getKeyWord(), description.getSource());
-			RegisterDataDescriptionCallback callback = new RegisterDataDescriptionCallback(dataType,descrdata);
+			RegisterDataDescriptionCallback callback = new RegisterDataDescriptionCallback(dataType,descrdata,modal,modalcontent);
 			TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
 			async.checkSubmitInputData(descrdata, callback);
 		} else {

@@ -33,7 +33,10 @@
 		<param-name>slowUploads</param-name>
 		<param-value>200</param-value>
 	</context-param>
-
+	<servlet>
+		<servlet-name>fileUploaderServlet</servlet-name>
+		<servlet-class>info.esblurock.reaction.server.FileUploadServlet</servlet-class>
+	</servlet>
 	<servlet>
 		<servlet-name>reactionQueryService</servlet-name>
 		<servlet-class>info.esblurock.reaction.server.ReactionSearchServiceImpl</servlet-class>
@@ -75,7 +78,10 @@
 		<servlet-name>processServlet</servlet-name>
 		<servlet-class>info.esblurock.reaction.server.process.ProcessServlet</servlet-class>
 	</servlet>
-
+	<servlet-mapping>
+		<servlet-name>fileUploaderServlet</servlet-name>
+		<url-pattern>/fileupload</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>processServlet</servlet-name>
 		<url-pattern>/webapp/processservlet</url-pattern>
@@ -88,7 +94,7 @@
 		<servlet-name>reactionProcessUploadedLinesService</servlet-name>
 		<url-pattern>/webapp/reactionprocessuploadedlines</url-pattern>
 		<url-pattern>/reactionprocessuploadedlines</url-pattern>
-	</servlet-mapping> 
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>reactionQueryService</servlet-name>
 		<url-pattern>/webapp/reactionqueryservice</url-pattern>
@@ -115,16 +121,8 @@
 		<url-pattern>/webapp/texttodatabase</url-pattern>
 	</servlet-mapping>
 
-<!--
- 	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>all</web-resource-name>
-			<url-pattern>/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>*</role-name>
-		</auth-constraint>
-	</security-constraint>
- -->
+	<!-- <security-constraint> <web-resource-collection> <web-resource-name>all</web-resource-name> 
+		<url-pattern>/*</url-pattern> </web-resource-collection> <auth-constraint> 
+		<role-name>*</role-name> </auth-constraint> </security-constraint> -->
 </web-app>
 

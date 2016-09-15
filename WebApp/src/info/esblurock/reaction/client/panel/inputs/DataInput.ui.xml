@@ -1,7 +1,10 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:m="urn:import:gwt.material.design.client.ui" xmlns:g="urn:import:com.google.gwt.user.client.ui"
-	xmlns:user="urn:import:info.esblurock.reaction.client.panel" xmlns:gwt="urn:import:gwtupload.client">
+	xmlns:user="urn:import:info.esblurock.reaction.client.panel" xmlns:gwt="urn:import:gwtupload.client"
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
+	<ui:with field='res'
+		type='info.esblurock.reaction.client.ui.resource.MaterialResources' />
 
 	<ui:style>
 	/* Main container */
@@ -56,7 +59,7 @@
 		<m:MaterialCollapsibleHeader
 			backgroundColor="cyan lighten-5">
 			<m:MaterialLink ui:field="objecttitle" text="Input"
-				textColor="blue" iconType="CREATE" iconPosition="LEFT"/>
+				textColor="blue" iconType="CREATE" iconPosition="LEFT" />
 		</m:MaterialCollapsibleHeader>
 		<m:MaterialCollapsibleBody>
 			<m:MaterialRow>
@@ -76,7 +79,9 @@
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s2">
 					<m:MaterialButton ui:field="uploadHTTP"
-						textColor="blue-text text-darken-2 light-blue lighten-5" waves="LIGHT" />
+						textColor="blue-text text-darken-2 
+				light-blue lighten-5"
+						waves="LIGHT" />
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s9">
 					<m:MaterialTextBox ui:field="httpaddress" />
@@ -87,9 +92,40 @@
 					<m:MaterialRadioButton ui:field="fileinput"
 						name="type" />
 				</m:MaterialColumn>
-				<m:MaterialColumn ui:field="columnfile" grid="s5">
+				<m:MaterialColumn>
+					<ma:fileuploader.MaterialFileUploader
+						ui:field="cardUploader" grid="l4" url="/fileupload"
+						preview="false" maxFileSize="20" shadow="0" clickable="cardUpload">
+						<m:MaterialCard>
+							<m:MaterialCardImage>
+								<m:MaterialImage ui:field="imgPreview"
+								resource="{res.RDF_ReactionData}"/>
+							</m:MaterialCardImage>
+							<m:MaterialCardContent layoutPosition="RELATIVE">
+								<m:MaterialLabel ui:field="lblName" text="Drag file here"
+									fontSize="1.5em" />
+								<m:MaterialLabel ui:field="lblSize" text="text file"
+									fontSize="0.8em" />
+								<m:MaterialProgress ui:field="progress"
+									layoutPosition="ABSOLUTE" bottom="0" left="0" type="DETERMINATE"
+									percent="0" />
+								<m:MaterialButton m:id="cardUpload"
+									layoutPosition="ABSOLUTE" top="-25" right="25" type="FLOATING"
+									backgroundColor="pink" size="LARGE" iconType="CLOUD_UPLOAD"
+									iconColor="white" />
+							</m:MaterialCardContent>
+						</m:MaterialCard>
+					</ma:fileuploader.MaterialFileUploader>
 				</m:MaterialColumn>
 			</m:MaterialRow>
+			<!-- <m:MaterialCard grid="s6"> <m:MaterialCardImage> <m:MaterialImage 
+				ui:field="imgPreview" url="http://demo.geekslabs.com/materialize/v3.1/images/gallary/33.jpg" 
+				/> </m:MaterialCardImage> <m:MaterialCardContent layoutPosition="RELATIVE"> 
+				</m:MaterialCardContent> </m:MaterialCard> -->
+
+			<!-- <m:MaterialRow> <m:MaterialColumn grid="s1"> <m:MaterialRadioButton 
+				ui:field="fileinput" name="type" /> </m:MaterialColumn> <m:MaterialColumn 
+				ui:field="columnfile" grid="s5"> </m:MaterialColumn> </m:MaterialRow> -->
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s1">
 					<m:MaterialRadioButton ui:field="submitText"

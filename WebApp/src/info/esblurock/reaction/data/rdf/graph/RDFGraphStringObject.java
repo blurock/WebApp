@@ -43,4 +43,32 @@ public class RDFGraphStringObject extends RDFGraphNode {
 		}
 		return ans;
 	}
+	@Override
+	public int compareTo(RDFGraphNode o) {
+		int ans = 0;
+		if (o == null) {
+			ans = -1;
+		} else {
+			String objS = o.getClass().getName();
+			String thisS = this.getClass().getName();
+			System.out.println("RDFGraphStringObject: '" + objS + "'  '" + thisS + "'");
+			ans = thisS.compareTo(objS);
+			if (ans == 0) {
+				RDFGraphStringObject obj = (RDFGraphStringObject) o;
+				if (object == null) {
+					if (obj.getObject() == null) {
+						ans = 0;
+					} else {
+						ans = 1;
+					}
+				} else if (obj.getObject() == null) {
+					ans = -1;
+				} else {
+					ans = obj.getObject().compareTo(object);
+				}
+			}
+		}
+		return ans;
+	}
+
 }

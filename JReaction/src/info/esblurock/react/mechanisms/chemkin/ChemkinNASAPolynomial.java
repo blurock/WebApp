@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.openscience.cdk.Molecule;
+import org.openscience.cdk.AtomContainer;
 
 import thermo.data.benson.ThermodynamicInformation;
 import thermo.data.structure.structure.AtomCounts;
@@ -328,7 +328,7 @@ public class ChemkinNASAPolynomial implements ThermodynamicInformation {
 		return buf.toString();
 	}
 
-	void fillInMoleculeProperties(Molecule mol) {
+	void fillInMoleculeProperties(AtomContainer mol) {
 		AtomCounts counts = new AtomCounts(mol);
 		atoms = counts.getAtomStringArray(4);
 		atomcnt = counts.correspondingAtomCount(4);

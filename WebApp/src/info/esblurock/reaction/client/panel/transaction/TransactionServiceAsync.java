@@ -33,7 +33,7 @@ public interface TransactionServiceAsync {
 
 	void removeFromRDFsFromDate(Date date, AsyncCallback<String> callback);
 
-	void findValidProcessing(String keyword, AsyncCallback<Set<String>> callback);
+	void findValidProcessing(String keyword, AsyncCallback<List<String>> callback);
 
 	void runProcess(String processName, String keyword, AsyncCallback<String> callback);
 

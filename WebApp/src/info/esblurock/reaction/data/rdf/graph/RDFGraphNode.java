@@ -2,7 +2,7 @@ package info.esblurock.reaction.data.rdf.graph;
 
 import java.io.Serializable;
 
-public class RDFGraphNode implements Serializable {
+public class RDFGraphNode implements Serializable, Comparable<RDFGraphNode> {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -33,7 +33,6 @@ public class RDFGraphNode implements Serializable {
 			ans = obj.isPredicateNode();
 		}
 		return ans;
-		
 	}
 	public boolean isSubjectNode() {
 		return subjectNode;
@@ -43,6 +42,11 @@ public class RDFGraphNode implements Serializable {
 	}
 	public boolean isObjectNode() {
 		return objectNode;
+	}
+
+	@Override
+	public int compareTo(RDFGraphNode o) {
+		return 0;
 	}
 	
 }

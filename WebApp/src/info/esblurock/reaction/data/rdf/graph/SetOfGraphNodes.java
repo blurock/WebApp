@@ -3,6 +3,7 @@ package info.esblurock.reaction.data.rdf.graph;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.TreeSet;
 
 public class SetOfGraphNodes extends HashSet<RDFTreeNode> implements Serializable {
 	private static final long serialVersionUID = 1L;

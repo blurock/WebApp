@@ -58,8 +58,6 @@ public class DataDescriptionAsRows extends Composite implements HasText {
 	MaterialLabel entrydatelabel;
 	@UiField
 	MaterialLink entrydate;
-	@UiField	
-	MaterialModal modal;
 
 	public DataDescriptionAsRows(String datakey, DescriptionDataData description) {
 		Window.alert("DataDescriptionAsRows");
@@ -96,14 +94,6 @@ public class DataDescriptionAsRows extends Composite implements HasText {
 
 	}
 
-	public void openModal(ModalType type) {
-		modal.setType(type);
-		modal.openModal();
-	}
-	
-	public void openModal() {
-		modal.openModal();
-	}
 	public void setText(String text) {
 	}
 

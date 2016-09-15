@@ -32,6 +32,7 @@ import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialModalContent;
 import info.esblurock.reaction.client.FindShortNameFromString;
 import info.esblurock.reaction.client.panel.transaction.TransactionService;
 import info.esblurock.reaction.client.panel.transaction.TransactionServiceAsync;
@@ -48,13 +49,14 @@ public class ValidProcesses extends Composite implements HasText {
 	String keyword;
 	MaterialModal modal;
 	
-	public ValidProcesses(String keyword) {
+	public ValidProcesses(String keyword, MaterialModal modal) {
 		initWidget(uiBinder.createAndBindUi(this));
 		sortDataHandler = new ListHandler<String>(orders);
 		setGrid(new ArrayList<String>());
 		getAllString();
 		dataGrid.setStyleName("striped responsive-table");
 		this.keyword = keyword;
+		this.modal = modal;
 	}
 	
 	InterfaceConstants interfaceConstants = GWT.create(InterfaceConstants.class);
@@ -101,8 +103,6 @@ public class ValidProcesses extends Composite implements HasText {
 				button.setTextColor("blue-text text-darken-2 light-blue lighten-5");
 				button.setWaves(WavesType.LIGHT);
 				button.setTooltip(interfaceConstants.processtooltip());
-				button.setIconPosition(IconPosition.LEFT);
-				button.setIconType(IconType.FILE_DOWNLOAD);
 				button.getElement().getStyle().setProperty("display", "inline-flex");
 				String shortname = FindShortNameFromString.findShortName(object, ".");
 				button.setTooltip(shortname);

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui"
-	xmlns:user="urn:import:info.esblurock.reaction.client.panel" xmlns:ma="urn:import:gwt.material.design.addins.client">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:user="urn:import:info.esblurock.reaction.client.panel" 
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
 
 	<ui:with field='res'
 		type='info.esblurock.reaction.client.ui.resource.MaterialResources' />
@@ -102,7 +104,7 @@
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
 					<m:MaterialButton ui:field="getstarted" textAlign="CENTER"
-						backgroundColor="white" fontSize="1.5em" textColor="black" text="Get Started"
+						backgroundColor="grey lighten-1" fontSize="1.5em" textColor="black" text="Get Started"
 						grid="s12" width="100%" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
@@ -145,7 +147,7 @@
 					url="http://mcensustainableenergy.pbworks.com/w/page/20638179/f/Combustion.jpg" />
 				<m:MaterialSlideCaption textAlign="CENTER">
 					<m:MaterialTitle ui:field="item1caption" title="Item 1"
-						description="slogan 1." />
+						description="slogan 1." opacity="0.8" backgroundColor="white" textColor="black"/>
 				</m:MaterialSlideCaption>
 			</m:MaterialSlideItem>
 			<m:MaterialSlideItem>
@@ -153,7 +155,7 @@
 					url="http://www.ecm2013.lth.se/fileadmin/forbrf/ecm2013/ECM2013_group_photo_small.JPG" />
 				<m:MaterialSlideCaption textAlign="CENTER">
 					<m:MaterialTitle ui:field="item2caption" title="Item 2"
-						description="slogan 2." />
+						description="slogan 2." textColor="black"/>
 				</m:MaterialSlideCaption>
 			</m:MaterialSlideItem>
 			<m:MaterialSlideItem ui:field="item3">
@@ -161,7 +163,7 @@
 					url="http://www.soilworx.com.au/data/img/products/sand/Sand-Bulk-Brick-White.jpg" />
 				<m:MaterialSlideCaption textAlign="CENTER">
 					<m:MaterialTitle ui:field="item3caption" title="Item 3"
-						description="slogan 3." />
+						description="slogan 3."  textColor="black"/>
 				</m:MaterialSlideCaption>
 			</m:MaterialSlideItem>
 			<m:MaterialSlideItem ui:field="item4">
@@ -169,7 +171,7 @@
 					url="http://physics.aps.org/assets/d30f8977-219e-4566-a6fc-1138bbe2a9b0/e130_1.png" />
 				<m:MaterialSlideCaption textAlign="CENTER">
 					<m:MaterialTitle ui:field="item4caption" title="Item 4"
-						description="slogan 4." />
+						description="slogan 4."  textColor="black"/>
 				</m:MaterialSlideCaption>
 			</m:MaterialSlideItem>
 		</m:MaterialSlider>

@@ -1,13 +1,10 @@
 package info.esblurock.reaction.server;
 
-import info.esblurock.reaction.client.panel.inputs.DataInput;
 import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 import info.esblurock.reaction.server.process.ProcessUtilities;
 import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
-import info.esblurock.reaction.server.upload.StoreUploadedFileData;
-import info.esblurock.reaction.server.upload.UploadedFileData;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
 import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
 
@@ -16,7 +13,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 

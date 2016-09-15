@@ -1,6 +1,8 @@
 package info.esblurock.reaction.server.queries;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +23,6 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.PMF;
@@ -129,7 +130,7 @@ public class TransactionInfoQueries {
 	 * @throws IOException
 	 */
 	static public ArrayList<TransactionInfo> getTransactionFromKeywordAndObjectType(String user, String key,
-			String classname) throws IOException {
+			String classname, boolean singleton) throws IOException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
@@ -151,6 +152,20 @@ public class TransactionInfoQueries {
 		} else {
 			throw new IOException("TransactionInfo not found with object key: " + key + "," + classname);
 		}
+		if(singleton) {
+			TransactionInfo answer = null;
+			for(TransactionInfo info : set) {
+				if(answer == null) {
+					answer = info;
+				} else {
+					if(answer.getCreationDate().before(info.getCreationDate())) {
+						answer = info;
+					}
+				}
+			}
+			set = new ArrayList<TransactionInfo>();
+			set.add(answer);
+		}
 		return set;
 	}
 
@@ -164,50 +179,35 @@ public class TransactionInfoQueries {
 	 * @throws IOException
 	 */
 	static public List<DatabaseObject> getTransactionFromKeywordAndUser(String user, String key) throws IOException {
-		List<DatabaseObject> set =
+		List<DatabaseObject> dataset =
 		QueryBase.getUserDatabaseObjectsFromSingleProperty("info.esblurock.reaction.data.transaction.TransactionInfo",user,"keyword",key);
-		/*
-		ArrayList<DatabaseObject> set = new ArrayList<DatabaseObject>();
-		try {
-			Class cls = Class.forName("info.esblurock.reaction.data.transaction.TransactionInfo");
-			DatabaseObject example = (DatabaseObject) cls.newInstance();
-
-			PersistenceManager pm = PMF.get().getPersistenceManager();
-			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-			Filter userFilter = new FilterPredicate("user", FilterOperator.EQUAL, user);
-			Filter keywordFilter = new FilterPredicate("keyword", FilterOperator.EQUAL, key);
-			Filter andfilter = CompositeFilterOperator.and(keywordFilter, userFilter);
-			System.out.println("getTransactionFromKeywordAndUser" + example.getClass().getSimpleName() + ", " + example.getClass().getCanonicalName()); 
-			Query q = new Query(example.getClass().getSimpleName()).setFilter(andfilter);
-			PreparedQuery pq = datastore.prepare(q);
-			Iterator<Entity> iter = pq.asIterable().iterator();
-
-			if (iter.hasNext()) {
-				while (iter.hasNext()) {
-					Entity entity = iter.next();
-					TransactionInfo info = (TransactionInfo) pm.getObjectById(example.getClass(), entity.getKey());
-					set.add(info);
-				}
+		System.out.println("TransactionInfoQueries.getTransactionFromKeywordAndUser");
+		HashMap<String, TransactionInfo> map = new HashMap<String, TransactionInfo>();
+		for(DatabaseObject obj : dataset) {
+			TransactionInfo info = (TransactionInfo) obj;
+			System.out.println(info.getTransactionObjectType() + ":  " + info.getCreationDate() + "--> '" + info.getKey() + "'");
+			TransactionInfo i = map.get(info.getTransactionObjectType());
+			if(i == null) {
+				map.put(info.getTransactionObjectType(), info);
 			} else {
-				throw new IOException("TransactionInfo not found with object key: " + key + ", User='" + user + "')");
+				System.out.println("---> " + info.getTransactionObjectType() + ": " 
+						+ i.getCreationDate().toString() + " before " + info.getCreationDate().toString());
+				if(i.getCreationDate().before(info.getCreationDate())) {
+					System.out.println("Replace: " + info.getCreationDate());
+					map.replace(info.getTransactionObjectType(), info);
+				}
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			throw new IOException(" ClassNotFoundException: TransactionInfo not found with object key: " + key
-					+ ", User='" + user + "')");
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-			throw new IOException(" InstantiationException: TransactionInfo not found with object key: " + key
-					+ ", User='" + user + "')");
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			throw new IOException(" IllegalAccessException: TransactionInfo not found with object key: " + key
-					+ ", User='" + user + "')");
 		}
-		*/
+		System.out.println("----------------------------------------------------------");
+		ArrayList<DatabaseObject> set = new ArrayList<DatabaseObject>();
+		for(String classname : map.keySet()) {
+			TransactionInfo info = (TransactionInfo) map.get(classname);
+			System.out.println(info.getTransactionObjectType() + ":  " + info.getCreationDate() + "--> '" + info.getKey() + "'");
+			set.add(info);
+		}
+		System.out.println("----------------------------------------------------------");
 		return set;
 	}
-
 	/**
 	 * getTransaction From the object key find the TransactionInfo (from
 	 * storedObjectKey).
@@ -264,6 +264,7 @@ public class TransactionInfoQueries {
 		Class classC = Class.forName(classS);
 		String key = transaction.getStoredObjectKey();
 		pm.getFetchPlan().setGroup(FetchGroup.ALL);
+		System.out.println("getClassObjectFromTransactionInfo: " + classC + "(" + key + ")  " + transaction.getCreationDate());
 		DatabaseObject object = (DatabaseObject) pm.getObjectById(classC, key);
 		pm.close();
 		return object;
@@ -271,13 +272,13 @@ public class TransactionInfoQueries {
 
 	static public void transactionExists(String user, String key, String classname) throws IOException {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		System.out.println("transactionExists: " + key + ",  " + classname);
+		System.out.println("transactionExists: " + key + ",  " + classname + "," + user);
 		Filter userfilter = new FilterPredicate("user", FilterOperator.EQUAL, user);
 		Filter keywordfilter = new FilterPredicate("keyword", FilterOperator.EQUAL, key);
 		Filter classfilter = new FilterPredicate("transactionObjectType", FilterOperator.EQUAL, classname);
 		Filter andfilter = CompositeFilterOperator.and(userfilter, keywordfilter, classfilter);
 
-		System.out.println("");
+		System.out.println("Look for Description Transaction");
 		
 		Query q = new Query("TransactionInfo").setFilter(andfilter);
 		PreparedQuery pq = datastore.prepare(q);
@@ -286,6 +287,8 @@ public class TransactionInfoQueries {
 			String msg = "Transaction with key='" + key + " and class='" + classname + "' exists..";
 			System.out.println(msg);
 			throw new IOException(msg);
+		} else {
+			System.out.println("No transactions found");
 		}
 	}
 

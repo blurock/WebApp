@@ -132,7 +132,7 @@ public interface TransactionService extends RemoteService {
  * @return The names of the processes that have prerequisites to run
  * @throws IOException
  */
-	public Set<String> findValidProcessing(String keyword) throws IOException;
+	public List<String> findValidProcessing(String keyword) throws IOException;
 	
 	
 	public String runProcess(String processName,String keyword) throws IOException;

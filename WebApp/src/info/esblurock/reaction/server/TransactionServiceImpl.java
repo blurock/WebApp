@@ -226,10 +226,10 @@ public class TransactionServiceImpl extends ServerBase implements TransactionSer
 		return delete;
 	}
 
-	public Set<String> findValidProcessing(String keyword) throws IOException {
+	public List<String> findValidProcessing(String keyword) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
 		String user = util.getUserName();
-		Set<String> processes = RegisteredProcesses.toBeProcessed(user, keyword);
+		List<String> processes = RegisteredProcesses.toBeProcessed(user, keyword);
 		return processes;
 	}
 

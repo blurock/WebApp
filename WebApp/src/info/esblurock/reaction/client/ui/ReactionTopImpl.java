@@ -127,12 +127,12 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		item3caption.setDescription(item3text);
 		String item4text = ReactionTopViewResources.INSTANCE.exampleItem4().getText();
 		item4caption.setDescription(item4text);
-		
+		/*
 		item1caption.setTextColor("black");
 		item2caption.setTextColor("white");
 		item3caption.setTextColor("white");
 		item4caption.setTextColor("green");
-		
+		*/
 		item1caption.setTitle("");
 		item2caption.setTitle("");
 		item3caption.setTitle("");

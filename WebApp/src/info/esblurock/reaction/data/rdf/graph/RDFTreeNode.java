@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import info.esblurock.reaction.data.DatabaseObject;
 
-public class RDFTreeNode implements Serializable {
+public class RDFTreeNode implements Serializable, Comparable<RDFTreeNode> {
 	private static final long serialVersionUID = 1L;
 	
 	RDFGraphNode parent;
@@ -109,4 +109,19 @@ public RDFGraphNode getParent() {
 		}
 		return build.toString();
 	}
+
+@Override
+public int compareTo(RDFTreeNode o) {
+	int ans = 0;
+	System.out.println("compareTo: " + this.getClass().getName());
+	System.out.println("compareTo: " + o.getParent() + " -- " + getParent());
+	if( (o.getParent() == null) || (getParent() == null)) { 
+		ans = 0;
+	} else {
+		System.out.println("compare");
+		ans = parent.compareTo(o.getParent());
+		System.out.println("compare: " + ans);
+	}
+	return ans;
+}
 }

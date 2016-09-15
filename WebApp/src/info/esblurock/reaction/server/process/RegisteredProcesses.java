@@ -2,7 +2,6 @@ package info.esblurock.reaction.server.process;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import info.esblurock.reaction.server.process.DataProcesses;
@@ -32,9 +31,9 @@ public class RegisteredProcesses {
  * @return The list of process names 
  * @throws IOException: 
  */
-	static public HashSet<String> toBeProcessed(String user, String keyword) throws IOException {
+	static public ArrayList<String> toBeProcessed(String user, String keyword) throws IOException {
 		ArrayList<String> completed = getCompletedTransactions(user, keyword);
-		HashSet<String> processes = toBeProcessed(completed);
+		ArrayList<String> processes = toBeProcessed(completed);
 		return processes;
 	}
 /**
@@ -43,8 +42,8 @@ public class RegisteredProcesses {
  * @return The set of processes 
  * @throws IOException
  */
-	static private HashSet<String> toBeProcessed(ArrayList<String> completed) throws IOException {
-		HashSet<String> valid = new HashSet<String>();
+	static private ArrayList<String> toBeProcessed(ArrayList<String> completed) throws IOException {
+		ArrayList<String> valid = new ArrayList<String>();
 		DataProcesses[] processes = DataProcesses.values();
 		for(int i = 0; i<processes.length; i++) {
 			DataProcesses processEnum = processes[i];

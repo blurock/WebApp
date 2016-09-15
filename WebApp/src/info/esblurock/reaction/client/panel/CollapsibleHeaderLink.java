@@ -1,14 +1,10 @@
 package info.esblurock.reaction.client.panel;
 
-import com.google.appengine.labs.repackaged.com.google.common.annotations.VisibleForTesting.Visibility;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
@@ -16,22 +12,25 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleBody;
-import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialToast;
-import info.esblurock.reaction.client.panel.inputs.SetUpProcessesCallback;
+import info.esblurock.reaction.client.panel.data.BaseDataPresentation;
+import info.esblurock.reaction.client.panel.data.DataPresentation;
+import info.esblurock.reaction.client.panel.query.AddQueryResult;
 import info.esblurock.reaction.client.panel.query.BasicObjectSearchCallback;
 import info.esblurock.reaction.client.panel.query.QueryPath;
 import info.esblurock.reaction.client.panel.query.QueryPathElement;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.client.panel.query.ReactionSearchServiceAsync;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.rdf.graph.RDFGraphNode;
 import info.esblurock.reaction.data.rdf.graph.RDFGraphObjectObject;
 import info.esblurock.reaction.data.rdf.graph.RDFGraphPredicateNode;
 import info.esblurock.reaction.data.rdf.graph.RDFGraphStringObject;
 import info.esblurock.reaction.data.rdf.graph.RDFGraphSubjectNode;
 import info.esblurock.reaction.data.rdf.graph.RDFSubTreeParentNode;
+import info.esblurock.reaction.data.rdf.graph.SetOfGraphNodes;
 
 public class CollapsibleHeaderLink extends Composite implements HasText {
 
@@ -42,6 +41,8 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 
 	@UiField
 	MaterialLink link;
+	@UiField
+	MaterialLink rest;
 	@UiField
 	MaterialIcon expandnext;
 	@UiField
@@ -60,6 +61,9 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 	boolean searchtextB;
 	
 	QueryPath linkpath;
+	DatabaseObject objectStructure;
+	SetOfGraphNodes restnodes;
+	AddQueryResult addnode;
 
 	protected void init() {
 		subjectB = false;
@@ -72,6 +76,8 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 		expandnext.setEnabled(true);
 		objectinfo.setVisible(false);
 		objectinfo.setEnabled(false);
+		
+		objectStructure = null;
 	}
 	public CollapsibleHeaderLink(RDFGraphNode node,QueryPath path) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -79,8 +85,31 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 		setupMaterialLinkFromNode(node,path);
 	}
 
+	public CollapsibleHeaderLink(MaterialCollapsible item, SetOfGraphNodes restnodes, QueryPath path) {
+		initWidget(uiBinder.createAndBindUi(this));
+		init();
+		this.restnodes = restnodes;
+
+		linkpath = path;
+		rest.setText("Click for more");
+		objectStructure = null;
+		
+		rest.setVisible(true);
+		rest.setVisible(true);
+		link.setVisible(false);
+		link.setEnabled(false);
+		expandnext.setVisible(false);
+		expandnext.setEnabled(false);
+		objectinfo.setVisible(false);
+		objectinfo.setEnabled(false);
+		
+	}
+	
 	private void setupMaterialLinkFromNode(RDFGraphNode node, QueryPath path) {
 		String onClickText = node.toString();
+		objectStructure = null;
+		rest.setVisible(false);
+		rest.setVisible(false);
 		if(node.isSubjectNode()) {
 			RDFGraphSubjectNode subject = (RDFGraphSubjectNode) node;
 			onClickText = subject.getSubject();
@@ -102,6 +131,7 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 		} else if(node.isObjectNode()) {
 			if(node.getClass().equals(RDFGraphObjectObject.class)) {
 				RDFGraphObjectObject object = (RDFGraphObjectObject) node;
+				objectStructure = object.getObject();
 				onClickText = object.toString();
 				link.setIconType(IconType.INFO);
 				linkpath = new QueryPath(path,QueryPathElement.OBJECTOBJECT,onClickText);
@@ -137,8 +167,28 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 		}
 	}
 
+	@UiHandler("rest")
+	public void onRestClick(ClickEvent event) {
+		addnode = new AddQueryResult();
+		
+		addnode.addChildren(item, toptreenode, path);
+		
+	}
+	
 	@UiHandler("link")
 	public void onLinkClick(ClickEvent event) {
+		if(objectStructure != null) {
+			String classname = objectStructure.getClass().getName();
+			MaterialToast.fireToast(classname);
+			int pos = classname.lastIndexOf('.');
+			String shortname = classname.substring(pos+1);
+			DataPresentation presentation = DataPresentation.valueOf(shortname);
+			BaseDataPresentation display = presentation.asDisplayObject(objectStructure);
+			body.add(display);
+			display.openModal();
+		} else if(restnodes != null) {
+			
+		}
 	}
 	@UiHandler("expandnext")
 	public void onExpandClick(ClickEvent event) {
@@ -151,6 +201,9 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 	public void onDelete(ClickEvent event) {
 		MaterialToast.fireToast("Delete: " + link.getText());
 		this.removeFromParent();
+	}
+	@UiHandler("objectinfo")
+	public void onInformation(ClickEvent event) {
 	}
 	@Override
 	public String getText() {

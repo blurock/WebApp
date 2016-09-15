@@ -7,8 +7,6 @@
 		font-weight: bold;
 	}
 	</ui:style>
-<m:MaterialModal ui:field="modal" type="FIXED_FOOTER" dismissable="true" inDuration="500" outDuration="800">
-     <m:MaterialModalContent>
 	<g:HTMLPanel>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s2">
@@ -67,9 +65,4 @@
 			</m:MaterialColumn>
 		</m:MaterialRow>
 	</g:HTMLPanel>
-    </m:MaterialModalContent>
-     <m:MaterialModalFooter>
-         <m:MaterialButton text="Close Modal" type="FLAT"/>
-     </m:MaterialModalFooter>
- </m:MaterialModal>
  </ui:UiBinder> 

@@ -6,6 +6,13 @@
 	
 	</ui:style>
 	<g:HTMLPanel ui:field="contentpanel">
+	<m:MaterialModal ui:field="modal" type="DEFAULT"  dismissable="true" inDuration="500" outDuration="800">
+     <m:MaterialModalContent ui:field="modalcontent">
+	</m:MaterialModalContent>
+     <m:MaterialModalFooter>
+         <m:MaterialButton text="Close Modal" type="FLAT"/>
+     </m:MaterialModalFooter>
+	</m:MaterialModal>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s5">
 				<m:MaterialLabel ui:field="settitle" />
