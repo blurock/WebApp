@@ -1,13 +1,10 @@
 package info.esblurock.reaction.client.panel.transaction;
 
 import gwt.material.design.client.base.MaterialButtonCell;
-import gwt.material.design.client.constants.IconPosition;
-import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.MaterialModalContent;
 import info.esblurock.reaction.client.FindShortNameFromString;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
@@ -26,8 +23,8 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -38,13 +35,10 @@ import com.google.gwt.view.client.SelectionModel;
 
 public class ObjectTransaction extends Composite implements HasText {
 
-	private static ObjectTransactionUiBinder uiBinder = GWT
-			.create(ObjectTransactionUiBinder.class);
+	private static ObjectTransactionUiBinder uiBinder = GWT.create(ObjectTransactionUiBinder.class);
 
-	interface ObjectTransactionUiBinder extends
-			UiBinder<Widget, ObjectTransaction> {
+	interface ObjectTransactionUiBinder extends UiBinder<Widget, ObjectTransaction> {
 	}
-
 
 	TransactionServiceAsync async = TransactionService.Util.getInstance();
 
@@ -69,6 +63,8 @@ public class ObjectTransaction extends Composite implements HasText {
 
 	@UiField
 	SimplePanel gridPanel, pagerPanel;
+	@UiField
+	HTMLPanel mainpanel;
 
 	public ObjectTransaction() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -77,11 +73,12 @@ public class ObjectTransaction extends Composite implements HasText {
 		getAllTransactionInfo();
 		dataGrid.setStyleName("striped responsive-table");
 	}
+
 	public void setGrid(List<TransactionInfo> orders) {
-		if(orders != null)
+		if (orders != null)
 			this.orders = orders;
 		dataGrid = createDatagrid();
-		
+
 		gridPanel.clear();
 		gridPanel.setWidget(dataGrid);
 		TransactionInfoProvider.setList(orders);
@@ -95,49 +92,43 @@ public class ObjectTransaction extends Composite implements HasText {
 				new MaterialButtonCell()) {
 			@Override
 			public MaterialButton getValue(TransactionInfo object) {
-
 				MaterialButton button = new MaterialButton();
 				button.setText(interfaceConstants.process());
 				button.setTextColor("blue-text text-darken-2 light-blue lighten-5");
 				button.setWaves(WavesType.LIGHT);
-				
 				button.setTooltip(object.getKeyword());
-				button.setIconType(IconType.LIST);
-				button.setIconPosition(IconPosition.LEFT);
-				button.getElement().getStyle()
-						.setProperty("display", "inline-flex");
+				button.getElement().getStyle().setProperty("display", "inline-flex");
 				return button;
 			}
 
 		};
 		processbutton.setFieldUpdater(new FieldUpdater<TransactionInfo, MaterialButton>() {
-					@Override
-					public void update(int index, TransactionInfo object, MaterialButton value) {		
-						ObjectTransactionActions popup = new ObjectTransactionActions(object);
-						popup.openModal(ModalType.FIXED_FOOTER);
-					}
-				});
-		
+			@Override
+			public void update(int index, TransactionInfo object, MaterialButton value) {
+
+				ObjectTransactionActions popup = new ObjectTransactionActions(object);
+				mainpanel.add(popup);
+				popup.openModal(ModalType.FIXED_FOOTER);
+			}
+		});
+
 		// Source sourceKey
 		TextColumn<TransactionInfo> colObjectType = new TextColumn<TransactionInfo>() {
 			@Override
 			public String getValue(TransactionInfo object) {
-				String shortname= FindShortNameFromString.findShortClassName(object.getTransactionObjectType());
+				String shortname = FindShortNameFromString.findShortClassName(object.getTransactionObjectType());
 				return shortname;
 			}
 		};
 		colObjectType.setSortable(true);
-		sortDataHandler.setComparator(colObjectType,
-				new Comparator<TransactionInfo>() {
+		sortDataHandler.setComparator(colObjectType, new Comparator<TransactionInfo>() {
 
-					@Override
-					public int compare(TransactionInfo o1,
-							TransactionInfo o2) {
+			@Override
+			public int compare(TransactionInfo o1, TransactionInfo o2) {
 
-						return o1.getTransactionObjectType().compareTo(o2.getTransactionObjectType());
-					}
-				});
-		
+				return o1.getTransactionObjectType().compareTo(o2.getTransactionObjectType());
+			}
+		});
 
 		// Object name
 		TextColumn<TransactionInfo> colObjectName = new TextColumn<TransactionInfo>() {
@@ -147,14 +138,12 @@ public class ObjectTransaction extends Composite implements HasText {
 			}
 		};
 		colObjectType.setSortable(true);
-		sortDataHandler.setComparator(colObjectType,
-				new Comparator<TransactionInfo>() {
-					@Override
-					public int compare(TransactionInfo o1,
-							TransactionInfo o2) {
-						return o1.getKeyword().compareTo(o2.getKeyword());
-					}
-				});
+		sortDataHandler.setComparator(colObjectType, new Comparator<TransactionInfo>() {
+			@Override
+			public int compare(TransactionInfo o1, TransactionInfo o2) {
+				return o1.getKeyword().compareTo(o2.getKeyword());
+			}
+		});
 		// User
 		TextColumn<TransactionInfo> colUser = new TextColumn<TransactionInfo>() {
 			@Override
@@ -163,67 +152,57 @@ public class ObjectTransaction extends Composite implements HasText {
 			}
 		};
 		colUser.setSortable(true);
-		sortDataHandler.setComparator(colUser,
-				new Comparator<TransactionInfo>() {
+		sortDataHandler.setComparator(colUser, new Comparator<TransactionInfo>() {
 
-					@Override
-					public int compare(TransactionInfo o1,
-							TransactionInfo o2) {
-						return o1.getUser().compareTo(o2.getUser());
-					}
-				});
-/*
-		// Enter Date
+			@Override
+			public int compare(TransactionInfo o1, TransactionInfo o2) {
+				return o1.getUser().compareTo(o2.getUser());
+			}
+		});
+
 		TextColumn<TransactionInfo> colEntryDate = new TextColumn<TransactionInfo>() {
+
 			@Override
 			public String getValue(TransactionInfo object) {
 				String ans = "---";
-				if(object.getInputDate() != null) {
+				if (object.getInputDate() != null) {
 					ans = object.getInputDate().toString();
 				}
 				return ans;
 			}
 		};
 		colEntryDate.setSortable(true);
-		sortDataHandler.setComparator(colEntryDate,
-				new Comparator<TransactionInfo>() {
+		sortDataHandler.setComparator(colEntryDate, new Comparator<TransactionInfo>() {
 
-					@Override
-					public int compare(TransactionInfo o1,
-							TransactionInfo o2) {
-						int ans = 0;
-						if(o1.getInputDate() == null){
-							if(o2.getInputDate() == null) 
-								ans = 0;
-							else 
-								ans = -1;
-						} else if(o2.getInputDate() == null) {
-							ans = 1;
-						} else {
-							ans = o1.getInputDate().compareTo(o2.getInputDate());
-						}
-						return ans;
-					}
-				});
-*/
+			@Override
+			public int compare(TransactionInfo o1, TransactionInfo o2) {
+				int ans = 0;
+				if (o1.getInputDate() == null) {
+					if (o2.getInputDate() == null)
+						ans = 0;
+					else
+						ans = -1;
+				} else if (o2.getInputDate() == null) {
+					ans = 1;
+				} else {
+					ans = o1.getInputDate().compareTo(o2.getInputDate());
+				}
+				return ans;
+			}
+		});
 
-
-		final DataGrid<TransactionInfo> dataGrid = new DataGrid<TransactionInfo>(
-				100, KEY_PROVIDER);
+		final DataGrid<TransactionInfo> dataGrid = new DataGrid<TransactionInfo>(100, KEY_PROVIDER);
 		dataGrid.setSize("100%", "40vh");
 
-		
 		dataGrid.addColumn(processbutton, interfaceConstants.action());
 		dataGrid.addColumn(colObjectType, interfaceConstants.sourcekey());
 		dataGrid.addColumn(colObjectName, interfaceConstants.keyword());
 		dataGrid.addColumn(colUser, interfaceConstants.user());
-
+		dataGrid.addColumn(colEntryDate, interfaceConstants.inputDate());
 		dataGrid.setStyleName("striped responsive-table");
 
-		SimplePager.Resources pagerResources = GWT
-				.create(SimplePager.Resources.class);
-		SimplePager pager = new SimplePager(TextLocation.CENTER,
-				pagerResources, false, 0, true);
+		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+		SimplePager pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		pager.setDisplay(dataGrid);
 		pagerPanel.add(pager);
 
@@ -237,10 +216,10 @@ public class ObjectTransaction extends Composite implements HasText {
 	private void getAllTransactionInfo() {
 		TransactionInfoProvider.setList(orders);
 		sortDataHandler.setList(TransactionInfoProvider.getList());
-		
+
 		UpdateObjectTransactionsCallback callback = new UpdateObjectTransactionsCallback(this);
 		async.getAllTransactions(callback);
-		
+
 	}
 
 	public TransactionInfo getTransactionInfo() {
@@ -254,13 +233,16 @@ public class ObjectTransaction extends Composite implements HasText {
 	public void addTransactionInfo(TransactionInfo source) {
 		orders.add(source);
 	}
+
 	public List<TransactionInfo> getTransactions() {
 		return orders;
 	}
+
 	public void refresh() {
 		TransactionInfoProvider.setList(orders);
 		sortDataHandler.setList(TransactionInfoProvider.getList());
 	}
+
 	@Override
 	public String getText() {
 		// TODO Auto-generated method stub
@@ -270,6 +252,6 @@ public class ObjectTransaction extends Composite implements HasText {
 	@Override
 	public void setText(String text) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

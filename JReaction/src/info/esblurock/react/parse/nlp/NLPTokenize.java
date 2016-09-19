@@ -7,6 +7,7 @@ package info.esblurock.react.parse.nlp;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -26,16 +27,21 @@ import opennlp.tools.util.Span;
  * @author edwardblurock
  */
 public class NLPTokenize {
-    private Resource resource;
+    private String categorizeResource;
+    private String tokenResource;
+    private String chunkerResource;
+    
     private String tokens[] = null;
     private double tokenProbs[] = null;
     private Span tokenSpans[] = null;
     private String text;
     private SetOfTokens tokenSet;
     
-    public NLPTokenize(String t, Resource r) {
+    public NLPTokenize(String t, String categorizeResource, String tokenResource, String chunkerResource) {
         try {
-            resource = r;
+            this.categorizeResource = categorizeResource;
+            this.tokenResource = tokenResource;
+            this.chunkerResource = chunkerResource;
             tokenSet = new SetOfTokens();
             text = t;
             process();
@@ -53,7 +59,9 @@ public class NLPTokenize {
     }
 
     protected void process() throws FileNotFoundException, IOException {
-        InputStream modelIn = new FileInputStream(resource.getTokenResource());
+    	ClassLoader classLoader = getClass().getClassLoader();
+    	File file = new File(classLoader.getResource(tokenResource).getFile());
+        InputStream modelIn = new FileInputStream(file);
         TokenizerModel model = new TokenizerModel(modelIn);
         TokenizerME tokenizer = new TokenizerME(model);
         System.out.println(text);

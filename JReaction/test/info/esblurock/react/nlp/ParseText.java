@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import info.esblurock.react.parse.keywords.KeywordsFromText;
 import info.esblurock.react.parse.keywords.SetOfKeyWords;
+import info.esblurock.react.parse.nlp.Resource;
 import info.esblurock.react.parse.nlp.utilities.ReadTextFileToString;
 
 /**
@@ -47,8 +48,10 @@ public class ParseText {
         ReadTextFileToString read = new ReadTextFileToString();
         read.read(sampleFile);
 
-        
-        KeywordsFromText keys = new KeywordsFromText();
+	    String categorizeResource= "resources/en-pos-maxent.bin";
+	    String tokenResource= "resources/en-token.bin";
+	    String chunkerResource = "resources/en-chunker.bin";
+        KeywordsFromText keys = new KeywordsFromText(categorizeResource, tokenResource, chunkerResource);
         SetOfKeyWords calculateKeyWords = keys.calculateKeyWords(read.outputString);
         
         System.out.println(keys.toString());

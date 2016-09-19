@@ -61,8 +61,8 @@ public class ObjectTransactionActions extends Composite implements HasText {
 		inputDate.setText(transaction.getInputDate().toString());
 		transactionObjectType.setText(transaction.getTransactionObjectType());
 		
-		btndelete.setText(interfaceConstants.delete());
-		btndelete.setTooltip(interfaceConstants.deletetooltip());
+		//btndelete.setText(interfaceConstants.delete());
+		//btndelete.setTooltip(interfaceConstants.deletetooltip());
 	}
 
 	@UiField
@@ -85,9 +85,10 @@ public class ObjectTransactionActions extends Composite implements HasText {
 	MaterialLink transactionObjectTypelabel;
 	@UiField
 	MaterialLink transactionObjectType;
-	
 	@UiField
-	MaterialButton btndelete;
+	MaterialLink btndelete;
+	@UiField
+	MaterialLink close;
 	
 	TransactionInfo source;
 	
@@ -99,7 +100,10 @@ public class ObjectTransactionActions extends Composite implements HasText {
 		async.deleteTransactionInfoFromKey(source.getTransactionObjectType(), source.getKeyword(), source.getKey(), callback);
 		MaterialToast.fireToast("Delete: "  + source.getTransactionObjectType());
 	}
-
+	@UiHandler("close")
+	public void closeModal(ClickEvent e) {
+		modal.closeModal();
+	}
 	public void openModal(ModalType type) {
 		modal.setType(type);
 		modal.openModal();

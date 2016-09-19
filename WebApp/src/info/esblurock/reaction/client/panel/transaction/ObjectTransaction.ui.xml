@@ -11,7 +11,7 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<g:HTMLPanel>
+	<g:HTMLPanel ui:field="mainpanel">
 		<g:SimplePanel ui:field="gridPanel" />
 		<g:SimplePanel ui:field="pagerPanel" addStyleNames="{style.panelPager} right" />
 	</g:HTMLPanel>

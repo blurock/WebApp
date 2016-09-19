@@ -27,10 +27,10 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/JThermodynamics.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/log4j-1.2.17.jar"/>
 	<classpathentry exported="true" kind="lib" path="/JReaction/lib/jwnl-1.3.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="/JReaction/lib/opennlp-maxent-3.0.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="/JReaction/lib/opennlp-tools-1.5.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="/JReaction/lib/opennlp-uima-1.5.3.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-fileupload-1.3.2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/cdk-1.5.13.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/opennlp-maxent-3.0.3.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/opennlp-tools-1.5.3.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/opennlp-uima-1.5.3.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

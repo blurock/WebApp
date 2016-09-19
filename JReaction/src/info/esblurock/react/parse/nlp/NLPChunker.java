@@ -5,6 +5,7 @@
  */
 package info.esblurock.react.parse.nlp;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,11 +19,15 @@ import opennlp.tools.chunker.ChunkerModel;
  */
 public class NLPChunker extends SetOfTokens {
 
-    private Resource resource;
+    private String categorizeResource;
+    private String tokenResource;
+    private String chunkerResource;
 
-    public NLPChunker(String text, Resource r) {
-        resource = r;
-        CatagorizeWords tokenize = new CatagorizeWords(text, r);
+    public NLPChunker(String text, String categorizeResource, String tokenResource, String chunkerResource) {
+        this.categorizeResource = categorizeResource;
+        this.tokenResource = tokenResource;
+        this.chunkerResource = chunkerResource;
+        CatagorizeWords tokenize = new CatagorizeWords(text, categorizeResource, tokenResource, chunkerResource);
         process(tokenize);
     }
 
@@ -31,7 +36,9 @@ public class NLPChunker extends SetOfTokens {
         ChunkerModel model = null;
 
         try {
-            modelIn = new FileInputStream(resource.getChunkerResource());
+        	ClassLoader classLoader = getClass().getClassLoader();
+        	File file = new File(classLoader.getResource(chunkerResource).getFile());
+            modelIn = new FileInputStream(file);
             model = new ChunkerModel(modelIn);
 
             ChunkerME chunker = new ChunkerME(model);

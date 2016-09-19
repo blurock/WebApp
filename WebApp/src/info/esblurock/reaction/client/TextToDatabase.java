@@ -1,10 +1,13 @@
 package info.esblurock.reaction.client;
 
+import info.esblurock.react.parse.keywords.SetOfKeyWords;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
@@ -35,5 +38,7 @@ public interface TextToDatabase extends RemoteService {
 	String storeTextSetUploadData(TextSetUploadData data) throws Exception;
 	
 	public String registerDataInputDescription(DescriptionDataData descrdata) throws IOException;
+	
+	public HashSet<String> keywordsFromText(String text);
 
 }

@@ -1,0 +1,64 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<m:MaterialCollapsibleItem>
+		<m:MaterialCollapsibleHeader
+			backgroundColor="cyan lighten-5">
+			<m:MaterialLink ui:field="objecttitle" textColor="blue"
+				iconType="CREATE" iconPosition="LEFT" />
+			<m:MaterialIcon ui:field="delete" iconType="CLOSE" iconPosition="RIGHT"/>
+		</m:MaterialCollapsibleHeader>
+		<m:MaterialCollapsibleBody>
+			<m:MaterialModal ui:field="authorModal" 
+				type="FIXED_FOOTER" dismissable="true" inDuration="500" outDuration="500">
+			<m:MaterialModalContent>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s6">
+						<m:MaterialTextBox ui:field="nameText"  text="new author" placeholder="Name" />
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s6">
+						<m:MaterialTextBox ui:field="lastNameText"  text="new author" placeholder="Last Name" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+			</m:MaterialModalContent>
+			<m:MaterialModalFooter>
+				<m:MaterialButton ui:field="newAuthorButton"   text="Add new author"/>
+				<m:MaterialButton ui:field="authorCloseButton" text="Close"/>
+			</m:MaterialModalFooter>			
+			</m:MaterialModal>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s3">
+					<m:MaterialButton ui:field="doilookupbutton" text="Look up DOI" />
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s9">
+					<m:MaterialTextBox ui:field="doi" text="DOI"
+						placeholder="Enter DOI" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s12">
+					<m:MaterialTextBox ui:field="title" text="title"
+						placeholder="title of article" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s12">
+					<m:MaterialTextBox ui:field="referenceText" text="reference"
+						placeholder="reference of article (free form)" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s12">
+					<g:HTMLPanel ui:field="authorpanel">
+						<m:MaterialChip ui:field="addauthor" text="Add Author" />
+					</g:HTMLPanel>
+				</m:MaterialColumn>
+			</m:MaterialRow>
+		</m:MaterialCollapsibleBody>
+	</m:MaterialCollapsibleItem>
+</ui:UiBinder> 

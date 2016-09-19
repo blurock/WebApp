@@ -130,7 +130,8 @@ public class StoreDescriptionDataImpl extends ServerBase implements
 				input.getOneLineDescription(), input.getDescription(),
 				input.getSourceDate(), input.getSource(), 
 				input.getInputKey(),
-				userDescription);
+				userDescription,
+				input.getKeywords());
 		return data;
 	}
 	

@@ -6,15 +6,17 @@
 
 package info.esblurock.react.parse.keywords;
 
-import java.util.HashSet;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- *
  * @author edwardblurock
  */
-public class SetOfKeyWords extends HashSet<String> {
-    public String toString() {
+public class SetOfKeyWords extends ArrayList<String> implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	public String toString() {
         StringBuilder build = new StringBuilder();
         Iterator<String> iterator = this.iterator();
         while(iterator.hasNext()) {

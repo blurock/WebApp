@@ -18,6 +18,20 @@
 		</m:MaterialCollapsibleHeader>
 		<m:MaterialCollapsibleBody>
 			<g:HTMLPanel ui:field="contentpanel">
+			<m:MaterialModal ui:field="keywordModal" 
+				type="FIXED_FOOTER" dismissable="true" inDuration="500" outDuration="500">
+			<m:MaterialModalContent>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s12">
+						<m:MaterialTextBox ui:field="newKeywordText"  text="new keyword" placeholder="Keyword" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+			</m:MaterialModalContent>
+			<m:MaterialModalFooter>
+				<m:MaterialButton ui:field="newKeywordButton"   text="Add new keyword"/>
+				<m:MaterialButton ui:field="keywordCloseButton" text="Close"/>
+			</m:MaterialModalFooter>			
+			</m:MaterialModal>
 				<m:MaterialRow>
 					<m:MaterialColumn grid="s12">
 						<m:MaterialTextBox ui:field="keyword" />
@@ -31,6 +45,16 @@
 				<m:MaterialRow>
 					<m:MaterialColumn grid="s12">
 						<m:MaterialTextArea ui:field="description" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s1">
+					<m:MaterialButton ui:field="descriptionkeywords"/>
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s11">
+						<g:HTMLPanel ui:field="keywordpanel">
+						<m:MaterialChip ui:field="addkeyword" text="Add keyword" letterBackgroundColor="red"/>
+						</g:HTMLPanel>
 					</m:MaterialColumn>
 				</m:MaterialRow>
 				<m:MaterialRow>

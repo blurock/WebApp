@@ -1,9 +1,12 @@
 package info.esblurock.reaction.data.description;
 
 import java.util.Date;
+import java.util.HashSet;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+
+import com.google.appengine.datanucleus.annotations.Unindexed;
 
 import info.esblurock.reaction.data.DatabaseObject;
 
@@ -33,6 +36,10 @@ public class DescriptionDataData extends DatabaseObject {
 
 	@Persistent
 	String dataType;
+	
+	@Persistent
+	@Unindexed
+	HashSet<String> keywords;
 
 	public DescriptionDataData() {
 	}
@@ -44,7 +51,8 @@ public class DescriptionDataData extends DatabaseObject {
 			Date sourcedate,
 			String sourcekey,
 			String inputkey,
-			String datatype) {
+			String datatype,
+			HashSet<String> keywords) {
 		this.keyword = keyword;
 		this.onlinedescription = onlinedescription;
 		this.fulldescription = fulldescription;
@@ -96,5 +104,8 @@ public class DescriptionDataData extends DatabaseObject {
 	}
 	public String getDataType() {
 		return dataType;
+	}
+	public HashSet<String> getKeywords() {
+		return keywords;
 	}
 }

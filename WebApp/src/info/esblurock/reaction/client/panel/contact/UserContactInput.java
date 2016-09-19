@@ -144,7 +144,8 @@ public class UserContactInput extends Composite implements HasText {
 				locationinfo.getGpslatitude(), locationinfo.getGpslongitude());
 		DescriptionDataData descrdata = new DescriptionDataData(description.getKeyWord(),
 				description.getOneLineDescription(), description.getDescription(), description.getSourceDate(),
-				description.getSource(), description.getInputKey(), descriptionKey);
+				description.getSource(), description.getInputKey(), 
+				descriptionKey,description.getKeywords());
 
 		UserDescriptionData user = new UserDescriptionData(userrole, descrdata, contact, location);
 		async.storeUserDescriptionData(user, callback);

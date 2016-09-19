@@ -159,11 +159,13 @@ public class StandardNavigation extends Composite implements HasText {
 		MaterialToast.fireToast("thergasmolecules");
 		handleHistoryToken("thergasmolecules");
 	}
+	/*
 	@UiHandler("toprocess")
 	void onToProcess(ClickEvent e) {
 		MaterialToast.fireToast("toprocess");
 		handleHistoryToken("toprocess");
 	}
+	*/
 	@UiHandler("transactions")
 	void onTransaction(ClickEvent e) {
 		MaterialToast.fireToast("transactions");

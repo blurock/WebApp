@@ -147,6 +147,7 @@ public enum Place {
 			return inputs;
 		}
 	},
+	/*
 	toprocess {
 		@Override
 		public String getTitle() {
@@ -163,6 +164,7 @@ public enum Place {
 			return new TransactionSources();
 		}
 	},
+	*/
 	transactions {
 		@Override
 		public String getTitle() {

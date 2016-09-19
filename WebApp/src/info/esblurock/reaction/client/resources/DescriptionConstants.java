@@ -7,6 +7,15 @@ package info.esblurock.reaction.client.resources;
 public interface DescriptionConstants extends com.google.gwt.i18n.client.Messages {
   
   /**
+   * Translated "Add Keyword".
+   * 
+   * @return translated "Add Keyword"
+   */
+  @DefaultMessage("Add Keyword")
+  @Key("addkeyword")
+  String addkeyword();
+
+  /**
    * Translated "CHEMKIN Mechanism".
    * 
    * @return translated "CHEMKIN Mechanism"
@@ -32,6 +41,15 @@ public interface DescriptionConstants extends com.google.gwt.i18n.client.Message
   @DefaultMessage("CHEMKIN Mechanism")
   @Key("chemkintitle")
   String chemkintitle();
+
+  /**
+   * Translated "Close".
+   * 
+   * @return translated "Close"
+   */
+  @DefaultMessage("Close")
+  @Key("close")
+  String close();
 
   /**
    * Translated "Contact Details".
@@ -68,6 +86,15 @@ public interface DescriptionConstants extends com.google.gwt.i18n.client.Message
   @DefaultMessage("Creation Data of the input")
   @Key("dateplaceholder")
   String dateplaceholder();
+
+  /**
+   * Translated "Keyword".
+   * 
+   * @return translated "Keyword"
+   */
+  @DefaultMessage("Keyword")
+  @Key("descriptionkeyword")
+  String descriptionkeyword();
 
   /**
    * Translated "Text description limited to 1500 characters".
@@ -185,6 +212,15 @@ public interface DescriptionConstants extends com.google.gwt.i18n.client.Message
   @DefaultMessage("NASA Polynomials")
   @Key("nasapolynomialstitle")
   String nasapolynomialstitle();
+
+  /**
+   * Translated "new keyword".
+   * 
+   * @return translated "new keyword"
+   */
+  @DefaultMessage("new keyword")
+  @Key("newkeyword")
+  String newkeyword();
 
   /**
    * Translated "One line description limited to 80 characters".

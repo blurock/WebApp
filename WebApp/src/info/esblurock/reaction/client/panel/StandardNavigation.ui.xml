@@ -86,12 +86,14 @@
 										iconPosition="LEFT" text="File Sets" textColor="blue" />
 								</m:MaterialColumn>
 							</m:MaterialRow>
+							<!-- 
 							<m:MaterialRow>
 								<m:MaterialColumn>
 									<m:MaterialLink ui:field="toprocess"
 										iconPosition="LEFT" text="To Process" textColor="blue" />
 								</m:MaterialColumn>
 							</m:MaterialRow>
+							 -->
 							<m:MaterialRow>
 								<m:MaterialColumn>
 									<m:MaterialLink ui:field="transactions"

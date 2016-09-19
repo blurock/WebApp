@@ -117,8 +117,7 @@
 		</m:MaterialPanel>
 		<!-- </m:MaterialPanel> -->
 
-		<ma:window.MaterialWindow ui:field="loginWindow"
-			width="70%">
+		<ma:window.MaterialWindow ui:field="loginWindow" width="70%">
 			<m:MaterialRow ui:field="loginrow">
 				<m:MaterialColumn grid="s12 m6">
 					<m:MaterialPanel ui:field="createLogin">
@@ -130,12 +129,10 @@
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s12 m6">
 					<m:MaterialPanel addStyleNames="{style.fieldPanel}">
-						<m:MaterialImage resource="{loginres.OneKey}"
-							type="CIRCLE" addStyleNames="{style.imgProfile} z-depth-1" />
-						<m:MaterialTextBox ui:field="accountname" />
-						<m:MaterialTextBox ui:field="userpassword" type="PASSWORD" />
-						<m:MaterialButton ui:field="btnLogin" waves="LIGHT"
-							width="100%" />
+						<m:MaterialImage resource="{loginres.OneKey}" type="CIRCLE" addStyleNames="{style.imgProfile} z-depth-1"/>
+						<m:MaterialTextBox ui:field="accountname"/>
+						<m:MaterialTextBox ui:field="userpassword" type="PASSWORD"/>
+						<m:MaterialButton ui:field="btnLogin" waves="LIGHT" width="100%"/>
 					</m:MaterialPanel>
 				</m:MaterialColumn>
 			</m:MaterialRow>

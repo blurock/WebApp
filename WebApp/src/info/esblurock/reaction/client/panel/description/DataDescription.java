@@ -1,24 +1,34 @@
 package info.esblurock.reaction.client.panel.description;
 
+import info.esblurock.reaction.client.TextToDatabase;
+import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.inputs.SetOfInputs;
 import info.esblurock.reaction.client.resources.DescriptionConstants;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 
+import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialDatePicker;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -52,10 +62,27 @@ public class DataDescription extends Composite implements HasText {
 	@UiField
 	MaterialTextBox inputkey;
 	
+	@UiField
+	HTMLPanel keywordpanel;
+	@UiField
+	MaterialChip addkeyword;
+	@UiField
+	MaterialButton descriptionkeywords;
+	
+	@UiField
+	MaterialModal keywordModal;
+	@UiField
+	MaterialTextBox newKeywordText;
+	@UiField
+	MaterialButton newKeywordButton;
+	@UiField
+	MaterialButton keywordCloseButton;
+	
 	boolean keywordChanged;
 	boolean sourcekeyChanged;
 	
 	SetOfInputs inputSet;
+	HashSet<KeywordChip> keywordset;
 
 	public void setInputSet(SetOfInputs set) {
 		inputSet = set;
@@ -66,7 +93,7 @@ public class DataDescription extends Composite implements HasText {
 			inputSet.setKeyword(getKeyWord(),getSource());
 		}
 	}
-	
+		
 	private void setText() {
 		keywordChanged = false;
 		sourcekeyChanged = false;
@@ -84,6 +111,13 @@ public class DataDescription extends Composite implements HasText {
 		inputkey.setPlaceholder(descriptionConstants.inputplaceholder());
 		String username = Cookies.getCookie("user");
 		inputkey.setText(username);
+		addkeyword.setVisible(true);
+		addkeyword.setEnabled(true);
+
+		newKeywordText.setText(descriptionConstants.newkeyword());
+		newKeywordText.setPlaceholder(descriptionConstants.descriptionkeyword());
+		newKeywordButton.setText(descriptionConstants.addkeyword());
+		keywordCloseButton.setText(descriptionConstants.close());
 	}
 	
 	private void initData() {
@@ -143,6 +177,17 @@ public class DataDescription extends Composite implements HasText {
 		sourcekey.setText(descr.getSourcekey());
 		inputkey.setText(descr.getInputkey());
 	}
+	
+	public void setKeywords(ArrayList<KeywordChip> set) {
+		descriptionkeywords.setVisible(false);
+		descriptionkeywords.setEnabled(false);
+		addkeyword.setVisible(true);
+		addkeyword.setEnabled(true);
+		for(KeywordChip chip: set) {
+			keywordpanel.add(chip);
+		}
+	}
+	
 	public String getKeyWord() {
 		return keyword.getText();
 	}
@@ -178,6 +223,14 @@ public class DataDescription extends Composite implements HasText {
 		return name;
 	}
 	
+	public HashSet<String> getKeywords() {
+		HashSet<String> keys = new HashSet<String>();
+		for(KeywordChip chip : keywordset) {
+			keys.add(chip.getText());
+		}
+		return keys;
+	}
+	
 	@Override
 	public void setText(String title) {
 		objecttitle.setTitle(title);
@@ -187,12 +240,33 @@ public class DataDescription extends Composite implements HasText {
 	public String getText() {
 		return objecttitle.getTitle();
 	}
+	
+	@UiHandler("addkeyword")
+	void onAddKeyword(ClickEvent event) {
+		keywordModal.openModal();
+	}
+	@UiHandler("newKeywordButton")
+	void onNewKeywordButton(ClickEvent event) {
+		MaterialToast.fireToast("New Keyword: " + newKeywordText.getText());
+		KeywordChip chip = new KeywordChip(newKeywordText.getText());
+		keywordpanel.add(chip);
+	}
+	@UiHandler("keywordCloseButton")
+	void onKeywordCloseButton(ClickEvent event) {
+		keywordModal.closeModal();
+	}
 	@UiHandler("sourcekey")
 	void onSourceKey(KeyUpEvent e) {
 		sourcekeyChanged = true;
 		resetKeyword();
 	}
 
+	@UiHandler("descriptionkeywords")
+	void onDescriptionKeywordsClick(ClickEvent e) {
+		KeywordsFromTextCallback callback = new KeywordsFromTextCallback(this);
+		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
+		async.keywordsFromText(description.getText(),callback);
+	}
 	@UiHandler("keyword")
 	void onKeyword(KeyUpEvent e) {
 		String text = keyword.getText();
@@ -205,13 +279,11 @@ public class DataDescription extends Composite implements HasText {
 	}
 	@UiHandler("oneline")
 	void onOneLine(KeyUpEvent e) {
-		
 		String text = oneline.getText();
 		if(text.length() >= maxOnlineSize) {
 			MaterialToast.fireToast(descriptionConstants.onelinelimit());
 			oneline.setText(text.substring(0,maxOnlineSize-1));
 		}
-		
 	}
 	@UiHandler("description")
 	void onDescription(KeyUpEvent e) {

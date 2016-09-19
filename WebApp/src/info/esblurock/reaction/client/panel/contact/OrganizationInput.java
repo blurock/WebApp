@@ -144,7 +144,8 @@ public class OrganizationInput extends Composite implements HasText,
 				description.getDescription(), 
 				description.getSourceDate(), description.getSource(), 
 				description.getInputKey(),
-				organizationS);
+				organizationS,
+				description.getKeywords());
 		
 		OrganizationDescriptionData org = new OrganizationDescriptionData(orgtype.getText(), 
 				descrdata, contact, location);

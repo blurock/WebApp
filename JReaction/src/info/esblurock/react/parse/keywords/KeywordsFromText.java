@@ -22,7 +22,10 @@ import info.esblurock.react.parse.nlp.filter.StandardSetOfTokenFilters;
  * @author edwardblurock
  */
 public class KeywordsFromText {
-    Resource resource;
+    private String categorizeResource= "resources/en-pos-maxent.bin";
+    private String tokenResource= "resources/en-token.bin";
+    private String chunkerResource = "resources/en-chunker.bin";
+
     SetOfPhraseFilters phraseFilters;
     SetOfTokenFilters tokenFilters;
     Phrases phrases;
@@ -31,8 +34,10 @@ public class KeywordsFromText {
     SetOfKeyWords phraseKeyWords;
     SetOfKeyWords singleKeyWords;
     
-    public KeywordsFromText() {
-        resource = new Resource();
+    public KeywordsFromText(String categorizeResource, String tokenResource, String chunkerResource) {
+        this.categorizeResource = categorizeResource;
+        this.tokenResource = tokenResource;
+        this.chunkerResource = chunkerResource;
         phraseFilters = new StandardSetOfPhraseFilters();
         tokenFilters = new StandardSetOfTokenFilters();
     }
@@ -62,7 +67,7 @@ public class KeywordsFromText {
     }
     
     private void process(String text) {
-        categorize = new NLPChunker(text, resource);
+        categorize = new NLPChunker(text, categorizeResource, tokenResource, chunkerResource);
         phrases = new Phrases(categorize);
         
         CreateAdjectiveNounPhraseFromFullPhrase anphrase = new CreateAdjectiveNounPhraseFromFullPhrase();

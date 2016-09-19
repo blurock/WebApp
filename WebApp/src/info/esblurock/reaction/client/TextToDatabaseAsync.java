@@ -4,6 +4,8 @@ import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -21,5 +23,7 @@ public interface TextToDatabaseAsync {
 	void checkSubmitInputData(DescriptionDataData descrdata, AsyncCallback<String> callback);
 
 	void registerDataInputDescription(DescriptionDataData descrdata, AsyncCallback<String> callback);
+
+	void keywordsFromText(String text, AsyncCallback<HashSet<String>> callback);
 
 }

@@ -7,16 +7,16 @@
 		font-weight: bold;
 	}
 	</ui:style>
-	<m:MaterialModal ui:field="modal" type="BOTTOM_SHEET" dismissable="false" inDuration="500" outDuration="500">		
+	<m:MaterialModal ui:field="modal" type="BOTTOM_SHEET" dismissable="true" inDuration="500" outDuration="500">		
 	<m:MaterialModalContent ui:field="modalcontent">
 			<m:MaterialTitle ui:field="title" />
 		
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s3">
-				<m:MaterialLink ui:field="storedObjectKeylabel" />
+				<m:MaterialLink ui:field="storedObjectKeylabel"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s9">
-				<m:MaterialLink ui:field="storedObjectKey" />
+				<m:MaterialLink ui:field="storedObjectKey"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 
@@ -30,10 +30,10 @@
 		</m:MaterialRow>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s3">
-				<m:MaterialLink ui:field="keywordlabel" />
+				<m:MaterialLink ui:field="keywordlabel"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s9">
-				<m:MaterialLink ui:field="keyword" />
+				<m:MaterialLink ui:field="keyword"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>
@@ -46,17 +46,22 @@
 		</m:MaterialRow>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s3">
-				<m:MaterialLink ui:field="transactionObjectTypelabel" />
+				<m:MaterialLink ui:field="transactionObjectTypelabel"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s9">
 				<m:MaterialLink ui:field="transactionObjectType"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
+		<m:MaterialRow>
+			<m:MaterialColumn grid="s12">
+				<m:MaterialLink ui:field="btndelete" text="Delete" 
+					backgroundColor="grey" textColor="black" type="FLAT" iconType="DELETE"/>
+			</m:MaterialColumn>
+		</m:MaterialRow>
 		</m:MaterialModalContent>
 		<m:MaterialModalFooter>
-				<m:MaterialButton ui:field="btndelete"
-					textColor="text-black   indigo lighten-3" iconType="DELETE"
-					type="FLAT" />
+				<m:MaterialLink ui:field="close" text="Close"
+					textColor="black" iconType="CLEAR" type="FLAT" />
 		</m:MaterialModalFooter>
 	</m:MaterialModal>
 </ui:UiBinder> 

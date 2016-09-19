@@ -1,5 +1,6 @@
 package info.esblurock.reaction.client.panel.inputs;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,9 +12,12 @@ import gwt.material.design.client.ui.MaterialModalContent;
 import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.description.DataDescription;
+import info.esblurock.reaction.client.panel.description.ReferenceDescriptions;
+import info.esblurock.reaction.client.panel.description.SetOfReferenceDescriptions;
 import info.esblurock.reaction.client.resources.DescriptionConstants;
 import info.esblurock.reaction.client.resources.InputConstants;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
+import info.esblurock.reaction.data.description.DataSetReference;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 
 import com.google.gwt.core.client.GWT;
@@ -50,6 +54,7 @@ public class SetOfInputs extends Composite {
 
 	private DataDescription description;
 	private HashSet<DataInput> inputs = new HashSet<DataInput>();
+	private SetOfReferenceDescriptions referenceset;
 	
 	String dataType;
 
@@ -60,6 +65,9 @@ public class SetOfInputs extends Composite {
 		description = set.getDescription();
 		collapsable.add(description);
 		description.setInputSet(this);
+		
+		referenceset = new SetOfReferenceDescriptions();
+		collapsable.add(referenceset);
 		
 		List<DataInput> panels = set.getSet(description);
 		for (DataInput panel : panels) {
@@ -96,10 +104,15 @@ public class SetOfInputs extends Composite {
 					description.getDescription(), 
 					description.getSourceDate(), description.getSource(), 
 					description.getInputKey(),
-					dataType);
+					dataType,
+					description.getKeywords());
+			
+			ArrayList<DataSetReference> references = getReferences();
+		
 			//setInputVisibility(true);
 			setKeyword(description.getKeyWord(), description.getSource());
-			RegisterDataDescriptionCallback callback = new RegisterDataDescriptionCallback(dataType,descrdata,modal,modalcontent);
+			RegisterDataDescriptionCallback callback = 
+					new RegisterDataDescriptionCallback(dataType,descrdata,references,modal,modalcontent);
 			TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
 			async.checkSubmitInputData(descrdata, callback);
 		} else {
@@ -107,4 +120,14 @@ public class SetOfInputs extends Composite {
 		}
 	};
 
+	private ArrayList<DataSetReference> getReferences() {
+		ArrayList<DataSetReference> reflist = new ArrayList<DataSetReference>();
+		for(ReferenceDescriptions ref : referenceset.getReferences()) {
+			DataSetReference references = new DataSetReference(description.createObjectKeyword(),
+					ref.getDOI(),ref.getTitle(),ref.getReference(),
+					ref.getAuthors(),ref.getLastNames());
+			reflist.add(references);
+		}
+		return reflist;
+	}
 }

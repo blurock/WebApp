@@ -8,7 +8,6 @@ import info.esblurock.reaction.client.panel.StandardNavigation;
 import info.esblurock.reaction.client.panel.inputs.place.Place;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dev.util.DefaultTextOutput;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Cookies;
@@ -53,7 +52,6 @@ public class ReactionFirstImpl extends Composite implements ReactionFirstView {
 		Widget widget = uiBinder.createAndBindUi(this);
 		init();
 		initWidget(widget);
-		
 	}
 	private void checkWithServerIfSessionIdIsStillLegal() {
 		String sessionID = Cookies.getCookie("sid");

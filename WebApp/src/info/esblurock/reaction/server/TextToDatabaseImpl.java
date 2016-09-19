@@ -1,12 +1,27 @@
 package info.esblurock.reaction.server;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.jdo.PersistenceManager;
 
+import org.json.JSONObject;
+
+import com.google.gwt.core.client.JavaScriptObject;
+import com.gwtext.client.data.JsonReader;
+import com.gwtext.client.data.RecordDef;
+import com.gwtext.client.util.JSON;
+
 import java.util.logging.Logger;
 
+import info.esblurock.react.parse.keywords.KeywordsFromText;
+import info.esblurock.react.parse.keywords.SetOfKeyWords;
 import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.GenerateKeywordFromDescription;
@@ -145,9 +160,16 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 		ProcessBase process = DataProcesses.getProcess(processName,specs);
 		String ans = process.process();
 		return ans;
-		
-		
-		
 	}
-	
+	public HashSet<String> keywordsFromText(String text) {
+	    String categorizeResource= "resources/en-pos-maxent.bin";
+	    String tokenResource= "resources/en-token.bin";
+	    String chunkerResource = "resources/en-chunker.bin";
+        KeywordsFromText keys = new KeywordsFromText(categorizeResource, tokenResource, chunkerResource);
+        keys.calculateKeyWords(text);
+		Collections.sort(keys.getSingleKeyWords());
+        HashSet<String> set = new HashSet<String>(keys.getSingleKeyWords());
+        System.out.println(set);
+ 		return set;
+	}
 }

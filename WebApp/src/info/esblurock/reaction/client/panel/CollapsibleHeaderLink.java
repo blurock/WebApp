@@ -1,5 +1,7 @@
 package info.esblurock.reaction.client.panel;
 
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -30,6 +32,7 @@ import info.esblurock.reaction.data.rdf.graph.RDFGraphPredicateNode;
 import info.esblurock.reaction.data.rdf.graph.RDFGraphStringObject;
 import info.esblurock.reaction.data.rdf.graph.RDFGraphSubjectNode;
 import info.esblurock.reaction.data.rdf.graph.RDFSubTreeParentNode;
+import info.esblurock.reaction.data.rdf.graph.RDFTreeNode;
 import info.esblurock.reaction.data.rdf.graph.SetOfGraphNodes;
 
 public class CollapsibleHeaderLink extends Composite implements HasText {
@@ -62,9 +65,10 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 	
 	QueryPath linkpath;
 	DatabaseObject objectStructure;
-	SetOfGraphNodes restnodes;
+	List<RDFTreeNode> restlst;
 	AddQueryResult addnode;
-
+	MaterialCollapsible parent;
+	
 	protected void init() {
 		subjectB = false;
 		predicateB = false;
@@ -85,11 +89,11 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 		setupMaterialLinkFromNode(node,path);
 	}
 
-	public CollapsibleHeaderLink(MaterialCollapsible item, SetOfGraphNodes restnodes, QueryPath path) {
+	public CollapsibleHeaderLink(MaterialCollapsible parent, List<RDFTreeNode> restlst, QueryPath path) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
-		this.restnodes = restnodes;
-
+		this.restlst = restlst;
+		this.parent = parent;
 		linkpath = path;
 		rest.setText("Click for more");
 		objectStructure = null;
@@ -170,9 +174,8 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 	@UiHandler("rest")
 	public void onRestClick(ClickEvent event) {
 		addnode = new AddQueryResult();
-		
-		addnode.addChildren(item, toptreenode, path);
-		
+		addnode.addChildren(parent, restlst, linkpath);
+		this.removeFromParent();
 	}
 	
 	@UiHandler("link")
@@ -186,13 +189,10 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 			BaseDataPresentation display = presentation.asDisplayObject(objectStructure);
 			body.add(display);
 			display.openModal();
-		} else if(restnodes != null) {
-			
 		}
 	}
 	@UiHandler("expandnext")
 	public void onExpandClick(ClickEvent event) {
-		MaterialToast.fireToast("Expand: " + link.getText());
 		BasicObjectSearchCallback callback = new BasicObjectSearchCallback(linkpath, collapsible);
 		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
 		async.searchedRegisteredQueries(link.getText(), callback);		

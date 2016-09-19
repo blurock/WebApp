@@ -13,6 +13,7 @@ public class StoreDescriptionData extends StoreObject {
 	static String oneLineDescription = "OneLine";
 	static String fullDescription = "FullDescription";
 	static String sourceOfData= "SourceOfData";
+	static String keyword = "Keyword";
 
 	public StoreDescriptionData(String keyword, DatabaseObject object,
 			TransactionInfo transaction) {
@@ -39,7 +40,9 @@ public class StoreDescriptionData extends StoreObject {
 		}
 		String sourcedateS = DateAsString.dateAsString(sourcedate);
 		storeStringRDF(sourceOfData,sourcedateS);
-		
+		for(String key : data.getKeywords()) {
+			storeStringRDF(keyword, key);
+		}
 	}
 
 }

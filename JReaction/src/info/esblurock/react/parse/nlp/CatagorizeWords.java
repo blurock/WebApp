@@ -5,6 +5,7 @@
  */
 package info.esblurock.react.parse.nlp;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,20 +20,20 @@ import opennlp.tools.postag.POSTaggerME;
  * @author edwardblurock
  */
 public class CatagorizeWords extends SetOfTokens{
-    private Resource resource;
+    private String categorizeResource;
+    private String tokenResource;
+    private String chunkerResource;
     /**
      *
      * @param text
      */
-    public CatagorizeWords(String text, Resource r) {
-        resource = r;
-        NLPTokenize tokenize = new NLPTokenize(text,r);
+    public CatagorizeWords(String text, String categorizeResource, String tokenResource, String chunkerResource) {
+        this.categorizeResource = categorizeResource;
+        this.tokenResource = tokenResource;
+        this.chunkerResource = chunkerResource;
+        NLPTokenize tokenize = new NLPTokenize(text, categorizeResource, tokenResource, chunkerResource);
         SetOfTokens tokenSet = tokenize.getTokenSet();
         process(tokenSet);
-    }
-
-    public void setResource(Resource resource) {
-        this.resource = resource;
     }
 
     private void process(SetOfTokens tokenSet) {
@@ -41,7 +42,9 @@ public class CatagorizeWords extends SetOfTokens{
         InputStream modelIn = null;
 
         try {
-            modelIn = new FileInputStream(resource.getCategorizeResource());
+        	ClassLoader classLoader = getClass().getClassLoader();
+        	File file = new File(classLoader.getResource(categorizeResource).getFile());
+            modelIn = new FileInputStream(file);
             POSModel model = new POSModel(modelIn);
             POSTaggerME tagger = new POSTaggerME(model);
             String tags[] = tagger.tag(tokens);
