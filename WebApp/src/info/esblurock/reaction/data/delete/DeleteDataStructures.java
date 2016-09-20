@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 import info.esblurock.reaction.data.upload.FileUploadLines;
+import info.esblurock.reaction.data.upload.FileUploadTextBlock;
 import info.esblurock.reaction.server.queries.QueryBase;
 import info.esblurock.reaction.data.chemical.elements.ChemicalElementListData;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
@@ -13,6 +14,9 @@ import info.esblurock.reaction.data.chemical.thermo.NASAPolynomialData;
 import info.esblurock.reaction.data.chemical.transport.SpeciesTransportProperty;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
+import info.esblurock.reaction.data.upload.types.ValidatedNASAPolynomialFile;
+import info.esblurock.reaction.data.upload.types.ValidatedChemkinMechanismFile;
+import info.esblurock.reaction.data.upload.types.ValidatedTransportFile;
 import info.esblurock.reaction.data.upload.ChemkinMechanismFileSpecification;
 import info.esblurock.reaction.data.upload.NASAPolynomialFileSpecification;
 import info.esblurock.reaction.data.upload.TransportFileSpecification;
@@ -34,190 +38,252 @@ public enum DeleteDataStructures {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			QueryBase.deleteWithStringKey(DescriptionDataData.class,key);
+			QueryBase.deleteWithStringKey(DescriptionDataData.class, key);
 			return "delete DescriptionDataData with key: " + key;
 		}
-		
-	}, ChemkinMechanismFileSpecification {
+
+	},
+	ChemkinMechanismFileSpecification {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			QueryBase.deleteWithStringKey(ChemkinMechanismFileSpecification.class, key);
+			try {
+				QueryBase.deleteWithStringKey(ChemkinMechanismFileSpecification.class, key);
+			} catch (IOException ex) {
+				if (!ex.getMessage().startsWith(QueryBase.notfound)) {
+					throw ex;
+				}
+			}
 			return "delete ChemkinMechanismFileUpload with key: " + key;
 		}
-		
-	}, NASAPolynomialFileSpecification {
+
+	},
+	ValidatedNASAPolynomialFile {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			QueryBase.deleteWithStringKey(NASAPolynomialFileSpecification.class, key);
+			QueryBase.deleteWithStringKey(ValidatedNASAPolynomialFile.class, key);
+			return "delete ValidatedNASAPolynomialFile with key: " + key;
+		}
+
+	},
+	ValidatedChemkinMechanismFile {
+
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			QueryBase.deleteWithStringKey(ValidatedChemkinMechanismFile.class, key);
+			return "delete ValidatedChemkinMechanismFile with key: " + key;
+		}
+
+	},
+	ValidatedTransportFile {
+
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			QueryBase.deleteWithStringKey(ValidatedTransportFile.class, key);
+			return "delete ValidatedTransportFile with key: " + key;
+		}
+
+	},
+	NASAPolynomialFileSpecification {
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			try {
+				QueryBase.deleteWithStringKey(NASAPolynomialFileSpecification.class, key);
+			} catch (IOException ex) {
+				if (!ex.getMessage().startsWith(QueryBase.notfound)) {
+					throw ex;
+				}
+			}
 			return "delete ChemkinMechanismFileUpload with key: " + key;
 		}
-		
-	}, TransportFileSpecification {
+
+	},
+	TransportFileSpecification {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			QueryBase.deleteWithStringKey(TransportFileSpecification.class, key);
+			try {
+				QueryBase.deleteWithStringKey(TransportFileSpecification.class, key);
+			} catch (IOException ex) {
+				if (!ex.getMessage().startsWith(QueryBase.notfound)) {
+					throw ex;
+				}
+			}
 			return "delete TransportFileSpecification with key: " + key;
 		}
-		
-	}, ChemkinMechanismFileUpload {
+
+	},
+	ChemkinMechanismFileUpload {
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			ChemkinMechanismFileUpload upload =  (ChemkinMechanismFileUpload) 
-					QueryBase.getObjectById(ChemkinMechanismFileUpload.class, key);
+			ChemkinMechanismFileUpload upload = (ChemkinMechanismFileUpload) QueryBase
+					.getObjectById(ChemkinMechanismFileUpload.class, key);
 			QueryBase.deleteFromIdentificationCode(FileUploadLines.class, "fileCode", upload.getFileCode());
 			QueryBase.deleteWithStringKey(ChemkinMechanismFileUpload.class, key);
 			return "delete TransportFileSpecification with key: " + key;
 		}
-		
-	}, NASAPolynomialFileUpload {
+
+	},
+	NASAPolynomialFileUpload {
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			NASAPolynomialFileUpload upload =  (NASAPolynomialFileUpload) 
-					QueryBase.getObjectById(NASAPolynomialFileUpload.class, key);
-			QueryBase.deleteFromIdentificationCode(FileUploadLines.class, "fileCode", upload.getFileCode());
+			NASAPolynomialFileUpload upload = (NASAPolynomialFileUpload) QueryBase
+					.getObjectById(NASAPolynomialFileUpload.class, key);
+			QueryBase.deleteFromIdentificationCode(FileUploadTextBlock.class, "fileCode", upload.getFileCode());
 			QueryBase.deleteWithStringKey(NASAPolynomialFileUpload.class, key);
 			return "delete ChemkinMechanismFileUpload with key: " + key;
 		}
-		
-	}, TransportFileUpload {
+
+	},
+	TransportFileUpload {
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			TransportFileUpload upload =  (TransportFileUpload) 
-					QueryBase.getObjectById(TransportFileUpload.class, key);
+			TransportFileUpload upload = (TransportFileUpload) QueryBase.getObjectById(TransportFileUpload.class, key);
 			QueryBase.deleteFromIdentificationCode(FileUploadLines.class, "fileCode", upload.getFileCode());
 			QueryBase.deleteWithStringKey(TransportFileUpload.class, key);
 			return "delete TransportFileUpload with key: " + key;
 		}
 	},
-	
+
 	MechanismMoleculesToDatabaseTransaction {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			MechanismMoleculesToDatabaseTransaction transaction = (MechanismMoleculesToDatabaseTransaction)
-					QueryBase.getObjectById(MechanismMoleculesToDatabaseTransaction.class,key);
+			MechanismMoleculesToDatabaseTransaction transaction = (MechanismMoleculesToDatabaseTransaction) QueryBase
+					.getObjectById(MechanismMoleculesToDatabaseTransaction.class, key);
+			QueryBase.deleteFromIdentificationCode(MechanismMoleculeData.class, "mechanismKeyword",
+					transaction.getKeyWord());
+			QueryBase.deleteFromIdentificationCode(ChemicalElementListData.class, "mechanismKeyword",
+					transaction.getKeyWord());
 			QueryBase.deleteWithStringKey(MechanismMoleculesToDatabaseTransaction.class, key);
-			QueryBase.deleteFromIdentificationCode(MechanismMoleculeData.class, "mechanismKeyword", transaction.getKeyWord());
-			QueryBase.deleteFromIdentificationCode(ChemicalElementListData.class, "mechanismKeyword", transaction.getKeyWord());
 			return "delete MechanismMoleculesToDatabaseTransaction with key: " + key;
 		}
-		
-	}, MechanismReactionsToDatabaseTransaction {
+
+	},
+	MechanismReactionsToDatabaseTransaction {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			MechanismReactionsToDatabaseTransaction transaction = (MechanismReactionsToDatabaseTransaction)
-					QueryBase.getObjectById(MechanismReactionsToDatabaseTransaction.class,key);
+			MechanismReactionsToDatabaseTransaction transaction = (MechanismReactionsToDatabaseTransaction) QueryBase
+					.getObjectById(MechanismReactionsToDatabaseTransaction.class, key);
 			QueryBase.deleteWithStringKey(MechanismReactionsToDatabaseTransaction.class, key);
-			QueryBase.deleteFromIdentificationCode(ChemkinReactionData.class, "mechanismKeyword", transaction.getKeyWord());
+			QueryBase.deleteFromIdentificationCode(ChemkinReactionData.class, "mechanismKeyword",
+					transaction.getKeyWord());
 			return "delete MechanismReactionsToDatabaseTransaction with key: " + key;
 		}
-		
-	}, NASAPolynomialsToDatabaseTransaction {
+
+	},
+	NASAPolynomialsToDatabaseTransaction {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			NASAPolynomialsToDatabaseTransaction transaction = (NASAPolynomialsToDatabaseTransaction)
-					QueryBase.getObjectById(NASAPolynomialsToDatabaseTransaction.class,key);
-			QueryBase.deleteWithStringKey(MechanismReactionsToDatabaseTransaction.class, key);
-			QueryBase.deleteFromIdentificationCode(NASAPolynomialData.class, "mechanismKeyword", transaction.getKeyWord());
+			NASAPolynomialsToDatabaseTransaction transaction = (NASAPolynomialsToDatabaseTransaction) QueryBase
+					.getObjectById(NASAPolynomialsToDatabaseTransaction.class, key);
+			QueryBase.deleteWithStringKey(NASAPolynomialsToDatabaseTransaction.class, key);
+			QueryBase.deleteFromIdentificationCode(NASAPolynomialData.class, "mechanismKeyword",
+					transaction.getKeyWord());
 			return "delete NASAPolynomialsToDatabaseTransaction with key: " + key;
 		}
-		
-	}, TransportPropertiesToDatabaseTransaction {
+
+	},
+	TransportPropertiesToDatabaseTransaction {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			TransportPropertiesToDatabaseTransaction transaction = (TransportPropertiesToDatabaseTransaction)
-					QueryBase.getObjectById(TransportPropertiesToDatabaseTransaction.class,key);
+			TransportPropertiesToDatabaseTransaction transaction = (TransportPropertiesToDatabaseTransaction) QueryBase
+					.getObjectById(TransportPropertiesToDatabaseTransaction.class, key);
 			QueryBase.deleteWithStringKey(TransportPropertiesToDatabaseTransaction.class, key);
-			QueryBase.deleteFromIdentificationCode(SpeciesTransportProperty.class, "mechanismKeyword", transaction.getKeyWord());
+			QueryBase.deleteFromIdentificationCode(SpeciesTransportProperty.class, "mechanismKeyword",
+					transaction.getKeyWord());
 			return "delete TransportPropertiesToDatabaseTransaction with key: " + key;
 		}
-		
-	}, MechanismMoleculeRDFTransaction{
+
+	},
+	MechanismMoleculeRDFTransaction {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			MechanismMoleculeRDFTransaction transaction = (MechanismMoleculeRDFTransaction)
-					QueryBase.getObjectById(MechanismMoleculeRDFTransaction.class,key);
+			MechanismMoleculeRDFTransaction transaction = (MechanismMoleculeRDFTransaction) QueryBase
+					.getObjectById(MechanismMoleculeRDFTransaction.class, key);
 			QueryBase.deleteWithStringKey(MechanismMoleculeRDFTransaction.class, key);
 			QueryBase.deleteFromIdentificationCode(KeywordRDF.class, "sourceCode", transaction.getFileCode());
 			return "delete MechanismMoleculeRDFTransaction with key: " + key;
 		}
-		
-	}, MechanismReactionsRDFTransaction {
+
+	},
+	MechanismReactionsRDFTransaction {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			MechanismReactionsRDFTransaction transaction = (MechanismReactionsRDFTransaction)
-					QueryBase.getObjectById(MechanismReactionsRDFTransaction.class,key);
+			MechanismReactionsRDFTransaction transaction = (MechanismReactionsRDFTransaction) QueryBase
+					.getObjectById(MechanismReactionsRDFTransaction.class, key);
 			QueryBase.deleteWithStringKey(MechanismReactionsRDFTransaction.class, key);
 			QueryBase.deleteFromIdentificationCode(KeywordRDF.class, "sourceCode", transaction.getFileCode());
 			return "delete MechanismMoleculeRDFTransaction with key: " + key;
 		}
-		
-	}, NASAPolynomialRDFTransaction {
+
+	},
+	NASAPolynomialRDFTransaction {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			NASAPolynomialRDFTransaction transaction = (NASAPolynomialRDFTransaction)
-					QueryBase.getObjectById(NASAPolynomialRDFTransaction.class,key);
+			NASAPolynomialRDFTransaction transaction = (NASAPolynomialRDFTransaction) QueryBase
+					.getObjectById(NASAPolynomialRDFTransaction.class, key);
 			QueryBase.deleteWithStringKey(NASAPolynomialRDFTransaction.class, key);
 			QueryBase.deleteFromIdentificationCode(KeywordRDF.class, "sourceCode", transaction.getFileCode());
 			return "delete NASAPolynomialRDFTransaction with key: " + key;
 		}
-		
-	}, TransportPropertiesRDFTransaction {
+
+	},
+	TransportPropertiesRDFTransaction {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			TransportPropertiesRDFTransaction transaction = (TransportPropertiesRDFTransaction)
-					QueryBase.getObjectById(TransportPropertiesRDFTransaction.class,key);
+			TransportPropertiesRDFTransaction transaction = (TransportPropertiesRDFTransaction) QueryBase
+					.getObjectById(TransportPropertiesRDFTransaction.class, key);
 			QueryBase.deleteWithStringKey(TransportPropertiesRDFTransaction.class, key);
 			QueryBase.deleteFromIdentificationCode(KeywordRDF.class, "sourceCode", transaction.getFileCode());
 			return "delete MechanismMoleculeRDFTransaction with key: " + key;
 		}
-		
+
 	},
 	TextSetUploadData {
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			//DeleteTextSetUploadData delete = new DeleteTextSetUploadData();
-			//String ans = delete.delete(key);
+			// DeleteTextSetUploadData delete = new DeleteTextSetUploadData();
+			// String ans = delete.delete(key);
 			return null;
 		}
 	},
 	ChemicalMechanismData {
 		@Override
-		public String deleteStructure(String key) throws IOException {			
-			//ChemicalMechanismDataQuery query = new ChemicalMechanismDataQuery();
-			//query.deleteChemicalMechanismDataFromKey(key);
+		public String deleteStructure(String key) throws IOException {
+			// ChemicalMechanismDataQuery query = new
+			// ChemicalMechanismDataQuery();
+			// query.deleteChemicalMechanismDataFromKey(key);
 			return key;
 		}
-		
+
 	},
 	SetOfNASAPolynomialData {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			//NASAPolynomialDataQuery query = new NASAPolynomialDataQuery();
-			//query.deleteNASAPolynomialDataFromKey(key);
+			// NASAPolynomialDataQuery query = new NASAPolynomialDataQuery();
+			// query.deleteNASAPolynomialDataFromKey(key);
 			return key;
 		}
-		
+
 	};
-	
 
 	public abstract String deleteStructure(String key) throws IOException;
-	
+
 	/**
 	 * Find key root.
 	 *
-	 * @param key the key
+	 * @param key
+	 *            the key
 	 * @return the string
 	 */
 	protected static String findKeyRoot(String key) {
@@ -228,9 +294,8 @@ public enum DeleteDataStructures {
 		}
 		return ans;
 	}
-	
+
 	public static String deleteObject(String fullclassname, String key) throws IOException {
-		System.out.println("DeleteDataStructure: " + fullclassname);
 		String root = findKeyRoot(fullclassname);
 		System.out.println("DeleteDataStructure: " + root);
 		String ans = valueOf(root).deleteStructure(key);

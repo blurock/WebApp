@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 import javax.jdo.FetchGroup;
 import javax.jdo.PersistenceManager;
 
+import org.datanucleus.exceptions.NucleusObjectNotFoundException;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -33,6 +35,7 @@ import info.esblurock.reaction.data.PMF;
 public class QueryBase {
 
 	private static final Logger log = Logger.getLogger(QueryBase.class.getName());
+	public static String notfound = "NOT FOUND";
 
 	public QueryBase() {
 
@@ -44,9 +47,14 @@ public class QueryBase {
 	}
 	
 	static public void deleteWithStringKey(Class cls, String key) throws IOException {
+		try {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
 			Object objectById = pm.getObjectById(cls,key);
 			pm.deletePersistent(objectById);
+		} catch(Exception ex) {
+			System.out.println("Exception on deleteWithStringKey assuming can't be found: " + ex.toString());
+			throw new IOException(notfound);
+		}
 	}
 	/**
 	 * Delete objects of classtype with propertyname == propertyvalue

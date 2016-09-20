@@ -94,7 +94,6 @@ public class StandardNavigation extends Composite implements HasText {
 	}
 
 	private void changeNav(Place place) {
-		MaterialToast.fireToast(place.getTitle());
 		Window.scrollTo(0, 0);
 		content.clear();
 		Widget widget = place.getContent();
@@ -168,14 +167,15 @@ public class StandardNavigation extends Composite implements HasText {
 	*/
 	@UiHandler("transactions")
 	void onTransaction(ClickEvent e) {
-		MaterialToast.fireToast("transactions");
 		handleHistoryToken("transactions");
 	}
+	/*
 	@UiHandler("uploadsets")
 	void onUploads(ClickEvent e) {
 		MaterialToast.fireToast("uploadsets");
 		handleHistoryToken("uploadsets");
 	}
+	*/
 	public void setPresenter(Presenter presenter) {
 		listener = presenter;
 	}

@@ -81,13 +81,16 @@ public class DeleteTransactionInfoAndObject {
 	 *             Signals that an I/O exception has occurred.
 	 */
 	public String deleteTransactionInfoFromKey(String fullkey) throws IOException {
-		String ans = "";
+		String ans = "Deleted Transaction";
 		System.out.println("deleteTransactionInfoFromKey: " + fullkey);
 		TransactionInfo info = TransactionInfoQueries.getTransactionFromKeyString(fullkey);
-		if(info != null)
+		if(info != null) {
+			ans = "TransactionInfo: deleted";
 			System.out.println("deleteTransactionInfoFromKey - TransactionInfo: " + info.getKeyword());
-		else
+		} else {
+			ans = "TransactionInfo: not found";
 			System.out.println("deleteTransactionInfoFromKey - Info not found");
+		}
 		delete(info);
 		return ans;
 	}
