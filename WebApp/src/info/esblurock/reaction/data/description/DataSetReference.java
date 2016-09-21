@@ -38,9 +38,10 @@ public class DataSetReference  extends DatabaseObject {
 	public DataSetReference(String datasetKeyword, String dOI, String title, String referenceString, 
 			HashSet<String> authors, HashSet<String> lastnames) {
 		super();
-		DOI = dOI;
-		Title = title;
-		ReferenceString = referenceString;
+		this.DatasetKeyword = datasetKeyword;
+		this.DOI = dOI;
+		this.Title = title;
+		this.ReferenceString = referenceString;
 		this.authors = authors;
 		this.authorLastNames = lastnames;
 	}

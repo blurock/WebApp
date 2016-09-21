@@ -2,7 +2,7 @@ package info.esblurock.reaction.client.resources;
 
 /**
  * Interface to represent the constants contained in resource bundle:
- * 	'/Users/edwardblurock/git/WebApp/src/info/esblurock/reaction/client/resources/ProcessDescriptions.properties'.
+ * 	'/Users/edwardblurock/.git/WebApp/WebApp/src/info/esblurock/reaction/client/resources/ProcessDescriptions.properties'.
  */
 public interface ProcessDescriptions extends com.google.gwt.i18n.client.Constants {
   
@@ -104,6 +104,15 @@ public interface ProcessDescriptions extends com.google.gwt.i18n.client.Constant
   @DefaultStringValue("Description: Register the data source (with name and source)")
   @Key("RegisterDataDescription")
   String RegisterDataDescription();
+
+  /**
+   * Translated "Register the set of data set references".
+   * 
+   * @return translated "Register the set of data set references"
+   */
+  @DefaultStringValue("Register the set of data set references")
+  @Key("RegisterDataSetReferences")
+  String RegisterDataSetReferences();
 
   /**
    * Translated "RDF Transport: Create RDF's from Transport properties".

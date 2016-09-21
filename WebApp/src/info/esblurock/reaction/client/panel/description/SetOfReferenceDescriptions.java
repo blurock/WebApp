@@ -1,6 +1,7 @@
 package info.esblurock.reaction.client.panel.description;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -64,6 +65,16 @@ public class SetOfReferenceDescriptions extends Composite implements HasText {
 	}
 
 	public ArrayList<ReferenceDescriptions> getReferences() {
+		refdescriptions = new ArrayList<ReferenceDescriptions>();
+		Iterator<Widget> iter = references.iterator();
+		while(iter.hasNext()) {
+			Widget widget = iter.next();
+			String type = widget.getClass().getSimpleName();
+			if(type.matches("ReferenceDescriptions")) {
+				ReferenceDescriptions ref = (ReferenceDescriptions) widget;
+				refdescriptions.add(ref);
+			}
+		}
 		return refdescriptions;
 	}
 }

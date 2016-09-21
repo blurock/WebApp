@@ -2,7 +2,6 @@ package info.esblurock.reaction.client.panel.inputs;
 
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import com.google.gwt.cell.client.FieldUpdater;
@@ -26,13 +25,10 @@ import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionModel;
 
 import gwt.material.design.client.base.MaterialButtonCell;
-import gwt.material.design.client.constants.IconPosition;
-import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModalContent;
 import info.esblurock.reaction.client.FindShortNameFromString;
 import info.esblurock.reaction.client.panel.transaction.TransactionService;
 import info.esblurock.reaction.client.panel.transaction.TransactionServiceAsync;

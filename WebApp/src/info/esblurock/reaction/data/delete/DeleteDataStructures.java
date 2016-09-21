@@ -13,6 +13,8 @@ import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.thermo.NASAPolynomialData;
 import info.esblurock.reaction.data.chemical.transport.SpeciesTransportProperty;
 import info.esblurock.reaction.data.description.DescriptionDataData;
+import info.esblurock.reaction.data.description.DataSetReferencesTransaction;
+import info.esblurock.reaction.data.description.DataSetReference;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.upload.types.ValidatedNASAPolynomialFile;
 import info.esblurock.reaction.data.upload.types.ValidatedChemkinMechanismFile;
@@ -42,9 +44,20 @@ public enum DeleteDataStructures {
 			return "delete DescriptionDataData with key: " + key;
 		}
 
-	},
-	ChemkinMechanismFileSpecification {
-
+	}, DataSetReferencesTransaction {
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			DataSetReferencesTransaction reftransaction = (DataSetReferencesTransaction) QueryBase
+					.getObjectById(DataSetReferencesTransaction.class, key);
+			QueryBase.deleteFromIdentificationCode(DataSetReference.class,
+					"DatasetKeyword", reftransaction.getKeyWord());
+			QueryBase.deleteFromIdentificationCode(KeywordRDF.class,
+					"sourceCode",reftransaction.getFileCode());
+			QueryBase.deleteWithStringKey(DataSetReferencesTransaction.class, key);
+			return "Delete set of references for " + key;
+		}
+		
+	}, ChemkinMechanismFileSpecification {
 		@Override
 		public String deleteStructure(String key) throws IOException {
 			try {

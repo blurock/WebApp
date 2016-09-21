@@ -247,6 +247,7 @@ public abstract class ProcessBase {
 		transactionObjectTypeOutputs = getOutputTransactionObjectNames();
 		transactionOutputs = new ArrayList<TransactionInfo>();
 		for (String infoname : transactionObjectTypeOutputs) {
+			log.info("initializeOutputTranactions(): " + infoname);
 			TransactionInfo info = new TransactionInfo(user, keyword, infoname, outputSourceCode);
 			transactionOutputs.add(info);
 		}
@@ -280,8 +281,9 @@ public abstract class ProcessBase {
 			log.info("Object Type: " + name);
 			for (TransactionInfo info : transactionOutputs) {
 				if (info.getTransactionObjectType().equals(name)) {
+					log.info("Transaction Type (: " + info.getTransactionObjectType() + ")");
 					info.setStoredObjectKey(obj.getKey());
-					log.info("Transaction Type: " + info.getTransactionObjectType());
+					log.info("Transaction Type matches: " + info.getTransactionObjectType());
 				}
 			}
 		}

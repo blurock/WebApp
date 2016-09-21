@@ -80,13 +80,13 @@
 							<m:MaterialLink text="Transactions" textColor="deep-purple lighten-1" />
 						</m:MaterialCollapsibleHeader>
 						<m:MaterialCollapsibleBody>
+							<!-- 
 							<m:MaterialRow>
 								<m:MaterialColumn>
 									<m:MaterialLink ui:field="uploadsets"
 										iconPosition="LEFT" text="File Sets" textColor="blue" />
 								</m:MaterialColumn>
 							</m:MaterialRow>
-							<!-- 
 							<m:MaterialRow>
 								<m:MaterialColumn>
 									<m:MaterialLink ui:field="toprocess"

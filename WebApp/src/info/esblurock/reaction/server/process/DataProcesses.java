@@ -8,6 +8,7 @@ import info.esblurock.reaction.server.process.upload.ValidateNASAPolynomialFile;
 import info.esblurock.reaction.server.process.upload.ValidateTransportFile;
 import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.process.description.RegisterDataDescription;
+import info.esblurock.reaction.server.process.description.RegisterDataSetReferences;
 import info.esblurock.reaction.server.process.chemkin.MechanismMoleculesToDatabase;
 import info.esblurock.reaction.server.process.chemkin.MechanismReactionsToDatabase;
 import info.esblurock.reaction.server.process.chemkin.NASAPolynomialsToDatabase;
@@ -15,7 +16,7 @@ import info.esblurock.reaction.server.process.chemkin.TransportPropertiesToDatab
 import info.esblurock.reaction.server.process.chemkin.rdf.MechanismMoleculeProcessRDF;
 import info.esblurock.reaction.server.process.chemkin.rdf.MechanismReactionsProcessRDF;
 import info.esblurock.reaction.server.process.chemkin.rdf.NASAPolynomialProcessRDF;
-import info.esblurock.reaction.server.process.chemkin.rdf.TransportPropertiesProcessRDF;;
+import info.esblurock.reaction.server.process.chemkin.rdf.TransportPropertiesProcessRDF;
 
 public enum DataProcesses {
 	
@@ -39,7 +40,32 @@ public enum DataProcesses {
 			return false;
 		}
 		
-	}, ReadChemkinMechanismFile {
+	}, RegisterDataSetReferences {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			RegisterDataSetReferences references = new RegisterDataSetReferences(specs);
+			return references;
+		}
+
+		@Override
+		public ProcessBase getEmptyProcess() {
+			RegisterDataSetReferences references = new RegisterDataSetReferences();
+			return references;
+		}
+
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
+		}
+		
+	},
+	
+	ReadChemkinMechanismFile {
 		@Override
 		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
 			ReadChemkinMechanismFile p = new ReadChemkinMechanismFile(specs);

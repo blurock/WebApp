@@ -60,6 +60,7 @@ public class DescriptionDataData extends DatabaseObject {
 		this.sourcekey = sourcekey;
 		this.inputkey = inputkey;
 		this.dataType = datatype;
+		this.keywords = keywords;
 	}
 	public String getKeyword() {
 		return keyword;

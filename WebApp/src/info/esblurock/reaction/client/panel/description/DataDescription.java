@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialChip;
@@ -225,8 +226,15 @@ public class DataDescription extends Composite implements HasText {
 	
 	public HashSet<String> getKeywords() {
 		HashSet<String> keys = new HashSet<String>();
-		for(KeywordChip chip : keywordset) {
-			keys.add(chip.getText());
+		Iterator<Widget> iter = keywordpanel.iterator();
+		while(iter.hasNext()) {
+			Widget widget = iter.next();
+			String type = widget.getClass().getSimpleName();
+			MaterialToast.fireToast("Widget" + type);
+			if(type.matches("KeywordChip")) {
+				KeywordChip chip = (KeywordChip) widget;
+				keys.add(chip.getText());
+			}
 		}
 		return keys;
 	}

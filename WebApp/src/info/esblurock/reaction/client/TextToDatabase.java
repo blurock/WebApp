@@ -1,6 +1,7 @@
 package info.esblurock.reaction.client;
 
 import info.esblurock.react.parse.keywords.SetOfKeyWords;
+import info.esblurock.reaction.data.description.DataSetReference;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
@@ -37,7 +38,8 @@ public interface TextToDatabase extends RemoteService {
 
 	String storeTextSetUploadData(TextSetUploadData data) throws Exception;
 	
-	public String registerDataInputDescription(DescriptionDataData descrdata) throws IOException;
+	public String registerDataInputDescription(DescriptionDataData descrdata,
+			ArrayList<DataSetReference> referenceList) throws IOException;
 	
 	public HashSet<String> keywordsFromText(String text);
 

@@ -12,6 +12,13 @@ public enum ProcessDescriptionsForInterface {
 		public String getDescription() {
 			return description.RegisterDataDescription();
 		}
+	}, RegisterDataSetReferences {
+
+		@Override
+		public String getDescription() {
+			return description.RegisterDataSetReferences();
+		}
+		
 	}, ReadChemkinMechanismFile {
 
 		@Override

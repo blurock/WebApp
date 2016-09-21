@@ -1,5 +1,6 @@
 package info.esblurock.reaction.client;
 
+import info.esblurock.reaction.data.description.DataSetReference;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
@@ -22,7 +23,9 @@ public interface TextToDatabaseAsync {
 
 	void checkSubmitInputData(DescriptionDataData descrdata, AsyncCallback<String> callback);
 
-	void registerDataInputDescription(DescriptionDataData descrdata, AsyncCallback<String> callback);
+	void registerDataInputDescription(DescriptionDataData descrdata, 
+			ArrayList<DataSetReference> referenceList,
+			AsyncCallback<String> callback);
 
 	void keywordsFromText(String text, AsyncCallback<HashSet<String>> callback);
 

@@ -46,13 +46,14 @@ public class RegisterDataDescriptionCallback  implements AsyncCallback<String> {
 
 	@Override
 	public void onSuccess(String result) {
+		Window.alert("RegisterDataDescriptionCallback:onSuccess");
 		DataDescriptionAsRows panel = new DataDescriptionAsRows(result,description);
 		modalcontent.clear();
 		modalcontent.add(panel);
 		modal.openModal();
 		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
 		SuccessfulRegistrationCallback callback = new SuccessfulRegistrationCallback();
-		async.registerDataInputDescription(description,callback);
+		async.registerDataInputDescription(description,referenceList,callback);
 	}
 
 }

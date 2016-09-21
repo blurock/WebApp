@@ -1,5 +1,7 @@
 package info.esblurock.reaction.data.upload;
 
+import java.util.HashSet;
+
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.description.StoreDescriptionData;
@@ -12,6 +14,8 @@ public class StoreTextSetUploadData  extends StoreObject {
 	static String textType = "TextType";
 	static String textInformationKey = "TextInformationKey";
 	static String createdBy = "CreatedBy";
+	static String keyword = "DataSetKeyword";
+	
 	public StoreTextSetUploadData(String keyword, DatabaseObject object,
 			TransactionInfo transaction) {
 		super(keyword, object, transaction);
@@ -35,6 +39,10 @@ public class StoreTextSetUploadData  extends StoreObject {
 			storeStringRDF(textSourceName,source.getTextname());
 			storeStringRDF(textType,source.getTextType());
 			storeStringRDF(textInformationKey, source.getID());
+		}
+		HashSet<String> keywords = description.getKeywords();
+		for(String key : keywords) {
+			storeStringRDF(keyword,key);
 		}
 	}
 	

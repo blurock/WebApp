@@ -176,8 +176,6 @@ public class DataInput extends Composite implements HasText {
 		fillInText();
 
 		datatype.setText(type);
-
-		MaterialToast.fireToast("Data Input: '" + title + "'");
 		objecttitle.setText(title);
 		/*
 		objecttitle.setTitle(title);

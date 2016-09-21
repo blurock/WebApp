@@ -26,6 +26,7 @@ import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.GenerateKeywordFromDescription;
 import info.esblurock.reaction.data.PMF;
+import info.esblurock.reaction.data.description.DataSetReference;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.FileSourceSpecification;
@@ -37,6 +38,7 @@ import info.esblurock.reaction.server.event.RegisterTransaction;
 import info.esblurock.reaction.server.process.DataProcesses;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.description.DataDescriptionSpecification;
+import info.esblurock.reaction.server.process.description.DataSetReferencesSpecifications;
 import info.esblurock.reaction.server.process.upload.SourcefFileUploadInput;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
@@ -147,7 +149,8 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 		}
 		return keyword;
 	}
-	public String registerDataInputDescription(DescriptionDataData descrdata) throws IOException {
+	public String registerDataInputDescription(DescriptionDataData descrdata,
+			ArrayList<DataSetReference> referenceList) throws IOException {
 		String keyword = GenerateKeywordFromDescription.createKeyword(descrdata);
 		String processName = "RegisterDataDescription";
 		ContextAndSessionUtilities util = getUtilities();
@@ -156,9 +159,32 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 		RegisterTransaction.register(util.getUserInfo(),
 				TaskTypes.dataInput,source, 
 				RegisterTransaction.checkLevel1);
+		
+		System.out.println("RegisterDataDescription: " + keyword);
 		DataDescriptionSpecification specs = new DataDescriptionSpecification(descrdata,userS, "");
 		ProcessBase process = DataProcesses.getProcess(processName,specs);
 		String ans = process.process();
+		
+		System.out.println("RegisterDataSetReferences: " + keyword);
+		String registerProcess = "RegisterDataSetReferences";
+		DataSetReferencesSpecifications registerspec = new DataSetReferencesSpecifications(referenceList, keyword, userS, "");
+		process = DataProcesses.getProcess(registerProcess,registerspec);
+		ans += "\n" + process.process();
+		
+		System.out.println("registerDataInputDescription\n\n" + ans);
+		return ans;
+	}
+	public String registerReferences(String keyword, ArrayList<DataSetReference> reflist) throws IOException {
+		String ans = "";
+		//String keyword = GenerateKeywordFromDescription.createKeyword(descrdata);
+		String processName = "RegisterDataSetReferences";
+		ContextAndSessionUtilities util = getUtilities();
+		String userS = util.getUserName();
+		String source = "Register: '" + keyword + "'";
+		RegisterTransaction.register(util.getUserInfo(),
+				TaskTypes.dataInput,source, 
+				RegisterTransaction.checkLevel1);
+		DataSetReferencesSpecifications references = new DataSetReferencesSpecifications(reflist,keyword, userS, "");
 		return ans;
 	}
 	public HashSet<String> keywordsFromText(String text) {

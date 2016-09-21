@@ -4,7 +4,7 @@ import info.esblurock.reaction.data.GenerateKeywordFromDescription;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
 
-public class DataDescriptionSpecification extends ProcessInputSpecificationsBase{
+public class DataDescriptionSpecification extends ProcessInputSpecificationsBase {
 
 	DescriptionDataData data;
 	

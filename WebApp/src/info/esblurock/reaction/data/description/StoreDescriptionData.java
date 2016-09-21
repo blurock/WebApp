@@ -30,7 +30,6 @@ public class StoreDescriptionData extends StoreObject {
 
 	protected void storeRDF() {
 		DescriptionDataData data = (DescriptionDataData) object;
-		storeObjectRDF(data);
 		storeStringRDF(oneLineDescription,data.getOnlinedescription());
 		storeStringRDF(fullDescription,data.getFulldescription());
 		storeStringRDF(sourceOfData,data.getSourcekey());

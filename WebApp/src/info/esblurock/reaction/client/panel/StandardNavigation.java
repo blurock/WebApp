@@ -75,12 +75,14 @@ public class StandardNavigation extends Composite implements HasText {
 		nasapolynomials.setText(descriptionConstants.nasapolynomialssettitle());
 		nasapolynomials.setTooltip(descriptionConstants.nasapolynomialssettooltip());
 		*/
+		/*
 		sdfmolecules.setText(descriptionConstants.sdfmoleculessettitle());
 		sdfmolecules.setTooltip(descriptionConstants.sdfmoleculessettooltip());
 		sdfsubstructures.setText(descriptionConstants.sdfsubstructuressettitle());
 		sdfsubstructures.setTooltip(descriptionConstants.sdfsubstructuressettooltip());
 		thergasmolecules.setText(descriptionConstants.thergasmoleculessettitle());
 		thergasmolecules.setTooltip(descriptionConstants.thergasmoleculessettooltip());
+		*/
 	}
 	
 	private void handleHistoryToken(String token) {
