@@ -35,7 +35,6 @@ public class ReactionTopPage extends Composite implements HasText {
 
 	@UiHandler("button")
 	void onClick(ClickEvent e) {
-		MaterialToast.fireToast("Hello!");
 	}
 
 	@Override

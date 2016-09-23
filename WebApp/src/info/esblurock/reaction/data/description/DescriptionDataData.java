@@ -20,9 +20,11 @@ public class DescriptionDataData extends DatabaseObject {
 	String keyword;
 
 	@Persistent
+	@Unindexed
 	String onlinedescription;
 
 	@Persistent
+	@Unindexed
 	String fulldescription;
 
 	@Persistent

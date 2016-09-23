@@ -61,10 +61,7 @@ public class RegisterDataDescription extends ProcessBase {
 
 	@Override
 	protected void createObjects() throws IOException {
-		/*
-		System.out.println("RegisterDataDescription: createObjects()    DescriptionDataData");
 		StoreObject store = new StoreObject(user, keyword, outputSourceCode);		
-		store.storeObjectRDF(descriptionString, data);
 		store.storeStringRDF(oneLineDescription,data.getOnlinedescription());
 		store.storeStringRDF(fullDescription,data.getFulldescription());
 		store.storeStringRDF(sourceOfData,data.getSourcekey());
@@ -78,7 +75,6 @@ public class RegisterDataDescription extends ProcessBase {
 			store.storeStringRDF(keywordString, key);
 		}
 		store.finish();
-		*/
 	}
 
 	@Override

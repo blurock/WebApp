@@ -10,58 +10,58 @@
 	<g:HTMLPanel>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s2">
-				<m:MaterialLabel ui:field="keylabel" />
+				<m:MaterialLabel ui:field="keylabel" textColor="black"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s10">
-				<m:MaterialLink ui:field="key" />
+				<m:MaterialLink ui:field="key" textColor="black"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s2">
-				<m:MaterialLabel ui:field="keywordlabel" />
+				<m:MaterialLabel ui:field="keywordlabel" textColor="black"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s10">
-				<m:MaterialLink  ui:field="keyword"/>
+				<m:MaterialLink  ui:field="keyword" textColor="black"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s2">
-				<m:MaterialLabel ui:field="onelinelabel"/>
+				<m:MaterialLabel ui:field="onelinelabel" textColor="black"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s10">
-				<m:MaterialLink ui:field="oneline" />
+				<m:MaterialLink ui:field="oneline" textColor="black"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s2">
-				<m:MaterialLabel ui:field="sourcekeylabel" />
+				<m:MaterialLabel ui:field="sourcekeylabel" textColor="black"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s10">
-				<m:MaterialLink ui:field="sourcekey" />
+				<m:MaterialLink ui:field="sourcekey" textColor="black"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s2">
-				<m:MaterialLabel ui:field="sourcedatelabel" />
+				<m:MaterialLabel ui:field="sourcedatelabel" textColor="black"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s10">
-				<m:MaterialLink ui:field="sourcedate" />
+				<m:MaterialLink ui:field="sourcedate" textColor="black"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s2">
-				<m:MaterialLabel ui:field="entrykeylabel" />
+				<m:MaterialLabel ui:field="entrykeylabel" textColor="black"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s10">
-				<m:MaterialLink ui:field="entrykey" />
+				<m:MaterialLink ui:field="entrykey" textColor="black"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 		<m:MaterialRow>
 			<m:MaterialColumn grid="s2">
-				<m:MaterialLabel ui:field="entrydatelabel" />
+				<m:MaterialLabel ui:field="entrydatelabel" textColor="black"/>
 			</m:MaterialColumn>
 			<m:MaterialColumn grid="s10">
-				<m:MaterialLink ui:field="entrydate" />
+				<m:MaterialLink ui:field="entrydate" textColor="black"/>
 			</m:MaterialColumn>
 		</m:MaterialRow>
 	</g:HTMLPanel>

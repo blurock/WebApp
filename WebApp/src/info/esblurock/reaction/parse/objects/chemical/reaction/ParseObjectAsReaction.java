@@ -33,6 +33,7 @@ public class ParseObjectAsReaction extends ParseObject {
 			if(parsed.getForwardReactions().size() == 1) {
 				normedreverse = parsed.getReverseReactions().get(0);
 			}
+			System.out.println("ParseObjectAsReaction:(" + asObject + "): '" + normedforward + "', '" + normedreverse + ")");
 			if (asObject) {
 				Filter filterF = new FilterPredicate("object", FilterOperator.EQUAL, normedforward);
 				Filter filterR = new FilterPredicate("object", FilterOperator.EQUAL, normedreverse);

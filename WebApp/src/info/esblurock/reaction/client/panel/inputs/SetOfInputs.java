@@ -9,7 +9,6 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialModalContent;
-import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.description.DataDescription;
@@ -49,6 +48,8 @@ public class SetOfInputs extends Composite {
 	MaterialModal modal;
 	@UiField
 	MaterialModalContent modalcontent;
+	@UiField
+	MaterialButton closedescr;
 
 	DescriptionConstants descriptionConstants = GWT
 			.create(DescriptionConstants.class);
@@ -95,7 +96,10 @@ public class SetOfInputs extends Composite {
 			input.setVisibility(visible);
 		}		
 	}
-	
+	@UiHandler("closedescr")
+	void onCloseModal(ClickEvent e) {
+		modal.closeModal();
+	}
 	@UiHandler("submitdata")
 	void onSubmitData(ClickEvent e) {
 		if(description.keywordEntered()) {
@@ -112,7 +116,6 @@ public class SetOfInputs extends Composite {
 			RegisterDataDescriptionCallback callback = 
 					new RegisterDataDescriptionCallback(dataType,descrdata,references,modal,modalcontent);
 			TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
-			MaterialToast.fireToast("onSubmitData 6");
 			async.checkSubmitInputData(descrdata, callback);
 		} else {
 			Window.alert("It is important to enter a keyword and the source");
@@ -121,9 +124,8 @@ public class SetOfInputs extends Composite {
 	private ArrayList<DataSetReference> getReferences() {
 		ArrayList<DataSetReference> reflist = new ArrayList<DataSetReference>();
 		for(ReferenceDescriptions ref : referenceset.getReferences()) {
-			MaterialToast.fireToast("getReferences(): " + ref.getDOI());
 			DataSetReference references = new DataSetReference(description.createObjectKeyword(),
-					ref.getDOI(),ref.getTitle(),ref.getReference(),
+					ref.getDOI(),ref.getTitleString(),ref.getReference(),
 					ref.getAuthors(),ref.getLastNames());
 			reflist.add(references);
 		}

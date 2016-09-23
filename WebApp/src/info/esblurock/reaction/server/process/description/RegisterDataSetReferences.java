@@ -74,8 +74,7 @@ public class RegisterDataSetReferences extends ProcessBase {
 		StoreObject store = new StoreObject(user, keyword, outputSourceCode);		
 		for(DataSetReference ref : referencelist) {
 			store.store(ref);
-			store.storeObjectRDF(reference, ref);
-			store.storeStringRDF(title, ref.getTitle());
+			store.storeStringRDF(title, ref.getReferenceTitle());
 			store.storeStringRDF(doi, ref.getDOI());
 			store.storeStringRDF(citation, ref.getReferenceString());
 			for(String lastname : ref.getAuthorLastNames()) {
@@ -86,6 +85,10 @@ public class RegisterDataSetReferences extends ProcessBase {
 			}
 		}
 		store.finish();
+		for(DataSetReference ref : referencelist) {
+			store.storeObjectRDF(ref);
+		}
+		store.finish();		
 	}
 
 }

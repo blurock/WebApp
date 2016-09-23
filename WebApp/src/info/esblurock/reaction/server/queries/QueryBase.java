@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.FetchGroup;
+import javax.jdo.FetchPlan;
 import javax.jdo.PersistenceManager;
 
 import org.datanucleus.exceptions.NucleusObjectNotFoundException;
@@ -179,7 +180,7 @@ public class QueryBase {
 			while (iter.hasNext()) {
 				Entity entity = iter.next();
 				DatabaseObject info = (DatabaseObject) pm.getObjectById(example.getClass(), entity.getKey());
-				pm.getFetchPlan().setGroup(FetchGroup.ALL);
+				pm.getFetchPlan().setGroup(FetchGroup.ALL).setDetachmentOptions(FetchPlan.DETACH_LOAD_FIELDS);
 				DatabaseObject detached = pm.detachCopy(info);
 				set.add(detached);
 			}

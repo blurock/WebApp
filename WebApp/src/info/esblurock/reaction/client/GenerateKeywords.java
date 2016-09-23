@@ -58,7 +58,7 @@ public class GenerateKeywords {
  * @return The source
  */
 	static public String sourceFromMoleculeKeyword(String molname) {
-		int pos = molname.indexOf(delimitor);
+		int pos = molname.lastIndexOf(delimitor);
 		String ans = "";
 		if(pos > 0) {
 			ans = molname.substring(0, pos);
@@ -71,7 +71,7 @@ public class GenerateKeywords {
  * @return The molecule name
  */
 	static public String moleculeNameFromMoleculeKeyword(String molname) {
-		int pos = molname.indexOf(delimitor);
+		int pos = molname.lastIndexOf(delimitor);
 		String ans = "";
 		if(pos > 0) {
 			ans = molname.substring(pos+1);

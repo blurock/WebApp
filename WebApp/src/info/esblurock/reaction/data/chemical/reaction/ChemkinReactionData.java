@@ -27,32 +27,32 @@ public class ChemkinReactionData extends DatabaseObject  {
 	@Unindexed
 	public ArrayList<String> ProductNames;
 	
-    @Persistent(dependent = "true")
+    @Persistent(dependent = "true",defaultFetchGroup="true")
 	@Unindexed
 	public ChemkinCoefficientsData forwardCoefficients;
     @Persistent(dependent = "true")
 	@Unindexed
 	public ChemkinCoefficientsData reverseCoefficients;
-    @Persistent(dependent = "true")
+    @Persistent(dependent = "true",defaultFetchGroup="true")
 	@Unindexed
 	public ChemkinCoefficientsData lowCoefficients;
-    @Persistent(dependent = "true")
+    @Persistent(dependent = "true",defaultFetchGroup="true")
 	@Unindexed
 	public ChemkinCoefficientsData highCoefficients;
 
-    @Persistent(dependent = "true")
+    @Persistent(dependent = "true",defaultFetchGroup="true")
 	@Unindexed
 	public ChemkinCoefficientsData troeCoefficients;
-    @Persistent(dependent = "true")
+    @Persistent(dependent = "true",defaultFetchGroup="true")
 	@Unindexed
 	public ChemkinCoefficientsData sriCoefficients;
     
-	@Persistent
+	@Persistent(defaultFetchGroup="true")
 	@Element(dependent = "true")
 	@Unindexed
     ArrayList<ChemkinCoefficientsData> plogCoefficients;
     
-    @Persistent(dependent = "true")
+    @Persistent(dependent = "true",defaultFetchGroup="true")
 	public ThirdBodyMoleculesData thirdBodyMolecules;
     
     public ChemkinReactionData() {

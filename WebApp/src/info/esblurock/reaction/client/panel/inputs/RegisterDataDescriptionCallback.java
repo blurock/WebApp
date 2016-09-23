@@ -46,7 +46,6 @@ public class RegisterDataDescriptionCallback  implements AsyncCallback<String> {
 
 	@Override
 	public void onSuccess(String result) {
-		Window.alert("RegisterDataDescriptionCallback:onSuccess");
 		DataDescriptionAsRows panel = new DataDescriptionAsRows(result,description);
 		modalcontent.clear();
 		modalcontent.add(panel);

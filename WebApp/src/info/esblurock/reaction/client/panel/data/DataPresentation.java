@@ -19,6 +19,7 @@ import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywordsServer;
 import info.esblurock.reaction.data.chemical.thermo.NASAPolynomialData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
+import info.esblurock.reaction.data.description.DataSetReference;
 
 public enum DataPresentation {
 	MechanismMoleculeData {
@@ -255,6 +256,61 @@ public enum DataPresentation {
 			return presentation;
 		}
 
+	}, DataSetReference {
+
+		@Override
+		public String asOnLine(DatabaseObject data) {
+			DataSetReference reference = (DataSetReference) data;
+			return reference.getReferenceTitle();
+		}
+
+		@Override
+		public String multiLineString(DatabaseObject data) {
+			DataSetReference reference = (DataSetReference) data;
+			StringBuilder build = new StringBuilder();
+			build.append(reference.getReferenceTitle());
+			build.append("\n");
+			boolean first = true;
+			for(String name : reference.getAuthors()) {
+				if(first) {
+					build.append(", ");
+				} else {
+					first = false;
+				}
+				build.append(name);
+			}
+			build.append(reference.getDOI());
+			build.append("\n");
+			build.append(reference.getDatasetKeyword());
+			build.append("\n");
+			build.append(reference.getReferenceString());
+			build.append("\n");
+			return null;
+		}
+
+		@Override
+		public BaseDataPresentation asDisplayObject(DatabaseObject data) {
+			DataSetReference reference = (DataSetReference) data;
+			String description = asOnLine(data);
+			String title = reference.getDatasetKeyword();
+			BaseDataPresentation present = new BaseDataPresentation(title,description);
+			addRow(present,reference.getReferenceTitle());
+			StringBuilder build = new StringBuilder();
+			boolean first = true;
+			for(String name : reference.getAuthors()) {
+				if(first) {
+					build.append(", ");
+				} else {
+					first = false;
+				}
+				build.append(name);
+			}
+			addRow(present,build.toString());
+			addRow(present,reference.getDOI());
+			addRow(present,reference.getReferenceString());
+			return present;
+		}
+		
 	};
 
 	public String getMoleculeListString(ArrayList<String> mol) {

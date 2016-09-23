@@ -12,6 +12,7 @@ import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.resources.DescriptionConstants;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 import info.esblurock.reaction.data.description.DescriptionDataData;
@@ -60,7 +61,6 @@ public class DataDescriptionAsRows extends Composite implements HasText {
 	MaterialLink entrydate;
 
 	public DataDescriptionAsRows(String datakey, DescriptionDataData description) {
-		Window.alert("DataDescriptionAsRows");
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
 		key.setText(datakey);

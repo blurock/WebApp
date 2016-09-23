@@ -1,7 +1,11 @@
 package info.esblurock.reaction.server.parse.interpretation.reaction;
 
+import java.util.HashSet;
+
+import info.esblurock.react.mechanisms.chemkin.ParseChemkinReaction;
 import info.esblurock.react.mechanisms.chemkin.ReactionForwardReverseType;
 import info.esblurock.react.mechanisms.chemkin.SetOfReactionForwardReverseTypes;
+import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.parse.objects.chemical.reaction.ParseObjectAsReaction;
 import info.esblurock.reaction.server.parse.interpretation.SingletonInterpretation;
 
@@ -16,11 +20,16 @@ public class InterpretationAsReactionSimple extends SingletonInterpretation {
 		SetOfReactionForwardReverseTypes types = new SetOfReactionForwardReverseTypes();
 		ReactionForwardReverseType rtype = types.findReactionType(input);
 		if (rtype != null) {
-			//ParseChemkinReaction parse = new ParseChemkinReaction();
-			//String norm = parse.normalize(input);
 			ans = true;
 		}
+		System.out.println("InterpretationAsReactionSimple: interpretable(" + input + ")=" + ans);
 		return ans;
 	}
-
+	@Override
+	public HashSet<KeywordRDF> getResults(String input) {
+		ParseChemkinReaction parse = new ParseChemkinReaction();
+		String norm = parse.normalize(input);
+		System.out.println("InterpretationAsReactionSimple Normed: " + norm);
+		return super.getResults(norm);
+	}
 }

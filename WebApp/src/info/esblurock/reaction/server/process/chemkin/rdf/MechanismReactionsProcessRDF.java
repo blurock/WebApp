@@ -108,6 +108,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 
 		for(DatabaseObject object : reactionlist) {
 			ChemkinReactionData data = (ChemkinReactionData) object;
+			System.out.println("Reaction name: " + data.getReactionName());
 			String fullrxnS = data.getReactionName();
 			String rxnS = generateReactions.getReactionSimpleName(data);
 
@@ -128,6 +129,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 				store.storeStringRDF(isAProduct,name);
 			}
 			if (data.getThirdBodyMolecules() != null) {
+				System.out.println("Third body: " + data.getThirdBodyMolecules());
 				storeThirdBodyRDF(data.getThirdBodyMolecules(),fullrxnS);
 			}
 
@@ -168,9 +170,11 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 	protected void storeThirdBodyRDF(ThirdBodyMoleculesData data, String rxnkeyword) {
 		StringBuilder build = new StringBuilder();
 		build.append("[");
+		if(data.getThirdBodyMoleculeKeys() != null) {
 		for(ThirdBodyWeightsData weights : data.getThirdBodyMoleculeKeys()) {
 			build.append(weights.getMolecule());
 			build.append(" ");
+		}
 		}
 		build.append("]");
 		store.setKeyword(rxnkeyword);

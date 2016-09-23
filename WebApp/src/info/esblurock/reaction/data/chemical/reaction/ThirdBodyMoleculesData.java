@@ -14,12 +14,14 @@ import info.esblurock.reaction.data.DatabaseObject;
 public class ThirdBodyMoleculesData extends DatabaseObject  {
 
 	private static final long serialVersionUID = 1L;
-	@Persistent
+	@Persistent(defaultFetchGroup="true")
 	@Element(dependent = "true")
-	@Unindexed
 	public ArrayList<ThirdBodyWeightsData> thirdBodyMoleculeKeys;
 
-	
+	@Persistent(defaultFetchGroup="true")
+	ArrayList<String> molecules;
+	@Persistent(defaultFetchGroup="true")
+	ArrayList<Double> weights;
 	
 	public ThirdBodyMoleculesData() {
 		super();
@@ -28,9 +30,26 @@ public class ThirdBodyMoleculesData extends DatabaseObject  {
 	public ThirdBodyMoleculesData(ArrayList<ThirdBodyWeightsData> thirdBodyMoleculeKeys) {
 		super();
 		this.thirdBodyMoleculeKeys = thirdBodyMoleculeKeys;
+		molecules = new ArrayList<String>();
+		weights = new ArrayList<Double>();
+		for(ThirdBodyWeightsData weight : thirdBodyMoleculeKeys) {
+			molecules.add(weight.getMolecule());
+			weights.add(weight.getWeight());
+		}
 	}
 
 	public ArrayList<ThirdBodyWeightsData> getThirdBodyMoleculeKeys() {
+		if(thirdBodyMoleculeKeys == null) {
+			if(molecules != null && weights != null) {
+				thirdBodyMoleculeKeys = new ArrayList<ThirdBodyWeightsData>();
+				for(int i=0; i< molecules.size(); i++) {
+					ThirdBodyWeightsData data = new ThirdBodyWeightsData(molecules.get(i),weights.get(i).doubleValue() );
+					thirdBodyMoleculeKeys.add(data);
+				}
+			} else {
+				System.out.println("Weights not retrieved properly");
+			}
+		}
 		return thirdBodyMoleculeKeys;
 	}
 		

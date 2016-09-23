@@ -264,6 +264,7 @@ public class TransactionInfoQueries {
 		Class classC = Class.forName(classS);
 		String key = transaction.getStoredObjectKey();
 		pm.getFetchPlan().setGroup(FetchGroup.ALL);
+		pm.getFetchPlan().setMaxFetchDepth(-1);
 		System.out.println("getClassObjectFromTransactionInfo: " + classC + "(" + key + ")  " + transaction.getCreationDate());
 		DatabaseObject object = (DatabaseObject) pm.getObjectById(classC, key);
 		pm.close();

@@ -19,9 +19,11 @@ public class DataSetReference  extends DatabaseObject {
 	String DOI;
 	
 	@Persistent
+	@Unindexed
 	String Title;
 	
 	@Persistent
+	@Unindexed
 	String ReferenceString;
 		
 	@Persistent
@@ -51,7 +53,7 @@ public class DataSetReference  extends DatabaseObject {
 	public String getDOI() {
 		return DOI;
 	}
-	public String getTitle() {
+	public String getReferenceTitle() {
 		return Title;
 	}
 	public String getReferenceString() {

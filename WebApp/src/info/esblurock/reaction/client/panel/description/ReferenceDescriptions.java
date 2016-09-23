@@ -195,7 +195,7 @@ public class ReferenceDescriptions extends Composite implements HasText {
 	public String getDOI() {
 		return doi.getText();
 	}
-	public String getTitString() {
+	public String getTitleString() {
 		return title.getText();
 	}
 	public HashSet<String> getAuthors() {

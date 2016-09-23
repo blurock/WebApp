@@ -230,7 +230,6 @@ public class DataDescription extends Composite implements HasText {
 		while(iter.hasNext()) {
 			Widget widget = iter.next();
 			String type = widget.getClass().getSimpleName();
-			MaterialToast.fireToast("Widget" + type);
 			if(type.matches("KeywordChip")) {
 				KeywordChip chip = (KeywordChip) widget;
 				keys.add(chip.getText());
@@ -255,7 +254,6 @@ public class DataDescription extends Composite implements HasText {
 	}
 	@UiHandler("newKeywordButton")
 	void onNewKeywordButton(ClickEvent event) {
-		MaterialToast.fireToast("New Keyword: " + newKeywordText.getText());
 		KeywordChip chip = new KeywordChip(newKeywordText.getText());
 		keywordpanel.add(chip);
 	}

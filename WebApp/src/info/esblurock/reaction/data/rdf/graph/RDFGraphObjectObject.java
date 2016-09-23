@@ -22,8 +22,12 @@ public class RDFGraphObjectObject extends RDFGraphNode {
 		String ans = "null";
 		if(object != null) {
 		String classnameS = object.getClass().getSimpleName();
-		DataPresentation presentation = DataPresentation.valueOf(classnameS);
-		ans = presentation.asOnLine(object);
+		try {
+			DataPresentation presentation = DataPresentation.valueOf(classnameS);
+			ans = presentation.asOnLine(object);
+		} catch(Exception ex) {
+			System.out.println("DataPresentation object not found: " + classnameS);
+		}
 		}
 		return ans;
 	}

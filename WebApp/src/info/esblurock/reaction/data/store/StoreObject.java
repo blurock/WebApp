@@ -247,7 +247,7 @@ public class StoreObject {
 	 *            the object itself (which has already been stored in the
 	 *            database and has a key
 	 */
-	protected void storeObjectRDF(DatabaseObject object) {
+	public void storeObjectRDF(DatabaseObject object) {
 		storeObjectRDF(keyword, object);
 	}
 
