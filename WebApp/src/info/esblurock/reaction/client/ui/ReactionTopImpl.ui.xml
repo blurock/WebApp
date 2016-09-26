@@ -51,19 +51,32 @@
 		margin-top: 20px;
 	}
 	</ui:style>
-	<g:HTMLPanel>
-		<m:MaterialNavBar ui:field="navbar" activates="mysidebar"
+	<g:HTMLPanel ui:field="toppanel">
+	<m:MaterialModal ui:field="usermodal" type="FIXED_FOOTER" dismissable="false" inDuration="500" outDuration="800">
+	<m:MaterialModalContent ui:field="usermodalcontent">
+	</m:MaterialModalContent>
+	<m:MaterialModalFooter>
+			<m:MaterialButton ui:field="userclose" waves="GREEN"
+				type="FLAT" text="Close" />
+	</m:MaterialModalFooter>
+	</m:MaterialModal>
+		<m:MaterialNavBar ui:field="navbar" activates="topsidenav"
 			backgroundColor="aqua">
 			<m:MaterialNavSection float="LEFT">
 				<m:MaterialLink ui:field="toplogout" textColor="black"
 					text="logout" iconType="LOCK" />
 				<m:MaterialLink ui:field="linkmenu" textColor="black"
-					iconType="LIST" />
+					iconType="EXIT_TO_APP" />
 				<m:MaterialLink ui:field="profile" textColor="black"
 					iconType="PERSON" />
 				<m:MaterialLabel ui:field="username" textColor="black" />
 			</m:MaterialNavSection>
 		</m:MaterialNavBar>
+		<m:MaterialSideNav m:id="topsidenav" type="MINI" alwaysShowActivator="true" showOnAttach="true" width="200" closeOnClick="true">
+				<m:MaterialLink ui:field="sidetoplogout" iconType="LOCK" />
+				<m:MaterialLink ui:field="sidelinkmenu" iconType="EXIT_TO_APP" />
+				<m:MaterialLink ui:field="sideprofile" iconType="PERSON" />
+		</m:MaterialSideNav>
 
 		<ma:window.MaterialWindow ui:field="linkWindow"
 			width="70%">
@@ -90,6 +103,13 @@
 			</m:MaterialRow>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
+					<m:MaterialButton ui:field="getstarted" textAlign="CENTER"
+						backgroundColor="grey lighten-1" fontSize="1.5em" textColor="black" text="Get Started"
+						grid="s12" width="100%" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s12">
 					<m:MaterialLabel ui:field="topsummary"
 						text="ChemConnect2016's unique search organization allows the user to traverse
 						a interconnected network of combustion data. This database differs from traditional
@@ -103,14 +123,7 @@
 			</m:MaterialRow>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
-					<m:MaterialButton ui:field="getstarted" textAlign="CENTER"
-						backgroundColor="grey lighten-1" fontSize="1.5em" textColor="black" text="Get Started"
-						grid="s12" width="100%" />
-				</m:MaterialColumn>
-			</m:MaterialRow>
-			<m:MaterialRow>
-				<m:MaterialColumn grid="s12">
-					<m:MaterialLabel ui:field="prototype" text="Prototype: 20160910"
+					<m:MaterialLabel ui:field="prototype" text="Prototype: 20160923"
 						textAlign="CENTER" textColor="white" grid="s12" width="100%" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
@@ -180,14 +193,14 @@
 				url="http://atm.ulb.ac.be/wp-content/uploads/2014/11/isoLLNL874-eps-converted-to.png" />
 		</m:MaterialParallax>
 
-		<m:MaterialTitle ui:field="seconddescription" />
+		<g:HorizontalPanel  ui:field="rdfdescription" />
 
 		<m:MaterialParallax height="200">
 			<m:MaterialImage
 				url="http://impactcity.nl/wp-content/uploads/2016/02/big-data-word-cloud.jpg" />
 		</m:MaterialParallax>
 
-		<g:HorizontalPanel  ui:field="rdfdescription" />
+		<m:MaterialTitle ui:field="seconddescription" />
 
 		<m:MaterialSlider height="300" fullscreen="false">
 			<m:MaterialSlideItem ui:field="rdf1">

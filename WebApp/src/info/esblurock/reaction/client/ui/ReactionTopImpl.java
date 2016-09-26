@@ -6,6 +6,7 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialModalContent;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialTextBox;
@@ -61,13 +62,14 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	MaterialLabel username;
 	@UiField
 	MaterialLink linkmenu;
-	
-	/*
-	@UiField
-	MaterialLink toplogin;
-	*/
 	@UiField
 	MaterialLink toplogout;
+	@UiField
+	MaterialLink sideprofile;
+	@UiField
+	MaterialLink sidelinkmenu;
+	@UiField
+	MaterialLink sidetoplogout;
 
 	@UiField
 	MaterialTitle logintitle;
@@ -108,6 +110,13 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	@UiField
 	MaterialPanel createLogin;
 	
+	@UiField
+	MaterialModalContent usermodalcontent;
+	@UiField
+	MaterialModal usermodal;
+	@UiField
+	MaterialButton userclose;
+	
 	MaterialPanel mpanel;
 
 	private Presenter listener;
@@ -144,6 +153,7 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		
 		profile.setVisible(false);
 		username.setVisible(false);
+		sideprofile.setVisible(false);
 		
 		
 		
@@ -189,9 +199,13 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	public void setLoggedIn() {
 
 		toplogout.setVisible(true);
-		//toplogin.setVisible(false);
+		linkmenu.setVisible(true);
+		sidetoplogout.setVisible(true);
+		sidelinkmenu.setVisible(true);
+
 		
 		profile.setVisible(true);
+		sideprofile.setVisible(true);
 		String name = Cookies.getCookie("user");
 		if(name != null) {
 			username.setVisible(true);
@@ -199,7 +213,6 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		}
 		loginrow.setVisible(false);
 		createLogin.setVisible(false);
-		linkmenu.setVisible(true);
 		getstarted.setVisible(false);
 		getstarted.setEnabled(false);
 		linkWindow.openWindow();
@@ -208,14 +221,19 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	@Override
 	public void setLoggedOut() {
 		super.setLoggedOut();
-		toplogout.setVisible(false);
-		//toplogin.setVisible(true);
-		profile.setVisible(false);
 		Cookies.removeCookie("user");
 		Cookies.removeCookie("sid");
+
+		toplogout.setVisible(false);
+		profile.setVisible(false);
 		username.setVisible(false);
-		loginrow.setVisible(true);
 		linkmenu.setVisible(false);
+		sidetoplogout.setVisible(false);
+		sideprofile.setVisible(false);
+		sidelinkmenu.setVisible(false);
+
+		loginrow.setVisible(true);
+
 		getstarted.setVisible(true);
 		getstarted.setEnabled(true);
 	}
@@ -230,17 +248,34 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		setLoggedOut();
 	
 	}
-	@UiHandler("profile")
-	void onProfileClick(ClickEvent e) {
+	@UiHandler("sidetoplogout")
+	void onSideTopLogoutClick(ClickEvent e) {
+		logout.logout(this);
+		setLoggedOut();
+	
+	}
+	void profile() {
 		String name = Cookies.getCookie("user");
 		UserContactInput user = new UserContactInput(name);
-		MaterialModal modal = new MaterialModal();
-		modal.add(user);
-		modal.setType(ModalType.FIXED_FOOTER);
-		modal.openModal();
+		usermodalcontent.add(user);
+		usermodal.openModal();
 		FillInUserContactInputCallback callback = new FillInUserContactInputCallback(user);
 		StoreDescriptionDataAsync async = StoreDescriptionData.Util.getInstance();
 		async.getUserDescriptionData(name, callback);
+		
+	}
+	@UiHandler("profile")
+	void onProfileClick(ClickEvent e) {
+		profile();
+	}
+	@UiHandler("sideprofile")
+	void onSideProfileClick(ClickEvent e) {
+		profile();
+	}
+	@UiHandler("userclose")
+	void onUserProfileClose(ClickEvent e) {
+		usermodalcontent.clear();
+		usermodal.closeModal();
 	}
 	@UiHandler("btnLogin")
 	void onLoginClick(ClickEvent e) {
@@ -263,6 +298,10 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 
 	@UiHandler("linkmenu")
 	void onLinkClick(ClickEvent e) {
+		linkWindow.openWindow();
+	}
+	@UiHandler("sidelinkmenu")
+	void onSideLinkClick(ClickEvent e) {
 		linkWindow.openWindow();
 	}
 	
