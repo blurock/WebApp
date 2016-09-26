@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
 public class CreateBufferedReaderForSourceFile {
@@ -20,7 +21,8 @@ public class CreateBufferedReaderForSourceFile {
 			stream = new ByteArrayInputStream(textBody.getBytes(StandardCharsets.UTF_8));
 		} else if(sourceType.equals(httpAsSource)) {
 			URL url = new URL(textName);
-			stream = url.openStream();
+			URLConnection connection = url.openConnection();
+			stream = connection.getInputStream();
 		} else {
 			throw new IOException("Source Type not found: " + sourceType);
 		}

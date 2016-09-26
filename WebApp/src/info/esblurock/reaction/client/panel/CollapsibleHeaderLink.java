@@ -199,7 +199,6 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 	}
 	@UiHandler("deletesub")
 	public void onDelete(ClickEvent event) {
-		MaterialToast.fireToast("Delete: " + link.getText());
 		this.removeFromParent();
 	}
 	@UiHandler("objectinfo")

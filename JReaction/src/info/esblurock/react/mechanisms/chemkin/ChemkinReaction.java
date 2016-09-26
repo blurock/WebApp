@@ -90,9 +90,9 @@ public class ChemkinReaction {
 			reversible = rtype.isReverse();
 			if (ThirdBodyFlag) {
 				next = parseThirdBodyCoeffs();
-			} else if (nextNonBlank(lines) != null) {
-				String comments = skipOverComments(lines);
-				boolean notdone = true;
+			} else if (lines.nextNonBlank() != null) {
+				String comments = lines.skipOverComments();
+				boolean notdone = lines.currentNonBlank() != null;
 				while (notdone) {
 					ChemkinCoefficients reverse = new ChemkinCoefficients();
 					String l = currentNonBlank(lines);
@@ -101,12 +101,14 @@ public class ChemkinReaction {
 						lines.nextNonBlank();
 					} else if (reverse.parsePlog(l)) {
 						while (reverse.parsePlog(l)) {
-							skipOverComments(lines);
 							l = lines.nextNonBlank();
+							lines.skipOverComments();
+							//l = lines.nextNonBlank();
+							//System.out.println("PLOG Next : '" + l + "' - '" + l.trim().toUpperCase() + "' "  + l.trim().toUpperCase().startsWith(duplicateS));
 						}
 					} else if (l.trim().toUpperCase().startsWith(duplicateS)) {
 						duplicate = true;
-						skipOverComments(lines);
+						lines.skipOverComments();
 						l = lines.nextNonBlank();
 						if(l == null)
 							notdone = false;
@@ -234,7 +236,7 @@ public class ChemkinReaction {
 		boolean done = false;
 		String rxn = null;
 		while (!done) {
-			rxn = nextNonBlank(lines);
+			rxn = lines.nextNonBlank();
 			if (rxn != null) {
 				int pos = rxn.indexOf("!");
 				String next;
@@ -288,23 +290,12 @@ public class ChemkinReaction {
 		}
 		return next;
 	}
-
+/*
 	private String nextNonBlank(ChemkinString lines) {
 		lines.nextToken();
 		return currentNonBlank(lines);
 	}
-
-	private String skipOverComments(ChemkinString lines) {
-		String comments = "";
-		String next = currentNonBlank(lines);
-		while (next.trim().startsWith(commentChar)) {
-			comments += next;
-			next = nextNonBlank(lines);
-		}
-
-		return comments;
-	}
-
+	*/
 	public String toString() {
 		StringBuilder build = new StringBuilder();
 
@@ -387,7 +378,7 @@ public class ChemkinReaction {
 		if (tok.countTokens() == 4) {
 			builder.append(line);
 		} else if (tok.countTokens() < 4) {
-			throw new IOException("Illegal Reaction declaration: " + line);
+			throw new IOException("Illegal Reaction declaration: '" + line + "' (" + line.length() + ")");
 		} else {
 			while (tok.hasMoreTokens()) {
 				String token = tok.nextToken().trim();

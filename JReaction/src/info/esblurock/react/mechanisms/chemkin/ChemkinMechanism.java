@@ -43,7 +43,6 @@ public class ChemkinMechanism {
 				System.out.println(speciesList.toString());
 				String commentSpecies = lines.skipOverComments();
 				next = currentNonBlank(lines);
-				System.out.println("Next: " + next);
 				if (thermoStart(next)) {
 					while(!isEnd(next)) {
 						next = lines.nextToken();

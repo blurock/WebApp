@@ -1,22 +1,11 @@
 package info.esblurock.reaction.login;
 
-import static org.junit.Assert.*;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Scanner;
 
-import info.esblurock.reaction.server.authorization.AuthorizationResources;
 import info.esblurock.reaction.server.authorization.SetOfAuthorizationLevels;
 
 import org.junit.Test;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-import com.google.common.io.Resources;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
 public class Authorization extends GWTTestCase {
@@ -24,8 +13,6 @@ public class Authorization extends GWTTestCase {
 	@Test
 	public void test() throws IOException {
 		SetOfAuthorizationLevels set = new SetOfAuthorizationLevels();
-		ClassLoader classLoader = getClass().getClassLoader();
-		String resource = "info/esblurock/reaction/server/authorization/authorizationlevels.txt";
 		/*
 		File file = new File(classLoader.getResource(resource).getFile());
 		try {

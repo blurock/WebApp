@@ -90,7 +90,7 @@ public class ReadToString {
 	 */
 	public String fromURL(URL url) throws IOException {
 		URLConnection connection = url.openConnection();
-		InputStreamReader reader = new InputStreamReader(connection.getInputStream());
+		InputStreamReader reader = new InputStreamReader(connection.getInputStream(), "UTF-8");
 		Scanner scan = new Scanner(reader);
 		return fromScanner(scan);
 	}

@@ -80,7 +80,7 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 	}
 
 	public String nextToken() {
-		System.out.println("nextToken():" + count + ", " + totalcount + ", " + lines.size());
+		//System.out.println("nextToken():" + count + ", " + totalcount + ", " + lines.size());
 		current = null;
 		count++;
 		if (count < lines.size()) {
@@ -90,7 +90,7 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 			if (setUpNextPart()) {
 			}
 		}
-		System.out.println("nextToken():" + current);
+		//System.out.println("nextToken(): '" + current + "' (" + current.length() + ") '" + current.charAt(0) + "' '" + current.charAt(1));
 		return current;
 	}
 

@@ -65,6 +65,7 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 		ContextAndSessionUtilities util = getUtilities();
 		String userS = util.getUserName();
 		String source = className + "#" + sourceType;
+		
 		RegisterTransaction.register(util.getUserInfo(),
 				TaskTypes.dataInput,source, 
 				RegisterTransaction.checkLevel1);

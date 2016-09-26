@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 import java.util.StringTokenizer;
 
+import com.google.appengine.repackaged.org.apache.commons.codec.binary.BinaryCodec;
+
 /**
  *
  * @author reaction
@@ -90,14 +92,35 @@ public class ChemkinString implements Serializable {
 		return currentNonBlank();
 	}
 
+	private boolean nonnormalStart(char c) {
+		boolean ans = false;
+		Integer iI = new Integer(c);
+		int i = iI.byteValue();
+		if (i == -1)
+			ans = true;
+		return ans;
+	}
+
+	private String normalStartingCharacter(String line) {
+		if (line != null) {
+			line = line.trim();
+			while (nonnormalStart(line.charAt(0))) {
+				line = line.substring(1);
+				System.out.println("---> nonnormal");
+			}
+		}
+		return line;
+	}
+
 	public String skipOverComments() {
 		String comments = "";
 		String next = currentNonBlank();
 		boolean notdone = true;
 		while (notdone) {
-			if(next == null) {
+			next = normalStartingCharacter(next);
+			if (next == null) {
 				notdone = false;
-			} else if(next.trim().startsWith(commentChar)) {
+			} else if (next.startsWith(commentChar)) {
 				comments += next;
 				next = nextNonBlank();
 			} else {

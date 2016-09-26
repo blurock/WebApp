@@ -1,9 +1,26 @@
-<b>ChemConnect</b> is a database that interconnects fine-grained information extracted from chemical kinetic and thermodynamic sources such as 
-CHEMKIN mechanism files, NASA polynomial files, and even the information behind automatic generation files.
+<b>ChemConnect2106</b> is a combustion database, derived from mechanistic, kinetic and thermodynamic data, 
+organized into a network of <i>interconnecting</i> concepts. 
+<br> 
+<b>ChemConnect2106</b> differs from traditional databases in that the published data, for example from detailed mechanisms,  
+is broken down into fine-grained data, meaning individual kinetic, thermodynamic  and structural constants, 
+and this constants are interconnected through relationships. 
 <br>
-The key to the interconnection is the <i>Resource Description Framework</i> (RDF) 
-from Semantic Web technologies.
+For example, a species label is connected to a reaction through the relationship saying that it 
+is a product of (<b>ProductOf</b>) that reaction. The principle is based on the Resource Description Framework (RDF) 
+from the World Wide Web Consortium’s (W3C) semantic web specifications.
 The RDF is a triplet where an object item (first) is associated through a descriptor (second) to a subject item.
 In this way the information of the object is connected (through the descriptor) to the subject. 
 In ChemConnect the object is word (text) and the subject can be text or a database item. 
 The search mechanism within ChemConnect uses the object and subject text as search strings. 
+
+<br>
+<br>
+The focus of the initial phase is to extract fine-grained information from published (combustion) data sets. 
+These relationships form an expansive network of inter-connected keywords and concepts. 
+Searching within the database is keyword based and entails traversing the network of these relationships. 
+Using this representational paradigm, two networks created independently from different data sources become naturally 
+intertwined through their common keywords and concepts. 
+<br>
+ChemConnect2016 is part of the larger Very Open Data Project whose goal 
+is to create flexible and dynamic platform for the management of scientific 
+information (current focus, the combustion community).
