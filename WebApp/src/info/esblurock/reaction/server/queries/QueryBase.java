@@ -41,22 +41,24 @@ public class QueryBase {
 	public QueryBase() {
 
 	}
+
 	static public DatabaseObject getObjectById(Class cls, String key) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		DatabaseObject obj = (DatabaseObject) pm.getObjectById(cls,key);
+		DatabaseObject obj = (DatabaseObject) pm.getObjectById(cls, key);
 		return obj;
 	}
-	
+
 	static public void deleteWithStringKey(Class cls, String key) throws IOException {
 		try {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
-			Object objectById = pm.getObjectById(cls,key);
+			Object objectById = pm.getObjectById(cls, key);
 			pm.deletePersistent(objectById);
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			System.out.println("Exception on deleteWithStringKey assuming can't be found: " + ex.toString());
 			throw new IOException(notfound);
 		}
 	}
+
 	/**
 	 * Delete objects of classtype with propertyname == propertyvalue
 	 * 
@@ -92,7 +94,8 @@ public class QueryBase {
 	 * 
 	 * @return The list of keys of type {@link Key}
 	 */
-	static public ArrayList<Key> getObjectKeysFromSingleProperty(Class classtype, String propertyname, String propertyvalue) {
+	static public ArrayList<Key> getObjectKeysFromSingleProperty(Class classtype, String propertyname,
+			String propertyvalue) {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 		Filter propertyF = new FilterPredicate(propertyname, FilterOperator.EQUAL, propertyvalue);
@@ -110,7 +113,6 @@ public class QueryBase {
 		return lst;
 	}
 
-
 	/**
 	 * Fetch objects of classtype with propertyname == propertyvalue
 	 * 
@@ -121,7 +123,7 @@ public class QueryBase {
 	 * @param propertyvalue:
 	 *            The value of the property
 	 * @return The list of objects matching the criteria
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	static public List<DatabaseObject> getDatabaseObjectsFromSingleProperty(String classname, String propertyname,
 			String propertyvalue) throws IOException {
@@ -129,15 +131,15 @@ public class QueryBase {
 		List<DatabaseObject> set = null;
 		try {
 			set = getDatabaseObjectsFromFilter(classname, keywordFilter);
-		} catch(IOException ex) {
-			throw new IOException(ex.toString()
-					    + " not found with : "
-						+ propertyname + "=" + propertyvalue);
+		} catch (IOException ex) {
+			throw new IOException(ex.toString() + " not found with : " + propertyname + "=" + propertyvalue);
 		}
 		return set;
 	}
+
 	/**
-	 * Fetch objects of classtype with propertyname == propertyvalue for a given user
+	 * Fetch objects of classtype with propertyname == propertyvalue for a given
+	 * user
 	 * 
 	 * @param classtype
 	 *            The class of the objects to fetch.
@@ -146,9 +148,9 @@ public class QueryBase {
 	 * @param propertyvalue:
 	 *            The value of the property
 	 * @return The list of objects matching the criteria
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	static public List<DatabaseObject> getUserDatabaseObjectsFromSingleProperty(String classname, String user, 
+	static public List<DatabaseObject> getUserDatabaseObjectsFromSingleProperty(String classname, String user,
 			String propertyname, String propertyvalue) throws IOException {
 		Filter userFilter = new FilterPredicate("user", FilterOperator.EQUAL, user);
 		Filter keywordFilter = new FilterPredicate(propertyname, FilterOperator.EQUAL, propertyvalue);
@@ -156,37 +158,37 @@ public class QueryBase {
 		List<DatabaseObject> set = null;
 		try {
 			set = getDatabaseObjectsFromFilter(classname, andfilter);
-		} catch(IOException ex) {
-			throw new IOException(ex.toString()
-					    + " not found with : "
-						+ propertyname + "=" + propertyvalue 
-						+ ", User='" + user + "')");
+		} catch (IOException ex) {
+			throw new IOException(ex.toString() + " not found with : " + propertyname + "=" + propertyvalue + ", User='"
+					+ user + "')");
 		}
 		return set;
 	}
-	static public List<DatabaseObject> getDatabaseObjectsFromFilter(String classname, Filter filter) throws IOException {
+
+	static public List<DatabaseObject> getDatabaseObjectsFromFilter(String classname, Filter filter)
+			throws IOException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		ArrayList<DatabaseObject> set = new ArrayList<DatabaseObject>();
-		
+
 		try {
 			Class cls = Class.forName(classname);
 			DatabaseObject example = (DatabaseObject) cls.newInstance();
-		
-		Query q = new Query(example.getClass().getSimpleName()).setFilter(filter);
-		PreparedQuery pq = datastore.prepare(q);
-		Iterator<Entity> iter = pq.asIterable().iterator();
-		if (iter.hasNext()) {
-			while (iter.hasNext()) {
-				Entity entity = iter.next();
-				DatabaseObject info = (DatabaseObject) pm.getObjectById(example.getClass(), entity.getKey());
-				pm.getFetchPlan().setGroup(FetchGroup.ALL).setDetachmentOptions(FetchPlan.DETACH_LOAD_FIELDS);
-				DatabaseObject detached = pm.detachCopy(info);
-				set.add(detached);
+
+			Query q = new Query(example.getClass().getSimpleName()).setFilter(filter);
+			PreparedQuery pq = datastore.prepare(q);
+			Iterator<Entity> iter = pq.asIterable().iterator();
+			if (iter.hasNext()) {
+				while (iter.hasNext()) {
+					Entity entity = iter.next();
+					pm.getFetchPlan().setGroup(FetchGroup.ALL).setDetachmentOptions(FetchPlan.DETACH_LOAD_FIELDS);
+					DatabaseObject info = (DatabaseObject) pm.getObjectById(example.getClass(), entity.getKey());
+					DatabaseObject detached = pm.detachCopy(info);
+					set.add(detached);
+				}
+			} else {
+				throw new IOException(example.getClass().getName() + " not found with filter");
 			}
-		} else {
-			throw new IOException(example.getClass().getName() + " not found with filter");
-		}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -195,6 +197,6 @@ public class QueryBase {
 			e.printStackTrace();
 		}
 		return set;
-		
+
 	}
 }

@@ -16,72 +16,58 @@ public class ChemkinReactionData extends DatabaseObject  {
 	private static final long serialVersionUID = 1L;
 	@Persistent
 	String mechanismKeyword;
-	
 	@Persistent
 	String reactionName;
-	
 	@Persistent
 	@Unindexed
 	public ArrayList<String> ReactantNames;
 	@Persistent
 	@Unindexed
 	public ArrayList<String> ProductNames;
-	
-    @Persistent(dependent = "true",defaultFetchGroup="true")
-	@Unindexed
-	public ChemkinCoefficientsData forwardCoefficients;
-    @Persistent(dependent = "true")
-	@Unindexed
-	public ChemkinCoefficientsData reverseCoefficients;
-    @Persistent(dependent = "true",defaultFetchGroup="true")
-	@Unindexed
-	public ChemkinCoefficientsData lowCoefficients;
-    @Persistent(dependent = "true",defaultFetchGroup="true")
-	@Unindexed
-	public ChemkinCoefficientsData highCoefficients;
 
-    @Persistent(dependent = "true",defaultFetchGroup="true")
-	@Unindexed
-	public ChemkinCoefficientsData troeCoefficients;
-    @Persistent(dependent = "true",defaultFetchGroup="true")
-	@Unindexed
-	public ChemkinCoefficientsData sriCoefficients;
-    
-	@Persistent(defaultFetchGroup="true")
-	@Element(dependent = "true")
-	@Unindexed
-    ArrayList<ChemkinCoefficientsData> plogCoefficients;
-    
-    @Persistent(dependent = "true",defaultFetchGroup="true")
+	@Persistent
+	public boolean forward;
+	@Persistent
+	public boolean reverse;
+	@Persistent
+	public boolean low;
+	@Persistent
+	public boolean troe;
+	@Persistent
+	public boolean high;
+	@Persistent
+	public boolean plog;
+	@Persistent
+	public boolean sri;
+   @Persistent(dependent = "true",defaultFetchGroup="true")
 	public ThirdBodyMoleculesData thirdBodyMolecules;
     
     public ChemkinReactionData() {
-    	
     }
     
 	public ChemkinReactionData(String mechanismKeyword, String reactionName, 
 			ArrayList<String> reactantNames, ArrayList<String> productNames,
-			ChemkinCoefficientsData forwardCoefficients, ChemkinCoefficientsData reverseCoefficients,
-			ChemkinCoefficientsData lowCoefficients, ChemkinCoefficientsData highCoefficients,
-			ChemkinCoefficientsData troeCoefficients, ChemkinCoefficientsData sriCoefficients,
-			ArrayList<ChemkinCoefficientsData> plogCoefficients,
+			boolean forward, boolean reverse, boolean low, 
+			boolean troe, boolean high, boolean plog, boolean sri,
 			ThirdBodyMoleculesData thirdBodyMolecules) {
 		super();
 		this.mechanismKeyword = mechanismKeyword;
 		this.reactionName = reactionName;
 		this.ReactantNames = reactantNames;
 		this.ProductNames = productNames;
-		this.forwardCoefficients = forwardCoefficients;
-		this.reverseCoefficients = reverseCoefficients;
-		this.lowCoefficients = lowCoefficients;
-		this.highCoefficients = highCoefficients;
-		this.troeCoefficients = troeCoefficients;
-		this.sriCoefficients = sriCoefficients;
-		this.plogCoefficients = plogCoefficients;
-		this.thirdBodyMolecules = thirdBodyMolecules;
+		this.forward = forward;
+		this.reverse = reverse;
+		this.low = low;
+		this.troe = troe;
+		this.plog = plog;
+		this.high = high;
+		this.sri = sri;
 	}
 	public String getMechanismKeyword() {
 		return mechanismKeyword;
+	}
+	public String getReactionName() {
+		return reactionName;
 	}
 	public ArrayList<String> getReactantKeys() {
 		return ReactantNames;
@@ -89,33 +75,8 @@ public class ChemkinReactionData extends DatabaseObject  {
 	public ArrayList<String> getProductKeys() {
 		return ProductNames;
 	}
-	public ChemkinCoefficientsData getForwardCoefficients() {
-		return forwardCoefficients;
-	}
-	public ChemkinCoefficientsData getReverseCoefficients() {
-		return reverseCoefficients;
-	}
-	public ChemkinCoefficientsData getLowCoefficients() {
-		return lowCoefficients;
-	}
-	public ChemkinCoefficientsData getHighCoefficients() {
-		return highCoefficients;
-	}
-	public ChemkinCoefficientsData getTroeCoefficients() {
-		return troeCoefficients;
-	}
-	public ChemkinCoefficientsData getSriCoefficients() {
-		return sriCoefficients;
-	}
-	public ArrayList<ChemkinCoefficientsData> getPlogCoefficients() {
-		return plogCoefficients;
-	}
 	public ThirdBodyMoleculesData getThirdBodyMolecules() {
 		return thirdBodyMolecules;
-	}
-
-	public String getReactionName() {
-		return reactionName;
 	}
     
 }

@@ -10,7 +10,6 @@ import gwt.material.design.client.ui.MaterialRow;
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.client.GenerateReactionKeywords;
 import info.esblurock.reaction.client.panel.data.reaction.FormatChemkinCoefficientsData;
-import info.esblurock.reaction.client.panel.data.reaction.FormatChemkinReactionData;
 import info.esblurock.reaction.client.panel.data.thermo.FormatNASAPolynomialData;
 import info.esblurock.reaction.client.panel.data.thermo.NASAThermoPanel;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
@@ -59,12 +58,20 @@ public enum DataPresentation {
 			GenerateReactionKeywordsServer gen = new GenerateReactionKeywordsServer(null);
 			build.append(gen.getReactionSimpleName(reaction));
 			build.append("   Coefs: ");
-			if (reaction.getForwardCoefficients() != null)
+			if (reaction.forward)
 				build.append("forward ");
-			if (reaction.getReverseCoefficients() != null)
+			if (reaction.reverse)
 				build.append("reverse ");
-			if (reaction.getTroeCoefficients() != null)
+			if (reaction.troe)
 				build.append("troe ");
+			if (reaction.sri)
+				build.append("SRI ");
+			if (reaction.high)
+				build.append("high ");
+			if (reaction.low)
+				build.append("low ");
+			if (reaction.plog)
+				build.append("PLOG ");
 			if (reaction.getThirdBodyMolecules() != null)
 				build.append("3rd Body ");
 
@@ -77,7 +84,7 @@ public enum DataPresentation {
 			StringBuilder build = new StringBuilder();
 			GenerateReactionKeywordsServer gen = new GenerateReactionKeywordsServer(null);
 			build.append(gen.getReactionSimpleName(reaction));
-
+/*
 			if (reaction.getForwardCoefficients() != null) {
 				build.append("Coefficients:");
 				DataPresentation coeffpresent = DataPresentation.valueOf("ChemkinCoefficientsData");
@@ -122,7 +129,7 @@ public enum DataPresentation {
 				}
 											
 			}
-				
+				*/
 		/*
 			if (reaction.getThirdBodyMolecules() != null) {
 				build.append("Coefficients:");
@@ -137,11 +144,9 @@ public enum DataPresentation {
 		@Override
 		public BaseDataPresentation asDisplayObject(DatabaseObject data) {
 			ChemkinReactionData reaction = (ChemkinReactionData) data;
-			FormatChemkinReactionData format = new FormatChemkinReactionData(reaction);
 			String description = asOnLine(data);
 			String title = "ChemkinReactionData";
 			BaseDataPresentation present = new BaseDataPresentation(title, description);
-			present.getModalContent().add(format);
 			return present;
 		}
 

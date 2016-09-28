@@ -67,7 +67,7 @@ public class ChemkinReaction {
 
 	public String parse() throws IOException {
 		init();
-		String current = currentNonBlank(lines);
+		String current = lines.currentNonBlank();
 		String rxn = repairReactionDeclaration(current);
 		int pos = rxn.indexOf(commentChar);
 
@@ -95,22 +95,26 @@ public class ChemkinReaction {
 				boolean notdone = lines.currentNonBlank() != null;
 				while (notdone) {
 					ChemkinCoefficients reverse = new ChemkinCoefficients();
-					String l = currentNonBlank(lines);
+					String l = lines.currentNonBlank();
 					if (reverse.parseReverse(l)) {
 						reverseCoefficients = reverse;
 						lines.nextNonBlank();
 					} else if (reverse.parsePlog(l)) {
+						reverse.setPlog(true);
+						if (plogCoefficients == null) {
+							plogCoefficients = new ArrayList<ChemkinCoefficients>();
+						}
 						while (reverse.parsePlog(l)) {
 							l = lines.nextNonBlank();
 							lines.skipOverComments();
-							//l = lines.nextNonBlank();
-							//System.out.println("PLOG Next : '" + l + "' - '" + l.trim().toUpperCase() + "' "  + l.trim().toUpperCase().startsWith(duplicateS));
+							plogCoefficients.add(reverse);
+							reverse = new ChemkinCoefficients();
 						}
 					} else if (l.trim().toUpperCase().startsWith(duplicateS)) {
 						duplicate = true;
 						lines.skipOverComments();
 						l = lines.nextNonBlank();
-						if(l == null)
+						if (l == null)
 							notdone = false;
 					} else {
 						notdone = false;
@@ -120,7 +124,7 @@ public class ChemkinReaction {
 		} catch (StringIndexOutOfBoundsException io) {
 			throw new IOException("StringIndexOutOfBoundsException: " + next);
 		}
-		return currentNonBlank(lines);
+		return lines.currentNonBlank();
 	}
 
 	private void parseReactants(String react) throws IOException {
@@ -252,26 +256,9 @@ public class ChemkinReaction {
 				ChemkinCoefficients coefficients = new ChemkinCoefficients();
 				coefficients.addCommentLine(comment);
 				if (pos == 0) {
-				} else if (coefficients.parseReverse(trimmed)) {
-					reverseCoefficients = coefficients;
-				} else if (coefficients.parseLow(trimmed)) {
-					lowCoefficients = coefficients;
-				} else if (coefficients.parseHigh(trimmed)) {
-					highCoefficients = coefficients;
-				} else if (coefficients.parseTroe(trimmed)) {
-					troeCoefficients = coefficients;
-				} else if (coefficients.parseSRI(trimmed)) {
-					sriCoefficients = coefficients;
-				} else if (coefficients.parsePlog(trimmed)) {
-					if (plogCoefficients == null) {
-						plogCoefficients = new ArrayList<ChemkinCoefficients>();
-					}
-					plogCoefficients.add(coefficients);
-				} else if (next.indexOf("/") > 0) {
-					thirdBodyMolecules = new ThirdBodyMolecules();
-					thirdBodyMolecules.parse(next);
+
 				} else {
-					done = true;
+					done = parseCoeffs(coefficients, trimmed);
 				}
 			} else {
 				done = true;
@@ -280,22 +267,42 @@ public class ChemkinReaction {
 		return rxn;
 	}
 
-	private String currentNonBlank(ChemkinString lines) {
-		String next = lines.getCurrent();
-		if (next != null) {
-			next = next.trim();
-			while (next.length() == 0) {
-				next = lines.nextToken().trim();
+	boolean parseCoeffs(ChemkinCoefficients coefficients, String trimmed) throws IOException {
+		boolean done = false;
+		if (coefficients.parseReverse(trimmed)) {
+			reverseCoefficients = coefficients;
+		} else if (coefficients.parseLow(trimmed)) {
+			lowCoefficients = coefficients;
+		} else if (coefficients.parseHigh(trimmed)) {
+			highCoefficients = coefficients;
+		} else if (coefficients.parseTroe(trimmed)) {
+			troeCoefficients = coefficients;
+		} else if (coefficients.parseSRI(trimmed)) {
+			sriCoefficients = coefficients;
+		} else if (coefficients.parsePlog(trimmed)) {
+			if (plogCoefficients == null) {
+				plogCoefficients = new ArrayList<ChemkinCoefficients>();
 			}
+			plogCoefficients.add(coefficients);
+		} else if (trimmed.indexOf("/") > 0) {
+			thirdBodyMolecules = new ThirdBodyMolecules();
+			thirdBodyMolecules.parse(trimmed);
+		} else {
+			done = true;
 		}
-		return next;
+		return done;
 	}
-/*
-	private String nextNonBlank(ChemkinString lines) {
-		lines.nextToken();
-		return currentNonBlank(lines);
-	}
-	*/
+
+	/*
+	 * private String currentNonBlank(ChemkinString lines) { String next =
+	 * lines.getCurrent(); if (next != null) { next = next.trim(); while
+	 * (next.length() == 0) { next = lines.nextToken().trim(); } } return next;
+	 * }
+	 */
+	/*
+	 * private String nextNonBlank(ChemkinString lines) { lines.nextToken();
+	 * return currentNonBlank(lines); }
+	 */
 	public String toString() {
 		StringBuilder build = new StringBuilder();
 
@@ -350,7 +357,12 @@ public class ChemkinReaction {
 			build.append(thirdBodyMolecules);
 			build.append("\n");
 		}
-
+		if (plogCoefficients != null) {
+			for (ChemkinCoefficients coefficients : plogCoefficients) {
+				build.append(coefficients);
+				build.append("\n");
+			}
+		}
 		return build.toString();
 	}
 

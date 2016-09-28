@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import info.esblurock.reaction.client.GenerateKeywords;
 import info.esblurock.reaction.data.DatabaseObject;
@@ -15,6 +16,7 @@ import info.esblurock.reaction.data.chemical.reaction.ThirdBodyWeightsData;
 import info.esblurock.reaction.data.store.StoreObject;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismReactionsToDatabaseTransaction;
 import info.esblurock.reaction.data.transaction.chemkin.rdf.MechanismReactionsRDFTransaction;
+import info.esblurock.reaction.server.TextToDatabaseImpl;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
 import info.esblurock.reaction.server.queries.ChemicalMechanismDataQuery;
@@ -24,6 +26,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 	String rdfTransactionS;
 	MechanismReactionsToDatabaseTransaction rxntransaction;
 	MechanismReactionsRDFTransaction rdfTransaction;
+	protected static Logger log = Logger.getLogger(TextToDatabaseImpl.class.getName());
 
 	static public String sourceOfReaction = "SourceOfReaction";
 	static public String isAProduct  = "isAsProduct";
@@ -100,7 +103,10 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 	@Override
 	protected void createObjects() throws IOException {
 		store = new StoreObject(user,keyword, outputSourceCode);
+
 		List<DatabaseObject> reactionlist = ChemicalMechanismDataQuery.reactionsFromMechanismName(keyword);
+		List<DatabaseObject> coefficientslist = ChemicalMechanismDataQuery.coefficientsFromMechanismName(keyword);
+
 		generateReactions = new GenerateReactionKeywordsServer(keyword);
 
 		String datakey = GenerateKeywords.keywordFromDataKeyword(keyword);
@@ -108,7 +114,6 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 
 		for(DatabaseObject object : reactionlist) {
 			ChemkinReactionData data = (ChemkinReactionData) object;
-			System.out.println("Reaction name: " + data.getReactionName());
 			String fullrxnS = data.getReactionName();
 			String rxnS = generateReactions.getReactionSimpleName(data);
 
@@ -120,6 +125,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 			store.setKeyword(sourcekey);
 			store.storeStringRDF(sourceOfReaction, rxnS);
 			store.setKeyword(fullrxnS);
+			System.out.println("createObjects(): " + fullrxnS);
 			for(String name : data.getReactantKeys()) {
 				store.setKeyword(fullrxnS);
 				store.storeStringRDF(isAReactant,name);
@@ -129,40 +135,15 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 				store.storeStringRDF(isAProduct,name);
 			}
 			if (data.getThirdBodyMolecules() != null) {
-				System.out.println("Third body: " + data.getThirdBodyMolecules());
 				storeThirdBodyRDF(data.getThirdBodyMolecules(),fullrxnS);
 			}
-
-			if (data.getForwardCoefficients() != null) {
-				storeCoefficientData(data.getForwardCoefficients(),fullrxnS);
-			}
-
-			if (data.getReverseCoefficients() != null) {
-				storeCoefficientData(data.getReverseCoefficients(),fullrxnS);
-			}
-
-			if (data.getLowCoefficients() != null) {
-				storeCoefficientData(data.getLowCoefficients(),fullrxnS);
-			}
-
-			if (data.getHighCoefficients() != null) {
-				storeCoefficientData(data.getHighCoefficients(),fullrxnS);
-			}
-
-			if (data.getTroeCoefficients() != null) {
-				storeCoefficientData(data.getTroeCoefficients(),fullrxnS);
-			}
-
-			if (data.getSriCoefficients() != null) {
-				storeCoefficientData(data.getSriCoefficients(),fullrxnS);
-			}
-			if (data.getPlogCoefficients() != null) {
-				for(ChemkinCoefficientsData plogC : data.getPlogCoefficients()) {
-					storeCoefficientData(plogC,rxnS);
-				}
-			}
+		}
+		for(DatabaseObject object : coefficientslist) {
+			ChemkinCoefficientsData data = (ChemkinCoefficientsData) object;
+			storeCoefficientData(data, data.getReactionKeyword());
 		}
 		store.flushStore();
+		//store.finish();
 		rdfTransaction.setRdfCount(store.getRdfCount());
 	}
 	

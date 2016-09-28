@@ -9,6 +9,7 @@ import info.esblurock.reaction.data.upload.FileUploadTextBlock;
 import info.esblurock.reaction.server.queries.QueryBase;
 import info.esblurock.reaction.data.chemical.elements.ChemicalElementListData;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
+import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.thermo.NASAPolynomialData;
 import info.esblurock.reaction.data.chemical.transport.SpeciesTransportProperty;
@@ -182,6 +183,8 @@ public enum DeleteDataStructures {
 					.getObjectById(MechanismReactionsToDatabaseTransaction.class, key);
 			QueryBase.deleteWithStringKey(MechanismReactionsToDatabaseTransaction.class, key);
 			QueryBase.deleteFromIdentificationCode(ChemkinReactionData.class, "mechanismKeyword",
+					transaction.getKeyWord());
+			QueryBase.deleteFromIdentificationCode(ChemkinCoefficientsData.class, "mechanismKeyword",
 					transaction.getKeyWord());
 			return "delete MechanismReactionsToDatabaseTransaction with key: " + key;
 		}

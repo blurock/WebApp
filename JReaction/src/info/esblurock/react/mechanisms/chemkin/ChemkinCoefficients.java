@@ -160,7 +160,7 @@ public class ChemkinCoefficients {
 	public String toString() {
 		StringBuilder build = new StringBuilder();
 		build.append("Forward: " + forward + ", Reverse: " + reverse + ", Low: " + low + ", High: " + high + ", Troe: "
-				+ troe + ", SRI: " + sri + "\n");
+				+ troe + ", SRI: " + sri + ", PLOG: " + plog + "\n");
 		if (troe) {
 			build.append(troeCoeffsS + ": ");
 			build.append(constantsToString());
@@ -181,7 +181,7 @@ public class ChemkinCoefficients {
 			build.append(coeffsToString());
 		} else if(plog) {
 			build.append(plogCoeffsS + ": ");
-			build.append(coeffsToString());
+			build.append(constantsToString());
 		}
 		return build.toString();
 	}
@@ -203,7 +203,7 @@ public class ChemkinCoefficients {
 		for (int i = 0; i < coeffs.length; i++) {
 			build.append("\t");
 			build.append(coeffs[i]);
-			build.append("\n");
+			build.append(", ");
 		}
 		return build.toString();
 	}
@@ -253,5 +253,28 @@ public class ChemkinCoefficients {
 	}
 	public String getComments() {
 		return comments;
+	}
+
+	public void setReverse(boolean reverse) {
+		this.reverse = reverse;
+	}
+
+	public void setLow(boolean low) {
+		this.low = low;
+	}
+
+	public void setTroe(boolean troe) {
+		this.troe = troe;
+	}
+
+	public void setHigh(boolean high) {
+		this.high = high;
+	}
+
+	public void setSri(boolean sri) {
+		this.sri = sri;
+	}
+	public void setPlog(boolean plog) {
+		this.plog = plog;
 	}
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import javax.jdo.annotations.Persistent;
+
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.react.mechanisms.chemkin.ChemkinCoefficients;
 import info.esblurock.react.mechanisms.chemkin.ChemkinMechanism;
@@ -32,6 +34,16 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 	String uploadS;
 	String moleculesS;
 	String toDatabaseS;
+
+	public boolean forward;
+	public boolean reverse;
+	public boolean low;
+	public boolean troe;
+	public boolean high;
+	public boolean plog;
+	public boolean sri;
+	
+	
 
 	/**
 	 * The reaction keyword generator. From the reaction generate a unique
@@ -105,12 +117,15 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 		ChemkinReactionList reactionList = mechanism.getReactionList();
 
 		ArrayList<DatabaseObject> chemkinReactionList = new ArrayList<DatabaseObject>();
+		ArrayList<DatabaseObject> coefficients = new ArrayList<DatabaseObject>();
+
 		for (ChemkinReaction reaction : reactionList) {
-			ChemkinReactionData rxndata = create(reaction);
+			ChemkinReactionData rxndata = create(reaction,coefficients);
 			chemkinReactionList.add(rxndata);
 		}
 
 		StorageAndRetrievalUtilities.storeDatabaseObjects(chemkinReactionList);
+		StorageAndRetrievalUtilities.storeDatabaseObjects(coefficients);
 		rxntransaction.setReactionCount(chemkinReactionList.size());
 	}
 
@@ -157,8 +172,10 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 	 *            that has been parsed from the text
 	 * @return The reaction data
 	 */
-	private ChemkinReactionData create(ChemkinReaction reaction) {
+	private ChemkinReactionData create(ChemkinReaction reaction, ArrayList<DatabaseObject> coefficients) {
 		String rxnkeyword = getKeyword(reaction);
+		System.out.println("ChemkinReactionData create: " + rxnkeyword);
+
 		ArrayList<String> reactantNames = createMoleculeArrayList(reaction.getReactants());
 		ArrayList<String> productNames = createMoleculeArrayList(reaction.getProducts());
 
@@ -175,40 +192,61 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 		}
 		ChemkinCoefficientsData forwardCoefficients = null;
 		if (reaction.getForwardCoefficients() != null) {
-			forwardCoefficients = createCoeffs(reaction.getForwardCoefficients());
+			forwardCoefficients = createCoeffs(keyword, rxnkeyword, reaction.getForwardCoefficients());
+			forward = true;
+			coefficients.add(forwardCoefficients);
 		}
 
 		ChemkinCoefficientsData reverseCoefficients = null;
 		if (reaction.getReverseCoefficients() != null) {
-			reverseCoefficients = createCoeffs(reaction.getReverseCoefficients());
+			reverseCoefficients = createCoeffs(keyword, rxnkeyword, reaction.getReverseCoefficients());
+			reverse = true;
+			coefficients.add(reverseCoefficients);
 		}
 
 		ChemkinCoefficientsData lowCoefficients = null;
 		if (reaction.getLowCoefficients() != null) {
-			lowCoefficients = createCoeffs(reaction.getLowCoefficients());
+			lowCoefficients = createCoeffs(keyword, rxnkeyword, reaction.getLowCoefficients());
+			lowCoefficients.setLow(true);
+			low = true;
+			coefficients.add(lowCoefficients);
 		}
 
 		ChemkinCoefficientsData highCoefficients = null;
 		if (reaction.getHighCoefficients() != null) {
-			highCoefficients = createCoeffs(reaction.getHighCoefficients());
+			highCoefficients = createCoeffs(keyword, rxnkeyword, reaction.getHighCoefficients());
+			highCoefficients.setHigh(true);
+			high = true;
+			coefficients.add(highCoefficients);
 		}
 
 		ChemkinCoefficientsData troeCoefficients = null;
 		if (reaction.getTroeCoefficients() != null) {
-			troeCoefficients = createCoeffs(reaction.getTroeCoefficients());
+			troeCoefficients = createCoeffs(keyword, rxnkeyword, reaction.getTroeCoefficients());
+			troeCoefficients.setTroe(true);
+			troe = true;
+			coefficients.add(troeCoefficients);
 		}
 
 		ChemkinCoefficientsData sriCoefficients = null;
 		if (reaction.getSriCoefficients() != null) {
-			sriCoefficients = createCoeffs(reaction.getSriCoefficients());
+			sriCoefficients = createCoeffs(keyword, rxnkeyword, reaction.getSriCoefficients());
+			sriCoefficients.setSri(true);
+			sri = true;
+			coefficients.add(sriCoefficients);
 		}
 
-		ArrayList<ChemkinCoefficientsData> plogCoefficients = null;
+		//ArrayList<ChemkinCoefficientsData> plogCoefficients = null;
 		if (reaction.getPlogCoefficients() != null) {
-			plogCoefficients = new ArrayList<ChemkinCoefficientsData>();
+			plog = true;
+			System.out.println("MechanismReactionsToDatabase: " + reaction.getPlogCoefficients().size());
+			//plogCoefficients = new ArrayList<ChemkinCoefficientsData>();
 			for (ChemkinCoefficients plog : reaction.getPlogCoefficients()) {
-				ChemkinCoefficientsData plogC = createCoeffs(plog);
-				plogCoefficients.add(plogC);
+				System.out.print("PLOG: " + plog.toString());
+				ChemkinCoefficientsData plogC = createCoeffs(keyword, rxnkeyword, plog);
+				coefficients.add(plogC);
+				//plogCoefficients.add(plogC);
+				//plogC.setPlog(true);
 			}
 		}
 
@@ -217,9 +255,11 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 			thirdBodyMolecules = createThirdBody(reaction.getThirdBodyMolecules());
 		}
 
-		ChemkinReactionData data = new ChemkinReactionData(keyword, rxnkeyword, reactantReactionNames,
-				productReactionNames, forwardCoefficients, reverseCoefficients, lowCoefficients, highCoefficients,
-				troeCoefficients, sriCoefficients, plogCoefficients, thirdBodyMolecules);
+		ChemkinReactionData data = new ChemkinReactionData(keyword, rxnkeyword, 
+				reactantReactionNames, productReactionNames, 
+				forward, reverse, low, high, troe, sri, plog, 
+				thirdBodyMolecules);
+		System.out.println("Mechanism: " +  data.getMechanismKeyword() + ", Reaction: "+  data.getReactionName());
 
 		return data;
 	}
@@ -249,9 +289,9 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 	 * @param coeffs
 	 * @return the coefficients
 	 */
-	private ChemkinCoefficientsData createCoeffs(ChemkinCoefficients coeffs) {
+	private ChemkinCoefficientsData createCoeffs(String mechanismKeyword, String reactionKeyword, ChemkinCoefficients coeffs) {
 		ArrayList<String> coeffvalues = transferConstants(coeffs.getCoeffs());
-		ChemkinCoefficientsData data = new ChemkinCoefficientsData(coeffs.isForward(), coeffs.isReverse(),
+		ChemkinCoefficientsData data = new ChemkinCoefficientsData(mechanismKeyword,reactionKeyword,coeffs.isForward(), coeffs.isReverse(),
 				coeffs.isLow(), coeffs.isTroe(), coeffs.isHigh(), coeffs.isPlog(), coeffs.isSri(), coeffs.getA(),
 				coeffs.getN(), coeffs.getEa(), coeffvalues);
 		return data;

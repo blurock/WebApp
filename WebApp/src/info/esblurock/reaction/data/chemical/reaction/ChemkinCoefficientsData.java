@@ -13,6 +13,11 @@ import info.esblurock.reaction.data.DatabaseObject;
 public class ChemkinCoefficientsData extends DatabaseObject  {
 	
 	private static final long serialVersionUID = 1L;
+	
+	@Persistent
+	String reactionKeyword;
+	@Persistent
+	String mechanismKeyword;
 	@Persistent
 	public boolean forward;
 	@Persistent
@@ -45,11 +50,13 @@ public class ChemkinCoefficientsData extends DatabaseObject  {
 	public ChemkinCoefficientsData() {
 		super();
 	}
-	public ChemkinCoefficientsData(boolean forward, boolean reverse, boolean low, 
+	public ChemkinCoefficientsData(String mechanismKeyword, String reactionKeyword, boolean forward, boolean reverse, boolean low, 
 			boolean troe, boolean high, boolean plog, boolean sri,
 			String a, String n, String ea,
 			ArrayList<String> coeffs) {
 		super();
+		this.mechanismKeyword = mechanismKeyword;
+		this.reactionKeyword = reactionKeyword;
 		this.forward = forward;
 		this.reverse = reverse;
 		this.low = low;
@@ -95,4 +102,29 @@ public class ChemkinCoefficientsData extends DatabaseObject  {
 	public boolean isSri() {
 		return sri;
 	}
+	public void setReverse(boolean reverse) {
+		this.reverse = reverse;
+	}
+	public void setLow(boolean low) {
+		this.low = low;
+	}
+	public void setTroe(boolean troe) {
+		this.troe = troe;
+	}
+	public void setPlog(boolean plog) {
+		this.plog = plog;
+	}
+	public void setSri(boolean sri) {
+		this.sri = sri;
+	}
+	public void setHigh(boolean high) {
+		this.high = high;
+	}
+	public String getMechanismKeyword() {
+		return mechanismKeyword;
+	}
+	public String getReactionKeyword() {
+		return reactionKeyword;
+	}
+	
 }
