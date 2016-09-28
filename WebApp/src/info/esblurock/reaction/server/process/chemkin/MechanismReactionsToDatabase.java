@@ -239,10 +239,8 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 		//ArrayList<ChemkinCoefficientsData> plogCoefficients = null;
 		if (reaction.getPlogCoefficients() != null) {
 			plog = true;
-			System.out.println("MechanismReactionsToDatabase: " + reaction.getPlogCoefficients().size());
 			//plogCoefficients = new ArrayList<ChemkinCoefficientsData>();
 			for (ChemkinCoefficients plog : reaction.getPlogCoefficients()) {
-				System.out.print("PLOG: " + plog.toString());
 				ChemkinCoefficientsData plogC = createCoeffs(keyword, rxnkeyword, plog);
 				coefficients.add(plogC);
 				//plogCoefficients.add(plogC);
@@ -259,7 +257,7 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 				reactantReactionNames, productReactionNames, 
 				forward, reverse, low, high, troe, sri, plog, 
 				thirdBodyMolecules);
-		System.out.println("Mechanism: " +  data.getMechanismKeyword() + ", Reaction: "+  data.getReactionName());
+		//System.out.println("Mechanism: " +  data.getMechanismKeyword() + ", Reaction: "+  data.getReactionName());
 
 		return data;
 	}

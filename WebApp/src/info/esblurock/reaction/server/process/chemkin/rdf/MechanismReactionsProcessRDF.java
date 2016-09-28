@@ -125,7 +125,6 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 			store.setKeyword(sourcekey);
 			store.storeStringRDF(sourceOfReaction, rxnS);
 			store.setKeyword(fullrxnS);
-			System.out.println("createObjects(): " + fullrxnS);
 			for(String name : data.getReactantKeys()) {
 				store.setKeyword(fullrxnS);
 				store.storeStringRDF(isAReactant,name);
@@ -149,6 +148,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 	
 	
 	protected void storeThirdBodyRDF(ThirdBodyMoleculesData data, String rxnkeyword) {
+		System.out.println("storeThirdBodyRDF");
 		StringBuilder build = new StringBuilder();
 		build.append("[");
 		if(data.getThirdBodyMoleculeKeys() != null) {

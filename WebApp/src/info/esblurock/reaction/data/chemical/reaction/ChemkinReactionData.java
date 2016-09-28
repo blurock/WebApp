@@ -62,6 +62,7 @@ public class ChemkinReactionData extends DatabaseObject  {
 		this.plog = plog;
 		this.high = high;
 		this.sri = sri;
+		this.thirdBodyMolecules = thirdBodyMolecules;
 	}
 	public String getMechanismKeyword() {
 		return mechanismKeyword;

@@ -264,6 +264,8 @@ public class ChemkinReaction {
 				done = true;
 			}
 		}
+		//System.out.println("==============================================================");
+		//System.out.println(toString());
 		return rxn;
 	}
 
