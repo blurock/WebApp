@@ -138,7 +138,7 @@ public class ChemkinReaction {
 	}
 
 	private StringTokenizer parseMolList(String mollist, boolean reactants) throws IOException {
-		StringTokenizer tok = new StringTokenizer(mollist, " ");
+		StringTokenizer tok = new StringTokenizer(mollist, " \t");
 		int num = tok.countTokens();
 		if (!reactants)
 			num = num - 3;
@@ -388,7 +388,7 @@ public class ChemkinReaction {
 			rxn = line;
 		}
 
-		StringTokenizer tok = new StringTokenizer(rxn, " ");
+		StringTokenizer tok = new StringTokenizer(rxn, " \t");
 		if (tok.countTokens() == 4) {
 			builder.append(line);
 		} else if (tok.countTokens() < 4) {

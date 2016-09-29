@@ -21,7 +21,8 @@ public class ChemkinMechanismRead3 {
 		//String url = "http://web.eng.ucsd.edu/mae/groups/combustion/sdmech/sandiego_nitrogen/NOx_20041209/NOXsandiego20041209.mec";
 		//String url = "URL https://combustion.llnl.gov/content/assets/docs/combustion/h2_v1b_mech.txt";
 		//String url = "URL http://www.nuigalway.ie/c3/documents/Methanol_2016_mech.inp";
-		String url = "URL http://www.nuigalway.ie/c3/documents/56.55_c3_chem.inp";
+		//String url = "URL http://www.nuigalway.ie/c3/documents/56.55_c3_chem.inp";
+		String url = "URL https://combustion.llnl.gov/content/assets/docs/combustion/i-pentanol_v46_06_release_inp.txt";
 		//String resource = "RESOURCE info/esblurock/react/resources/mechanisms/LLNLHeptane";
 		ReadToString read = new ReadToString();
 		try {

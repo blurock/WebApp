@@ -47,7 +47,9 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 	static final public String sri = "SRI";
 	static final public String coefficientsS = "Coefficients";
 	
-
+	DecimalFormat formatterSimp;
+	DecimalFormat formatterExp;
+	
 	/**
 	 * The reaction keyword generator. From the reaction generate a unique
 	 * keyword (including the keywordBase -- which basically is the mechanism
@@ -68,6 +70,9 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 	public void initialization() {
 		toDatabaseS = "info.esblurock.reaction.data.transaction.chemkin.MechanismReactionsToDatabaseTransaction";
 		rdfTransactionS = "info.esblurock.reaction.data.transaction.chemkin.rdf.MechanismReactionsRDFTransaction";
+		formatterSimp  = new DecimalFormat("#");
+		formatterExp  = new DecimalFormat("0.####E00");
+
 	}
 
 	@Override
@@ -163,15 +168,9 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 	}
 
 	private String stringCoefficients(ChemkinCoefficientsData data) {
-		DecimalFormat formatterExp  = new DecimalFormat("0.####E00");
-		double A = Double.parseDouble(data.getA());
-		double n = Double.parseDouble(data.getN());
-		double Ea = Double.parseDouble(data.getEa());
-		DecimalFormat formatterSimp  = new DecimalFormat("#");
-		formatterSimp.setMaximumFractionDigits(3);
-		String AS = formatterExp.format(A);
-		String nS = formatterSimp.format(n);
-		String EaS = formatterExp.format(Ea);
+		String AS = standardDoubleFormat(data.getA());
+		String nS = StandardSimpleFormatDouble(data.getN());
+		String EaS = standardDoubleFormat(data.getEa());
 		String coeffS = 
 				"A=" + AS +
 				" n="+ nS +
@@ -179,12 +178,33 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 		return coeffS;
 	}
 
+	private String standardDoubleFormat(String d) {
+		String dS = d;
+		try {
+			double dD = Double.parseDouble(d);
+			dS = formatterExp.format(dD);
+		} catch(Exception ex) {
+			System.out.println("Couldn't format: " + d);
+		}
+		return dS;
+	}
+	
+	private String StandardSimpleFormatDouble(String d) {
+		formatterSimp.setMaximumFractionDigits(3);
+		String dS = d;
+		try {
+			double dD = Double.parseDouble(d);
+			dS = formatterSimp.format(dD);
+		} catch(Exception ex) {
+			System.out.println("Couldn't format: " + d);
+		}
+		return dS;
+	}
+	
 	private String stringConstants(ChemkinCoefficientsData data) {
-		DecimalFormat formatterExp  = new DecimalFormat("0.####E00");
 		StringBuilder build = new StringBuilder();
 		for(String coef : data.getCoeffs()) {
-			double c = Double.parseDouble(coef);
-			String cS = formatterExp.format(c);
+			String cS = standardDoubleFormat(coef);
 			build.append(cS);
 			build.append(" ");
 		}
