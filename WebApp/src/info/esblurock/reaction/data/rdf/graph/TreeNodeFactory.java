@@ -25,7 +25,6 @@ public class TreeNodeFactory {
  * @param rdf
  */
 	public boolean addRDF(RDFTreeNode treenode, KeywordRDF rdf) {
-		System.out.println("addRDF: " + rdf.toString());
 		String rdfsubject = rdf.getSubject();
 		String rdfpredicate = rdf.getPredicate();
 		String rdfobject = rdf.getObject();

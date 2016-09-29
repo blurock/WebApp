@@ -27,7 +27,7 @@ public class ChemkinMechanism {
 		mechanismComment = lines.skipOverComments();
 		String next = currentNonBlank(lines);
 		System.out.println("ChemkinMechanism::parse" + next );
-		if (elementStart(next)) {
+		if (elementStart(next,lines)) {
 			System.out.println("Process ELEMENTS");
 			//next = lines.nextToken().trim();
 			elementList = new ChemkinElementList(lines);
@@ -87,9 +87,16 @@ public class ChemkinMechanism {
 		return l.startsWith(endLabel);
 	}
 
-	private boolean elementStart(String line) {
+	private boolean elementStart(String line,ChemkinString lines) {
 		String l = line.trim().toUpperCase();
-		return l.startsWith(elementsLabel);
+		boolean ans = true;
+		int count = 0;
+		while(!l.startsWith(elementsLabel) && count < 5) {
+			lines.skipOverComments();
+			line = lines.nextNonBlank();
+			count++;
+		}
+		return ans;
 	}
 
 	private boolean speciesStart(String line) {

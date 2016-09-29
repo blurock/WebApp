@@ -37,7 +37,6 @@ public class RDFGraphSubjectNode extends RDFGraphNode {
 				}
 			}
 		}
-		System.out.println("Subject: " + subject + "," + nodeS + "=" + ans);
 		return ans;
 	}
 

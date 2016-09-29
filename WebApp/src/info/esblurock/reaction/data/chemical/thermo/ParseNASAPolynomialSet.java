@@ -15,6 +15,7 @@ public class ParseNASAPolynomialSet {
 
 	
 	public  SetOfThermodynamicInformation parse(String name, ChemkinStringFromStoredFile tok) throws IOException {
+       	StringBuilder errbuild = new StringBuilder();
         SetOfThermodynamicInformation set = new SetOfThermodynamicInformation(name);
         findBeginning(tok);
         boolean notdone = true;
@@ -28,14 +29,23 @@ public class ParseNASAPolynomialSet {
                 String line2 = tok.nextToken();
                 String line3 = tok.nextToken();
                 String line4 = tok.nextToken();
-                NASAPolynomial nasa = new NASAPolynomial();
-                nasa.parse(line1, line2, line3, line4);
-                set.add(nasa);
+                try {
+                	NASAPolynomial nasa = new NASAPolynomial();
+                	nasa.parse(line1, line2, line3, line4);
+                	set.add(nasa);
+                } catch(IOException ex) {
+                	errbuild.append("Error in Thermodynamics\n");
+                	errbuild.append(line1 + "\n");
+                	errbuild.append(line2 + "\n");
+                	errbuild.append(line3 + "\n");
+                	errbuild.append(line4 + "\n");
+                }
             } else {
                 notdone = false;
             }
         }
-		return set;
+        System.err.println(errbuild.toString());
+        return set;
 
 	}
 

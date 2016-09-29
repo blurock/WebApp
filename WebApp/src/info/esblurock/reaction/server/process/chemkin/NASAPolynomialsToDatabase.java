@@ -61,6 +61,7 @@ public class NASAPolynomialsToDatabase extends ProcessBase {
 	protected ArrayList<String> getInputTransactionObjectNames() {
 		ArrayList<String> input = new ArrayList<String>();
 		input.add(uploadS);
+		input.add(validateS);
 		return input;
 	}
 

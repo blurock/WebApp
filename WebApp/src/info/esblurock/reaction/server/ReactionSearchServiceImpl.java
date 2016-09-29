@@ -91,30 +91,23 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		
 	}
 	public RDFTreeNode searchedRegisteredQueries(String query)  throws IOException {
-		System.out.println("RegisteredQueries.getRegistered()");
 		SetOfParseQueries queries = RegisteredQueries.getRegistered();
 		SetOfKeywordRDF total = new SetOfKeywordRDF();
 		for(ParseQuery pquery : queries) {
-			System.out.println("Query: " + pquery.toString());
+			//System.out.println("Query: " + pquery.toString());
 			SetOfInterpretations interpretations = pquery.parseInput();
 			for(Interpretation interpret : interpretations) {
-				System.out.println("Interpretation: " + interpret.toString());
+				//System.out.println("Interpretation: " + interpret.toString());
 				if(interpret.interpretable(query)) {
-					System.out.println("Interpretable: " + interpret.toString());
+					//System.out.println("Interpretable: " + interpret.toString());
 					HashSet<KeywordRDF> results = interpret.getResults(query);
-					System.out.println("Results: " + results);
+					//System.out.println("Results: " + results);
 					total.addAll(results);
 				}
 			}
 		}
-		System.out.println("------------------------------------------------------");
-		System.out.println("Total: " + total.toString());
 		TreeNodeFactoryWithObjectNode factory = new TreeNodeFactoryWithObjectNode();
 		RDFTreeNode node = factory.addAllRDF(query, total);
-		System.out.println("<------------------------------------------------------>");
-		System.out.println("The RDF Tree");
-		System.out.println(node.toString());
-		System.out.println("<------------------------------------------------------>");
 		return node;
 	}
 	
@@ -143,23 +136,23 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 
 	@Override
 	public DatabaseObject getObjectFromKey(String clsName, String key) throws Exception {
-		System.out.println("getObjectFromKey:  " + clsName + "(" + key + ")");
+		//System.out.println("getObjectFromKey:  " + clsName + "(" + key + ")");
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Class<?> cls;
 		Object object = null;
 		pm.getFetchPlan().setGroup(FetchGroup.ALL);
 		try {
 			cls = Class.forName(clsName);
-			System.out.println("getObjectFromKey:  " + cls);
+			//System.out.println("getObjectFromKey:  " + cls);
 			object = pm.getObjectById(cls,key);
 		} catch (ClassNotFoundException e) {
 			throw new Exception(e.toString());
 		}
 		pm.retrieve(object,true);
 		DatabaseObject result = (DatabaseObject)  pm.detachCopy(object);
-		System.out.println("getObjectFromKey:  Result=" 
-				+ result.getClass().getCanonicalName() 
-				+ "(" + result.getKey() + ")");
+		//System.out.println("getObjectFromKey:  Result=" 
+				//+ result.getClass().getCanonicalName() 
+				//+ "(" + result.getKey() + ")");
 		pm.close();
 		return result;
 	}
