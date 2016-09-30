@@ -25,7 +25,7 @@ public class ChemkinMechanism {
 	public void parse(ChemkinString lines, String commentChar) throws IOException {
 		//parseComments(lines, commentChar);
 		mechanismComment = lines.skipOverComments();
-		String next = currentNonBlank(lines);
+		String next = lines.currentNonBlank();
 		System.out.println("ChemkinMechanism::parse" + next );
 		if (elementStart(next,lines)) {
 			System.out.println("Process ELEMENTS");
@@ -34,27 +34,27 @@ public class ChemkinMechanism {
 			elementList.parse();
 			System.out.println(elementList.toString());
 			String commentElements = lines.skipOverComments();
-			next = currentNonBlank(lines);
+			next = lines.currentNonBlank();
 			if (speciesStart(next)) {
 				System.out.println("Process SPECIES");
 				speciesList = new ChemkinMoleculeList(lines);
-				next = nextNonBlank(lines);
+				next = lines.nextNonBlank();
 				speciesList.parse();
 				System.out.println(speciesList.toString());
 				String commentSpecies = lines.skipOverComments();
-				next = currentNonBlank(lines);
+				next = lines.currentNonBlank();
 				if (thermoStart(next)) {
 					while(!isEnd(next)) {
 						next = lines.nextToken();
 					}
-					next = nextNonBlank(lines);
+					next = lines.nextNonBlank();
 				} 
 				String commentReactions = lines.skipOverComments();
-				next = currentNonBlank(lines);
+				next = lines.currentNonBlank();
 				if (reactionStart(next)) {
 					System.out.println("Process REACTIONS");
 					reactionList = new ChemkinReactionList();
-					next = nextNonBlank(lines);
+					next = lines.nextNonBlank();
 					reactionList.parseReactions(lines, speciesList);
 					System.out.println("Processed: " + reactionList.size() + "reactions");
 				} else {
@@ -69,7 +69,7 @@ public class ChemkinMechanism {
 		}
 
 	}
-
+/*
 	private String currentNonBlank(ChemkinString lines) {
 		String next = lines.getCurrent().trim();
 		while(next.length() == 0) {
@@ -81,7 +81,7 @@ public class ChemkinMechanism {
 		lines.nextToken();
 		return currentNonBlank(lines);
 	}
-	
+*/
 	private boolean isEnd(String line) {
 		String l = line.trim().toUpperCase();
 		return l.startsWith(endLabel);
@@ -94,6 +94,7 @@ public class ChemkinMechanism {
 		while(!l.startsWith(elementsLabel) && count < 5) {
 			lines.skipOverComments();
 			line = lines.nextNonBlank();
+			l = line.trim().toUpperCase();
 			count++;
 		}
 		return ans;

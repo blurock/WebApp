@@ -20,7 +20,7 @@ public class MechanismMoleculeProcessRDF extends ProcessBase {
 	String rdfTransactionS;
 	MechanismMoleculesToDatabaseTransaction moltransaction;
 	MechanismMoleculeRDFTransaction rdfTransaction;
-	static public String sourceMolecule = "MoleculeOfSource";
+	//static public String sourceMolecule = "MoleculeOfSource";
 	static public String mechanismSource = "mechanismSource";
 	static public String chemkinMechanism = "CHEMKINMechanism";
 	static public String mechanismMolecule = "MechanismMolecule";
@@ -92,7 +92,7 @@ public class MechanismMoleculeProcessRDF extends ProcessBase {
 			store.storeObjectRDF(fullname, molecule);
 			store.storeStringRDF(isMechanismMolecule, name);
 			store.setKeyword(sourcekey);
-			store.storeStringRDF(sourceMolecule,name);
+			//store.storeStringRDF(sourceMolecule,name);
 		}
 		store.finish();
 		rdfTransaction.setRdfCount(store.getRdfCount());

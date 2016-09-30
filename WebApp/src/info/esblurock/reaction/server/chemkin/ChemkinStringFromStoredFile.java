@@ -80,7 +80,6 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 	}
 
 	public String nextToken() {
-		//System.out.println("nextToken():" + count + ", " + totalcount + ", " + lines.size());
 		current = null;
 		count++;
 		if (count < lines.size()) {

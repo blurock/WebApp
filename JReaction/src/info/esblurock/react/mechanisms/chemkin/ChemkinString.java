@@ -35,7 +35,18 @@ public class ChemkinString implements Serializable {
 		tok = new StringTokenizer(input, "\n");
 		commentChar = commentString;
 	}
-
+	
+	public String nextToken() {
+		String next = null;
+		if (tok.hasMoreTokens()) {
+			next = tok.nextToken();
+		}
+		//System.out.println("nextToken(): '" + next + "' (" + next.length() + ") '" + next.charAt(0) + "' '" + next.charAt(1));
+		currentToken = next;
+		return next;
+	}
+	
+/*
 	public String nextToken() {
 		String next = null;
 		lastComment = new StringBuffer();
@@ -52,9 +63,10 @@ public class ChemkinString implements Serializable {
 			}
 		}
 		currentToken = next;
+		System.out.println("nextToken(): '" + next + "' (" + next.length() + ") '" + next.charAt(0) + "' '" + next.charAt(1));
 		return next;
 	}
-
+*/
 	public String nextNLines(int n) throws IOException {
 		StringBuilder build = new StringBuilder();
 		int count = n - 1;

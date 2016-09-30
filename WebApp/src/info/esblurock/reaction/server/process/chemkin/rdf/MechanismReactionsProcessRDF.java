@@ -28,7 +28,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 	MechanismReactionsRDFTransaction rdfTransaction;
 	protected static Logger log = Logger.getLogger(TextToDatabaseImpl.class.getName());
 
-	static public String sourceOfReaction = "SourceOfReaction";
+	//static public String sourceOfReaction = "SourceOfReaction";
 	static public String isAProduct  = "isAsProduct";
 	static public String isAReactant = "isAsReactant";
 	static public String reactionS = "isReaction";
@@ -128,7 +128,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 			store.setKeyword(keyword);
 			store.storeStringRDF(mechanismReaction,fullrxnS);
 			store.setKeyword(sourcekey);
-			store.storeStringRDF(sourceOfReaction, rxnS);
+			//.storeStringRDF(sourceOfReaction, rxnS);
 			store.setKeyword(fullrxnS);
 			for(String name : data.getReactantKeys()) {
 				store.setKeyword(fullrxnS);

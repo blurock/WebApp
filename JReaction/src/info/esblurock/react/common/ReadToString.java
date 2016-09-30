@@ -1,5 +1,6 @@
 package info.esblurock.react.common;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -91,8 +92,25 @@ public class ReadToString {
 	public String fromURL(URL url) throws IOException {
 		URLConnection connection = url.openConnection();
 		InputStreamReader reader = new InputStreamReader(connection.getInputStream(), "UTF-8");
-		Scanner scan = new Scanner(reader);
-		return fromScanner(scan);
+		BufferedReader buf = new BufferedReader(reader);
+		return readLines(buf);
+	}
+	/**
+	 * 
+	 */
+	public String readLines(BufferedReader buf) {
+		StringBuilder build = new StringBuilder();
+		try {
+		String line = buf.readLine();
+		while(line != null) {
+			build.append(line);
+			build.append("\n");
+			line = buf.readLine();
+		}
+		} catch(IOException ex) {
+			System.out.println("readLine exception");
+		}
+		return build.toString();
 	}
 	/** Parse from a Scanner class
 	 * @param scan The scanner class
