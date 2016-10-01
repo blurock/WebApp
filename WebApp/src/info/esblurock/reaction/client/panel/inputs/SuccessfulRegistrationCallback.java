@@ -12,7 +12,7 @@ public class SuccessfulRegistrationCallback  implements AsyncCallback<String> {
 
 	@Override
 	public void onSuccess(String result) {
-		Window.alert(result);
+		//Window.alert(result);
 	}
 
 }

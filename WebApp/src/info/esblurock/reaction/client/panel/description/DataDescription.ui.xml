@@ -1,7 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
-	xmlns:m="urn:import:gwt.material.design.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
 	<ui:style>
 	.important {
 		font-weight: bold;
@@ -12,28 +11,35 @@
 	}
 	</ui:style>
 	<m:MaterialCollapsibleItem>
-		<m:MaterialCollapsibleHeader backgroundColor="cyan lighten-5">
-			<m:MaterialLink ui:field="objecttitle" textColor="blue" 
-			iconType="CREATE" iconPosition="LEFT"/>
+		<m:MaterialCollapsibleHeader
+			backgroundColor="cyan lighten-5">
+			<m:MaterialLink ui:field="objecttitle" textColor="blue"
+				iconType="CREATE" iconPosition="LEFT" />
 		</m:MaterialCollapsibleHeader>
 		<m:MaterialCollapsibleBody>
 			<g:HTMLPanel ui:field="contentpanel">
-			<m:MaterialModal ui:field="keywordModal" 
-				type="FIXED_FOOTER" dismissable="true" inDuration="500" outDuration="500">
-			<m:MaterialModalContent>
+				<m:MaterialModal ui:field="keywordModal" type="FIXED_FOOTER"
+					dismissable="true" inDuration="500" outDuration="500">
+					<m:MaterialModalContent>
+						<m:MaterialRow>
+							<m:MaterialColumn grid="s12">
+								<m:MaterialTextBox ui:field="newKeywordText"
+									text="new keyword" placeholder="Keyword" />
+							</m:MaterialColumn>
+						</m:MaterialRow>
+					</m:MaterialModalContent>
+					<m:MaterialModalFooter>
+						<m:MaterialButton ui:field="newKeywordButton"
+							text="Add new keyword" />
+						<m:MaterialButton ui:field="keywordCloseButton"
+							text="Close" />
+					</m:MaterialModalFooter>
+				</m:MaterialModal>
 				<m:MaterialRow>
-					<m:MaterialColumn grid="s12">
-						<m:MaterialTextBox ui:field="newKeywordText"  text="new keyword" placeholder="Keyword" />
+					<m:MaterialColumn grid="s6">
+						<m:MaterialTextBox ui:field="sourcekey" />
 					</m:MaterialColumn>
-				</m:MaterialRow>
-			</m:MaterialModalContent>
-			<m:MaterialModalFooter>
-				<m:MaterialButton ui:field="newKeywordButton"   text="Add new keyword"/>
-				<m:MaterialButton ui:field="keywordCloseButton" text="Close"/>
-			</m:MaterialModalFooter>			
-			</m:MaterialModal>
-				<m:MaterialRow>
-					<m:MaterialColumn grid="s12">
+					<m:MaterialColumn grid="s6">
 						<m:MaterialTextBox ui:field="keyword" />
 					</m:MaterialColumn>
 				</m:MaterialRow>
@@ -48,12 +54,15 @@
 					</m:MaterialColumn>
 				</m:MaterialRow>
 				<m:MaterialRow>
-					<m:MaterialColumn grid="s1">
-					<m:MaterialButton ui:field="descriptionkeywords"/>
+					<m:MaterialColumn grid="s3">
+						<m:MaterialButton ui:field="descriptionkeywords" text="Generate Keys"/>
 					</m:MaterialColumn>
-					<m:MaterialColumn grid="s11">
+					</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s12">
 						<g:HTMLPanel ui:field="keywordpanel">
-						<m:MaterialChip ui:field="addkeyword" text="Add keyword" letterBackgroundColor="red"/>
+							<m:MaterialChip ui:field="addkeyword" text="Add keyword"
+								letterBackgroundColor="red" />
 						</g:HTMLPanel>
 					</m:MaterialColumn>
 				</m:MaterialRow>
@@ -61,9 +70,6 @@
 					<m:MaterialColumn grid="s4">
 						<m:MaterialDatePicker ui:field="date"
 							selectionType="YEAR" />
-					</m:MaterialColumn>
-					<m:MaterialColumn grid="s4">
-						<m:MaterialTextBox ui:field="sourcekey" />
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s4">
 						<m:MaterialTextBox ui:field="inputkey" />

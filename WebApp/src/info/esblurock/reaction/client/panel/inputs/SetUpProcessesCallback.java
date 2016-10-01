@@ -30,7 +30,6 @@ public class SetUpProcessesCallback  implements AsyncCallback<List<String>> {
 	@Override
 	public void onSuccess(List<String> result) {
 		ArrayList<String> lst = new ArrayList<String>();
-		Window.alert(result.toString());
 		for(String name : result) {
 			lst.add(name);
 		}

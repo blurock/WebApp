@@ -77,20 +77,20 @@ public class DataDescriptionAsRows extends Composite implements HasText {
 	}
 
 	private void init() {
-		key.setTooltip(interfaceConstants.keywordtooltip());
+		//key.setTooltip(interfaceConstants.keywordtooltip());
 		keylabel.setText(interfaceConstants.keyword());
-		keyword.setTooltip(interfaceConstants.datakeywordtooltip());
+		//keyword.setTooltip(interfaceConstants.datakeywordtooltip());
 		keywordlabel.setText(interfaceConstants.datakeyword());
 		onelinelabel.setText(descriptionConstants.onelinetext());
-		oneline.setTooltip(descriptionConstants.onelineplaceholder());
+		//oneline.setTooltip(descriptionConstants.onelineplaceholder());
 		sourcekeylabel.setText(interfaceConstants.sourcekey());
-		sourcekey.setTooltip(interfaceConstants.sourcekeytooltip());
+		//sourcekey.setTooltip(interfaceConstants.sourcekeytooltip());
 		sourcedatelabel.setText(interfaceConstants.sourcedate());
-		sourcedate.setTooltip(interfaceConstants.sourcedatetooltip());
+		//sourcedate.setTooltip(interfaceConstants.sourcedatetooltip());
 		entrykeylabel.setText(interfaceConstants.user());
-		entrykey.setTooltip(interfaceConstants.usertooltip());
+		//entrykey.setTooltip(interfaceConstants.usertooltip());
 		entrydatelabel.setText(interfaceConstants.entrydate());
-		entrydate.setTooltip(interfaceConstants.entrydatetooltip());
+		//entrydate.setTooltip(interfaceConstants.entrydatetooltip());
 
 	}
 

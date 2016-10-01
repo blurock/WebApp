@@ -194,9 +194,17 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 	    String chunkerResource = "resources/en-chunker.bin";
         KeywordsFromText keys = new KeywordsFromText(categorizeResource, tokenResource, chunkerResource);
         keys.calculateKeyWords(text);
+        
 		Collections.sort(keys.getSingleKeyWords());
-        HashSet<String> set = new HashSet<String>(keys.getSingleKeyWords());
-        System.out.println(set);
+		Collections.sort(keys.getPhraseKeyWords());
+		HashSet<String> set = new HashSet<String>();
+		for(String key : keys.getPhraseKeyWords()) {
+			set.add(key.toLowerCase());
+		}
+		for(String key : keys.getSingleKeyWords()) {
+			set.add(key.toLowerCase());
+		}
+       System.out.println(set);
  		return set;
 	}
 }

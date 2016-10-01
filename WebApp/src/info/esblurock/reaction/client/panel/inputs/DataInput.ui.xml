@@ -56,8 +56,9 @@
 	}
 	</ui:style>
 	<m:MaterialCollapsibleItem>
-		<m:MaterialCollapsibleHeader backgroundColor="cyan lighten-5">
-			<m:MaterialLink ui:field="objecttitle" text="Input" 
+		<m:MaterialCollapsibleHeader
+			backgroundColor="cyan lighten-5">
+			<m:MaterialLink ui:field="objecttitle" text="Input"
 				textColor="blue" iconType="CREATE" iconPosition="LEFT" />
 		</m:MaterialCollapsibleHeader>
 		<m:MaterialCollapsibleBody>
@@ -69,6 +70,11 @@
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s6">
 					<m:MaterialLabel ui:field="uploadID" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s6">
+					<m:MaterialTextBox ui:field="uploadTextName" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
 			<m:MaterialRow>
@@ -93,12 +99,12 @@
 				</m:MaterialColumn>
 				<m:MaterialColumn>
 					<ma:fileuploader.MaterialFileUploader
-						ui:field="cardUploader" grid="l4" url="/fileupload"
-						preview="false" maxFileSize="20" shadow="0" clickable="cardUpload">
+						ui:field="cardUploader" grid="l4" url="/fileupload" preview="false"
+						maxFileSize="20" shadow="0" clickable="cardUpload">
 						<m:MaterialCard>
 							<m:MaterialCardImage>
 								<m:MaterialImage ui:field="imgPreview"
-								resource="{res.RDF_ReactionData}"/>
+									resource="{res.RDF_ReactionData}" />
 							</m:MaterialCardImage>
 							<m:MaterialCardContent layoutPosition="RELATIVE">
 								<m:MaterialLabel ui:field="lblName" text="Drag file here"
@@ -133,9 +139,6 @@
 				<m:MaterialColumn grid="s2">
 					<m:MaterialButton ui:field="uploadText"
 						textColor="blue-text text-darken-2 light-blue lighten-5" waves="LIGHT" />
-				</m:MaterialColumn>
-				<m:MaterialColumn grid="s5">
-					<m:MaterialTextBox ui:field="uploadTextName" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
 			<m:MaterialRow>
