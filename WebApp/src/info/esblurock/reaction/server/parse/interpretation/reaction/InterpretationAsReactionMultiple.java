@@ -8,25 +8,28 @@ import info.esblurock.reaction.data.chemical.reaction.CanonicalReactionName;
 import info.esblurock.reaction.data.chemical.reaction.ParsedReactionInformation;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.server.parse.interpretation.Interpretation;
+import info.esblurock.reaction.server.parse.interpretation.QueryParameters;
 import info.esblurock.reaction.server.parse.interpretation.SingletonInterpretation;
 import info.esblurock.reaction.server.parse.interpretation.set.NeighborCombinationInterpretation;
 
 public class InterpretationAsReactionMultiple extends Interpretation {
 
 	@Override
-	public boolean interpretable(String input) {
-		StringTokenizer tok = new StringTokenizer(input, " ");
+	public boolean interpretable(QueryParameters input) {
+		String inputS = input.getInputString();
+		StringTokenizer tok = new StringTokenizer(inputS, " ");
 		return tok.countTokens() > 1;
 	}
 
 	@Override
-	public HashSet<KeywordRDF> getResults(String input) {
+	public HashSet<KeywordRDF> getResults(QueryParameters input) {
 		HashSet<KeywordRDF> set = null;
 		CanonicalReactionName canonical = new CanonicalReactionName();
 		try {
-			ParsedReactionInformation parsed = canonical.getCanonicalReactionName(input);
+			ParsedReactionInformation parsed = canonical.getCanonicalReactionName(input.getInputString());
 			NeighborCombinationInterpretation neighbor = new NeighborCombinationInterpretation();
-			set = neighbor.getResults(parsed.tokensAsString());
+			QueryParameters params = new QueryParameters(parsed.tokensAsString());
+			set = neighbor.getResults(params);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

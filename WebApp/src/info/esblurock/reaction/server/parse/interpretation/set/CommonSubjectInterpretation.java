@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.parse.objects.ParseObject;
 import info.esblurock.reaction.server.parse.interpretation.Interpretation;
+import info.esblurock.reaction.server.parse.interpretation.QueryParameters;
 
 /**
  * 
@@ -48,8 +49,9 @@ public class CommonSubjectInterpretation extends Interpretation {
 		this.objectAsKey = false;
 	}
 	@Override
-	public boolean interpretable(String input) {
-		StringTokenizer tok = new StringTokenizer(input," ");
+	public boolean interpretable(QueryParameters input) {
+		String inputS = input.getInputString();
+		StringTokenizer tok = new StringTokenizer(inputS," ");
 		return tok.countTokens() == 1;
 	}
 
@@ -60,11 +62,13 @@ public class CommonSubjectInterpretation extends Interpretation {
  * 
  */
 	@Override
-	public HashSet<KeywordRDF> getResults(String input) {
-		ArrayList<String> set = parseInputTokens(input);
+	public HashSet<KeywordRDF> getResults(QueryParameters input) {
+		String inputS = input.getInputString();
+		ArrayList<String> set = parseInputTokens(inputS);
 		ArrayList<RDFKeywordSetMap> fullset = new ArrayList<RDFKeywordSetMap>();
 		for(String key : set) {
-			RDFKeywordSetMap rdfmap =  getSetForToken(key,subjectAsKey,predicateAsKey,objectAsKey);
+			QueryParameters params = new QueryParameters(key, input.getEntityLimit());
+			RDFKeywordSetMap rdfmap =  getSetForToken(params,subjectAsKey,predicateAsKey,objectAsKey);
 			fullset.add(rdfmap);
 		}
 		IntersectionKeywordMapSets intersection = new IntersectionKeywordMapSets();
@@ -76,7 +80,7 @@ public class CommonSubjectInterpretation extends Interpretation {
 	 * @param input a single input key 
 	 * @return the results (list of RDF's) using the key in the filter
 	 */
-	RDFKeywordSetMap  getSetForToken(String input,boolean subjectAsKey, boolean predicateAsKey,
+	RDFKeywordSetMap  getSetForToken(QueryParameters input,boolean subjectAsKey, boolean predicateAsKey,
 			boolean objectAsKey) {
 		HashSet<KeywordRDF> rdfs = this.getSet(filter,input);
 		RDFKeywordSetMap keymap = new RDFKeywordSetMap(subjectAsKey, predicateAsKey,objectAsKey);

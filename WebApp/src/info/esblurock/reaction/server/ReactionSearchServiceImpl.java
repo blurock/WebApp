@@ -18,6 +18,7 @@ import info.esblurock.reaction.data.rdf.graph.TreeNodeFactoryWithObjectNode;
 import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.event.RegisterTransaction;
 import info.esblurock.reaction.server.parse.interpretation.Interpretation;
+import info.esblurock.reaction.server.parse.interpretation.QueryParameters;
 import info.esblurock.reaction.server.parse.interpretation.SetOfInterpretations;
 import info.esblurock.reaction.server.parse.query.ParseQuery;
 import info.esblurock.reaction.server.parse.query.SetOfParseQueries;
@@ -90,9 +91,11 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		return oset;
 		
 	}
-	public RDFTreeNode searchedRegisteredQueries(String query)  throws IOException {
+	public RDFTreeNode searchedRegisteredQueries(String queryS)  throws IOException {
+		QueryParameters query = new QueryParameters(queryS);
 		SetOfParseQueries queries = RegisteredQueries.getRegistered();
 		SetOfKeywordRDF total = new SetOfKeywordRDF();
+		boolean overflow = false;
 		for(ParseQuery pquery : queries) {
 			//System.out.println("Query: " + pquery.toString());
 			SetOfInterpretations interpretations = pquery.parseInput();
@@ -101,13 +104,16 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 				if(interpret.interpretable(query)) {
 					//System.out.println("Interpretable: " + interpret.toString());
 					HashSet<KeywordRDF> results = interpret.getResults(query);
+					if(interpret.isOverflow())
+						overflow = true;
 					//System.out.println("Results: " + results);
 					total.addAll(results);
 				}
 			}
 		}
 		TreeNodeFactoryWithObjectNode factory = new TreeNodeFactoryWithObjectNode();
-		RDFTreeNode node = factory.addAllRDF(query, total);
+		RDFTreeNode node = factory.addAllRDF(query.getInputString(), total);
+		node.setOverflow(overflow);
 		return node;
 	}
 	

@@ -7,11 +7,12 @@ import info.esblurock.reaction.parse.objects.single.ParseObjectAsObject;
 import info.esblurock.reaction.parse.objects.single.ParseObjectAsPredicate;
 import info.esblurock.reaction.parse.objects.single.ParseObjectAsSubject;
 import info.esblurock.reaction.server.parse.interpretation.Interpretation;
+import info.esblurock.reaction.server.parse.interpretation.QueryParameters;
 
 public class NeighborCombinationInterpretation extends Interpretation {
 
 	@Override
-	public boolean interpretable(String input) {
+	public boolean interpretable(QueryParameters input) {
 		return true;
 	}
 
@@ -21,7 +22,7 @@ public class NeighborCombinationInterpretation extends Interpretation {
 	 * 
 	 */
 	@Override
-	public HashSet<KeywordRDF> getResults(String input) {
+	public HashSet<KeywordRDF> getResults(QueryParameters input) {
 		ParseObjectAsObject ofilter = new ParseObjectAsObject();
 		ParseObjectAsSubject sfilter = new ParseObjectAsSubject();
 

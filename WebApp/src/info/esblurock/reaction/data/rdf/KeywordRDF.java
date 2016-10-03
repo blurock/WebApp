@@ -28,10 +28,8 @@ public class KeywordRDF extends DatabaseObject {
     @Persistent
     String sourceCode;
 
-    
     public KeywordRDF() {
-    	
-    }
+   }
  
 	public KeywordRDF(String subject, String predicate, String object, String user, String sourceCode) {
 		this.subject = subject;

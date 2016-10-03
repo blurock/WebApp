@@ -22,27 +22,17 @@ public class SingletonInterpretation extends Interpretation {
 		this.filter = filter;
 	}
 	@Override
-	public boolean interpretable(String input) {
-		StringTokenizer tok = new StringTokenizer(input," ");
+	public boolean interpretable(QueryParameters input) {
+		StringTokenizer tok = new StringTokenizer(input.getInputString()," ");
 		return tok.countTokens() == 1;
 	}
 
 	@Override
-	public HashSet<KeywordRDF> getResults(String input) {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		HashSet<KeywordRDF> output = new HashSet<KeywordRDF>();
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Query q = new Query(keywordRDF).setFilter(filter.getFilter(input));
-		PreparedQuery pq = datastore.prepare(q);
-		Iterator<Entity> iter = pq.asIterable().iterator();
-		while (iter.hasNext()) {
-				Entity entity = iter.next();
-				KeywordRDF info = (KeywordRDF) pm.getObjectById(KeywordRDF.class, entity.getKey());
-				output.add(info);
-			}
-
-		return output;
+	public HashSet<KeywordRDF> getResults(QueryParameters input) {
+		HashSet<KeywordRDF>  set = getSet(filter,input);
+		return set;
 	}
+
 	public String toString() {
 		return "Interpret: " + filter.toString();
 	}

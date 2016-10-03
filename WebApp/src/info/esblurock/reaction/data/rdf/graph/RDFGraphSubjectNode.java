@@ -16,6 +16,9 @@ public class RDFGraphSubjectNode extends RDFGraphNode {
 	public String getSubject() {
 		return subject;
 	}
+	public String getFormattedSubject() {
+		return formatAnswer(subject);
+	}
 
 	public String toString() {
 		return subject;

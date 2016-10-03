@@ -13,6 +13,7 @@ import info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToData
 import info.esblurock.reaction.data.transaction.chemkin.rdf.MechanismMoleculeRDFTransaction;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
+import info.esblurock.reaction.server.process.description.RegisterDataDescription;
 import info.esblurock.reaction.server.queries.ChemicalMechanismDataQuery;
 
 public class MechanismMoleculeProcessRDF extends ProcessBase {
@@ -81,6 +82,7 @@ public class MechanismMoleculeProcessRDF extends ProcessBase {
 		String sourcekey = GenerateKeywords.sourceFromDataKeyword(keyword);
 		store.storeStringRDF(chemkinMechanism, datakey);
 		store.storeStringRDF(mechanismSource, sourcekey);
+		store.storeStringRDF(RegisterDataDescription.dataSetType, chemkinMechanism);
 
 		for (DatabaseObject object : moleculelist) {
 			MechanismMoleculeData molecule = (MechanismMoleculeData) object;

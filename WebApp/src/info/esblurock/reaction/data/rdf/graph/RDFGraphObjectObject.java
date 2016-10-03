@@ -17,7 +17,7 @@ public class RDFGraphObjectObject extends RDFGraphNode {
 	public DatabaseObject getObject() {
 		return object;
 	}
-	
+		
 	public String toString() {
 		String ans = "null";
 		if(object != null) {

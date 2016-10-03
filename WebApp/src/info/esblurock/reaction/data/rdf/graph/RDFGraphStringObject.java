@@ -16,6 +16,10 @@ public class RDFGraphStringObject extends RDFGraphNode {
 		return object;
 	}
 	
+	public String getFormattedObject() {
+		return formatAnswer(object);
+	}
+
 	public String toString() {
 		return object;
 	}

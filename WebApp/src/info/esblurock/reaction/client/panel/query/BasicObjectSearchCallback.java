@@ -35,6 +35,9 @@ public class BasicObjectSearchCallback implements AsyncCallback<RDFTreeNode> {
 
 	@Override
 	public void onSuccess(RDFTreeNode toptreenode) {
+		if(toptreenode.isOverflow()) {
+			MaterialToast.fireToast("Query exceeds result limit: try more specific query");
+		}
 		AddQueryResult addnode = new AddQueryResult();
 		addnode.addTreeNode(topSearch, toptreenode, topPath,true);
 	}

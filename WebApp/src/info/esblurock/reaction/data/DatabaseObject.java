@@ -12,6 +12,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.datanucleus.annotations.Unindexed;
+
 @PersistenceCapable
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public class DatabaseObject implements Serializable {
@@ -24,6 +26,7 @@ public class DatabaseObject implements Serializable {
 	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
     public String key;
 	@Persistent
+	@Unindexed
 	public Date creationDate;
 	@Persistent
 	public String access;

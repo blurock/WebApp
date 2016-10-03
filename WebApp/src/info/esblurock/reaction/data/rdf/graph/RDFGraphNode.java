@@ -1,6 +1,7 @@
 package info.esblurock.reaction.data.rdf.graph;
 
 import java.io.Serializable;
+import java.util.StringTokenizer;
 
 public class RDFGraphNode implements Serializable, Comparable<RDFGraphNode> {
 
@@ -34,6 +35,14 @@ public class RDFGraphNode implements Serializable, Comparable<RDFGraphNode> {
 		}
 		return ans;
 	}
+	
+	String formatAnswer(String answer) {
+		char delim = '#';
+		char replace = ' ';
+		String result = answer.replace(delim,replace);
+		return result;
+	}
+	
 	public boolean isSubjectNode() {
 		return subjectNode;
 	}

@@ -7,6 +7,7 @@ import info.esblurock.react.mechanisms.chemkin.ReactionForwardReverseType;
 import info.esblurock.react.mechanisms.chemkin.SetOfReactionForwardReverseTypes;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.parse.objects.chemical.reaction.ParseObjectAsReaction;
+import info.esblurock.reaction.server.parse.interpretation.QueryParameters;
 import info.esblurock.reaction.server.parse.interpretation.SingletonInterpretation;
 
 public class InterpretationAsReactionSimple extends SingletonInterpretation {
@@ -15,10 +16,10 @@ public class InterpretationAsReactionSimple extends SingletonInterpretation {
 		super(filter);
 	}
 	@Override
-	public boolean interpretable(String input) {
+	public boolean interpretable(QueryParameters input) {
 		boolean ans = false;
 		SetOfReactionForwardReverseTypes types = new SetOfReactionForwardReverseTypes();
-		ReactionForwardReverseType rtype = types.findReactionType(input);
+		ReactionForwardReverseType rtype = types.findReactionType(input.getInputString());
 		if (rtype != null) {
 			ans = true;
 		}
@@ -26,10 +27,11 @@ public class InterpretationAsReactionSimple extends SingletonInterpretation {
 		return ans;
 	}
 	@Override
-	public HashSet<KeywordRDF> getResults(String input) {
+	public HashSet<KeywordRDF> getResults(QueryParameters input) {
 		ParseChemkinReaction parse = new ParseChemkinReaction();
-		String norm = parse.normalize(input);
+		String norm = parse.normalize(input.getInputString());
 		System.out.println("InterpretationAsReactionSimple Normed: " + norm);
-		return super.getResults(norm);
+		QueryParameters params = new QueryParameters(norm);
+		return super.getResults(params);
 	}
 }

@@ -17,6 +17,7 @@ public class RegisterDataDescription extends ProcessBase {
 	static String fullDescription = "FullDescription";
 	static String sourceOfData= "SourceOfData";
 	static String keywordString = "Keyword";
+	static public String dataSetType = "DataSetType";
 	
 	DescriptionDataData data;
 

@@ -69,6 +69,8 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 	AddQueryResult addnode;
 	MaterialCollapsible parent;
 	
+	String originalText;
+	
 	protected void init() {
 		subjectB = false;
 		predicateB = false;
@@ -111,12 +113,14 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 	
 	private void setupMaterialLinkFromNode(RDFGraphNode node, QueryPath path) {
 		String onClickText = node.toString();
+		originalText = node.toString();
 		objectStructure = null;
 		rest.setVisible(false);
 		rest.setVisible(false);
 		if(node.isSubjectNode()) {
 			RDFGraphSubjectNode subject = (RDFGraphSubjectNode) node;
-			onClickText = subject.getSubject();
+			originalText = subject.getSubject();
+			onClickText = subject.getFormattedSubject();
 			link.setIconType(IconType.LABEL_OUTLINE);
 			linkpath = new QueryPath(path,QueryPathElement.SUBJECT,onClickText);
 			expandnext.setVisible(true);
@@ -145,7 +149,8 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 				objectinfo.setEnabled(true);
 			} else if(node.getClass().equals(RDFGraphStringObject.class)) {
 				RDFGraphStringObject object = (RDFGraphStringObject) node;
-				onClickText = object.getObject();
+				originalText = object.getObject();
+				onClickText = object.getFormattedObject();
 				link.setIconType(IconType.CHECK);
 				linkpath = new QueryPath(path,QueryPathElement.OBJECTSTRING,onClickText);
 				expandnext.setVisible(true);
@@ -195,7 +200,8 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 	public void onExpandClick(ClickEvent event) {
 		BasicObjectSearchCallback callback = new BasicObjectSearchCallback(linkpath, collapsible);
 		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
-		async.searchedRegisteredQueries(link.getText(), callback);		
+		//async.searchedRegisteredQueries(link.getText(), callback);		
+		async.searchedRegisteredQueries(originalText, callback);		
 	}
 	@UiHandler("deletesub")
 	public void onDelete(ClickEvent event) {
