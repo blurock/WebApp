@@ -18,8 +18,6 @@ import info.esblurock.react.mechanisms.chemkin.ThirdBodyWeight;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywordsServer;
-import info.esblurock.reaction.data.chemical.reaction.ThirdBodyMoleculesData;
-import info.esblurock.reaction.data.chemical.reaction.ThirdBodyWeightsData;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismReactionsToDatabaseTransaction;
 import info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload;
@@ -247,18 +245,12 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 				//plogC.setPlog(true);
 			}
 		}
-
-		ThirdBodyMoleculesData thirdBodyMolecules = null;
-		if (reaction.getThirdBodyMolecules() != null) {
-			thirdBodyMolecules = createThirdBody(reaction.getThirdBodyMolecules());
-		}
-
 		ChemkinReactionData data = new ChemkinReactionData(keyword, rxnkeyword, 
 				reactantReactionNames, productReactionNames, 
-				forward, reverse, low, high, troe, sri, plog, 
-				thirdBodyMolecules);
-		//System.out.println("Mechanism: " +  data.getMechanismKeyword() + ", Reaction: "+  data.getReactionName());
-
+				forward, reverse, low, high, troe, sri, plog);
+		if (reaction.getThirdBodyMolecules() != null) {
+			addThirdBody(reaction.getThirdBodyMolecules(), data);
+		}
 		return data;
 	}
 
@@ -317,18 +309,18 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 	 * @param thirdbodies
 	 * @return
 	 */
-	private ThirdBodyMoleculesData createThirdBody(ThirdBodyMolecules thirdbodies) {
-		ArrayList<ThirdBodyWeightsData> thirdBodyMoleculeKeys = new ArrayList<ThirdBodyWeightsData>();
-
+	private void addThirdBody(ThirdBodyMolecules thirdbodies, ChemkinReactionData reaction) {
 		Set<String> keys = thirdbodies.keySet();
+		ArrayList<String> molecules = new ArrayList<String>();
+		ArrayList<Double> weights = new ArrayList<Double>();
 		for (String key : keys) {
 			ThirdBodyWeight thirdbody = thirdbodies.get(key);
 			double weight = thirdbody.getWeight();
-			ThirdBodyWeightsData third = new ThirdBodyWeightsData(thirdbody.getMolecule().getLabel(), weight);
-			thirdBodyMoleculeKeys.add(third);
+			String molecule = thirdbody.getMolecule().getLabel();
+			molecules.add(molecule);
+			weights.add(new Double(weight));
 		}
-		ThirdBodyMoleculesData thirds = new ThirdBodyMoleculesData(thirdBodyMoleculeKeys);
-		return thirds;
+		reaction.setThirdBody(molecules, weights);
 	}
 
 }

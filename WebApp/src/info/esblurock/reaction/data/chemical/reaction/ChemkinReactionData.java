@@ -39,9 +39,14 @@ public class ChemkinReactionData extends DatabaseObject  {
 	public boolean plog;
 	@Persistent
 	public boolean sri;
-   @Persistent(dependent = "true",defaultFetchGroup="true")
-	public ThirdBodyMoleculesData thirdBodyMolecules;
-    
+	@Persistent(defaultFetchGroup="true")
+	@Unindexed
+	ArrayList<String> thirdBodyolecules;
+	@Persistent(defaultFetchGroup="true")
+	@Unindexed
+	ArrayList<Double> thirdBodyWeights;
+
+   
     public ChemkinReactionData() {
     }
     
@@ -49,7 +54,7 @@ public class ChemkinReactionData extends DatabaseObject  {
 			ArrayList<String> reactantNames, ArrayList<String> productNames,
 			boolean forward, boolean reverse, boolean low, 
 			boolean troe, boolean high, boolean plog, boolean sri,
-			ThirdBodyMoleculesData thirdBodyMolecules) {
+			ArrayList<String> thirdBodyMolecules, ArrayList<Double> thirdBodyWeights) {
 		super();
 		this.mechanismKeyword = mechanismKeyword;
 		this.reactionName = reactionName;
@@ -62,7 +67,27 @@ public class ChemkinReactionData extends DatabaseObject  {
 		this.plog = plog;
 		this.high = high;
 		this.sri = sri;
-		this.thirdBodyMolecules = thirdBodyMolecules;
+		this.thirdBodyolecules = thirdBodyMolecules;
+		this.thirdBodyWeights = thirdBodyWeights;
+	}
+	public ChemkinReactionData(String mechanismKeyword, String reactionName, 
+			ArrayList<String> reactantNames, ArrayList<String> productNames,
+			boolean forward, boolean reverse, boolean low, boolean high,
+			boolean troe, boolean sri, boolean plog) {
+		super();
+		this.mechanismKeyword = mechanismKeyword;
+		this.reactionName = reactionName;
+		this.ReactantNames = reactantNames;
+		this.ProductNames = productNames;
+		this.forward = forward;
+		this.reverse = reverse;
+		this.low = low;
+		this.troe = troe;
+		this.plog = plog;
+		this.high = high;
+		this.sri = sri;
+		this.thirdBodyolecules = null;
+		this.thirdBodyWeights = null;
 	}
 	public String getMechanismKeyword() {
 		return mechanismKeyword;
@@ -76,8 +101,14 @@ public class ChemkinReactionData extends DatabaseObject  {
 	public ArrayList<String> getProductKeys() {
 		return ProductNames;
 	}
-	public ThirdBodyMoleculesData getThirdBodyMolecules() {
-		return thirdBodyMolecules;
+	public void setThirdBody(ArrayList<String> molecules, ArrayList<Double> weights) {
+		this.thirdBodyolecules = molecules;
+		this.thirdBodyWeights = weights;
 	}
-    
+	public ArrayList<String> getThirdBodyMoleculeLabels() {
+		return this.thirdBodyolecules;
+	}
+	public ArrayList<Double> getThirdBodyMoleculeWeights() {
+		return this.thirdBodyWeights;
+	}
 }

@@ -3,6 +3,7 @@ package info.esblurock.reaction.server.process.chemkin.rdf;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -11,8 +12,6 @@ import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywordsServer;
-import info.esblurock.reaction.data.chemical.reaction.ThirdBodyMoleculesData;
-import info.esblurock.reaction.data.chemical.reaction.ThirdBodyWeightsData;
 import info.esblurock.reaction.data.store.StoreObject;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismReactionsToDatabaseTransaction;
 import info.esblurock.reaction.data.transaction.chemkin.rdf.MechanismReactionsRDFTransaction;
@@ -138,9 +137,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 				store.setKeyword(fullrxnS);
 				store.storeStringRDF(isAProduct,name);
 			}
-			if (data.getThirdBodyMolecules() != null) {
-				storeThirdBodyRDF(data.getThirdBodyMolecules(),fullrxnS);
-			}
+			storeThirdBodyRDF(data,fullrxnS);
 		}
 		for(DatabaseObject object : coefficientslist) {
 			ChemkinCoefficientsData data = (ChemkinCoefficientsData) object;
@@ -152,19 +149,21 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 	}
 	
 	
-	protected void storeThirdBodyRDF(ThirdBodyMoleculesData data, String rxnkeyword) {
-		System.out.println("storeThirdBodyRDF");
+	protected void storeThirdBodyRDF(ChemkinReactionData reaction, String rxnkeyword) {
+		if(reaction.getThirdBodyMoleculeLabels() != null) {
 		StringBuilder build = new StringBuilder();
 		build.append("[");
-		if(data.getThirdBodyMoleculeKeys() != null) {
-		for(ThirdBodyWeightsData weights : data.getThirdBodyMoleculeKeys()) {
-			build.append(weights.getMolecule());
-			build.append(" ");
-		}
+		Iterator<Double> weight = reaction.getThirdBodyMoleculeWeights().iterator();
+		for(String molecule : reaction.getThirdBodyMoleculeLabels()) {
+			build.append(molecule);
+			build.append("/");
+			build.append(weight.next());
+			build.append("/");
 		}
 		build.append("]");
 		store.setKeyword(rxnkeyword);
 		store.storeStringRDF(reactionThirdBodyMolelculeS,build.toString());
+		}
 	}
 
 	private String stringCoefficients(ChemkinCoefficientsData data) {

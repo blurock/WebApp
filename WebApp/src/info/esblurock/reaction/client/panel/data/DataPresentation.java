@@ -72,7 +72,7 @@ public enum DataPresentation {
 				build.append("low ");
 			if (reaction.plog)
 				build.append("PLOG ");
-			if (reaction.getThirdBodyMolecules() != null)
+			if (reaction.getThirdBodyMoleculeLabels() != null)
 				build.append("3rd Body ");
 
 			return build.toString();
