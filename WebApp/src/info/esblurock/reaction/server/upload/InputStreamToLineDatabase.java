@@ -33,8 +33,6 @@ public class InputStreamToLineDatabase {
 	private String transactionKey;
 	public UploadFileTransaction uploadFile(UploadFileTransaction transaction, BufferedReader buf)
 			throws IOException {
-		System.out.println("UploadFileTransaction uploadFile");
-		log.info("uploadFile: intial UploadFileTransaction stored");
 		try {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
 			StringBuffer buffer = new StringBuffer();
@@ -45,16 +43,12 @@ public class InputStreamToLineDatabase {
 			while (notdone) {
 				line = buf.readLine();
 				if (line != null) {
-					System.out.println(line.length() + "\t:'" + line + "'");
 					bytecount += line.length() + 3;
 					if(bytecount > MAX_BLOCK_BYTE_SIZE) {
 						writeTextBlock(buffer.toString(),beginLineCount,transaction.getFileCode());
 						bytecount = line.length() + 1;
 						
 						StringTokenizer tok = new StringTokenizer(buffer.toString(),"\n");
-						System.out.println("# line: " + tok.countTokens()
-								+ ", " + beginLineCount + ", " + totalcount);
-						
 						beginLineCount = totalcount;
 						buffer = new StringBuffer();
 					}
@@ -65,7 +59,6 @@ public class InputStreamToLineDatabase {
 					notdone = false;
 				}
 			}
-			log.info("UploadFileTransaction uploadFile: " + totalcount);
 			writeTextBlock(buffer.toString(),beginLineCount,transaction.getFileCode());
 			transaction.setLineCount(totalcount);
 		} catch (Exception ex) {
@@ -84,7 +77,6 @@ public class InputStreamToLineDatabase {
 		Text textblock = new Text(text);
 		FileUploadTextBlock block = new FileUploadTextBlock(beginLineCount, totalcount-1, 
 				fileCode,textblock);
-		System.out.println("UploadFileTransaction uploadFile: FileUploadTextBlock" + totalcount);
 		pm.makePersistent(block);
 	}
 	

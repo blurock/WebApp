@@ -34,44 +34,6 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 	/** The comment string. */
 	String commentString = "!";
 	
-	/* (non-Javadoc)
-	 * @see info.esblurock.reaction.client.ReactionProcessUploadedLines#processUploadedMechanism(java.lang.String, java.lang.String, boolean)
-
-	@Override
-	public String processUploadedMechanism(DescriptionDataData description, 
-			String key, String filename, boolean process) throws IOException {
-		ContextAndSessionUtilities util = getUtilities();
-		RegisterTransaction.register(util.getUserInfo(),TaskTypes.dataInput, key, RegisterTransaction.checkLevel1);
-
-		String keyword = GenerateKeywordFromDescription.createKeyword(description);
-		System.out.println("processUploadedMechanism: " + keyword);
-		System.out.println("processUploadedMechanism: " + filename);
-		HandleTransactions.transactionExists(util.getUserName(),keyword, ChemicalMechanismData.class.getName());
-		System.out.println("Processing: parse");
-		ChemkinStringFromStoredFile chemkinstring = new ChemkinStringFromStoredFile(key,filename,commentString);
-		ChemkinMechanism mechanism = new ChemkinMechanism();
-		mechanism.parse(chemkinstring, commentString);
-		String ans = mechanism.toString();
-		if(process) {
-			System.out.println("Processing: add to database");
-			String user = description.getInputkey();
-			String idCode = ManageDataSourceIdentification.getDataSourceIdentification(user);
-			String classname = ChemicalMechanismData.class.getName();
-			TransactionInfo transaction = new TransactionInfo(user,keyword,classname,idCode);
-			CreateChemicalMechanismData create = new CreateChemicalMechanismData(user,keyword);
-			System.out.println("Mechanism Keyword: " + keyword);
-			try {
-				ChemicalMechanismData mechanismdata = create.create(mechanism);
-				create.create(mechanismdata,transaction);
-				create.finish();
-			} catch(Exception ex) {
-				HandleTransactions.exception(key, ex, transaction);
-			}
-			
-		}
-		return ans;
-	}
-	 */
 	public ChemkinMechanism parseChemkinMechanismText(TransactionInfo transaction) throws IOException {
 		ContextAndSessionUtilities util = getUtilities();
 		String event = "Process, " + transaction.getSourceCode() + ", " + transaction.getKeyword();
@@ -83,48 +45,6 @@ public class ReactionProcessUploadedLinesImpl  extends ServerBase implements Rea
 		mechanism.parse(chemkinstring, commentString);
 		return mechanism;		
 	}
-/*
-	public String processChemkinMechanismText(TransactionInfo transaction) throws IOException {
-		ChemkinMechanism mechanism = parseChemkinMechanismText(transaction);
-
-		String user = transaction.getUser();
-		String idCode = ManageDataSourceIdentification.getDataSourceIdentification(user);
-		String classname = ChemicalMechanismData.class.getName();
-		String keyword = transaction.getKeyword();
-		TransactionInfo answertransaction = new TransactionInfo(user,keyword,classname,idCode);
-		CreateChemicalMechanismData create = new CreateChemicalMechanismData(user, keyword);
-		System.out.println("Mechanism Keyword: " + keyword);
-		try {
-			ChemicalMechanismData mechanismdata = create.create(mechanism);
-			create.create(mechanismdata,transaction);
-			create.finish();
-		} catch(Exception ex) {
-			HandleTransactions.exception(keyword, ex, transaction);
-		}
-
-		
-		return commentString;
-		
-	}
-*/
-/*
-	public String processUploadedSetOfNASAPolynomial(DescriptionDataData description, 
-			String key, String filename, boolean process) throws IOException {
-		String keyword = GenerateKeywordFromDescription.createKeyword(description);
-		ContextAndSessionUtilities util = getUtilities();
-		String user = util.getUserName();
-		HandleTransactions.transactionExists(user, keyword, SetOfNASAPolynomialData.class.getName());
-		ProcessNASAPolynomialUpload processNASA = new ProcessNASAPolynomialUpload();
-		String ans = "";
-		try {
-			ans = processNASA.processUploadedNASAPolynomials(description, key, filename, process);
-		} catch(Exception ex) {
-			HandleTransactions.exception(key, ex, processNASA.getTransactionInfo());
-		}
-		return ans;
-	}
-*/
-	
 	public String deleteTextSetUploadData(String key)  throws IOException {
 		String ans = "";
 		try {

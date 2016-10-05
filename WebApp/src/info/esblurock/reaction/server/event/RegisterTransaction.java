@@ -23,13 +23,11 @@ public class RegisterTransaction {
 	
 	static public void register(UserDTO user, String event, String eventinfo, int checklevel) throws IOException {
 		if(user != null) {
-		log.info("RegisterTransaction: " + user.getName() + ": " + event + ":" + eventinfo);
 		SessionEvent sessionevent = new SessionEvent(
 				user.getName(), user.getIP(), event, eventinfo);
 		if(checklevel > checkLevel0) {
 			TransactionCount count = VerifyServerTransaction.pm.getObjectById(TransactionCount.class, user.getName());
 			int c = count.incrementCount();
-			log.info("RegisterTransaction: count=" + c);
 			if(c > maxCount) {
 				throw new IOException("Transaction count exceeds maximum: contact administrator");
 			}

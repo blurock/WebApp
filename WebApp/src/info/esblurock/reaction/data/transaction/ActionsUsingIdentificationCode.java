@@ -74,8 +74,6 @@ public class ActionsUsingIdentificationCode {
 	 *            The value of the property
 	 */
 	static public void deleteFromIdentificationCode(Class classtype, String propertyname, String propertyvalue) {
-		log.info("UsingIdentificationCode   deleteFromIdentificationCode: " + classtype.getName() + propertyname + ", "
-				+ propertyvalue);
 		QueryBase query = new QueryBase();
 		query.deleteFromIdentificationCode(classtype, propertyname, propertyvalue);
 	}
@@ -223,7 +221,6 @@ public class ActionsUsingIdentificationCode {
 	}
 	 */
 	static private ArrayList<String> getNextLinesPart(int totalcount, String fileCode) throws IOException {
-		System.out.println("getNextLinesPart: " + fileCode + ", " + totalcount);
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		ArrayList<String> lines = new ArrayList<String>();
 		Filter fileCodeF = new FilterPredicate("fileCode", FilterOperator.EQUAL, fileCode);
@@ -236,14 +233,12 @@ public class ActionsUsingIdentificationCode {
 		while (iter.hasNext()) {
 			Entity entity = iter.next();
 			Text block = (Text) entity.getProperty("textBlock");
-			System.out.println("getNextLinesPart: " + block);
 			StringTokenizer tok = new StringTokenizer(block.getValue(), "\n");
 			while(tok.hasMoreTokens()) {
 				String line = tok.nextToken();
 				lines.add(line);
 			}
 		}
-		System.out.println("getNextLinesPart: " + lines.size());
 		return lines;
 	}
 

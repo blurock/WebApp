@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
-import info.esblurock.reaction.server.TextToDatabaseImpl;
 import info.esblurock.reaction.server.datastore.StorageAndRetrievalUtilities;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
@@ -50,7 +49,7 @@ import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
  */
 public abstract class ProcessBase {
 
-	protected static Logger log = Logger.getLogger(TextToDatabaseImpl.class.getName());
+	protected static Logger log = Logger.getLogger(ProcessBase.class.getName());
 
 	/**
 	 * The input object class names (transactionObjectType in
@@ -197,7 +196,6 @@ public abstract class ProcessBase {
 	 * @throws IOException
 	 */
 	protected void setUpInputDataObjects() throws IOException {
-		log.info("setUpDataObjects(): ");
 		transactionObjectTypeInputs = getInputTransactionObjectNames();
 		ArrayList<TransactionInfo> tranactionInputs = getSetOfTransactionInfos(transactionObjectTypeInputs);
 		objectInputs = getListOfClassObjects(tranactionInputs);
@@ -243,11 +241,9 @@ public abstract class ProcessBase {
 	 * addObjectTransactionInfo())
 	 */
 	protected void initializeOutputTranactions() {
-		log.info("initializeOutputTranactions()");
 		transactionObjectTypeOutputs = getOutputTransactionObjectNames();
 		transactionOutputs = new ArrayList<TransactionInfo>();
 		for (String infoname : transactionObjectTypeOutputs) {
-			log.info("initializeOutputTranactions(): " + infoname);
 			TransactionInfo info = new TransactionInfo(user, keyword, infoname, outputSourceCode);
 			transactionOutputs.add(info);
 		}
@@ -266,7 +262,6 @@ public abstract class ProcessBase {
 	 * 
 	 */
 	protected void storeOutputObjects() {
-		log.info("storeOutputObjects()" + objectOutputs.toString());
 		StorageAndRetrievalUtilities.storeDatabaseObjects(objectOutputs);
 	}
 
@@ -278,12 +273,9 @@ public abstract class ProcessBase {
 	protected void addObjectTransactionInfo() {
 		for (DatabaseObject obj : objectOutputs) {
 			String name = obj.getClass().getName();
-			log.info("Object Type: " + name);
 			for (TransactionInfo info : transactionOutputs) {
 				if (info.getTransactionObjectType().equals(name)) {
-					log.info("Transaction Type (: " + info.getTransactionObjectType() + ")");
 					info.setStoredObjectKey(obj.getKey());
-					log.info("Transaction Type matches: " + info.getTransactionObjectType());
 				}
 			}
 		}

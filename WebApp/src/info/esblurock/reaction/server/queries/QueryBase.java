@@ -10,11 +10,11 @@ import javax.jdo.FetchGroup;
 import javax.jdo.FetchPlan;
 import javax.jdo.PersistenceManager;
 
-import org.datanucleus.exceptions.NucleusObjectNotFoundException;
-
+import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -22,9 +22,11 @@ import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.QueryResultList;
 
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.PMF;
+import info.esblurock.reaction.data.transaction.TransactionInfo;
 
 /**
  * A set of routines performing general queries (the object is to isolate the
@@ -37,6 +39,8 @@ public class QueryBase {
 
 	private static final Logger log = Logger.getLogger(QueryBase.class.getName());
 	public static String notfound = "NOT FOUND";
+	
+	private static int entityLimit = 500;
 
 	public QueryBase() {
 
@@ -70,9 +74,29 @@ public class QueryBase {
 	 *            The value of the property
 	 */
 	static public void deleteFromIdentificationCode(Class classtype, String propertyname, String propertyvalue) {
-		log.info("UsingIdentificationCode   deleteFromIdentificationCode: " + classtype.getName() + propertyname + ", "
-				+ propertyvalue);
+		Filter propertyF = new FilterPredicate(propertyname, FilterOperator.EQUAL, propertyvalue);
+		deleteWithFilter(classtype,propertyF);
+	}
+	
+	static public void deleteWithFilter(Class classtype, Filter filter) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Cursor cursor = null;
 
+		FetchOptions options = FetchOptions.Builder.withLimit(entityLimit);
+		Query query = new Query(classtype.getSimpleName()).setFilter(filter);
+		QueryResultList<Entity> currentBatch = datastore.prepare(query).asQueryResultList(options);
+		while(currentBatch != null && currentBatch.size() > 0) {		
+			ArrayList<Key> keys = new ArrayList<Key>();
+			for(Entity entity: currentBatch) {
+				keys.add(entity.getKey());
+			}
+			datastore.delete(keys);
+			cursor = currentBatch.getCursor();
+			options = FetchOptions.Builder.withLimit(entityLimit);
+			options.startCursor(cursor);
+			currentBatch = datastore.prepare(query).asQueryResultList(options);
+		}
+/*
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		javax.jdo.Query q = pm.newQuery(classtype);
 		String filterS = propertyname + " == '" + propertyvalue + "'";
@@ -80,6 +104,21 @@ public class QueryBase {
 		q.setFilter(filterS);
 		long ans = q.deletePersistentAll();
 		log.info("deleteFromIdentificationCode: " + ans);
+		*/
+	}
+	static void Batch(QueryResultList<Entity> currentBatch) {
+		ArrayList<Key> keys = new ArrayList<Key>();
+		for(Entity entity: currentBatch) {
+			keys.add(entity.getKey());
+		}
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		pm.getFetchPlan()
+		.setGroup(FetchGroup.ALL)
+		.setDetachmentOptions(FetchPlan.DETACH_LOAD_FIELDS);
+		List<DatabaseObject> set = (List<DatabaseObject>) pm.getObjectsById(keys);
+		List<DatabaseObject> detached = (List<DatabaseObject>) pm.detachCopyAll(set);
+		pm.close();
 	}
 
 	/**
@@ -167,21 +206,31 @@ public class QueryBase {
 
 	static public List<DatabaseObject> getDatabaseObjectsFromFilter(String classname, Filter filter)
 			throws IOException {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		ArrayList<DatabaseObject> set = new ArrayList<DatabaseObject>();
-
+		ArrayList<DatabaseObject> total = new ArrayList<DatabaseObject>();
 		try {
+			Cursor cursor = null;
 			Class cls = Class.forName(classname);
 			DatabaseObject example = (DatabaseObject) cls.newInstance();
-
-			Query q = new Query(example.getClass().getSimpleName()).setFilter(filter);
-			PreparedQuery pq = datastore.prepare(q);
-			Iterator<Entity> iter = pq.asIterable().iterator();
+			FetchOptions options = FetchOptions.Builder.withLimit(entityLimit);
+			Query query = new Query(example.getClass().getSimpleName()).setFilter(filter);
+			QueryResultList<Entity> currentBatch = datastore.prepare(query).asQueryResultList(options);
+			while(currentBatch != null && currentBatch.size() > 0) {
+				List<DatabaseObject> batch = getBatch(cls,currentBatch);
+				total.addAll(batch);
+				cursor = currentBatch.getCursor();
+				options = FetchOptions.Builder.withLimit(entityLimit);
+				options.startCursor(cursor);
+				currentBatch = datastore.prepare(query).asQueryResultList(options);
+			}
+			/*
+			Iterator<Entity> iter = pq.asIterator(options);
 			if (iter.hasNext()) {
 				while (iter.hasNext()) {
 					Entity entity = iter.next();
-					pm.getFetchPlan().setGroup(FetchGroup.ALL).setDetachmentOptions(FetchPlan.DETACH_LOAD_FIELDS);
+					pm.getFetchPlan()
+						.setGroup(FetchGroup.ALL)
+						.setDetachmentOptions(FetchPlan.DETACH_LOAD_FIELDS);
 					DatabaseObject info = (DatabaseObject) pm.getObjectById(example.getClass(), entity.getKey());
 					DatabaseObject detached = pm.detachCopy(info);
 					set.add(detached);
@@ -189,6 +238,8 @@ public class QueryBase {
 			} else {
 				throw new IOException(example.getClass().getName() + " not found with filter");
 			}
+		*/
+
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -196,7 +247,29 @@ public class QueryBase {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		return set;
+		return total;
 
 	}
+	static List<DatabaseObject> getBatch(Class type, QueryResultList<Entity> currentBatch) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		pm.getFetchPlan()
+		.setGroup(FetchGroup.ALL)
+		.setDetachmentOptions(FetchPlan.DETACH_LOAD_FIELDS);
+		ArrayList<DatabaseObject> detacheds = new ArrayList<DatabaseObject>();
+		for(Entity entity: currentBatch) {
+			//keys.add(entity.getKey());
+			DatabaseObject obj = (DatabaseObject) pm.getObjectById(type,entity.getKey());
+			DatabaseObject detached = pm.detachCopy(obj);
+			detacheds.add(detached);
+		}
+		//pm.getFetchPlan()
+		//.setGroup(FetchGroup.ALL)
+		//.setDetachmentOptions(FetchPlan.DETACH_LOAD_FIELDS);
+		//List<DatabaseObject> set = (List<DatabaseObject>) pm.getObjectsById(keys);
+		//List<DatabaseObject> detached = (List<DatabaseObject>) pm.detachCopyAll(set);
+		pm.close();
+		return detacheds;
+	}
+	
+	
 }

@@ -48,21 +48,14 @@ public class RegisteredProcesses {
 		for(int i = 0; i<processes.length; i++) {
 			DataProcesses processEnum = processes[i];
 			ProcessBase process = processEnum.getEmptyProcess();
-			System.out.println(process.getProcessName());
 			ArrayList<String> input = process.getInputTransactionObjectNames();
-			System.out.println("toBeProcessed (inputs): " + input);
 			if(completed.containsAll(input)) {
-				System.out.println("toBeProcessed: contains all inputs");
 				ArrayList<String> output = process.getOutputTransactionObjectNames();
-				System.out.println("toBeProcessed (outputs): " + output);
-				
 				if(!completed.containsAll(output)) {
-					System.out.println("toBeProcessed: contains no output");
 					valid.add(process.getClass().getName());
 				}
 			}
 		}
-		System.out.println("toBeProcessed\n" + valid.toString());
 		return valid;
 	}
 
@@ -87,8 +80,6 @@ public class RegisteredProcesses {
 				completed.add(trans);
 			}
 		}
-		System.out.println("getCompletedTransactions\n" + completed.toString());
-
 		return completed;
 	}
 }

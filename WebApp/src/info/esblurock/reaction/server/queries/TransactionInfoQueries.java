@@ -181,31 +181,23 @@ public class TransactionInfoQueries {
 	static public List<DatabaseObject> getTransactionFromKeywordAndUser(String user, String key) throws IOException {
 		List<DatabaseObject> dataset =
 		QueryBase.getUserDatabaseObjectsFromSingleProperty("info.esblurock.reaction.data.transaction.TransactionInfo",user,"keyword",key);
-		System.out.println("TransactionInfoQueries.getTransactionFromKeywordAndUser");
 		HashMap<String, TransactionInfo> map = new HashMap<String, TransactionInfo>();
 		for(DatabaseObject obj : dataset) {
 			TransactionInfo info = (TransactionInfo) obj;
-			System.out.println(info.getTransactionObjectType() + ":  " + info.getCreationDate() + "--> '" + info.getKey() + "'");
 			TransactionInfo i = map.get(info.getTransactionObjectType());
 			if(i == null) {
 				map.put(info.getTransactionObjectType(), info);
 			} else {
-				System.out.println("---> " + info.getTransactionObjectType() + ": " 
-						+ i.getCreationDate().toString() + " before " + info.getCreationDate().toString());
 				if(i.getCreationDate().before(info.getCreationDate())) {
-					System.out.println("Replace: " + info.getCreationDate());
 					map.replace(info.getTransactionObjectType(), info);
 				}
 			}
 		}
-		System.out.println("----------------------------------------------------------");
 		ArrayList<DatabaseObject> set = new ArrayList<DatabaseObject>();
 		for(String classname : map.keySet()) {
 			TransactionInfo info = (TransactionInfo) map.get(classname);
-			System.out.println(info.getTransactionObjectType() + ":  " + info.getCreationDate() + "--> '" + info.getKey() + "'");
 			set.add(info);
 		}
-		System.out.println("----------------------------------------------------------");
 		return set;
 	}
 	/**
@@ -265,7 +257,6 @@ public class TransactionInfoQueries {
 		String key = transaction.getStoredObjectKey();
 		pm.getFetchPlan().setGroup(FetchGroup.ALL);
 		pm.getFetchPlan().setMaxFetchDepth(-1);
-		System.out.println("getClassObjectFromTransactionInfo: " + classC + "(" + key + ")  " + transaction.getCreationDate());
 		DatabaseObject object = (DatabaseObject) pm.getObjectById(classC, key);
 		pm.close();
 		return object;
@@ -279,8 +270,6 @@ public class TransactionInfoQueries {
 		Filter classfilter = new FilterPredicate("transactionObjectType", FilterOperator.EQUAL, classname);
 		Filter andfilter = CompositeFilterOperator.and(userfilter, keywordfilter, classfilter);
 
-		System.out.println("Look for Description Transaction");
-		
 		Query q = new Query("TransactionInfo").setFilter(andfilter);
 		PreparedQuery pq = datastore.prepare(q);
 		Iterator<Entity> iter = pq.asIterable().iterator();

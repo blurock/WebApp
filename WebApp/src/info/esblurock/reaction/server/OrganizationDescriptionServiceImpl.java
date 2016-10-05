@@ -23,13 +23,7 @@ public class OrganizationDescriptionServiceImpl extends RemoteServiceServlet imp
 			String name, String address,
 			String city, String country, String postcode, 
 			String gpsLatitude, String gpsLongitude) {
-		
-		System.out.println("data");
-		
-		String owner = "Administration";
-		
-    	//HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
-        //HttpSession session = httpServletRequest.getSession();
+			String owner = "Administration";
 
 		DescriptionData data = new DescriptionData(OrganizationDescriptionServiceImpl.attribute, keyword, oneline, full);
 		ContactInfo c = new ContactInfo(OrganizationDescriptionServiceImpl.attribute, email, phone, homepage);

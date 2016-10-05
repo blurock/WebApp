@@ -88,7 +88,6 @@ public class TransactionServiceImpl extends ServerBase implements TransactionSer
 		javax.jdo.Query q = pm.newQuery(TextSetUploadData.class);
 		try {
 			Object object = q.execute();
-			System.out.println(object);
 			if (object != null) {
 				if (object instanceof List) {
 					List<TextSetUploadData> results = (List<TextSetUploadData>) object;
@@ -190,7 +189,6 @@ public class TransactionServiceImpl extends ServerBase implements TransactionSer
 		String user = util.getUserName();
 		String source = "DeleteTransactionInfoFromKey" + objectType + "#" + keyword;
 		RegisterTransaction.register(util.getUserInfo(), TaskTypes.dataDelete, source, RegisterTransaction.checkLevel1);
-		System.out.println("DeleteTransactionInfoFromKey: " + transactionkey);
 		DeleteTransactionInfoAndObject delete = new DeleteTransactionInfoAndObject();
 		String ans = delete.deleteTransactionInfoFromKey(transactionkey);
 		pm.close();

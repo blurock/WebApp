@@ -61,7 +61,6 @@ public class ChemkinStringFromStoredFile extends ChemkinString {
 	}
 
 	private boolean setUpNextPart() {
-		System.out.println("setUpNextPart(): " + totalcount);
 		count = -1;
 		if (nextpart) {
 			lines = ActionsUsingIdentificationCode.getNextLines(totalcount, maxPart, fileCode);

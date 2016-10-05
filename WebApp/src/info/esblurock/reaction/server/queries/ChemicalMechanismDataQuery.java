@@ -52,7 +52,7 @@ public class ChemicalMechanismDataQuery extends QueryBase {
 		String classname = SpeciesTransportProperty.class.getName();
 		return getDatabaseObjectsFromSingleProperty(classname, mechanismKeyword, mechanismName);
 	}
-
+	/*
 	static public ArrayList<Key> elementKeysFromMechanismName(String mechanismName) {
 		String mechanismKeyword = "mechanismKeyword";
 		ArrayList<Key> keys = getObjectKeysFromSingleProperty(ChemicalElementListData.class,mechanismKeyword,mechanismName);
@@ -68,6 +68,7 @@ public class ChemicalMechanismDataQuery extends QueryBase {
 		ArrayList<Key> keys = getObjectKeysFromSingleProperty(ChemkinReactionData.class,mechanismKeyword,mechanismName);
 		return keys;
 	}
+	*/
 	static public void deleteChemicalMechanismDataFromName(String mechanismName) {
 		String mechanismKeyword = "mechanismKeyword";
 		deleteFromIdentificationCode(ChemicalElementListData.class,mechanismKeyword,mechanismName);

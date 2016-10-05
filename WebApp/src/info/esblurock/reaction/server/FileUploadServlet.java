@@ -40,26 +40,13 @@ public class FileUploadServlet extends HttpServlet {
                 InputStream in = fileItem.openStream();
                 InputStreamReader reader = new InputStreamReader(in);
                 BufferedReader breader = new BufferedReader(reader);
-                /*
-                // The destination of your uploaded files.  
-                File file = new File("C:\\Users\\Mark Kevin\\Documents\\git\\gwt-material-demo\\src\\main\\webapp\\uploadedFiles\\" + fileItem.getName());
-                OutputStream outputStream = new FileOutputStream(file);
-*/
                 String line = breader.readLine();
                 out.print(line);
                 int length = 0;
                 while(line != null) {
                 	length += line.length();
-                	System.out.println(line);
                 	line = breader.readLine();
                 }
-                	/*
-                int length = 0;
-                byte[] bytes = new byte[1024];
-                while ((length = in.read(bytes)) != -1) {
-                    System.out.println(bytes);
-                }
-*/
                 response.setContentType("text/html");
                 response.setContentLength(
                         (length > 0 && length <= Integer.MAX_VALUE) ? (int) length : 0);
