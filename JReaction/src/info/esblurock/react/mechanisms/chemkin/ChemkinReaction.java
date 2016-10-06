@@ -164,55 +164,83 @@ public class ChemkinReaction {
 			if (molS.equals("M") || molS.equals("m")) {
 				ThirdBodyFlag = true;
 			} else {
-				int dupcnt = 1;
-				ChemkinMolecule mol = new ChemkinMolecule(molS.trim());
-				if (recognizer.numberFollowedByCharacter(molS)) {
-					int pos = recognizer.positionOfFirstLetter(molS);
-
-					mol = new ChemkinMolecule(molS.substring(pos).trim());
-					String dupS = molS.substring(0, pos);
-					Integer dupI = new Integer(dupS);
-					dupcnt = dupI.intValue();
-				}
-
-				if (mol.getLabel().equals(hvS)) {
-
+				boolean third = isolateThirdBody(molS,mollist,reactants);
+				if(!third) {
+					processMolecule(molS,mollist,reactants);
 				} else {
-					if (!molecules.containsKey(mol.getLabel())) {
-						molS = mol.getLabel();
-						char ch[] = new char[molS.length()];
-						int cnt = 0;
-						int length = molS.length();
-						while (!molecules.containsKey(mol.getLabel()) && cnt < length) {
-							ch[cnt] = molS.charAt(0);
-							cnt++;
-							molS = molS.substring(1);
-						}
-						if (cnt < length) {
-							String cntS = new String(ch, 0, cnt);
-							try {
-								dupcnt = Integer.parseInt(cntS);
-							} catch (NumberFormatException ex) {
-								throw new IOException("Multiplicity Error");
-							}
-						} else {
-							throw new IOException("Species Name Error: '" + mol.getLabel() + "'");
-						}
-					}
-					while (dupcnt > 0) {
-						if (reactants)
-							Reactants.add(mol);
-						else
-							Products.add(mol);
-						dupcnt--;
-					}
-
+					ThirdBodyFlag = true;
 				}
 			}
 		}
 		return tok;
 	}
 
+	private boolean isolateThirdBody(String molS, String mollist, boolean reactants) throws IOException {
+		boolean third = false;
+		String ans = "";
+		int pos1 = molS.indexOf("(+");
+		int pos2 = molS.indexOf(')');
+		if(pos1 == 0) {
+			ans = molS.substring(pos2+1);
+			third = true;
+		} if(pos1 > 0) {
+			ans = molS.substring(0, pos2);
+			third = true;
+		}
+		if(third) {
+			processMolecule(ans,mollist,reactants);
+		}
+		return third;
+	}
+	private void processMolecule(String molS, String mollist, boolean reactants) throws IOException {
+		int dupcnt = 1;
+		ChemkinMolecule mol = new ChemkinMolecule(molS.trim());
+		if (recognizer.numberFollowedByCharacter(molS)) {
+			int pos = recognizer.positionOfFirstLetter(molS);
+
+			mol = new ChemkinMolecule(molS.substring(pos).trim());
+			String dupS = molS.substring(0, pos);
+			Integer dupI = new Integer(dupS);
+			dupcnt = dupI.intValue();
+		}
+
+		if (mol.getLabel().equals(hvS)) {
+
+		} else {
+			if (!molecules.containsKey(mol.getLabel())) {
+				molS = mol.getLabel();
+				char ch[] = new char[molS.length()];
+				int cnt = 0;
+				int length = molS.length();
+				while (!molecules.containsKey(mol.getLabel()) && cnt < length) {
+					ch[cnt] = molS.charAt(0);
+					cnt++;
+					molS = molS.substring(1);
+				}
+				if (cnt < length) {
+					String cntS = new String(ch, 0, cnt);
+					try {
+						dupcnt = Integer.parseInt(cntS);
+					} catch (NumberFormatException ex) {
+						throw new IOException("Multiplicity Error");
+					}
+				} else {
+					throw new IOException("Species Name Error: '" + mol.getLabel() + "' from " + mollist);
+				}
+			}
+			while (dupcnt > 0) {
+				if (reactants)
+					Reactants.add(mol);
+				else
+					Products.add(mol);
+				dupcnt--;
+			}
+
+		}
+		
+	}
+ 	
+	
 	boolean isThirdBody(String mol) {
 		return mol.indexOf("(+") > 0;
 	}

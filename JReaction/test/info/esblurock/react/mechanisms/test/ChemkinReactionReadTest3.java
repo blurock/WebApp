@@ -97,6 +97,15 @@ public class ChemkinReactionReadTest3 {
 			reaction = new ChemkinReaction(ch, mols);
 			reaction.parse();
 			System.out.println(reaction.toString());
+			
+			String rxn8 = "H+O2(+M) =(+M) H+HO2 2.082E+17 -0.3835 101197.8              !<KPS: REV  1e+14 0.0 0.0>" + "\n"
+			+ "LOW /   5.6650E+091  -20.540   1.2265E+05 /" + "\n"
+			+ "TROE /  1.4258E-01  2.0660E+01  4.2385E+03  9.2309E+03 /" + "\n";
+			ch = new ChemkinString(rxn8, commentString);
+			ch.nextToken();
+			reaction = new ChemkinReaction(ch, mols);
+			reaction.parse();
+			System.out.println(reaction.toString());
 
 			
 		} catch (IOException e) {
