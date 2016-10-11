@@ -6,6 +6,10 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 public class ChemkinElementList extends HashMap<String, ChemkinElement> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ChemkinString lines;
 	private String endS = "END";
 	private String elementsS = "ELEMENTS";

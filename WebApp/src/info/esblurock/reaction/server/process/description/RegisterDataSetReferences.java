@@ -13,7 +13,7 @@ public class RegisterDataSetReferences extends ProcessBase {
 	
 	ArrayList<DataSetReference> referencelist;
 	
-	static private String reference = "Reference";
+	//static private String reference = "Reference";
 	static private String lastnamePredicate = "AuthorLastName";
 	static private String namePredicate = "Author";
 	static private String title = "DataSetTitle";

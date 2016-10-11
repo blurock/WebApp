@@ -1,7 +1,6 @@
 package info.esblurock.reaction.server.queries;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -189,7 +188,8 @@ public class TransactionInfoQueries {
 				map.put(info.getTransactionObjectType(), info);
 			} else {
 				if(i.getCreationDate().before(info.getCreationDate())) {
-					map.replace(info.getTransactionObjectType(), info);
+					map.remove(info.getTransactionObjectType());
+					map.put(info.getTransactionObjectType(), info);
 				}
 			}
 		}
@@ -253,11 +253,11 @@ public class TransactionInfoQueries {
 			throws ClassNotFoundException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		String classS = transaction.getTransactionObjectType();
-		Class classC = Class.forName(classS);
+		//Class classC = Class.forName(classS);
 		String key = transaction.getStoredObjectKey();
 		pm.getFetchPlan().setGroup(FetchGroup.ALL);
 		pm.getFetchPlan().setMaxFetchDepth(-1);
-		DatabaseObject object = (DatabaseObject) pm.getObjectById(classC, key);
+		DatabaseObject object = (DatabaseObject) pm.getObjectById(Class.forName(classS), key);
 		pm.close();
 		return object;
 	}

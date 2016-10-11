@@ -2,7 +2,6 @@ package info.esblurock.reaction.server.process.description;
 
 import java.util.ArrayList;
 
-import info.esblurock.reaction.data.GenerateKeywordFromDescription;
 import info.esblurock.reaction.data.description.DataSetReference;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
 

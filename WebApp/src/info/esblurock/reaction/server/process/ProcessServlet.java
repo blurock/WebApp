@@ -2,16 +2,10 @@ package info.esblurock.reaction.server.process;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import info.esblurock.reaction.client.ui.login.UserDTO;
-import info.esblurock.reaction.server.event.RegisterTransaction;
-import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
 
 public class ProcessServlet extends HttpServlet {
 
@@ -35,7 +29,7 @@ public class ProcessServlet extends HttpServlet {
 		ProcessInputSpecificationsBase spec = new ProcessInputSpecificationsBase(user, keyword, null);
 		ProcessBase process = p.getProcess(spec);
 		//String source = processName + "#" + keyword;
-		String result = process.process();
+		process.process();
     }
 
 

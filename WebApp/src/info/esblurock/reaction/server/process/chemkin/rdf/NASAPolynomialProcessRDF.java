@@ -6,7 +6,6 @@ import java.util.List;
 
 import info.esblurock.reaction.client.GenerateKeywords;
 import info.esblurock.reaction.data.DatabaseObject;
-import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.molecule.isomer.CreateIsomerData;
 import info.esblurock.reaction.data.chemical.thermo.NASAPolynomialData;
 import info.esblurock.reaction.data.store.StoreObject;

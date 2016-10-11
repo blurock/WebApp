@@ -113,7 +113,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 
 		generateReactions = new GenerateReactionKeywordsServer(keyword);
 
-		String datakey = GenerateKeywords.keywordFromDataKeyword(keyword);
+		//String datakey = GenerateKeywords.keywordFromDataKeyword(keyword);
 		String sourcekey = GenerateKeywords.sourceFromDataKeyword(keyword);
 
 		for(DatabaseObject object : reactionlist) {

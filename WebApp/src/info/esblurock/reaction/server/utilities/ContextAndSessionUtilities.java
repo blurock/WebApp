@@ -3,8 +3,6 @@ package info.esblurock.reaction.server.utilities;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 import info.esblurock.reaction.client.ui.login.UserDTO;
 
 public class ContextAndSessionUtilities {
@@ -29,7 +27,7 @@ public class ContextAndSessionUtilities {
 	}
 
 	public UserDTO getUserInfo() {
-		UserDTO sessiondto = getUserAlreadyFromSession();
+		//UserDTO sessiondto = getUserAlreadyFromSession();
 		UserDTO dto = getUserInfoFromContext();
 		return dto;
 	}
@@ -62,7 +60,7 @@ public class ContextAndSessionUtilities {
 	public void removeUserFromContext() {
 		context.removeAttribute(userattribute);
 	}
-
+/*
 	private UserDTO getUserAlreadyFromSession() {
 
 		UserDTO user = null;
@@ -72,7 +70,7 @@ public class ContextAndSessionUtilities {
 		}
 		return user;
 	}
-
+*/
 	private void storeUserInSession(UserDTO user) {
 		session.setAttribute(userattribute, user);
 	}

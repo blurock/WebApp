@@ -35,7 +35,7 @@ public class InputStreamToLineDatabase {
 			throws IOException {
 		try {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			String line;
 			bytecount = 0;
 			int beginLineCount = 0;
@@ -45,12 +45,14 @@ public class InputStreamToLineDatabase {
 				if (line != null) {
 					bytecount += line.length() + 3;
 					if(bytecount > MAX_BLOCK_BYTE_SIZE) {
+						System.out.println("Writing Block: buffersize=" + buffer.toString().length());
+						System.out.println("First line of next buffer: '" + line + "'");
 						writeTextBlock(buffer.toString(),beginLineCount,transaction.getFileCode());
 						bytecount = line.length() + 1;
 						
 						StringTokenizer tok = new StringTokenizer(buffer.toString(),"\n");
 						beginLineCount = totalcount;
-						buffer = new StringBuffer();
+						buffer = new StringBuilder();
 					}
 					totalcount++;
 					buffer.append(line);

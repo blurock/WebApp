@@ -33,7 +33,8 @@ public class ChemkinMechanism {
 			elementList = new ChemkinElementList(lines);
 			elementList.parse();
 			System.out.println(elementList.toString());
-			String commentElements = lines.skipOverComments();
+			//String commentElements = lines.skipOverComments();
+			lines.skipOverComments();
 			next = lines.currentNonBlank();
 			if (speciesStart(next)) {
 				System.out.println("Process SPECIES");
@@ -41,7 +42,8 @@ public class ChemkinMechanism {
 				next = lines.nextNonBlank();
 				speciesList.parse();
 				System.out.println(speciesList.toString());
-				String commentSpecies = lines.skipOverComments();
+				//String commentSpecies = lines.skipOverComments();
+				lines.skipOverComments();
 				next = lines.currentNonBlank();
 				if (thermoStart(next)) {
 					while(!isEnd(next)) {
@@ -49,7 +51,8 @@ public class ChemkinMechanism {
 					}
 					next = lines.nextNonBlank();
 				} 
-				String commentReactions = lines.skipOverComments();
+				//String commentReactions = lines.skipOverComments();
+				lines.skipOverComments();
 				next = lines.currentNonBlank();
 				if (reactionStart(next)) {
 					System.out.println("Process REACTIONS");

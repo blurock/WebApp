@@ -8,12 +8,13 @@ package info.esblurock.react.common;
 import info.esblurock.CML.generated.Cml;
 import info.esblurock.CML.generated.ObjectFactory;
 import info.esblurock.CML.generated.Scalar;
-import java.util.Base64.Encoder;
 import java.io.*;
 import java.util.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller; 
+import javax.xml.bind.Unmarshaller;
+
+import com.google.appengine.repackaged.org.apache.commons.codec.binary.Base64; 
 /**
  *
  * @author  moliate
@@ -234,7 +235,7 @@ public class FileCluster implements IParsableElement, IRestorableElement
                     file.setId(file_data.getPath());
                     if (file_data.isBinary())    
                     {
-                        file.setValue(Base64.getEncoder().encodeToString(data));
+                        file.setValue(Base64.encodeBase64String(data));
                         file.setDataType("xsd:base64Binary");
                     }
                     else

@@ -16,7 +16,6 @@ import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
 import info.esblurock.reaction.data.store.StoreObject;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction;
 import info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload;
-import info.esblurock.reaction.data.upload.types.ValidatedChemkinMechanismFile;
 import info.esblurock.reaction.server.chemkin.ChemkinStringFromStoredFile;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;

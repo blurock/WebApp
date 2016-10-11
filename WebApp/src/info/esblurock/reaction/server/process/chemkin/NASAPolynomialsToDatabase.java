@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import info.esblurock.reaction.client.GenerateKeywords;
-import info.esblurock.reaction.data.chemical.molecule.GenerateMoleculeKeywords;
 import info.esblurock.reaction.data.chemical.molecule.isomer.CreateIsomerData;
 import info.esblurock.reaction.data.chemical.molecule.isomer.IsomerData;
 import info.esblurock.reaction.data.chemical.thermo.NASAPolynomialData;

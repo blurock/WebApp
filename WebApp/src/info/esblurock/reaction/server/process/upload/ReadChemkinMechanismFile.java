@@ -1,11 +1,9 @@
 package info.esblurock.reaction.server.process.upload;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import info.esblurock.reaction.data.upload.ChemkinMechanismFileSpecification;
 import info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload;
-import info.esblurock.reaction.data.upload.types.CreateBufferedReaderForSourceFile;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
 
 public class ReadChemkinMechanismFile extends ReadFileBaseProcess {

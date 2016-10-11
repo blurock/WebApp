@@ -1,12 +1,9 @@
 package info.esblurock.reaction.server.queries;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
-
-import com.google.appengine.api.datastore.Key;
 
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.PMF;

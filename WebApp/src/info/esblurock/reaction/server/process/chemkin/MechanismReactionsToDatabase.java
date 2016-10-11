@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-import javax.jdo.annotations.Persistent;
-
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.react.mechanisms.chemkin.ChemkinCoefficients;
 import info.esblurock.react.mechanisms.chemkin.ChemkinMechanism;

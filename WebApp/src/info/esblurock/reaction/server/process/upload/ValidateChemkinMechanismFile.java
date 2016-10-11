@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import info.esblurock.react.mechanisms.chemkin.ChemkinMechanism;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
-import info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload;
 import info.esblurock.reaction.data.upload.types.ValidatedChemkinMechanismFile;
 import info.esblurock.reaction.server.chemkin.ChemkinStringFromStoredFile;
 import info.esblurock.reaction.server.process.ProcessBase;

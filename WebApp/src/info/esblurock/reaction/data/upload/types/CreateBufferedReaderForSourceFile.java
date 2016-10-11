@@ -27,11 +27,7 @@ public class CreateBufferedReaderForSourceFile {
 			throw new IOException("Source Type not found: " + sourceType);
 		}
 		BufferedReader br = null;
-		try {
-			br = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			throw new IOException(e.toString());
-		}
+		br = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
 		return br;
 	}
 

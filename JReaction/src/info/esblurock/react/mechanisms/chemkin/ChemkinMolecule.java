@@ -25,8 +25,6 @@ public class ChemkinMolecule {
 		//ChemkinMolecule mol = (ChemkinMolecule) o;
 		if(o1.getLabel().equalsIgnoreCase(this.getLabel()))
 			ret = true;
-		
-		// TODO Auto-generated method stub
 		return ret;
 	}
 }
