@@ -25,7 +25,7 @@ public class ParseNASAPolynomialSet {
             line1 = tok.getCurrent();
             if(line1 == null) {
             	notdone = false;
-            } else if (!line1.toLowerCase().startsWith(endS)) {
+            } else if (!line1.trim().toLowerCase().startsWith(endS)) {
                 String line2 = tok.nextToken();
                 String line3 = tok.nextToken();
                 String line4 = tok.nextToken();
@@ -39,6 +39,7 @@ public class ParseNASAPolynomialSet {
                 	errbuild.append(line2 + "\n");
                 	errbuild.append(line3 + "\n");
                 	errbuild.append(line4 + "\n");
+                	errbuild.append(ex.toString() + "\n");
                 }
             } else {
                 notdone = false;
