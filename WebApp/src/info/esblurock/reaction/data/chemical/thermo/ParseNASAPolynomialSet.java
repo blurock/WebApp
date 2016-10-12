@@ -20,25 +20,28 @@ public class ParseNASAPolynomialSet {
         findBeginning(tok);
         boolean notdone = true;
         while (notdone) {
-            String line1 = tok.nextToken();
+            String line1 = nextNonblankToken(tok);
             tok.skipOverComments();
             line1 = tok.getCurrent();
             if(line1 == null) {
             	notdone = false;
             } else if (!line1.trim().toLowerCase().startsWith(endS)) {
-                String line2 = tok.nextToken();
-                String line3 = tok.nextToken();
-                String line4 = tok.nextToken();
+                String line2 = nextNonblankToken(tok);
+                String line3 = nextNonblankToken(tok);
+                String line4 = nextNonblankToken(tok);
+                System.out.println("---------------------------------------------------------------------------------");
+                System.out.println("1 :" + line1);
+                System.out.println("2 :" + line2);
+                System.out.println("3 :" + line3);
+                System.out.println("4 :" + line4);
+                System.out.println("---------------------------------------------------------------------------------");
                 try {
                 	NASAPolynomial nasa = new NASAPolynomial();
                 	nasa.parse(line1, line2, line3, line4);
                 	set.add(nasa);
                 } catch(IOException ex) {
                 	errbuild.append("Error in Thermodynamics\n");
-                	errbuild.append(line1 + "\n");
-                	errbuild.append(line2 + "\n");
-                	errbuild.append(line3 + "\n");
-                	errbuild.append(line4 + "\n");
+                	errbuild.append("(1): " + line1 + "\n");
                 	errbuild.append(ex.toString() + "\n");
                 }
             } else {
@@ -50,6 +53,13 @@ public class ParseNASAPolynomialSet {
 
 	}
 
+	private String nextNonblankToken(ChemkinStringFromStoredFile tok) {
+		String line = tok.nextToken();
+		while(line.trim().length() == 0) {
+			line = tok.nextToken();
+		}
+		return line;
+	}
 	private void findBeginning(ChemkinStringFromStoredFile tok) {
 		boolean notdone = true;
 		String temp = tok.getCurrent();
@@ -58,7 +68,7 @@ public class ParseNASAPolynomialSet {
 				notdone = false;
 			} else if(temp.trim().toLowerCase().startsWith(thermoS)) {
 				notdone = false;
-				temperaturerange = tok.nextToken();
+				temperaturerange = nextNonblankToken(tok);
 			} else {
 				comments += temp + "\n";
 				temp = tok.nextToken();
