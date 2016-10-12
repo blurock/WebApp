@@ -2,7 +2,6 @@ package info.esblurock.reaction.data.chemical.reaction;
 
 import java.util.ArrayList;
 
-import javax.jdo.annotations.Element;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 

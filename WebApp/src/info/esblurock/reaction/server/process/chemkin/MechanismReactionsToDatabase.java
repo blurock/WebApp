@@ -16,6 +16,7 @@ import info.esblurock.react.mechanisms.chemkin.ThirdBodyWeight;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywordsServer;
+import info.esblurock.reaction.data.chemical.reaction.PhotoChemicalReaction;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismReactionsToDatabaseTransaction;
 import info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload;
@@ -114,14 +115,22 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 
 		ArrayList<DatabaseObject> chemkinReactionList = new ArrayList<DatabaseObject>();
 		ArrayList<DatabaseObject> coefficients = new ArrayList<DatabaseObject>();
+		ArrayList<DatabaseObject> photoList = new ArrayList<DatabaseObject>();
 
 		for (ChemkinReaction reaction : reactionList) {
-			ChemkinReactionData rxndata = create(reaction,coefficients);
+			String rxnkeyword = getKeyword(reaction);
+
+			ChemkinReactionData rxndata = create(rxnkeyword,reaction,coefficients);
+			if(reaction.isHvLight()) {
+				PhotoChemicalReaction photo = new PhotoChemicalReaction(keyword, rxnkeyword,reaction.isHvLightAsReactant());
+				photoList.add(photo);
+			}
 			chemkinReactionList.add(rxndata);
 		}
 
 		StorageAndRetrievalUtilities.storeDatabaseObjects(chemkinReactionList);
 		StorageAndRetrievalUtilities.storeDatabaseObjects(coefficients);
+		StorageAndRetrievalUtilities.storeDatabaseObjects(photoList);
 		rxntransaction.setReactionCount(chemkinReactionList.size());
 	}
 
@@ -168,8 +177,7 @@ public class MechanismReactionsToDatabase extends ProcessBase {
 	 *            that has been parsed from the text
 	 * @return The reaction data
 	 */
-	private ChemkinReactionData create(ChemkinReaction reaction, ArrayList<DatabaseObject> coefficients) {
-		String rxnkeyword = getKeyword(reaction);
+	private ChemkinReactionData create(String rxnkeyword, ChemkinReaction reaction, ArrayList<DatabaseObject> coefficients) {
 		System.out.println("ChemkinReactionData create: " + rxnkeyword);
 
 		ArrayList<String> reactantNames = createMoleculeArrayList(reaction.getReactants());

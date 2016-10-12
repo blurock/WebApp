@@ -23,6 +23,8 @@ public class ChemkinReaction {
 	private ChemkinCoefficients sriCoefficients;
 	private ArrayList<ChemkinCoefficients> plogCoefficients;
 	private ThirdBodyMolecules thirdBodyMolecules;
+	private boolean hvLight;
+	private boolean hvLightAsReactant;
 
 	private boolean ThirdBodyFlag = false;
 	private boolean ThirdBodyCoeffsFlag = false;
@@ -63,6 +65,9 @@ public class ChemkinReaction {
 		troeCoefficients = null;
 		plogCoefficients = null;
 		thirdBodyMolecules = null;
+		hvLight = false;
+		hvLightAsReactant = false;
+
 	}
 
 	public String parse() throws IOException {
@@ -91,7 +96,8 @@ public class ChemkinReaction {
 			if (ThirdBodyFlag) {
 				next = parseThirdBodyCoeffs();
 			} else if (lines.nextNonBlank() != null) {
-				String comments = lines.skipOverComments();
+				//String comments = lines.skipOverComments();
+				lines.skipOverComments();
 				boolean notdone = lines.currentNonBlank() != null;
 				while (notdone) {
 					ChemkinCoefficients reverse = new ChemkinCoefficients();
@@ -203,9 +209,10 @@ public class ChemkinReaction {
 			Integer dupI = new Integer(dupS);
 			dupcnt = dupI.intValue();
 		}
-
-		if (mol.getLabel().equals(hvS)) {
-
+		String molstring = mol.getLabel().toLowerCase();
+		if (molstring.equals(hvS)) {
+			hvLight = true;
+			hvLightAsReactant = reactants;
 		} else {
 			if (!molecules.containsKey(mol.getLabel())) {
 				molS = mol.getLabel();
@@ -567,6 +574,18 @@ public class ChemkinReaction {
 
 	public ThirdBodyMolecules getThirdBodyMolecules() {
 		return thirdBodyMolecules;
+	}
+
+	public boolean isHvLight() {
+		return hvLight;
+	}
+
+	public boolean isHvLightAsReactant() {
+		return hvLightAsReactant;
+	}
+
+	public boolean isDuplicate() {
+		return duplicate;
 	}
 
 }

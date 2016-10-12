@@ -17,7 +17,8 @@ public class ChemkinMechanismRead3 {
 	@Test
 	public void test() {
 		//String url = "URL http://web.stanford.edu/group/haiwanglab/JetSurF/JetSurF2.0/Mech_JetSurF2.0.txt";
-		String url = "URL http://www.nuigalway.ie/c3/aramco2/DATA_FILES/AramcoMech2.0.mech";
+		String url = "URL http://www.nuigalway.ie/c3/documents/DIB_mechanism.dat";
+		//String url = "URL http://www.nuigalway.ie/c3/aramco2/DATA_FILES/AramcoMech2.0.mech";
 		//String url = "URL http://web.eng.ucsd.edu/mae/groups/combustion/sdmech/sandiego20141004/sandiego20141004_mechCK.txt";
 		//String url = "URL http://web.eng.ucsd.edu/mae/groups/combustion/sdmech/sandiego_nitrogen/NOx_20041209/NOXsandiego20041209.mec";
 		//String url = "URL https://combustion.llnl.gov/content/assets/docs/combustion/h2_v1b_mech.txt";

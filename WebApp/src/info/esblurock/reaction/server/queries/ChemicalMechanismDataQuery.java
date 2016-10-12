@@ -13,6 +13,7 @@ import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.reaction.MechanismReactionListData;
+import info.esblurock.reaction.data.chemical.reaction.PhotoChemicalReaction;
 import info.esblurock.reaction.data.chemical.thermo.NASAPolynomialData;
 import info.esblurock.reaction.data.chemical.transport.SpeciesTransportProperty;
 
@@ -27,6 +28,11 @@ public class ChemicalMechanismDataQuery extends QueryBase {
 	static public List<DatabaseObject> moleculesFromMechanismName(String mechanismName) throws IOException {
 		String mechanismKeyword = "mechanismKeyword";
 		String classname = MechanismMoleculeData.class.getName();
+		return getDatabaseObjectsFromSingleProperty(classname, mechanismKeyword, mechanismName);
+	}
+	static public List<DatabaseObject> photoReactionsFromMechanismName(String mechanismName) throws IOException {
+		String mechanismKeyword = "mechanismKeyword";
+		String classname = PhotoChemicalReaction.class.getName();
 		return getDatabaseObjectsFromSingleProperty(classname, mechanismKeyword, mechanismName);
 	}
 	static public List<DatabaseObject> reactionsFromMechanismName(String mechanismName) throws IOException {

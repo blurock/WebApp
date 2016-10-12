@@ -12,6 +12,7 @@ import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.reaction.GenerateReactionKeywordsServer;
+import info.esblurock.reaction.data.chemical.reaction.PhotoChemicalReaction;
 import info.esblurock.reaction.data.store.StoreObject;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismReactionsToDatabaseTransaction;
 import info.esblurock.reaction.data.transaction.chemkin.rdf.MechanismReactionsRDFTransaction;
@@ -33,7 +34,10 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 	static public String reactionS = "isReaction";
 	static public String isMechanismReaction = "isMechanismReaction";
 	static public String hasCoefficientS = "hasCoefficients";
-	final static String mechanismReaction = "MechanismReaction";
+	static public String mechanismReaction = "MechanismReaction";
+	static public String photoChemicalReaction = "PhotoChemicalReaction";
+	static public String photoChemicalReactant = "PhotoChemicalAsReactant";
+	static public String photoChemicalProduct = "PhotoChemicalAsProduct";
 
 	final String reactionThirdBodyMolelculeS = "ThirdBodyMolecule";
 	
@@ -109,6 +113,7 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 		store = new StoreObject(user,keyword, outputSourceCode);
 
 		List<DatabaseObject> reactionlist = ChemicalMechanismDataQuery.reactionsFromMechanismName(keyword);
+		List<DatabaseObject> photolist = ChemicalMechanismDataQuery.photoReactionsFromMechanismName(keyword);
 		List<DatabaseObject> coefficientslist = ChemicalMechanismDataQuery.coefficientsFromMechanismName(keyword);
 
 		generateReactions = new GenerateReactionKeywordsServer(keyword);
@@ -142,6 +147,17 @@ public class MechanismReactionsProcessRDF extends ProcessBase {
 		for(DatabaseObject object : coefficientslist) {
 			ChemkinCoefficientsData data = (ChemkinCoefficientsData) object;
 			storeCoefficientData(data, data.getReactionKeyword());
+		}
+		
+		for(DatabaseObject object : photolist) {
+			PhotoChemicalReaction photo = (PhotoChemicalReaction) object;
+			store.setKeyword(photo.getReactionName());
+			store.storeObjectRDF(photo);
+			if(photo.getAsReactant()) {
+				store.storeStringRDF(photoChemicalReaction, photoChemicalReactant);
+			} else {
+				store.storeStringRDF(photoChemicalReaction, photoChemicalProduct);
+			}
 		}
 		store.flushStore();
 		//store.finish();
