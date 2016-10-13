@@ -71,7 +71,7 @@ public class ReadFileBaseProcess extends ProcessBase {
     	super.setUpInputDataObjects();
     	description = (DescriptionDataData) getInputSource(descriptionS);
     	specification = (FileSourceSpecification) getInputSource(specificationS);
-		textBody = specification.getTextBody();
+		textBody = specification.getTextBody().getValue();
 		textName = specification.getTextName();
 		sourceType = specification.getSourceType();
     }

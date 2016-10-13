@@ -50,6 +50,8 @@ public class DataInput extends Composite implements HasText {
 	public static String textAsSource = "Text";
 	public static String httpAsSource = "Http";
 	public static String fileAsSource = "File";
+	
+	public static int inputTextLimit = 500000;
 
 	interface DataInputUiBinder extends UiBinder<Widget, DataInput> {
 	}
@@ -242,13 +244,20 @@ public class DataInput extends Composite implements HasText {
 
 	@UiHandler("uploadText")
 	void onTextUpload(ClickEvent e) {
-		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
-		Window.alert("Keyword: " + description.createObjectKeyword());
-		Window.alert("Name: " + uploadTextName.getText());
-		Window.alert("Text: " + textarea.getText());
-		async.textToDatabase(specName, textAsSource, description.createObjectKeyword(), 
-				uploadTextName.getText(),textarea.getText(), callbackText);
-		MaterialToast.fireToast("Upload Text");
+		if(textarea.getText().length() < inputTextLimit) {
+			TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
+			//Window.alert("Keyword: " + description.createObjectKeyword());
+			//Window.alert("Name: " + uploadTextName.getText());
+			//Window.alert("Text: " + textarea.getText());
+			async.textToDatabase(specName, textAsSource, description.createObjectKeyword(), 
+					uploadTextName.getText(),textarea.getText(), callbackText);
+			MaterialToast.fireToast("Upload Text");
+		} else {
+			MaterialToast.fireToast("Maximum Text size exceeded (" 
+						+ textarea.getText().length() 
+						+ " > "+ inputTextLimit 
+						+ " bytes) ");
+		}
 	}
 
 	@UiHandler("uploadHTTP")

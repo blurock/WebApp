@@ -13,6 +13,7 @@ import javax.jdo.PersistenceManager;
 
 import org.json.JSONObject;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.gwtext.client.data.JsonReader;
 import com.gwtext.client.data.RecordDef;
@@ -78,7 +79,7 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 				FileSourceSpecification specInstance = (FileSourceSpecification) obj;
 				specInstance.setSourceType(sourceType);
 				specInstance.setTextName(textName);
-				specInstance.setTextBody(text);
+				specInstance.setTextBody(new Text(text));
 				String transactionObjectType = specInstance.getClass().getName();
 				String idCode = ManageDataSourceIdentification.getDataSourceIdentification(userS);
 				TransactionInfo info = new TransactionInfo(userS, keyword, transactionObjectType, idCode);

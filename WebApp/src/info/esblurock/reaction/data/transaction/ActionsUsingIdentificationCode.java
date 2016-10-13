@@ -233,7 +233,7 @@ public class ActionsUsingIdentificationCode {
 		while (iter.hasNext()) {
 			Entity entity = iter.next();
 			Text block = (Text) entity.getProperty("textBlock");
-			StringTokenizer tok = new StringTokenizer(block.getValue(), "\n");
+			StringTokenizer tok = new StringTokenizer(block.getValue().toString(), "\n");
 			while(tok.hasMoreTokens()) {
 				String line = tok.nextToken();
 				lines.add(line);

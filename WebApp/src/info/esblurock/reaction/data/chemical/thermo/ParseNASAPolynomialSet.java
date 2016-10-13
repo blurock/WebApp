@@ -29,12 +29,14 @@ public class ParseNASAPolynomialSet {
                 String line2 = nextNonblankToken(tok);
                 String line3 = nextNonblankToken(tok);
                 String line4 = nextNonblankToken(tok);
+                /*
                 System.out.println("---------------------------------------------------------------------------------");
                 System.out.println("1 :" + line1);
                 System.out.println("2 :" + line2);
                 System.out.println("3 :" + line3);
                 System.out.println("4 :" + line4);
                 System.out.println("---------------------------------------------------------------------------------");
+                */
                 try {
                 	NASAPolynomial nasa = new NASAPolynomial();
                 	nasa.parse(line1, line2, line3, line4);
@@ -55,7 +57,7 @@ public class ParseNASAPolynomialSet {
 
 	private String nextNonblankToken(ChemkinStringFromStoredFile tok) {
 		String line = tok.nextToken();
-		while(line.trim().length() == 0) {
+		while(line != null && line.trim().length() == 0) {
 			line = tok.nextToken();
 		}
 		return line;
