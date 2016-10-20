@@ -35,4 +35,10 @@ public class ServerBase  extends RemoteServiceServlet {
 	protected ArrayList<String> getPrivledges(String level) throws IOException {
 		return VerifyServerTransaction.getPrivledges(level);
 	}
+
+	public String fileAsInput(String className, String sourceType, String textName, String text, String user,
+			String keyword) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

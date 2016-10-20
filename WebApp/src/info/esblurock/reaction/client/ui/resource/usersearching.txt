@@ -1,27 +1,28 @@
 <center>
-<h2>Searching Interconnected data through RDFs</h2>
+<h1>Searching Interconnected data through RDFs</h1>
+
+<p style="font-size:30px ">
+The basis of the search is <i>keywords</i>. 
+</p>
 </center>
-<p>
-The basis of the search is the use of keywords. 
+<p style="font-size:20px">
 These keywords can be species labels, isomer expressions, reaction expressions, source names, 
-and specific reference keywords. The database is searched for these keywords and related data, and how it is related, is given. The related data can be individual pieces of information, in the form of a keyword, or, if it exists, a complete data object. If a result is a keyword, that keyword can be searched (by clicking it) to find further related information. In this way the user wanders through the network of related data to find the specific information being searched for.
+and specific reference keywords. The database is searched for these keywords. The result is related data (and how it is related). The related data can be individual pieces of information, in the form of a keyword, or, if it exists, a complete data object. If a result is a keyword, that keyword further can be searched (by clicking it) to find further related information. In this way the user wanders through the network of related data to find the specific information.
 </p>
 <br>
-<p>
-For example, if one enters a species label name, several pieces of information can arise: 
-<ul>
+<p style="font-size:15px">
+For example, if one enters a species label name, several pieces of information can arise:
+</p>
+<ul style="color:black">
 <li>the species as it appears in published data, such as a mechanism (the mechanism name 
 is appended to the name to distinguish how this species is used in that particular mechanism), 
 <li>the canonical isomer name, 
 <li>the reactions in which that species label is used, 
 <li>and 2D-species data using that species label. 
 </ul>
-</p>
-<p>
+<p style="font-size:15px">
 The user can then click any of these pieces of information to explore the database further. 
-</p>
 <br>
-<p>
 In an example of exploring the database further, maybe the species label 
 given does not match a name used in other mechanisms. 
 This information can be found by clicking the related isomer keyword. 

@@ -1,10 +1,12 @@
 package info.esblurock.reaction.data.upload.types;
 
+import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.PersistenceCapable;
 
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 
 @PersistenceCapable
+@Inheritance(customStrategy = "complete-table")
 public class NASAPolynomialFileUpload extends UploadFileTransaction  {
 
 	/**

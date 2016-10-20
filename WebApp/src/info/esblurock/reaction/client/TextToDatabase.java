@@ -42,5 +42,8 @@ public interface TextToDatabase extends RemoteService {
 			ArrayList<DataSetReference> referenceList) throws IOException;
 	
 	public HashSet<String> keywordsFromText(String text);
+	
+	String fileAsInput(String className, String sourceType, String textName, String text, String user,
+			String keyword)  throws IOException;
 
 }

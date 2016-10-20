@@ -1,0 +1,25 @@
+<h2>Data Relations</h2>
+<p style="font-size:20px">
+The key to creating this network of chemical information is the establishment of individual relationships. A relationship has the following form:
+<center  style="font-size:20px">
+<i style="color:black">subject (keyword) &rarr; Relationship &rarr; object (keyword or data structure)</i>
+</center>
+</p>
+<p style="font-size:15px">
+The subject is an individual keyword, such as a species name or even a reaction (in canonical form). The object in this relationship, which can be another keyword or a more a data structure of information. The relationship is how the object and the subject are related. An example relating a species name to an isomer keyword could be:
+<center  style="font-size:20px">
+<i style="color:black">ic3h5chcoch3 &rarr; isIsomerOf &rarr; c6h9o</i>
+</center>
+This relationship represents one link in the network and connects to other pieces of data if the object or subject keywords match. Though the isomer relation, the isomers ic3h5chcoch3 and ic4h7coch2 are linked.
+<center  style="font-size:20px">
+<i style="color:black">ic3h5chcoch3 &rarr; isIsomerOf &rarr; c6h9o &larr; isIsomerOf &larr; ic4h7coch2 </i>
+</center>
+Information between mechanisms, in this case a mechanism from LLNL (PRF) and a mechanism from Princeton (nC7H16), can be linked through the same species label: 
+<center  style="font-size:15px">
+<i style="color:black">LLNL#PRF &rarr; MechSpecies &rarr; LLNL#PRF#ic3h5chcoch3 &rarr; Species &rarr; 
+<br>
+ic3h5chcoch3
+<br>
+&larr; Species &larr; Princeton#nC7H16#ic3h5chcoch3  &larr; Mechpecies &rarr; Princeton#nC7H16_red52
+</i>
+</center>

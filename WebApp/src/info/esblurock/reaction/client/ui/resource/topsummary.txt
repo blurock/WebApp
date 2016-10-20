@@ -1,0 +1,27 @@
+<body bgcolor="grey">
+<p style="font-size:15px;">
+<b>ChemConnect2016</b> represents the next generation in the organization of chemical data for combustion research.
+ChemConnect2016's unique search organization allows the user to traverse
+the interconnected network of combustion data. 
+The intended audience for this database
+are combustion mechanism modelers. This database differs from traditional
+combustion databases in establishing a interconnection between combustion data sources allowing 
+critical comparison of similar data from different sources. The current database
+has taken data from a variety public domain detailed chemical mechanisms (in CHEMKIN format) 
+and automatic generation system data.
+<br>
+An efficient combustion kinetic model, such as a detailed or reduced chemical mechanism, 
+consists of hundreds to thousands of individual pieces of kinetic and thermodynamic chemical data. 
+A key component in the development of these models is the rapid access and assessment of the 
+thermodynamic and kinetic data to be found in the literature. In the design of the models it 
+is also essential to study other models and submodels to build upon past experience. 
+<br>
+An invaluable tool in the development of combustion models is a repository chemical
+data needed to design these models where the modeler can assess and choose the chemical information that is needed.
+A essential key property of such a repository is the ability to search through the
+mulitude of chemical information to find data needed by the modeler.
+<br>
+<center style="font-size:25px">
+<b>ChemConnect2016</b> answers the database needs of the combustion modeler.
+</center>
+</body>

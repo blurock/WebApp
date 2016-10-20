@@ -262,7 +262,15 @@ public abstract class ProcessBase {
 	 * 
 	 */
 	protected void storeOutputObjects() {
+		try {
 		StorageAndRetrievalUtilities.storeDatabaseObjects(objectOutputs);
+		} catch(Exception ex) {
+			System.out.println("storeOutputObjects(): exception");
+			for(DatabaseObject obj : objectOutputs) {
+				System.out.println(obj);
+			}
+			throw ex;
+		}
 	}
 
 	/**

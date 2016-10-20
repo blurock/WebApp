@@ -34,7 +34,7 @@ public class InputStreamToLineDatabase {
 	public UploadFileTransaction uploadFile(UploadFileTransaction transaction, BufferedReader buf)
 			throws IOException {
 		try {
-			PersistenceManager pm = PMF.get().getPersistenceManager();
+			//PersistenceManager pm = PMF.get().getPersistenceManager();
 			StringBuilder buffer = new StringBuilder();
 			String line;
 			bytecount = 0;

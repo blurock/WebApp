@@ -40,49 +40,76 @@ import info.esblurock.reaction.server.process.DataProcesses;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.description.DataDescriptionSpecification;
 import info.esblurock.reaction.server.process.description.DataSetReferencesSpecifications;
-import info.esblurock.reaction.server.process.upload.SourcefFileUploadInput;
+import info.esblurock.reaction.server.queries.QueryBase;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
 import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
+import info.esblurock.reaction.server.utilities.WriteObjectTransactionToDatabase;
 
 public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 	private static final long serialVersionUID = 1L;
 	static String uploadText = "UploadText";
 	static String uploadHTTP = "UploadHTTP";
 	static String deleteUploadedFile = "RemoveUploadedFile";
-	
+
 	private static Logger log = Logger.getLogger(TextToDatabaseImpl.class.getName());
-	
-	InputStreamToLineDatabase  input = new InputStreamToLineDatabase();
+
+	InputStreamToLineDatabase input = new InputStreamToLineDatabase();
 	StringToKeyConversion conversion = new StringToKeyConversion();
 
-
 	@Override
-	public String textToDatabase(
-			String className, String sourceType, 
-			String keyword, String textName, String text) throws IOException {
+	public String textToDatabase(String className, String sourceType, String keyword, String textName, String text)
+			throws IOException {
 		verify(uploadText, TaskTypes.dataInput);
 		ContextAndSessionUtilities util = getUtilities();
 		String userS = util.getUserName();
 		String source = className + "#" + sourceType;
+
+		RegisterTransaction.register(util.getUserInfo(), TaskTypes.dataInput, source, RegisterTransaction.checkLevel1);
+		String idCode = ManageDataSourceIdentification.getDataSourceIdentification(userS);
+		fileSpecification(className, sourceType, textName, text, userS, idCode, keyword);
+		return source;
+	}
+
+	@Override
+	public String fileAsInput(String className, String sourceType, String fileName, String text, 
+			String user, String keyword) throws IOException {
+		System.out.println("Keyword: '" + keyword 
+				+ "'\n User='" + user  
+				+ "'\n className='" + className
+				+ "'\n fileName='" + fileName
+				+ "'\n keyword='" + keyword);
+		UploadFileTransaction upload 
+			= TransactionInfoQueries.getFirstUploadFileTransactionFromKeywordUserSourceCodeAndObjectType(user,fileName);
+		System.out.println("idCode='" + upload.getFileCode());
 		
-		RegisterTransaction.register(util.getUserInfo(),
-				TaskTypes.dataInput,source, 
-				RegisterTransaction.checkLevel1);
-		
-		Class cls;
+		FileSourceSpecification specInstance = fileSpecification(className, sourceType, 
+				fileName, text, user, upload.getFileCode(), keyword);
+		TransactionInfo info = new TransactionInfo(user, keyword, className, upload.getFileCode());
+		WriteObjectTransactionToDatabase.writeObjectWithTransaction(user, keyword, upload.getFileCode(), specInstance);
+		String ans = "Keyword: '" + keyword 
+				+ "'\n User='" + user  
+				+ "'\n className='" + className 
+				+ "'\n idCode='" + upload.getFileCode() + "'"; 
+		return ans;
+	}
+	
+	
+	private FileSourceSpecification fileSpecification(String className, String sourceType, String textName, String text, String user,
+			String idCode, String keyword) throws IOException {
+		FileSourceSpecification specInstance;
 		try {
-			cls = Class.forName(className);
+			Class cls = Class.forName(className);
 			Object obj = cls.newInstance();
-			if(FileSourceSpecification.class.isAssignableFrom(obj.getClass())) {
-				FileSourceSpecification specInstance = (FileSourceSpecification) obj;
+			if (FileSourceSpecification.class.isAssignableFrom(obj.getClass())) {
+				specInstance = (FileSourceSpecification) obj;
 				specInstance.setSourceType(sourceType);
 				specInstance.setTextName(textName);
 				specInstance.setTextBody(new Text(text));
 				String transactionObjectType = specInstance.getClass().getName();
-				String idCode = ManageDataSourceIdentification.getDataSourceIdentification(userS);
-				TransactionInfo info = new TransactionInfo(userS, keyword, transactionObjectType, idCode);
+
+				TransactionInfo info = new TransactionInfo(user, keyword, transactionObjectType, idCode);
 				PersistenceManager pm = PMF.get().getPersistenceManager();
 				pm.makePersistent(specInstance);
 				info.setStoredObjectKey(specInstance.getKey());
@@ -101,33 +128,33 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 			e.printStackTrace();
 			throw new IOException("Class: " + className + " cannot be instantiated");
 		}
-		return source;
+		return specInstance;
 	}
-	
+
 	@Override
 	public Set<UploadFileTransaction> getSetOfUploadedFiles() {
 		return input.getUploadedFiles();
 	}
-	
+
 	@Override
 	public String removeUploadedFile(String key) throws Exception {
 		verify(deleteUploadedFile, TaskTypes.dataDelete);
 		log.info("Verication: Task(" + deleteUploadedFile + ")  TaskType.dataDelete(" + TaskTypes.dataDelete + ")");
-		System.out.println("Verication: Task(" + deleteUploadedFile + ")  TaskType.dataDelete(" + TaskTypes.dataDelete + ")");
+		System.out.println(
+				"Verication: Task(" + deleteUploadedFile + ")  TaskType.dataDelete(" + TaskTypes.dataDelete + ")");
 		return input.removeUpload(key);
 	}
-	
+
 	@Override
 	public String storeTextSetUploadData(TextSetUploadData data) throws Exception {
 		String keyword = data.getDescription().getKeyword();
 		String userKey = data.getDescription().getInputkey();
 		String inputkeyword = GenerateKeywordFromDescription.createKeyword(data.getDescription());
-		verify(uploadText,TaskTypes.dataInput);
+		verify(uploadText, TaskTypes.dataInput);
 		String idCode = ManageDataSourceIdentification.getDataSourceIdentification(userKey);
-		
-		
+
 		String classname = data.getClass().getName();
-		TransactionInfo transaction = new TransactionInfo(userKey,inputkeyword,classname,idCode);
+		TransactionInfo transaction = new TransactionInfo(userKey, inputkeyword, classname, idCode);
 		StoreTextSetUploadData store = new StoreTextSetUploadData(keyword, data, transaction);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		transaction.setStoredObjectKey(data.getKey());
@@ -144,68 +171,69 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 		String keyword = GenerateKeywordFromDescription.createKeyword(descrdata);
 		System.out.println("Keyword: " + keyword);
 		try {
-		TransactionInfoQueries.transactionExists(userS,keyword, DescriptionDataData.class.getName());
-		} catch(Exception ex) {
+			TransactionInfoQueries.transactionExists(userS, keyword, DescriptionDataData.class.getName());
+		} catch (Exception ex) {
 			System.out.println("Exception:" + ex);
 			throw ex;
 		}
 		return keyword;
 	}
-	public String registerDataInputDescription(DescriptionDataData descrdata,
-			ArrayList<DataSetReference> referenceList) throws IOException {
+
+	public String registerDataInputDescription(DescriptionDataData descrdata, ArrayList<DataSetReference> referenceList)
+			throws IOException {
 		String keyword = GenerateKeywordFromDescription.createKeyword(descrdata);
 		String processName = "RegisterDataDescription";
 		ContextAndSessionUtilities util = getUtilities();
 		String userS = util.getUserName();
 		String source = "Register: '" + keyword + "'";
-		RegisterTransaction.register(util.getUserInfo(),
-				TaskTypes.dataInput,source, 
-				RegisterTransaction.checkLevel1);
-		
+		RegisterTransaction.register(util.getUserInfo(), TaskTypes.dataInput, source, RegisterTransaction.checkLevel1);
+
 		System.out.println("RegisterDataDescription: " + keyword);
-		DataDescriptionSpecification specs = new DataDescriptionSpecification(descrdata,userS, "");
-		ProcessBase process = DataProcesses.getProcess(processName,specs);
+		DataDescriptionSpecification specs = new DataDescriptionSpecification(descrdata, userS, "");
+		ProcessBase process = DataProcesses.getProcess(processName, specs);
 		String ans = process.process();
-		
+
 		System.out.println("RegisterDataSetReferences: " + keyword);
 		String registerProcess = "RegisterDataSetReferences";
-		DataSetReferencesSpecifications registerspec = new DataSetReferencesSpecifications(referenceList, keyword, userS, "");
-		process = DataProcesses.getProcess(registerProcess,registerspec);
+		DataSetReferencesSpecifications registerspec = new DataSetReferencesSpecifications(referenceList, keyword,
+				userS, "");
+		process = DataProcesses.getProcess(registerProcess, registerspec);
 		ans += "\n" + process.process();
-		
+
 		System.out.println("registerDataInputDescription\n\n" + ans);
 		return ans;
 	}
+
 	public String registerReferences(String keyword, ArrayList<DataSetReference> reflist) throws IOException {
 		String ans = "";
-		//String keyword = GenerateKeywordFromDescription.createKeyword(descrdata);
+		// String keyword =
+		// GenerateKeywordFromDescription.createKeyword(descrdata);
 		String processName = "RegisterDataSetReferences";
 		ContextAndSessionUtilities util = getUtilities();
 		String userS = util.getUserName();
 		String source = "Register: '" + keyword + "'";
-		RegisterTransaction.register(util.getUserInfo(),
-				TaskTypes.dataInput,source, 
-				RegisterTransaction.checkLevel1);
-		DataSetReferencesSpecifications references = new DataSetReferencesSpecifications(reflist,keyword, userS, "");
+		RegisterTransaction.register(util.getUserInfo(), TaskTypes.dataInput, source, RegisterTransaction.checkLevel1);
+		DataSetReferencesSpecifications references = new DataSetReferencesSpecifications(reflist, keyword, userS, "");
 		return ans;
 	}
+
 	public HashSet<String> keywordsFromText(String text) {
-	    String categorizeResource= "resources/en-pos-maxent.bin";
-	    String tokenResource= "resources/en-token.bin";
-	    String chunkerResource = "resources/en-chunker.bin";
-        KeywordsFromText keys = new KeywordsFromText(categorizeResource, tokenResource, chunkerResource);
-        keys.calculateKeyWords(text);
-        
+		String categorizeResource = "resources/en-pos-maxent.bin";
+		String tokenResource = "resources/en-token.bin";
+		String chunkerResource = "resources/en-chunker.bin";
+		KeywordsFromText keys = new KeywordsFromText(categorizeResource, tokenResource, chunkerResource);
+		keys.calculateKeyWords(text);
+
 		Collections.sort(keys.getSingleKeyWords());
 		Collections.sort(keys.getPhraseKeyWords());
 		HashSet<String> set = new HashSet<String>();
-		for(String key : keys.getPhraseKeyWords()) {
+		for (String key : keys.getPhraseKeyWords()) {
 			set.add(key.toLowerCase());
 		}
-		for(String key : keys.getSingleKeyWords()) {
+		for (String key : keys.getSingleKeyWords()) {
 			set.add(key.toLowerCase());
 		}
-       System.out.println(set);
- 		return set;
+		System.out.println(set);
+		return set;
 	}
 }

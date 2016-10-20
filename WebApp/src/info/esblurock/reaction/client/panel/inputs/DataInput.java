@@ -5,6 +5,7 @@ import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.description.DataDescription;
 
 import info.esblurock.reaction.client.resources.InputConstants;
+import info.esblurock.reaction.data.upload.FileSourceSpecification;
 import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.events.DragOverEvent;
@@ -25,6 +26,8 @@ import gwt.material.design.client.ui.animate.MaterialAnimator;
 import gwt.material.design.client.ui.animate.Transition;
 import gwtupload.client.BaseUploadStatus;
 import gwtupload.client.HasProgress;
+
+import com.google.appengine.api.datastore.Text;
 /*
 import gwtupload.client.IFileInput.FileInputType;
 import gwtupload.client.IUploadStatus.Status;
@@ -38,6 +41,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -50,7 +54,7 @@ public class DataInput extends Composite implements HasText {
 	public static String textAsSource = "Text";
 	public static String httpAsSource = "Http";
 	public static String fileAsSource = "File";
-	
+
 	public static int inputTextLimit = 500000;
 
 	interface DataInputUiBinder extends UiBinder<Widget, DataInput> {
@@ -81,26 +85,26 @@ public class DataInput extends Composite implements HasText {
 	MaterialButton uploadText;
 	@UiField
 	MaterialButton uploadHTTP;
-	
-	@UiField 
+
+	@UiField
 	MaterialFileUploader cardUploader;
-	 @UiField 
-	 MaterialImage imgPreview;
-	 @UiField 
-	 MaterialProgress progress;
-	 @UiField 
-	 MaterialLabel lblName, lblSize;
+	@UiField
+	MaterialImage imgPreview;
+	@UiField
+	MaterialProgress progress;
+	@UiField
+	MaterialLabel lblName, lblSize;
 
 	MaterialLink label;
 	boolean requiredInput = true;
 	DataDescription description;
 	String specName;
 	String transName;
-	
+
 	String keyword;
 	String uploaderPath;
-	//SingleUploader uploader;
-	
+	// SingleUploader uploader;
+
 	String sourceInputType = inputConstants.unspecified();
 
 	public void setRequiredInput(boolean required) {
@@ -148,29 +152,23 @@ public class DataInput extends Composite implements HasText {
 	public void setKeyword(String keyword, String source) {
 		this.keyword = keyword;
 		/*
-		String msg = uploaderPath + "?transname=" + transName 
-				+ "&keyword=" + keyword
-				+ "&source=" + source;
-		uploader.setServletPath(msg);
-		*/
+		 * String msg = uploaderPath + "?transname=" + transName + "&keyword=" +
+		 * keyword + "&source=" + source; uploader.setServletPath(msg);
+		 */
 	}
-	
+
 	public void setVisibility(boolean visible) {
 		this.setVisibility(visible);
 	}
-	
+
 	public DataInput() {
 		initWidget(uiBinder.createAndBindUi(this));
 		fillInText();
 		init();
 	}
-	public DataInput(
-			String specName,
-			String transName,
-			DataDescription description,
-			String type, String title, 
-			String titletooltip, String httptext, String texttitle,
-			String texttext) {
+
+	public DataInput(String specName, String transName, DataDescription description, String type, String title,
+			String titletooltip, String httptext, String texttitle, String texttext) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.description = description;
 		this.specName = specName;
@@ -180,8 +178,7 @@ public class DataInput extends Composite implements HasText {
 		datatype.setText(type);
 		objecttitle.setText(title);
 		/*
-		objecttitle.setTitle(title);
-		objecttitle.setTooltip(titletooltip);
+		 * objecttitle.setTitle(title); objecttitle.setTooltip(titletooltip);
 		 */
 		httpaddress.setText(httptext);
 		textarea.setText(texttext);
@@ -193,39 +190,42 @@ public class DataInput extends Composite implements HasText {
 	private void init() {
 		InputConstants inputConstants = GWT.create(InputConstants.class);
 		MaterialButton button = new MaterialButton();
-		
+
 		button.setType(ButtonType.FLOATING);
 		button.setText(inputConstants.upload());
 		button.setTextColor("blue-text text-darken-2 light-blue lighten-5");
-		
+
 		// Added the progress to card uploader
 		cardUploader.addTotalUploadProgressHandler(new TotalUploadProgressEvent.TotalUploadProgressHandler() {
 			@Override
 			public void onTotalUploadProgress(TotalUploadProgressEvent event) {
 				progress.setPercent(event.getProgress());
-				}
-			});
-		 cardUploader.addSuccessHandler(new SuccessEvent.SuccessHandler<UploadFile>() {
-			 @Override
-			 public void onSuccess(SuccessEvent<UploadFile> event) {
-				 MaterialToast.fireToast("Success");
-				 lblName.setText(event.getTarget().getName());
-				 lblSize.setText(event.getTarget().getType());
-				 
-				 String message = event.getResponse().getMessage();
-				 MaterialToast.fireToast(message);
-				 }
-			 });
+			}
+		});
+		cardUploader.addSuccessHandler(new SuccessEvent.SuccessHandler<UploadFile>() {
+			@Override
+			public void onSuccess(SuccessEvent<UploadFile> event) {
+				MaterialToast.fireToast("Success");
+				lblName.setText(event.getTarget().getName());
+				lblSize.setText(event.getTarget().getType());
+				FileInputCallback callback = new FileInputCallback();
+				TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
+				async.fileAsInput(specName, fileAsSource, event.getTarget().getName(), 
+						uploadTextName.getText(), description.getInputKey(),
+						description.createObjectKeyword(), callback);
+			}
+		});
 
-		 cardUploader.addDragOverHandler(new DragOverEvent.DragOverHandler() {
-			 @Override
-			 public void onDragOver(DragOverEvent event) {
-				 MaterialAnimator.animate(Transition.RUBBERBAND, cardUploader, 0);
-				 }
-			 });
+		cardUploader.addDragOverHandler(new DragOverEvent.DragOverHandler() {
+			@Override
+			public void onDragOver(DragOverEvent event) {
+				MaterialAnimator.animate(Transition.RUBBERBAND, cardUploader, 0);
+			}
+		});
 	}
+
 	AsyncCallback<String> callbackText = new AsyncCallback<String>() {
-		
+
 		@Override
 		public void onFailure(Throwable caught) {
 			System.out.println("textToDatabase: ERROR");
@@ -244,27 +244,25 @@ public class DataInput extends Composite implements HasText {
 
 	@UiHandler("uploadText")
 	void onTextUpload(ClickEvent e) {
-		if(textarea.getText().length() < inputTextLimit) {
+		if (textarea.getText().length() < inputTextLimit) {
 			TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
-			//Window.alert("Keyword: " + description.createObjectKeyword());
-			//Window.alert("Name: " + uploadTextName.getText());
-			//Window.alert("Text: " + textarea.getText());
-			async.textToDatabase(specName, textAsSource, description.createObjectKeyword(), 
-					uploadTextName.getText(),textarea.getText(), callbackText);
+			// Window.alert("Keyword: " + description.createObjectKeyword());
+			// Window.alert("Name: " + uploadTextName.getText());
+			// Window.alert("Text: " + textarea.getText());
+			async.textToDatabase(specName, textAsSource, description.createObjectKeyword(), uploadTextName.getText(),
+					textarea.getText(), callbackText);
 			MaterialToast.fireToast("Upload Text");
 		} else {
-			MaterialToast.fireToast("Maximum Text size exceeded (" 
-						+ textarea.getText().length() 
-						+ " > "+ inputTextLimit 
-						+ " bytes) ");
+			MaterialToast.fireToast(
+					"Maximum Text size exceeded (" + textarea.getText().length() + " > " + inputTextLimit + " bytes) ");
 		}
 	}
 
 	@UiHandler("uploadHTTP")
 	void onHTTPUpload(ClickEvent e) {
 		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
-		async.textToDatabase(specName, httpAsSource, description.createObjectKeyword(), 
-				httpaddress.getText(), httpaddress.getText(), callbackText);
+		async.textToDatabase(specName, httpAsSource, description.createObjectKeyword(), httpaddress.getText(),
+				httpaddress.getText(), callbackText);
 		MaterialToast.fireToast("Upload http");
 	}
 
@@ -277,12 +275,11 @@ public class DataInput extends Composite implements HasText {
 	void onSubmitClick(ClickEvent e) {
 		MaterialToast.fireToast("Input as pasted text");
 	}
-/*
-	@UiHandler("fileinput")
-	void onSubmitFileClick(ClickEvent e) {
-		MaterialToast.fireToast("Input as uploaded file");
-	}
-*/
+
+	/*
+	 * @UiHandler("fileinput") void onSubmitFileClick(ClickEvent e) {
+	 * MaterialToast.fireToast("Input as uploaded file"); }
+	 */
 	public String getType() {
 		return datatype.getText();
 	}
@@ -316,13 +313,12 @@ public class DataInput extends Composite implements HasText {
 		} else if (source.equals(inputConstants.textfile())) {
 			submitText.setValue(true);
 			sourceInputType = inputConstants.textfile();
-		} 
-		/*
-		else if (source.equals(inputConstants.upload())) {
-			fileinput.setValue(true);
-			sourceInputType = inputConstants.upload();
 		}
-		*/
+		/*
+		 * else if (source.equals(inputConstants.upload())) {
+		 * fileinput.setValue(true); sourceInputType = inputConstants.upload();
+		 * }
+		 */
 	}
 
 	// progress bar using HTML5 <progress> tag

@@ -43,6 +43,10 @@ public class ReadChemkinMechanismFile extends ReadFileBaseProcess {
 	@Override
 	protected void initializeOutputObjects() throws IOException {
 		super.initializeOutputObjects();
+		System.out.println("user: " + user
+				+ "\ntextName: " + textName
+				+ "\noutputSourceCode: " + outputSourceCode
+				+ "\nsourceType: " + sourceType);
 		upload = new ChemkinMechanismFileUpload(user, textName, outputSourceCode, sourceType, 0);
 		objectOutputs.add(upload);
 	}

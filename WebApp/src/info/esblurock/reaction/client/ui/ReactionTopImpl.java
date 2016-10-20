@@ -52,9 +52,12 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	
 	@UiField
 	HorizontalPanel firstdescription;
-
 	@UiField
-	MaterialTitle seconddescription;
+	HorizontalPanel seconddescription;
+	@UiField
+	HorizontalPanel datarelations;
+	@UiField
+	HTMLPanel topsummary;
 
 	@UiField
 	MaterialLink profile;
@@ -82,7 +85,6 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	@UiField
 	MaterialButton btnLogin;
 
-	MaterialLabel topsummary;
 	MaterialButton getstarted;
 	
 	@UiField
@@ -167,14 +169,20 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 
 		String descriptiontext = ReactionTopViewResources.INSTANCE.chemconnectdescription().getText();
 		String title = "<h1>ChemConnect: Interconnecting Chemical Data</h1>";
-		HTML deschtml = new HTML(title + descriptiontext);
-		firstdescription.add(deschtml);
-		//topsummary.setText(descriptiontext);
+		HTML connecthtml = new HTML(title + descriptiontext);
+		firstdescription.add(connecthtml);
 
+		String topsummarytext = ReactionTopViewResources.INSTANCE.topsummary().getText();
+		HTML topsummaryhtml = new HTML(topsummarytext);
+		topsummary.add(topsummaryhtml);
+		
 		String description2text = ReactionTopViewResources.INSTANCE.firstdescription().getText();
-		String title2 = "The Very Open Data Project";
-		seconddescription.setDescription(description2text);
-		seconddescription.setTitle(title2);
+		HTML descr2html = new HTML(description2text);
+		seconddescription.add(descr2html);
+		
+		String datarelationstext = ReactionTopViewResources.INSTANCE.datarelations().getText();
+		HTML datarelationshtml = new HTML(datarelationstext);
+		datarelations.add(datarelationshtml);
 		
 		String searchtext = ReactionTopViewResources.INSTANCE.usersearching().getText();
 		HTML searchhtml = new HTML(searchtext);

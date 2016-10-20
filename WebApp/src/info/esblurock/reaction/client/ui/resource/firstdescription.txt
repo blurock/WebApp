@@ -1,3 +1,39 @@
-The movement of Open Data stems from a priority at the national, European and international levels to make scientific data, especially that that stems from public funding, freely accessible. Beyond political and financial considerations is that science thrives on interaction. With modern science, especially with the explosive use and availability of electronic media, this translates to sharing electronically data between groups. The goal of the Very Open Data Project is to provide a software-technical foundation for this exchange of data, more specifically to provide an open database platform for data from the raw data coming from experimental measurements or models through intermediate manipulations to finally published results. The sheer expanse of the amount data involved creates some unique software-technical challenges. One of these challenges is addressed in the part of the study presented here, namely to characterize scientific data (with the initial focus being detailed chemistry data from the combustion kinetic community), so that efficient searches can be made. A formalization of this characterization comes in the form of schemas of descriptions of tags and keywords describing data and ontologies describing the relationship between data types and the relationship between the characterizations themselves. These will be translated to meta-data tags connected to the data points within a non-relational data of data for the community.
-
-The focus of the initial work will be on data and its accessibility. As the project progresses, the emphasis will shift on not only having available data accessible for the community, but that the community itself will be able to, with emphasis on minimal effort, will be able contribute their own data. This will involve, for example, the concepts of the ‘electronic lab notebook’ and the existence and availability of extensive concept extraction tools, primarily from the chemical informatics field.
+<h1>The Very Open Data Project</h1>
+<p style="font-size=20px">
+The movement of Open Data stems from a priority at the national, European and international levels to make scientific 
+data, especially that that stems from public funding, freely accessible. Beyond political and financial 
+considerations is that science thrives on interaction. With modern science, especially with the explosive 
+use and availability of electronic media, this translates to sharing electronically data between groups. 
+The goal of the Very Open Data Project is to provide a software-technical foundation for this exchange of data, 
+more specifically to provide an open database platform for data from the raw data coming from experimental 
+measurements or models through intermediate manipulations to finally published results. 
+The sheer expanse of the amount data involved creates some unique software-technical challenges. 
+One of these challenges is addressed in the part of the study presented here, namely to 
+characterize scientific data (with the initial focus being detailed chemistry data from the 
+combustion kinetic community), so that efficient searches can be made. A formalization of this 
+characterization comes in the form of schemas of descriptions of tags and keywords describing 
+data and ontologies describing the relationship between data types and the relationship between 
+the characterizations themselves. These will be translated to meta-data tags connected to the 
+data points within a non-relational data of data for the community.
+<br>
+The focus of this initial phase is to extract fine-grained information from published
+ (combustion) data sets. These relationships form an expansive network of inter-connected keywords and 
+ concepts. Searching within the database is keyword based and entails traversing the network of these 
+ relationships. Using this representational paradigm, two networks created independently from different
+  data sources become naturally intertwined through their common keywords and concepts. ChemConnect2016 
+  is part of the larger Very Open Data Project whose goal is to create flexible and dynamic platform for 
+  the management of scientific information (current focus, the combustion community).
+<br>
+The three main sources of information within the database now are published mechanism 
+(CHEMKIN formatted)s found on public repositories, published thermodynamic data 
+(in NASA polynomial form) and some of the 2D-graphical information (structural, 
+kinetic and thermodynamic) from automatic reaction generation systems (REACTION, THERGAS/JTHERGAS). 
+Fine-grained information, meaning, for example, individual constants, labels and structures are 
+extracted from these sources and the database network of relationships is built.
+<br>
+ As the project progresses, the emphasis will shift on not only having available data accessible for the community, 
+ but that the community itself will be able to, with emphasis on minimal effort, 
+ will be able contribute their own data. This will involve, for example, the concepts of the 
+ ‘electronic lab notebook’ and the existence and availability of extensive concept extraction 
+ tools, primarily from the chemical informatics field.
+</p>

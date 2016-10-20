@@ -28,6 +28,12 @@ public interface ReactionTopViewResources extends ClientBundle {
 	@Source("usersearching.txt")
 	public TextResource usersearching();
 	
+	@Source("datarelations.txt")
+	public TextResource datarelations();
+	
+	@Source("topsummary.txt")
+	public TextResource topsummary();
+	
 
 	
 }

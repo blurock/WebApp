@@ -29,4 +29,7 @@ public interface TextToDatabaseAsync {
 
 	void keywordsFromText(String text, AsyncCallback<HashSet<String>> callback);
 
+	void fileAsInput(String className, String sourceType, String textName, String text, String user, String keyword,
+			AsyncCallback<String> callback);
+
 }

@@ -86,7 +86,7 @@
 			width="70%">
 		</ma:window.MaterialWindow>
 
-		<m:MaterialPanel height="300px" backgroundColor="grey">
+		<m:MaterialPanel backgroundColor="grey">
 			<!-- <m:MaterialPanel width="70%" backgroundColor="grey"> -->
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
@@ -104,26 +104,18 @@
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
 					<m:MaterialButton ui:field="getstarted" textAlign="CENTER"
-						backgroundColor="grey lighten-1" fontSize="1.5em" textColor="black" text="Get Started"
+						backgroundColor="grey lighten-1" fontSize="1.5em" textColor="black" text="Sign in and get connected"
 						grid="s12" width="100%" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
-			<m:MaterialRow>
-				<m:MaterialColumn grid="s12">
-					<m:MaterialLabel ui:field="topsummary"
-						text="ChemConnect2016's unique search organization allows the user to traverse
-						a interconnected network of combustion data. This database differs from traditional
-						combustion databases in establishing a interconnection between combustion data sources allowing 
-						critical comparison of similar data from different sources. The current database
-						has taken data from a variety public domain detailed chemical mechanisms (in CHEMKIN) 
-						and automatic generation system data.
-						Click below and start exploring"
-						fontSize="1em" textColor="white" textAlign="CENTER" />
+			<m:MaterialRow backgroundColor="grey">
+				<m:MaterialColumn grid="s12" >
+				<g:HTMLPanel ui:field="topsummary" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
-					<m:MaterialLabel ui:field="prototype" text="Prototype: 20160926"
+					<m:MaterialLabel ui:field="prototype" text="Prototype: 20161026"
 						textAlign="CENTER" textColor="white" grid="s12" width="100%" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
@@ -200,8 +192,9 @@
 				url="http://impactcity.nl/wp-content/uploads/2016/02/big-data-word-cloud.jpg" />
 		</m:MaterialParallax>
 
-		<m:MaterialTitle ui:field="seconddescription" />
-
+		<g:HorizontalPanel  ui:field="datarelations" />
+		
+		
 		<m:MaterialSlider height="300" fullscreen="false">
 			<m:MaterialSlideItem ui:field="rdf1">
 				<m:MaterialImage resource="{res.RDF_Ontologies}"
@@ -227,6 +220,8 @@
 			</m:MaterialSlideItem>
 		</m:MaterialSlider>
 
+
+		<g:HorizontalPanel  ui:field="seconddescription" />
 
 
 		<m:MaterialFooter backgroundColor="blue">

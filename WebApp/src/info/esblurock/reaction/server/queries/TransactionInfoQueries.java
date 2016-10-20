@@ -26,6 +26,8 @@ import com.google.appengine.api.datastore.Key;
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
+import info.esblurock.reaction.data.upload.UploadFileTransaction;
+import info.esblurock.reaction.data.upload.types.CreateBufferedReaderForSourceFile;
 
 public class TransactionInfoQueries {
 	private static final Logger log = Logger.getLogger(TransactionInfoQueries.class.getName());
@@ -115,6 +117,46 @@ public class TransactionInfoQueries {
 			}
 		} else {
 			throw new IOException("TransactionInfo not found with object key: " + key + "," + classname);
+		}
+		return info;
+	}
+	/**
+	 * getTransaction From the object key find the TransactionInfo (from
+	 * storedObjectKey).
+	 *
+	 * @param key
+	 *            the key of the object
+	 * @return the associated transaction
+	 * @throws IOException
+	 */
+	static public UploadFileTransaction getFirstUploadFileTransactionFromKeywordUserSourceCodeAndObjectType(
+			String user, String filename) throws IOException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+		Filter sourceCodeFilter = new FilterPredicate("filename", FilterOperator.EQUAL, filename);
+		Filter userFilter = new FilterPredicate("user", FilterOperator.EQUAL, user);
+		Filter typeFilter = new FilterPredicate("sourceType", FilterOperator.EQUAL, CreateBufferedReaderForSourceFile.uploadFileAsSource);
+		Filter andfilter = CompositeFilterOperator.and(userFilter, sourceCodeFilter);
+
+		Query q = new Query("UploadFileTransaction").setFilter(andfilter);
+		PreparedQuery pq = datastore.prepare(q);
+		Iterator<Entity> iter = pq.asIterable().iterator();
+		UploadFileTransaction info = null;
+		if (iter.hasNext()) {
+			int sourceID = 0;
+			while(iter.hasNext()) {
+				Entity entity = iter.next();
+				UploadFileTransaction nextinfo = (UploadFileTransaction) 
+						pm.getObjectById(UploadFileTransaction.class, entity.getKey());
+				int source = Integer.valueOf(nextinfo.getFileCode());
+				if(source > sourceID) {
+					info = nextinfo;
+					sourceID = source;
+				}
+			}
+		} else {
+			throw new IOException("TransactionInfo not found with object key: " + user + "," + filename);
 		}
 		return info;
 	}
