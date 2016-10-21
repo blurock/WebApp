@@ -1,5 +1,5 @@
 <center>
-<h1>Searching Interconnected data through RDFs</h1>
+<h1>Searching through interconnected data</h1>
 
 <p style="font-size:30px ">
 The basis of the search is <i>keywords</i>. 

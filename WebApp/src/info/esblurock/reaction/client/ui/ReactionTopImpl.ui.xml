@@ -16,40 +16,28 @@
 	.important {
 		font-weight: bold;
 	}
-	body {
-		background: #fff;
+	.panel {
+		background-color: blue-grey lighten-2;
+		color: white;
+		font-family: "Times New Roman", Georgia, Serif;
+	}
+	.title {
+		background-color: blue-grey lighten-2;
 		color: black;
+		font-family: "Times New Roman", Georgia, Serif;
+	}
+	li {
+    		color: white;
 	}
 	p {
-		background: #fff;
-		color: black;
+		background-color: blue-grey lighten-2;
+		color: white;
+		font-family: "Times New Roman", Georgia, Serif;	
 	}
-	h2 {
-	color: #666;
-	margin-left: 30px;
+	p.italic {
+		color: white;
 	}
-	.panel {
-		background: aqua;
-		background-size: 100%;
-		padding: 0px !important;
-		padding-top: 40% !important;
-	}
-	
-	.fieldPanel {
-		background: blue-grey lighten-5;
-		padding: 6%;
-	}
-	
-	.imgProfile {
-		margin-top: -120px;
-		width: 20%;
-		margin-left: 40%;
-		border: 5px solid #fff;
-	}
-	
-	.rowAction {
-		margin-top: 20px;
-	}
+}
 	</ui:style>
 	<g:HTMLPanel ui:field="toppanel">
 	<m:MaterialModal ui:field="usermodal" type="FIXED_FOOTER" dismissable="false" inDuration="500" outDuration="800">
@@ -63,9 +51,9 @@
 		<m:MaterialNavBar ui:field="navbar" activates="topsidenav"
 			backgroundColor="aqua">
 			<m:MaterialNavSection float="LEFT">
-				<m:MaterialLink ui:field="toplogout" textColor="black"
+				<m:MaterialLink ui:field="toplogout"
 					text="logout" iconType="LOCK" />
-				<m:MaterialLink ui:field="linkmenu" textColor="black"
+				<m:MaterialLink ui:field="linkmenu" textColor="black" 
 					iconType="EXIT_TO_APP" />
 				<m:MaterialLink ui:field="profile" textColor="black"
 					iconType="PERSON" />
@@ -86,8 +74,7 @@
 			width="70%">
 		</ma:window.MaterialWindow>
 
-		<m:MaterialPanel backgroundColor="grey">
-			<!-- <m:MaterialPanel width="70%" backgroundColor="grey"> -->
+		<m:MaterialPanel>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
 					<m:MaterialLabel textAlign="CENTER" fontSize="3em"
@@ -108,9 +95,9 @@
 						grid="s12" width="100%" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
-			<m:MaterialRow backgroundColor="grey">
-				<m:MaterialColumn grid="s12" >
-				<g:HTMLPanel ui:field="topsummary" />
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s12">
+				<g:HorizontalPanel ui:field="topsummary" addStyleNames='{style.panel}'/>
 				</m:MaterialColumn>
 			</m:MaterialRow>
 			<m:MaterialRow>
@@ -133,8 +120,8 @@
 					</m:MaterialPanel>
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s12 m6">
-					<m:MaterialPanel addStyleNames="{style.fieldPanel}">
-						<m:MaterialImage resource="{loginres.OneKey}" type="CIRCLE" addStyleNames="{style.imgProfile} z-depth-1"/>
+					<m:MaterialPanel >
+						<m:MaterialImage resource="{loginres.OneKey}" type="CIRCLE" />
 						<m:MaterialTextBox ui:field="accountname"/>
 						<m:MaterialTextBox ui:field="userpassword" type="PASSWORD"/>
 						<m:MaterialButton ui:field="btnLogin" waves="LIGHT" width="100%"/>
@@ -147,52 +134,48 @@
 			<m:MaterialSlideItem>
 				<m:MaterialImage
 					url="http://mcensustainableenergy.pbworks.com/w/page/20638179/f/Combustion.jpg" />
-				<m:MaterialSlideCaption textAlign="CENTER">
-					<m:MaterialTitle ui:field="item1caption" title="Item 1"
-						description="slogan 1." opacity="0.8" backgroundColor="white" textColor="black"/>
+				<m:MaterialSlideCaption textAlign="CENTER" styleName='{style.title}'>
+					<m:MaterialTitle ui:field="item1caption" />
 				</m:MaterialSlideCaption>
 			</m:MaterialSlideItem>
 			<m:MaterialSlideItem>
 				<m:MaterialImage
 					url="http://www.ecm2013.lth.se/fileadmin/forbrf/ecm2013/ECM2013_group_photo_small.JPG" />
 				<m:MaterialSlideCaption textAlign="CENTER">
-					<m:MaterialTitle ui:field="item2caption" title="Item 2"
-						description="slogan 2." textColor="black"/>
+					<m:MaterialTitle ui:field="item2caption"/>
 				</m:MaterialSlideCaption>
 			</m:MaterialSlideItem>
 			<m:MaterialSlideItem ui:field="item3">
 				<m:MaterialImage
 					url="http://www.soilworx.com.au/data/img/products/sand/Sand-Bulk-Brick-White.jpg" />
 				<m:MaterialSlideCaption textAlign="CENTER">
-					<m:MaterialTitle ui:field="item3caption" title="Item 3"
-						description="slogan 3."  textColor="black"/>
+					<m:MaterialTitle ui:field="item3caption" />
 				</m:MaterialSlideCaption>
 			</m:MaterialSlideItem>
 			<m:MaterialSlideItem ui:field="item4">
 				<m:MaterialImage
 					url="http://physics.aps.org/assets/d30f8977-219e-4566-a6fc-1138bbe2a9b0/e130_1.png" />
 				<m:MaterialSlideCaption textAlign="CENTER">
-					<m:MaterialTitle ui:field="item4caption" title="Item 4"
-						description="slogan 4."  textColor="black"/>
+					<m:MaterialTitle ui:field="item4caption"/>
 				</m:MaterialSlideCaption>
 			</m:MaterialSlideItem>
 		</m:MaterialSlider>
 
-	<g:HorizontalPanel ui:field="firstdescription"/>
+	<g:HorizontalPanel ui:field="firstdescription" styleName='{style.panel}'/>
 
 		<m:MaterialParallax height="200">
 			<m:MaterialImage
 				url="http://atm.ulb.ac.be/wp-content/uploads/2014/11/isoLLNL874-eps-converted-to.png" />
 		</m:MaterialParallax>
 
-		<g:HorizontalPanel  ui:field="rdfdescription" />
+		<g:HorizontalPanel  ui:field="rdfdescription" addStyleNames='{style.panel}'/>
 
 		<m:MaterialParallax height="200">
 			<m:MaterialImage
 				url="http://impactcity.nl/wp-content/uploads/2016/02/big-data-word-cloud.jpg" />
 		</m:MaterialParallax>
 
-		<g:HorizontalPanel  ui:field="datarelations" />
+		<g:HorizontalPanel  ui:field="datarelations" addStyleNames='{style.panel}'/>
 		
 		
 		<m:MaterialSlider height="300" fullscreen="false">
@@ -221,10 +204,10 @@
 		</m:MaterialSlider>
 
 
-		<g:HorizontalPanel  ui:field="seconddescription" />
+		<g:HorizontalPanel  ui:field="seconddescription" addStyleNames='{style.panel}'/>
 
 
-		<m:MaterialFooter backgroundColor="blue">
+		<m:MaterialFooter backgroundColor="grey darken-1">
 
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s6">
