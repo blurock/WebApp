@@ -19,40 +19,21 @@ import info.esblurock.reaction.data.description.DataSetReference;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 
 public class RegisterDataDescriptionCallback  implements AsyncCallback<String> {
-	//InputConstants inputConstants = GWT.create(InputConstants.class);
-	//InterfaceConstants interfaceConstants = GWT.create(InterfaceConstants.class);
-
-	private DescriptionDataData description;
-	MaterialModalContent modalcontent;
-	MaterialModal modal;
-	ArrayList<DataSetReference> referenceList;
+	SetOfInputs inputs;
 	
 	public RegisterDataDescriptionCallback(String dataType, 
-			DescriptionDataData description, ArrayList<DataSetReference> reflist,
-			MaterialModal modal,MaterialModalContent modalcontent) {
-		this.description = description;
-		this.modalcontent = modalcontent;
-		this.modal = modal;
-		this.referenceList = reflist;
+			SetOfInputs inputs) {
+		this.inputs = inputs;
 	}
 	
 	@Override
 	public void onFailure(Throwable caught) {
-		String keyword = GenerateKeywordFromDescription.createKeyword(description);
-		TransactionServiceAsync findprocess = TransactionService.Util.getInstance();
-		SetUpProcessesCallback callback = new SetUpProcessesCallback(keyword,modal,modalcontent);
-		findprocess.findValidProcessing(keyword, callback);
+		inputs.findValidProcesses();
 	}
 
 	@Override
 	public void onSuccess(String result) {
-		DataDescriptionAsRows panel = new DataDescriptionAsRows(result,description);
-		modalcontent.clear();
-		modalcontent.add(panel);
-		modal.openModal();
-		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
-		SuccessfulRegistrationCallback callback = new SuccessfulRegistrationCallback();
-		async.registerDataInputDescription(description,referenceList,callback);
+		inputs.askRegisterModal(result);
 	}
 
 }

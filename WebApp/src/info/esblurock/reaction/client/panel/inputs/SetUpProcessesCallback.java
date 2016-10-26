@@ -13,14 +13,11 @@ import gwt.material.design.client.ui.MaterialModalContent;
 public class SetUpProcessesCallback  implements AsyncCallback<List<String>> {
 
 	String keyword;
-	MaterialModalContent modalcontent;
-	MaterialModal modal;
+	SetOfInputs inputs;
 	
-	public SetUpProcessesCallback(String keyword,
-			MaterialModal modal,MaterialModalContent modalcontent) {
+	public SetUpProcessesCallback(String keyword, SetOfInputs inputs) {
 		this.keyword = keyword;
-		this.modalcontent = modalcontent;
-		this.modal = modal;
+		this.inputs = inputs;
 	}
 	@Override
 	public void onFailure(Throwable caught) {
@@ -29,14 +26,7 @@ public class SetUpProcessesCallback  implements AsyncCallback<List<String>> {
 
 	@Override
 	public void onSuccess(List<String> result) {
-		ArrayList<String> lst = new ArrayList<String>();
-		for(String name : result) {
-			lst.add(name);
-		}
-		ValidProcesses valid = new ValidProcesses(keyword,modal);
-		modalcontent.clear();
-		modalcontent.add(valid);
-		valid.setGrid(lst);
-		modal.openModal();
+		Window.alert("SetUpProcessesCallback: onSuccess: '" + keyword + "': " + result);
+		inputs.showValidProcesses(keyword, result);
 	}
 }

@@ -9,14 +9,20 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialModalContent;
+import gwt.material.design.client.ui.MaterialTitle;
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.description.DataDescription;
+import info.esblurock.reaction.client.panel.description.DataDescriptionAsRows;
 import info.esblurock.reaction.client.panel.description.ReferenceDescriptions;
 import info.esblurock.reaction.client.panel.description.SetOfReferenceDescriptions;
+import info.esblurock.reaction.client.panel.transaction.TransactionService;
+import info.esblurock.reaction.client.panel.transaction.TransactionServiceAsync;
 import info.esblurock.reaction.client.resources.DescriptionConstants;
 import info.esblurock.reaction.client.resources.InputConstants;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
+import info.esblurock.reaction.data.GenerateKeywordFromDescription;
 import info.esblurock.reaction.data.description.DataSetReference;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 
@@ -50,18 +56,35 @@ public class SetOfInputs extends Composite {
 	MaterialModalContent modalcontent;
 	@UiField
 	MaterialButton closedescr;
+	@UiField
+	MaterialButton registerok;
 
+	@UiField
+	MaterialTitle newregistertitle;
+	@UiField
+	MaterialButton registerclose;
+	@UiField
+	MaterialModal registermodal;
+	
 	DescriptionConstants descriptionConstants = GWT
 			.create(DescriptionConstants.class);
 
 	private DataDescription description;
 	private HashSet<DataInput> inputs = new HashSet<DataInput>();
 	private SetOfReferenceDescriptions referenceset;
+	DescriptionDataData descrdata;
+	String registeredKey;
 	
 	String dataType;
 
+	private void init() {
+		registerclose.setText(inputConstants.edit());
+		registerok.setText(inputConstants.register());
+		closedescr.setText(inputConstants.ok());
+	}
 	public SetOfInputs(InputSet set, String dataType) {
 		initWidget(uiBinder.createAndBindUi(this));
+		init();
 		this.dataType = dataType;
 		submitdata.setText(descriptionConstants.submit());
 		description = set.getDescription();
@@ -101,9 +124,9 @@ public class SetOfInputs extends Composite {
 		modal.closeModal();
 	}
 	@UiHandler("submitdata")
-	void onSubmitData(ClickEvent e) {
+	void onSubmitData(ClickEvent e) {		
 		if(description.keywordEntered()) {
-			DescriptionDataData descrdata = new DescriptionDataData(
+			descrdata = new DescriptionDataData(
 					description.getKeyWord(),
 					description.getOneLineDescription(),
 					description.getDescription(), 
@@ -111,14 +134,12 @@ public class SetOfInputs extends Composite {
 					description.getInputKey(),
 					dataType,
 					description.getKeywords());
-			ArrayList<DataSetReference> references = getReferences();
 			setKeyword(description.getKeyWord(), description.getSource());
-			RegisterDataDescriptionCallback callback = 
-					new RegisterDataDescriptionCallback(dataType,descrdata,references,modal,modalcontent);
+			RegisterDataDescriptionCallback callback = new RegisterDataDescriptionCallback(dataType,this);
 			TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
 			async.checkSubmitInputData(descrdata, callback);
 		} else {
-			Window.alert("It is important to enter a keyword and the source");
+			Window.alert(inputConstants.completekeyword());
 		}
 	};
 	private ArrayList<DataSetReference> getReferences() {
@@ -131,4 +152,52 @@ public class SetOfInputs extends Composite {
 		}
 		return reflist;
 	}
+	public void findValidProcesses() {
+		String keyword = GenerateKeywordFromDescription.createKeyword(descrdata);
+		TransactionServiceAsync findprocess = TransactionService.Util.getInstance();
+		SetUpProcessesCallback callback = new SetUpProcessesCallback(keyword,this);
+		findprocess.findValidProcessing(keyword, callback);		
+	}
+	public void showValidProcesses(String keyword, List<String> result) {
+		ArrayList<String> lst = new ArrayList<String>();
+		for(String name : result) {
+			lst.add(name);
+		}
+		ValidProcesses valid = new ValidProcesses(keyword,modal);
+		modalcontent.clear();
+		modalcontent.add(valid);
+		valid.setGrid(lst);
+		modal.openModal();		
+	}
+	
+	public void askRegisterModal(String result) {
+		newregistertitle.setDescription(inputConstants.clickok() 
+				+ ", '" + result + "', " + inputConstants.othertoclose());
+		registeredKey = result;
+		newregistertitle.setBackgroundColor("light-blue lighten-2");
+		newregistertitle.setTitle(result);
+		registermodal.openModal();
+	}
+	public void registerDataset() {
+		TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
+		SuccessfulRegistrationCallback callback = new SuccessfulRegistrationCallback();
+		async.registerDataInputDescription(descrdata,getReferences(),callback);				
+	}
+	@UiHandler("registerok")
+	void okRegisterModal(ClickEvent e) {
+		DataDescriptionAsRows panel = new DataDescriptionAsRows(registeredKey,descrdata);
+		modalcontent.clear();
+		modalcontent.add(panel);
+		modal.openModal();
+		registerDataset();
+	}
+	@UiHandler("registerclose")
+	void okregisterClose(ClickEvent e) {
+		registermodal.closeModal();
+	}
+	@UiHandler("closedescr")
+	void continueModal(ClickEvent e) {
+		modal.closeModal();		
+	}
+
 }

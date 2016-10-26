@@ -61,6 +61,24 @@ public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   String chemkinmechanismtype();
 
   /**
+   * Translated "Click OK if you want to register data set".
+   * 
+   * @return translated "Click OK if you want to register data set"
+   */
+  @DefaultMessage("Click OK if you want to register data set")
+  @Key("clickok")
+  String clickok();
+
+  /**
+   * Translated "It is important to enter a keyword and the source".
+   * 
+   * @return translated "It is important to enter a keyword and the source"
+   */
+  @DefaultMessage("It is important to enter a keyword and the source")
+  @Key("completekeyword")
+  String completekeyword();
+
+  /**
    * Translated "Address".
    * 
    * @return translated "Address"
@@ -286,6 +304,15 @@ public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   String documentText();
 
   /**
+   * Translated "edit".
+   * 
+   * @return translated "edit"
+   */
+  @DefaultMessage("edit")
+  @Key("edit")
+  String edit();
+
+  /**
    * Translated "email address".
    * 
    * @return translated "email address"
@@ -448,6 +475,15 @@ public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   String nodataupload();
 
   /**
+   * Translated "OK".
+   * 
+   * @return translated "OK"
+   */
+  @DefaultMessage("OK")
+  @Key("ok")
+  String ok();
+
+  /**
    * Translated "Organization Contact".
    * 
    * @return translated "Organization Contact"
@@ -473,6 +509,15 @@ public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Other")
   @Key("other")
   String other();
+
+  /**
+   * Translated "otherwise click close.".
+   * 
+   * @return translated "otherwise click close."
+   */
+  @DefaultMessage("otherwise click close.")
+  @Key("othertoclose")
+  String othertoclose();
 
   /**
    * Translated "Password".
@@ -518,6 +563,15 @@ public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Professor")
   @Key("professor")
   String professor();
+
+  /**
+   * Translated "register".
+   * 
+   * @return translated "register"
+   */
+  @DefaultMessage("register")
+  @Key("register")
+  String register();
 
   /**
    * Translated "Repeat Password".

@@ -1,0 +1,38 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+		<m:MaterialCollapsibleItem>
+			<m:MaterialCollapsibleHeader
+				backgroundColor="grey darken-1">
+				<m:MaterialLink ui:field="standardKeyword" iconType="CREATE"
+					textColor="white" iconPosition="LEFT" />
+				<m:MaterialIcon ui:field="delete" iconType="CLOSE" iconPosition="RIGHT"/>
+			</m:MaterialCollapsibleHeader>
+			<m:MaterialCollapsibleBody>
+				<g:HTMLPanel ui:field="keywordpanel">
+					<m:MaterialChip ui:field="addkeyword" text="Add keyword"/>
+		<m:MaterialModal ui:field="keywordModal" type="FIXED_FOOTER"
+			dismissable="true" inDuration="500" outDuration="500">
+			<m:MaterialModalContent>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s12">
+						<m:MaterialTextBox ui:field="newKeywordText"
+							backgroundColor="grey lighten-1" placeholder="Keyword" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+			</m:MaterialModalContent>
+			<m:MaterialModalFooter>
+				<m:MaterialButton ui:field="newKeywordButton" />
+				<m:MaterialButton ui:field="keywordCloseButton"/>
+			</m:MaterialModalFooter>
+		</m:MaterialModal>
+
+				</g:HTMLPanel>
+			</m:MaterialCollapsibleBody>
+		</m:MaterialCollapsibleItem>
+</ui:UiBinder> 

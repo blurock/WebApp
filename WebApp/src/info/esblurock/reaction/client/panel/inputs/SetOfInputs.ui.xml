@@ -6,12 +6,22 @@
 	
 	</ui:style>
 	<g:HTMLPanel ui:field="contentpanel">
+		<m:MaterialModal ui:field="registermodal" type="DEFAULT"
+			dismissable="true" inDuration="500" outDuration="500">
+			<m:MaterialModalContent>
+				<m:MaterialTitle ui:field="newregistertitle" />
+			</m:MaterialModalContent>
+			<m:MaterialModalFooter>
+				<m:MaterialButton ui:field="registerclose" type="FLAT" />
+				<m:MaterialButton ui:field="registerok" type="FLAT" />
+			</m:MaterialModalFooter>
+		</m:MaterialModal>
 		<m:MaterialModal ui:field="modal" type="DEFAULT"
 			dismissable="true" inDuration="500" outDuration="800">
 			<m:MaterialModalContent ui:field="modalcontent">
 			</m:MaterialModalContent>
 			<m:MaterialModalFooter>
-				<m:MaterialButton ui:field="closedescr" text="Close Modal" type="FLAT" />
+				<m:MaterialButton ui:field="closedescr" type="FLAT" />
 			</m:MaterialModalFooter>
 		</m:MaterialModal>
 		<m:MaterialRow>

@@ -2,6 +2,7 @@ package info.esblurock.reaction.client.panel.query;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import com.google.gwt.core.client.GWT;
@@ -34,5 +35,6 @@ public interface ReactionSearchService  extends RemoteService {
 	   RDFBySubjectSet singleKeyQuery(String key) throws IOException;
 	   RDFTreeNode searchedRegisteredQueries(String query) throws IOException;
 	   DatabaseObject getObjectFromKey(String classname, String key) throws Exception;
-	   
+	   String registerSynonyms(HashMap<String,ArrayList<String>> standardKeywordSynonyms) throws IOException;
+	   HashMap<String,ArrayList<String>> getSynonymsForStandardKeywords() throws IOException;
 }

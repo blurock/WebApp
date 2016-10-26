@@ -102,6 +102,8 @@
 							</m:MaterialRow>
 							<m:MaterialRow>
 								<m:MaterialColumn>
+								<m:MaterialLink ui:field="standardKeywords"
+										iconPosition="LEFT" text="Standard Keywords" textColor="blue" />
 								</m:MaterialColumn>
 							</m:MaterialRow>
 						</m:MaterialCollapsibleBody>

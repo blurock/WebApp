@@ -225,9 +225,13 @@ public class TransactionServiceImpl extends ServerBase implements TransactionSer
 	}
 
 	public List<String> findValidProcessing(String keyword) throws IOException {
+		System.out.println("findValidProcessing: '" + keyword + "'");
 		ContextAndSessionUtilities util = getUtilities();
+		System.out.println("ContextAndSessionUtilities");
 		String user = util.getUserName();
+		System.out.println("User: " + user);
 		List<String> processes = RegisteredProcesses.toBeProcessed(user, keyword);
+		System.out.println("Processes: " + processes);
 		return processes;
 	}
 

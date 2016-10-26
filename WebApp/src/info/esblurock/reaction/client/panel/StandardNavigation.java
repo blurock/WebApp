@@ -46,6 +46,8 @@ public class StandardNavigation extends Composite implements HasText {
 	MaterialLink sdfsubstructures;
 	@UiField
 	MaterialLink thergasmolecules;
+	@UiField
+	MaterialLink standardKeywords;
 	
 	@UiField
 	MaterialLink toplink;
@@ -171,13 +173,12 @@ public class StandardNavigation extends Composite implements HasText {
 	void onTransaction(ClickEvent e) {
 		handleHistoryToken("transactions");
 	}
-	/*
-	@UiHandler("uploadsets")
+	
+	@UiHandler("standardKeywords")
 	void onUploads(ClickEvent e) {
-		MaterialToast.fireToast("uploadsets");
-		handleHistoryToken("uploadsets");
+		MaterialToast.fireToast("standardKeywords");
+		handleHistoryToken("standardKeywords");
 	}
-	*/
 	public void setPresenter(Presenter presenter) {
 		listener = presenter;
 	}

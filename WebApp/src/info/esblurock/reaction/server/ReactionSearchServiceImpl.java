@@ -1,19 +1,22 @@
 package info.esblurock.reaction.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.data.PMF;
+import info.esblurock.reaction.data.keyword.KeywordStandardization;
 import info.esblurock.reaction.data.rdf.CreateSetOfKeywordQueryAnswers;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
 import info.esblurock.reaction.data.rdf.SetOfKeywordQueryAnswers;
 import info.esblurock.reaction.data.rdf.SetOfKeywordRDF;
-import info.esblurock.reaction.data.rdf.graph.RDFSubTreeParentNode;
 import info.esblurock.reaction.data.rdf.graph.RDFTreeNode;
-import info.esblurock.reaction.data.rdf.graph.TreeNodeFactory;
 import info.esblurock.reaction.data.rdf.graph.TreeNodeFactoryWithObjectNode;
 import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.event.RegisterTransaction;
@@ -161,5 +164,54 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 				//+ "(" + result.getKey() + ")");
 		pm.close();
 		return result;
+	}
+
+	@Override
+	public String registerSynonyms(HashMap<String, ArrayList<String>> standardKeywordSynonyms) throws IOException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		clearKeywordStandardization(pm);
+		ArrayList<KeywordStandardization> lst = new ArrayList<KeywordStandardization>();
+		Set<String> standards = standardKeywordSynonyms.keySet();
+		for(String synonymsset : standards) {
+			ArrayList<String> set = standardKeywordSynonyms.get(synonymsset);
+			for(String synonym : set) {
+				KeywordStandardization standard = new KeywordStandardization(synonymsset,synonym);
+				lst.add(standard);
+			}
+		}
+		pm = PMF.get().getPersistenceManager();
+		pm.makePersistentAll(lst);
+		return lst.toString();
+	}
+
+	private List<KeywordStandardization> listOfKeywordStandardization(PersistenceManager pm) {
+		javax.jdo.Query query = pm.newQuery(KeywordStandardization.class);
+		List<KeywordStandardization> pairs = (List<KeywordStandardization>) query.execute();
+		return pairs;
+	}
+	private void clearKeywordStandardization(PersistenceManager pm) {
+		List<KeywordStandardization> lst = listOfKeywordStandardization(pm);
+		pm.deletePersistentAll(lst);
+		pm.close();
+	}
+	@Override
+	public HashMap<String, ArrayList<String>> getSynonymsForStandardKeywords() throws IOException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		List<KeywordStandardization> pairs = listOfKeywordStandardization(pm);
+		HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+		for(KeywordStandardization standard : pairs) {
+			String standardkeyword = standard.getStandardKeyword();
+			if(map.containsKey(standardkeyword)) {
+				ArrayList<String> synonyms = map.get(standardkeyword);
+				synonyms.add(standard.getSynonym());
+ 			} else {
+ 				ArrayList<String> synonyms = new ArrayList<String>();
+ 				synonyms.add(standard.getSynonym());
+ 				map.put(standardkeyword, synonyms);
+			}
+		}
+		System.out.println("getSynonymsForStandardKeywords()\n" + map);
+		return map;
+		
 	}
 }

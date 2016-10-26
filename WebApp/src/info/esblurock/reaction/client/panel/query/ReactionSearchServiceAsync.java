@@ -4,6 +4,8 @@ import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
 import info.esblurock.reaction.data.rdf.graph.RDFTreeNode;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -22,5 +24,9 @@ public interface ReactionSearchServiceAsync {
 			AsyncCallback<DatabaseObject> callback);
 
 	void searchedRegisteredQueries(String query, AsyncCallback<RDFTreeNode> callback);
+
+	void registerSynonyms(HashMap<String, ArrayList<String>> standardKeywordSynonyms, AsyncCallback<String> callback);
+
+	void getSynonymsForStandardKeywords(AsyncCallback<HashMap<String, ArrayList<String>>> callback);
 
 }

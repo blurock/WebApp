@@ -176,6 +176,7 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 			System.out.println("Exception:" + ex);
 			throw ex;
 		}
+		
 		return keyword;
 	}
 

@@ -1,0 +1,29 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<m:MaterialRow>
+		<m:MaterialTitle ui:field="synonymtitle"/>
+		</m:MaterialRow>
+		<m:MaterialRow>
+		<m:MaterialColumn grid="s3">
+			<m:MaterialButton ui:field="referenceheader"
+				iconType="CREATE" iconPosition="LEFT" backgroundColor="grey darken-1" />		
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="s3">
+			<m:MaterialTextBox ui:field="standardkey" backgroundColor="grey darken-1" />		
+		</m:MaterialColumn>
+		<m:MaterialColumn grid="s3" >
+			<m:MaterialButton ui:field="submit" backgroundColor="grey darken-1" />		
+		</m:MaterialColumn>
+		</m:MaterialRow>
+		<m:MaterialCollapsible ui:field="collapsable">
+		</m:MaterialCollapsible>
+	</g:HTMLPanel>
+</ui:UiBinder> 

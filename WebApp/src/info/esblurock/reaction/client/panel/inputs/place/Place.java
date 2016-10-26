@@ -6,6 +6,7 @@ import info.esblurock.reaction.client.panel.contact.OrganizationInput;
 import info.esblurock.reaction.client.panel.contact.UserContactInput;
 import info.esblurock.reaction.client.panel.inputs.InputSet;
 import info.esblurock.reaction.client.panel.inputs.SetOfInputs;
+import info.esblurock.reaction.client.panel.query.synonyms.SetOfSynonymsPanel;
 import info.esblurock.reaction.client.panel.transaction.ObjectTransaction;
 import info.esblurock.reaction.client.panel.transaction.TransactionSources;
 import info.esblurock.reaction.client.panel.transaction.UploadFileSetsTransactions;
@@ -146,6 +147,25 @@ public enum Place {
 			SetOfInputs inputs = new SetOfInputs(InputSet.nasapolynomials, "NASAPolynomials");
 			return inputs;
 		}
+	},
+	standardKeywords {
+
+		@Override
+		public String getTitle() {
+			return "Standard Keywords";
+		}
+
+		@Override
+		public String getDescription() {
+			return "Set up standard keyword synonyms";
+		}
+
+		@Override
+		public Widget getContent() {
+			SetOfSynonymsPanel panel = new SetOfSynonymsPanel();
+			return panel;
+		}
+		
 	},
 	/*
 	toprocess {
