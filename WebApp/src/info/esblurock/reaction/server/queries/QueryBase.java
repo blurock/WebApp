@@ -96,15 +96,6 @@ public class QueryBase {
 			options.startCursor(cursor);
 			currentBatch = datastore.prepare(query).asQueryResultList(options);
 		}
-/*
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		javax.jdo.Query q = pm.newQuery(classtype);
-		String filterS = propertyname + " == '" + propertyvalue + "'";
-		log.info("deleteFromIdentificationCode: " + filterS);
-		q.setFilter(filterS);
-		long ans = q.deletePersistentAll();
-		log.info("deleteFromIdentificationCode: " + ans);
-		*/
 	}
 	static void Batch(QueryResultList<Entity> currentBatch) {
 		ArrayList<Key> keys = new ArrayList<Key>();
@@ -175,6 +166,47 @@ public class QueryBase {
 		}
 		return set;
 	}
+	static public List<DatabaseObject> getDatabaseObjectsFromProperties(String classname, 
+			ArrayList<String> propertynames,
+			ArrayList<String> propertyvalues) throws IOException {
+		Iterator<String> iter = propertyvalues.iterator();
+		ArrayList<Filter> filters = new ArrayList<Filter>();
+		for(String propertyname : propertynames) {
+			Filter filter = new FilterPredicate(propertyname, FilterOperator.EQUAL, iter.next());
+			filters.add(filter);
+		}
+		Filter andfilter = CompositeFilterOperator.and(filters);
+
+		List<DatabaseObject> set = null;
+		try {
+			set = getDatabaseObjectsFromFilter(classname, andfilter);
+		} catch (IOException ex) {
+			throw new IOException(ex.toString() + " not found with : " + propertynames + "=" + propertyvalues);
+		}
+		return set;
+	}
+	static public DatabaseObject getFirstOjbectFromProperties(String classname, ArrayList<String> propertynames,
+			ArrayList<String> propertyvalues) throws IOException {
+		DatabaseObject object = null;
+		List<DatabaseObject> objs = getDatabaseObjectsFromProperties(classname,propertynames,propertyvalues);
+		if(objs.size() > 0) {
+			object = objs.get(0);
+		} else {
+			throw new IOException(classname + " not found with : " + propertynames + "=" + propertyvalues);
+		}
+		return object;
+	}
+	static public DatabaseObject getFirstDatabaseObjectsFromSingleProperty(String classname,
+			String propertyname, String propertyvalue) throws IOException {
+		List<DatabaseObject> objs = getDatabaseObjectsFromSingleProperty(classname,propertyname,propertyvalue);
+		DatabaseObject object = null;
+		if(objs.size() > 0) {
+			object = objs.get(0);
+		} else {
+			throw new IOException(classname + ": Not found with : " + propertyname + "=" + propertyvalue);
+		}
+		return object;
+	}
 
 	/**
 	 * Fetch objects of classtype with propertyname == propertyvalue for a given
@@ -204,6 +236,71 @@ public class QueryBase {
 		return set;
 	}
 
+	static public DatabaseObject getFirstDatabaseObjectsFromSingleProperty(String classname, String user,
+			String propertyname, String propertyvalue) throws IOException {
+		List<DatabaseObject> objs = getUserDatabaseObjectsFromSingleProperty(classname,user,propertyname,propertyvalue);
+		DatabaseObject object = null;
+		if(objs.size() > 0) {
+			object = objs.get(0);
+		} else {
+			throw new IOException(classname + ": Not found with : " + propertyname + "=" + propertyvalue + ", User='"
+					+ user + "')");
+		}
+		return object;
+	}
+	static public ArrayList<ArrayList<Object>> getDatabaseEntitiesFromFilter(String classname, 
+			Filter filter, ArrayList<String> propertynames) throws IOException {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		ArrayList<ArrayList<Object>> total = new ArrayList<ArrayList<Object>>();
+		try {
+			Cursor cursor = null;
+			Class cls = Class.forName(classname);
+			DatabaseObject example = (DatabaseObject) cls.newInstance();
+			FetchOptions options = FetchOptions.Builder.withLimit(entityLimit);
+			Query query = null;
+			if(filter != null) {
+				query = new Query(example.getClass().getSimpleName()).setFilter(filter);
+			} else {
+				query = new Query(example.getClass().getSimpleName());
+			}
+			QueryResultList<Entity> currentBatch = datastore.prepare(query).asQueryResultList(options);
+			while(currentBatch != null && currentBatch.size() > 0) {
+				getEntityPropertiesBatch(cls, currentBatch, total,propertynames);
+				cursor = currentBatch.getCursor();
+				options = FetchOptions.Builder.withLimit(entityLimit);
+				options.startCursor(cursor);
+				currentBatch = datastore.prepare(query).asQueryResultList(options);
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return total;
+	}
+	static public void getEntityPropertiesBatch(Class type, 
+			QueryResultList<Entity> currentBatch, 
+			ArrayList<ArrayList<Object>> results,
+			ArrayList<String> propertynames) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		pm.getFetchPlan()
+		.setGroup(FetchGroup.ALL)
+		.setDetachmentOptions(FetchPlan.DETACH_LOAD_FIELDS);
+		
+		for(Entity entity: currentBatch) {
+			ArrayList<Object> entityresults = new ArrayList<Object>();
+			for(String property: propertynames) {
+				Object obj = entity.getProperty(property);
+				entityresults.add(obj);
+			}
+			results.add(entityresults);
+		}
+		pm.close();
+	}
+
+	
 	static public List<DatabaseObject> getDatabaseObjectsFromFilter(String classname, Filter filter)
 			throws IOException {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -223,23 +320,6 @@ public class QueryBase {
 				options.startCursor(cursor);
 				currentBatch = datastore.prepare(query).asQueryResultList(options);
 			}
-			/*
-			Iterator<Entity> iter = pq.asIterator(options);
-			if (iter.hasNext()) {
-				while (iter.hasNext()) {
-					Entity entity = iter.next();
-					pm.getFetchPlan()
-						.setGroup(FetchGroup.ALL)
-						.setDetachmentOptions(FetchPlan.DETACH_LOAD_FIELDS);
-					DatabaseObject info = (DatabaseObject) pm.getObjectById(example.getClass(), entity.getKey());
-					DatabaseObject detached = pm.detachCopy(info);
-					set.add(detached);
-				}
-			} else {
-				throw new IOException(example.getClass().getName() + " not found with filter");
-			}
-		*/
-
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -250,7 +330,7 @@ public class QueryBase {
 		return total;
 
 	}
-	static List<DatabaseObject> getBatch(Class type, QueryResultList<Entity> currentBatch) {
+	static public List<DatabaseObject> getBatch(Class type, QueryResultList<Entity> currentBatch) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		pm.getFetchPlan()
 		.setGroup(FetchGroup.ALL)
@@ -262,14 +342,24 @@ public class QueryBase {
 			DatabaseObject detached = pm.detachCopy(obj);
 			detacheds.add(detached);
 		}
-		//pm.getFetchPlan()
-		//.setGroup(FetchGroup.ALL)
-		//.setDetachmentOptions(FetchPlan.DETACH_LOAD_FIELDS);
-		//List<DatabaseObject> set = (List<DatabaseObject>) pm.getObjectsById(keys);
-		//List<DatabaseObject> detached = (List<DatabaseObject>) pm.detachCopyAll(set);
 		pm.close();
 		return detacheds;
 	}
-	
+	static public ArrayList<String> generateSynonyms(String keyword) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter objectfilter =
+				  new FilterPredicate("synonym",FilterOperator.EQUAL,keyword);
+		Query q = new Query("KeywordStandardization").setFilter(objectfilter);
+		ArrayList<String> synonyms = new ArrayList<>();
+		Iterator<Entity> iter = datastore.prepare(q).asIterator();
+		while(iter.hasNext()) {
+			Entity entity = iter.next();
+			String standard = (String) entity.getProperty("standardKeyword");
+			synonyms.add(standard);
+		}
+		return synonyms;
+	}
+
 	
 }

@@ -151,6 +151,15 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Constants
   String filenametooltip();
 
   /**
+   * Translated "help".
+   * 
+   * @return translated "help"
+   */
+  @DefaultStringValue("help")
+  @Key("help")
+  String help();
+
+  /**
    * Translated "InputDate".
    * 
    * @return translated "InputDate"
@@ -322,6 +331,24 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Constants
   String rdfKeyWordsSizetooltip();
 
   /**
+   * Translated "These are some examples with simple descriptions of what results are returned.".
+   * 
+   * @return translated "These are some examples with simple descriptions of what results are returned."
+   */
+  @DefaultStringValue("These are some examples with simple descriptions of what results are returned.")
+  @Key("searchinfodescription")
+  String searchinfodescription();
+
+  /**
+   * Translated "Search examples".
+   * 
+   * @return translated "Search examples"
+   */
+  @DefaultStringValue("Search examples")
+  @Key("searchinfotitle")
+  String searchinfotitle();
+
+  /**
    * Translated "Source Date".
    * 
    * @return translated "Source Date"
@@ -385,6 +412,24 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Constants
   String successtitle();
 
   /**
+   * Translated "Here can you find basic information on how to use ChemConnect".
+   * 
+   * @return translated "Here can you find basic information on how to use ChemConnect"
+   */
+  @DefaultStringValue("Here can you find basic information on how to use ChemConnect")
+  @Key("topinfodescription")
+  String topinfodescription();
+
+  /**
+   * Translated "ChemConnect Help Information".
+   * 
+   * @return translated "ChemConnect Help Information"
+   */
+  @DefaultStringValue("ChemConnect Help Information")
+  @Key("topinfotitle")
+  String topinfotitle();
+
+  /**
    * Translated "Data Entry: Enter raw data into database".
    * 
    * @return translated "Data Entry: Enter raw data into database"
@@ -428,6 +473,51 @@ public interface InterfaceConstants extends com.google.gwt.i18n.client.Constants
   @DefaultStringValue("Home Page")
   @Key("toplinkstop")
   String toplinkstop();
+
+  /**
+   * Translated "General Information".
+   * 
+   * @return translated "General Information"
+   */
+  @DefaultStringValue("General Information")
+  @Key("topsearchgeneralinformation")
+  String topsearchgeneralinformation();
+
+  /**
+   * Translated "How to Login".
+   * 
+   * @return translated "How to Login"
+   */
+  @DefaultStringValue("How to Login")
+  @Key("topsearchlogin")
+  String topsearchlogin();
+
+  /**
+   * Translated "How to register to login".
+   * 
+   * @return translated "How to register to login"
+   */
+  @DefaultStringValue("How to register to login")
+  @Key("topsearchregister")
+  String topsearchregister();
+
+  /**
+   * Translated "Searching the database".
+   * 
+   * @return translated "Searching the database"
+   */
+  @DefaultStringValue("Searching the database")
+  @Key("topsearchsearching")
+  String topsearchsearching();
+
+  /**
+   * Translated "User Levels".
+   * 
+   * @return translated "User Levels"
+   */
+  @DefaultStringValue("User Levels")
+  @Key("topsearchusers")
+  String topsearchusers();
 
   /**
    * Translated "ObjectType".

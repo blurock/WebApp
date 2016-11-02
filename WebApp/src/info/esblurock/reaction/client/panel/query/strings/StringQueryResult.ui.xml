@@ -16,7 +16,7 @@
 	<m:MaterialCollapsibleItem ui:field="item">
 		<m:MaterialCollapsibleHeader>
 			<g:HTMLPanel>
-				<m:MaterialRow>
+				<m:MaterialRow backgroundColor="grey lighten-1">
 					<m:MaterialColumn grid="s1">
 						<m:MaterialLink ui:field="actions" styleName="{style.customlink}">
 						<m:MaterialIcon  ui:field="actionicon" iconType="DONE" styleName="{style.customicon}"/> 

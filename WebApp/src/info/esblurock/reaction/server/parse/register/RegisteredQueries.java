@@ -3,6 +3,7 @@ package info.esblurock.reaction.server.parse.register;
 import info.esblurock.reaction.server.parse.query.ParseQueryAsReactionMultiple;
 import info.esblurock.reaction.server.parse.query.ParseQueryAsReactionSimple;
 import info.esblurock.reaction.server.parse.query.ParseQueryAsSingleton;
+import info.esblurock.reaction.server.parse.query.ParseQueryAsTwoKeywords;
 import info.esblurock.reaction.server.parse.query.SetOfParseQueries;
 
 public class RegisteredQueries {
@@ -26,5 +27,8 @@ public class RegisteredQueries {
 		
 		ParseQueryAsReactionMultiple rxnmultiple = new ParseQueryAsReactionMultiple();
 		queries.add(rxnmultiple);
+		
+		ParseQueryAsTwoKeywords twokeywords = new ParseQueryAsTwoKeywords();
+		queries.add(twokeywords);
 	}
 }

@@ -20,21 +20,21 @@ public class ParsedReactionInformation extends ParsedInput {
 	}
 	public void addMechanismName(String mechanismS) {
 		mechanismNames.add(mechanismS);
-		tokenCount++;
+		this.add(mechanismS);
 	}
 
 	public void addReverseReaction(String reactionS) {
 		reverseReactions.add(reactionS);
-		tokenCount++;
+		this.add(reactionS);
 	}
 
 	public void addForwardReaction(String reactionS) {
 		forwardReactions.add(reactionS);
-		tokenCount++;
+		this.add(reactionS);
 	}
 	public void addPlusList(String reactionS) {
 		plusDelimitedSpeciesList.add(reactionS);
-		tokenCount++;
+		this.add(reactionS);
 	}
 	public ArrayList<String> getMechanismNames() {
 		return mechanismNames;

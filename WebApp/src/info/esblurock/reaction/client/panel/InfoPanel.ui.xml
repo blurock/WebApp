@@ -1,0 +1,53 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	
+	.panel {
+		background-color: blue-grey lighten-2;
+		color: black;
+		font-family: "Times New Roman", Georgia, Serif;
+	}
+	
+	.title {
+		background-color: blue-grey lighten-2;
+		color: black;
+		font-family: "Times New Roman", Georgia, Serif;
+	}
+	b {
+		color: blue-grey lighten-2;
+		font-size: 150%
+	}
+	li {
+		color: black;
+	}
+	ul {
+		color: blue-grey lighten-2;
+	}
+	p {
+		background-color: blue-grey lighten-2;
+		color: white;
+		font-family: "Times New Roman", Georgia, Serif;
+	}
+	
+	p.italic {
+		color: white;
+	}
+	</ui:style>
+	<m:MaterialModal ui:field="infomodal" type="FIXED_FOOTER"
+		dismissable="true" inDuration="500" outDuration="800">
+		<m:MaterialModalContent ui:field="modalcontent">
+			<m:MaterialTitle ui:field="infotitle" />
+			<g:HorizontalPanel ui:field="information" 
+				addStyleNames='{style.panel}'>
+			</g:HorizontalPanel>
+		</m:MaterialModalContent>
+		<m:MaterialModalFooter>
+			<m:MaterialButton ui:field="close" waves="GREEN"
+				type="FLAT" text="Close" />
+		</m:MaterialModalFooter>
+	</m:MaterialModal>
+</ui:UiBinder> 

@@ -3,6 +3,7 @@ package info.esblurock.reaction.client.ui.modal;
 import info.esblurock.reaction.client.activity.place.ReactionFirstPlace;
 import info.esblurock.reaction.client.activity.place.ReactionInformationPlace;
 import info.esblurock.reaction.client.activity.place.ReactionQueryPlace;
+import info.esblurock.reaction.client.panel.TopInformationModal;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
 import gwt.material.design.client.ui.MaterialCollection;
 import gwt.material.design.client.ui.MaterialLink;
@@ -55,6 +56,7 @@ public class TopPageLinks extends Composite implements HasText {
 		collection.setHeader(interfaceconstants.linkwindowtitle());
 		query.setText(interfaceconstants.toplinksquery());
 		dataentry.setText(interfaceconstants.toplinksentry());
+		
 	}
 	
 	@UiHandler("dataentry")

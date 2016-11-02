@@ -11,15 +11,15 @@
 	<m:MaterialCollapsibleItem>
 		<m:MaterialCollapsibleHeader>
 			<m:MaterialLink ui:field="link" text="First" iconType="POLYMER"
-				iconPosition="LEFT" />
+				iconPosition="LEFT" iconColor="grey lighten-1"/>
 			<m:MaterialLink ui:field="rest" text="First" iconType="EXPAND_MORE"
-				iconPosition="LEFT" />
+				iconPosition="LEFT" iconColor="grey lighten-1"/>
 			<m:MaterialIcon ui:field="expandnext" iconType="EXPAND_MORE"
-				iconPosition="RIGHT" />
+				iconPosition="RIGHT" iconColor="grey lighten-1" />
 			<m:MaterialIcon ui:field="deletesub" iconType="CLOSE"
-				iconPosition="RIGHT" />
+				iconPosition="RIGHT" iconColor="grey lighten-1"/>
 			<m:MaterialIcon ui:field="objectinfo" iconType="DESCRIPTION"
-				iconPosition="RIGHT" />
+				iconPosition="RIGHT" iconColor="grey lighten-1"/>
 		</m:MaterialCollapsibleHeader>
 		<m:MaterialCollapsibleBody ui:field="body">
 			<m:MaterialCollapsible ui:field="collapsible">

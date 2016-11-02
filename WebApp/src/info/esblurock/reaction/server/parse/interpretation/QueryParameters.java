@@ -34,6 +34,8 @@ public class QueryParameters implements Serializable {
 		return inputString;
 	}
 	
-	
+	public String toString() {
+		return "'" + inputString + "': " + Integer.toString(entityLimit);  
+	}
 	
 }

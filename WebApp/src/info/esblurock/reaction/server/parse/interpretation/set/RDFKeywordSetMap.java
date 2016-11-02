@@ -1,9 +1,9 @@
 package info.esblurock.reaction.server.parse.interpretation.set;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 import info.esblurock.reaction.data.rdf.KeywordRDF;
+import info.esblurock.reaction.server.parse.interpretation.RDFQueryResultSet;
 
 /**
  * This structure organizes the added {@link KeywordRDF} into a {@link HashMap} where the 
@@ -13,7 +13,11 @@ import info.esblurock.reaction.data.rdf.KeywordRDF;
  * @author edwardblurock
  *
  */
-public class RDFKeywordSetMap extends HashMap<String,HashSet<KeywordRDF>> {
+public class RDFKeywordSetMap extends HashMap<String,RDFQueryResultSet> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	boolean subjectAsKey;
 	boolean predicateAsKey;
 	boolean objectAsKey;
@@ -46,9 +50,9 @@ public class RDFKeywordSetMap extends HashMap<String,HashSet<KeywordRDF>> {
 		} else {
 			key = rdf.getObject();
 		}
-		HashSet<KeywordRDF> tokenset = this.get(key);
+		RDFQueryResultSet tokenset = this.get(key);
 		if(tokenset == null) {
-			tokenset = new HashSet<KeywordRDF>();
+			tokenset = new RDFQueryResultSet();
 			this.put(key, tokenset);
 		}
 		tokenset.add(rdf);

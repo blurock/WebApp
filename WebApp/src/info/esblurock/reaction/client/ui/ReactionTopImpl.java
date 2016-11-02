@@ -14,6 +14,8 @@ import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.StoreDescriptionData;
 import info.esblurock.reaction.client.StoreDescriptionDataAsync;
+import info.esblurock.reaction.client.activity.place.ReactionInformationPlace;
+import info.esblurock.reaction.client.panel.TopInformationModal;
 import info.esblurock.reaction.client.panel.contact.UserContactInput;
 import info.esblurock.reaction.client.resources.InputConstants;
 import info.esblurock.reaction.client.resources.InterfaceConstants;
@@ -49,7 +51,8 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	
 	InputConstants inputConstants = GWT.create(InputConstants.class);
 	InterfaceConstants interfaceconstants = GWT.create(InterfaceConstants.class);
-	
+	@UiField
+	HTMLPanel toppanel;
 	@UiField
 	HorizontalPanel firstdescription;
 	@UiField
@@ -73,6 +76,10 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	MaterialLink sidelinkmenu;
 	@UiField
 	MaterialLink sidetoplogout;
+	@UiField
+	MaterialLink topinformation;
+	@UiField
+	MaterialLink information;
 
 	@UiField
 	MaterialTitle logintitle;
@@ -126,10 +133,10 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	TopPageLinks links;
 	boolean create = true;
 	CreateNewUser newuser;
-	
+	TopInformationModal topinfomodal;
+
 	public ReactionTopImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-
 		String item1text = ReactionTopViewResources.INSTANCE.exampleItem1().getText();
 		item1caption.setDescription(item1text);
 		String item2text = ReactionTopViewResources.INSTANCE.exampleItem2().getText();
@@ -144,6 +151,8 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		item3caption.setTitle("");
 		item4caption.setTitle("");
 		
+		topinformation.setText(interfaceconstants.help());
+		
 		links = new TopPageLinks();
 		String sessionid = Cookies.getCookie("sid");
 		String user = Cookies.getCookie("user");
@@ -152,7 +161,8 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		username.setVisible(false);
 		sideprofile.setVisible(false);
 		
-		
+		topinfomodal = new TopInformationModal(this);
+		toppanel.add(topinfomodal);
 		
 		if(username != null) {
 			LoginServiceAsync async = LoginService.Util.getInstance();
@@ -318,4 +328,16 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		links.setUser(user);
 		setLoggedIn();
 	}
+	@UiHandler("information")
+	void InformationClick(ClickEvent e) {
+		topinfomodal.openModal();
+	}
+	@UiHandler("topinformation")
+	void onTopInformationClick(ClickEvent e) {
+		topinfomodal.openModal();
+	}
+	public void openDemoInformationPage() {
+		listener.goTo(new ReactionInformationPlace(user.getName()));
+	}
+	
 }

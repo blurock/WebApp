@@ -38,7 +38,10 @@ public class ParseReactionTest {
 		
 		String rxn5 = "LLNL#H2 ch3co(+m) = ch3+co(+m)  o+2h=h2o xxx o+h";
 		total(rxn5);
-		
+
+		String rxn6 = "Standard#C2H4";
+		parse(rxn6);
+
 	}
 
 	private void canonicalName(String rxnS, String mechname) {

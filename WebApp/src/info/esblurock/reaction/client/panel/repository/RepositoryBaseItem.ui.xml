@@ -1,0 +1,38 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:m="urn:import:gwt.material.design.client.ui" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:user="urn:import:info.esblurock.reaction.client.panel" xmlns:gwt="urn:import:gwtupload.client">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+
+	<m:MaterialCollapsibleItem ui:field="setitem">
+		<m:MaterialCollapsibleHeader>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s1">
+					<m:MaterialLink ui:field="remove" iconType="CLEAR"
+						iconColor="grey" />
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s1">
+					<m:MaterialLink ui:field="add" iconType="ADD"
+						iconColor="grey" />
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s1">
+					<m:MaterialLink ui:field="expand" iconType="DONE"
+						iconColor="grey" />
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s10">
+					<m:MaterialLink ui:field="stringlabel" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+		</m:MaterialCollapsibleHeader>
+		<m:MaterialCollapsibleBody>
+		<g:HTMLPanel ui:field="setpanel">
+			<m:MaterialCollapsible ui:field="setcollapse" />
+		</g:HTMLPanel>
+		</m:MaterialCollapsibleBody>
+	</m:MaterialCollapsibleItem>
+
+</ui:UiBinder>

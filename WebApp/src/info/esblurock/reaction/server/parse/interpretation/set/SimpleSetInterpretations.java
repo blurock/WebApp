@@ -7,6 +7,7 @@ import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.parse.objects.ParseObject;
 import info.esblurock.reaction.server.parse.interpretation.Interpretation;
 import info.esblurock.reaction.server.parse.interpretation.QueryParameters;
+import info.esblurock.reaction.server.parse.interpretation.RDFQueryResultSet;
 
 public class SimpleSetInterpretations extends Interpretation {
 	protected ParseObject filter;
@@ -25,14 +26,14 @@ public class SimpleSetInterpretations extends Interpretation {
 		this.unionB = unionB;
 	}
 
-	public HashSet<KeywordRDF> intersection(QueryParameters input) {
+	public RDFQueryResultSet intersection(QueryParameters input) {
 		String inputS = input.getInputString();
 		ArrayList<String> tokens = parseInputTokens(inputS);
-		HashSet<KeywordRDF> output = null;
+		RDFQueryResultSet output = null;
 		boolean first = true;
 		for(String token : tokens) {
 			QueryParameters params = new QueryParameters(token, input.getEntityLimit());
-			HashSet<KeywordRDF> rdfs = this.getSet(filter, params);
+			RDFQueryResultSet rdfs = this.getSet(filter, params);
 			if(first) {
 				output = rdfs;
 				first = false;
@@ -43,13 +44,13 @@ public class SimpleSetInterpretations extends Interpretation {
 		//ArrayList<KeywordRDF> lst = new ArrayList<KeywordRDF>(output);
 		return output;
 	}
-	public HashSet<KeywordRDF> union(QueryParameters input) {
+	public RDFQueryResultSet union(QueryParameters input) {
 		String inputS = input.getInputString();
 		ArrayList<String> tokens = parseInputTokens(inputS);
-		HashSet<KeywordRDF> output = new HashSet<KeywordRDF>();
+		RDFQueryResultSet output = new RDFQueryResultSet();
 		for(String token : tokens) {
 			QueryParameters params = new QueryParameters(token, input.getEntityLimit());
-			HashSet<KeywordRDF> rdfs = this.getSet(filter, params);
+			RDFQueryResultSet rdfs = this.getSet(filter, params);
 			output.addAll(rdfs);
 		}
 		return output;
@@ -61,14 +62,14 @@ public class SimpleSetInterpretations extends Interpretation {
 	}
 
 	@Override
-	public HashSet<KeywordRDF> getResults(QueryParameters input) {
+	public RDFQueryResultSet getResults(QueryParameters input) {
 		String inputS = input.getInputString();
-		HashSet<KeywordRDF> lst = new HashSet<KeywordRDF>();
+		RDFQueryResultSet lst = new RDFQueryResultSet();
 		if(unionB) {
 			lst.addAll(union(input));
 		}
 		if(intersectionB) {
-			HashSet<KeywordRDF> inters = intersection(input);
+			RDFQueryResultSet inters = intersection(input);
 			if(inters != null) {
 				lst.addAll(inters);
 			}

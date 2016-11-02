@@ -6,6 +6,7 @@ import info.esblurock.reaction.client.panel.query.QueryPath;
 import info.esblurock.reaction.client.panel.query.QueryPathElement;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.client.panel.query.ReactionSearchServiceAsync;
+import info.esblurock.reaction.client.panel.repository.RepositoryTopNode;
 import info.esblurock.reaction.client.ui.ReactionQueryImpl;
 import info.esblurock.reaction.client.ui.ReactionQueryView.Presenter;
 import info.esblurock.reaction.client.ui.login.UserDTO;
@@ -56,7 +57,7 @@ public class QueryNavBar extends Composite implements HasText {
 	@UiField
 	MaterialLink linkButton;
 
-
+	String repositoryLabel = "repository";
 	
 	/*
 	 * @UiField TextBox search;
@@ -120,10 +121,16 @@ public class QueryNavBar extends Composite implements HasText {
 		String searchText = txtSearch.getText();
 		MaterialToast.fireToast("Start Search: '" + searchText + "'");
 		this.topsearch = qrpanel.getQueryTop();
+		
 		QueryPath path = new QueryPath(QueryPathElement.SEARCHSTRING,text);
-		BasicObjectSearchCallback callback = new BasicObjectSearchCallback(path, topsearch);
-		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
-		async.searchedRegisteredQueries(text, callback);
+		if(searchText.trim().toLowerCase().startsWith(repositoryLabel)) {
+			RepositoryTopNode repository = new RepositoryTopNode();
+			topsearch.add(repository);
+		} else {
+			BasicObjectSearchCallback callback = new BasicObjectSearchCallback(path, topsearch);
+			ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
+			async.searchedRegisteredQueries(text, callback);
+		}
 	}
 
 	@Override
@@ -142,6 +149,10 @@ public class QueryNavBar extends Composite implements HasText {
 		navBarSearch.setVisible(true);
 	}
 
+	@UiHandler("info")
+	void infoClicked(ClickEvent e) {
+		top.showSearchHelpInformation();
+	}
 	@UiHandler("linkButton")
 	void onLinkClick(ClickEvent e) {
 		top.linkWindow();

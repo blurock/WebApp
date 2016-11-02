@@ -1,0 +1,62 @@
+<ul>
+	<li><b>General Comments</b>
+		<ul>
+			<li> Click the search button (after 'Search Database' to the right, to open up the search field.
+			<li> If you want to eliminate the field line (and all lines underneath) click the X.
+			<li> To further search an element, click the down arrow (at the right). This uses the current element as the next search
+			and places the results at the next sub level. In this way you are following the tree of examples (see video examples)
+			<li> If more than five results are given at a level, a 'click for more' shows the next five.
+		</ul>
+	<li><b>The following are examples of keyword searches</b>
+	<ul>
+	<li><b>CHEMKINMechanisms</b>
+		<ul>
+			<li> A list data sets with mechanisms in CHEMKIN format
+		</ul>
+	<li><b>LLNL</b>
+		<ul>
+			<li> Information about the data source LLNL
+			<li> This includes the data sets from this source ('mechanismSource')
+		</ul>
+	<li><b>LLNL#H2</b>
+		<ul>
+			<li> Information about the data source LLNL#H2, this includes the species and reactions
+			<li> The data source, 'LLNL', is separated by the specific data set of that source, 'H2', by a '#'
+		</ul>
+	<li><b>LLNL#H2#oh</b>
+		<ul>
+			<li> Information about the species 'oh' in the data source 'LLNL#H2'
+			<li> The data set, 'LLNL#H2', is separated from the species, 'oh', by a '#'
+		</ul>
+	<li><b>c2h5oh</b>
+		<ul>
+			<li> The mechanism species (with a compound name with source info like 'Galway Propene C2H5OH')
+			which uses 'c2h5oh' as a label
+		</ul>
+	<li><b>c2h6o</b>
+		<ul>
+			<li> The mechanism isomers (with a compound name with source info like 'Galway Propene C2H5OH')
+			which have 2 carbons, 6 hydrogens and 1 oxygen 
+			<li> Order of the atoms in the isomer label is important, carbons then hydrogens then oxygens 
+				(note that, for example, that hydroxyl isomer is written 'ho').
+			<li> Some species names could be the same as the isomer name (for example, c2h4).
+		</ul>
+	<li><b>h2o2=oh+oh</b>
+		<ul>
+			<li> The lists all the reactions found with 'h2o2' as reactants and two 'oh' as products (or visa-versa).
+			<li> Note: The species labels have to be the same in the mechanism (case-insensitive).
+			<li> Equivalent searches are:
+				<ul>
+					<li> 'h2o2=2oh' (the number of species can be given)
+					<li> 'oh+oh=h2o2' (reactants and products can be reversed)
+					<li> 'oh + oh = h2o2' (spaces can be inserted between the species names - not spaces within species)
+				</ul>
+		</ul>
+	<li><b>ch3+h=ch4</b>
+		<ul>
+			<li> Similar to the previous example, where methyl and hydrogen form methane.
+			<li> Third body information is not given (no M or (m), etc.)
+			<li> The ordering of species is not important ('h+ch3=ch4' is equivalent)
+		</ul>
+	</ul>
+</ul>

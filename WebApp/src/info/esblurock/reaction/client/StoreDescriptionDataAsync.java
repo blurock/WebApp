@@ -49,4 +49,6 @@ public interface StoreDescriptionDataAsync {
 
 	void getUserDescriptionData(String keyword, AsyncCallback<UserDescriptionData> callback);
 
+	void getDescriptionDataData(String source, String keyword, AsyncCallback<DescriptionDataData> callback);
+
 }

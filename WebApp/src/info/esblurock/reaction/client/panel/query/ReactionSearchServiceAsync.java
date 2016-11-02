@@ -3,6 +3,7 @@ package info.esblurock.reaction.client.panel.query;
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
 import info.esblurock.reaction.data.rdf.graph.RDFTreeNode;
+import info.esblurock.reaction.data.repository.ListOfRepositoryDataSources;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,5 +29,7 @@ public interface ReactionSearchServiceAsync {
 	void registerSynonyms(HashMap<String, ArrayList<String>> standardKeywordSynonyms, AsyncCallback<String> callback);
 
 	void getSynonymsForStandardKeywords(AsyncCallback<HashMap<String, ArrayList<String>>> callback);
+
+	void getRepositoryDataSources(AsyncCallback<ListOfRepositoryDataSources> callback);
 
 }

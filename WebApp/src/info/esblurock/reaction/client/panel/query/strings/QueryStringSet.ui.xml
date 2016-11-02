@@ -14,7 +14,7 @@
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s1">
 					<m:MaterialLink ui:field="remove" 
-						iconType="DONE" />
+						iconType="DONE" iconColor="grey"/>
 				</m:MaterialColumn>
 				<m:MaterialColumn grid="s10">
 					<m:MaterialLink  ui:field="stringlabel" />

@@ -12,6 +12,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
 import info.esblurock.reaction.data.rdf.graph.RDFTreeNode;
+import info.esblurock.reaction.data.repository.ListOfRepositoryDataSources;
 
 @RemoteServiceRelativePath("reactionqueryservice")
 public interface ReactionSearchService  extends RemoteService {
@@ -37,4 +38,5 @@ public interface ReactionSearchService  extends RemoteService {
 	   DatabaseObject getObjectFromKey(String classname, String key) throws Exception;
 	   String registerSynonyms(HashMap<String,ArrayList<String>> standardKeywordSynonyms) throws IOException;
 	   HashMap<String,ArrayList<String>> getSynonymsForStandardKeywords() throws IOException;
+	   ListOfRepositoryDataSources getRepositoryDataSources() throws IOException;
 }

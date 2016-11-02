@@ -24,6 +24,8 @@
 				iconColor="white" float="RIGHT" />
 			<m:MaterialLink ui:field="linkButton" iconType="LIST"
 				iconColor="white" float="RIGHT" />
+			<m:MaterialLink ui:field="info" iconType="INFO"
+				iconColor="white" float="RIGHT" />
 		</m:MaterialNavBar>
 		<!-- NavBar Search -->
 		<m:MaterialNavBar ui:field="navBarSearch" width="100%"

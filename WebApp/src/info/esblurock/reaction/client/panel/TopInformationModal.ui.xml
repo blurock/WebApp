@@ -1,0 +1,98 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:m="urn:import:gwt.material.design.client.ui">
+	<ui:style>
+	<!--
+	.important {
+		font-weight: bold;
+	}
+	
+	.panel {
+		background-color: blue-grey lighten-2;
+		color: black;
+		font-family: "Times New Roman", Georgia, Serif;
+	}
+	
+	.title {
+		background-color: blue-grey lighten-2;
+		color: black;
+		font-family: "Times New Roman", Georgia, Serif;
+	}
+	
+	b {
+		color: blue-grey lighten-2;
+		font-size: 150%
+	}
+	
+	li {
+		color: black;
+	}
+	
+	ul {
+		color: blue-grey lighten-2;
+	}
+	
+	p {
+		background-color: blue-grey lighten-2;
+		color: black;
+		font-family: "Times New Roman", Georgia, Serif;
+	}
+	
+	p.italic {
+		color: white;
+	}
+	-->
+	</ui:style>
+	<m:MaterialModal ui:field="infomodal" type="FIXED_FOOTER"
+		dismissable="true" inDuration="500" outDuration="800" >
+		<m:MaterialModalContent ui:field="infomodalcontent">
+			<m:MaterialTitle ui:field="infotitle" title="Information Title"/>
+
+			<m:MaterialCollapsible >
+				<m:MaterialCollapsibleItem ui:field="item1">
+					<m:MaterialCollapsibleHeader ui:field="header1">
+						<m:MaterialLink ui:field="title1" textColor="black"/>
+					</m:MaterialCollapsibleHeader>
+					<m:MaterialCollapsibleBody backgroundColor="grey">
+						<g:HorizontalPanel ui:field="info1"/>
+					</m:MaterialCollapsibleBody>
+				</m:MaterialCollapsibleItem>
+				<m:MaterialCollapsibleItem ui:field="item2">
+					<m:MaterialCollapsibleHeader ui:field="header2">
+						<m:MaterialLink ui:field="title2" textColor="black"/>
+					</m:MaterialCollapsibleHeader>
+					<m:MaterialCollapsibleBody backgroundColor="grey">
+						<g:HorizontalPanel ui:field="info2"/>
+					</m:MaterialCollapsibleBody>
+				</m:MaterialCollapsibleItem>
+				<m:MaterialCollapsibleItem ui:field="item3">
+					<m:MaterialCollapsibleHeader ui:field="header3">
+						<m:MaterialLink ui:field="title3" textColor="black"/>
+					</m:MaterialCollapsibleHeader>
+					<m:MaterialCollapsibleBody backgroundColor="grey">
+						<g:HorizontalPanel ui:field="info3"/>
+					</m:MaterialCollapsibleBody>
+				</m:MaterialCollapsibleItem>
+				<m:MaterialCollapsibleItem ui:field="item4">
+					<m:MaterialCollapsibleHeader ui:field="header4">
+						<m:MaterialLink ui:field="title4" textColor="black"/>
+					</m:MaterialCollapsibleHeader>
+					<m:MaterialCollapsibleBody backgroundColor="grey">
+						<g:HorizontalPanel ui:field="info4"/>
+					</m:MaterialCollapsibleBody>
+				</m:MaterialCollapsibleItem>
+			</m:MaterialCollapsible>
+			 
+		</m:MaterialModalContent>
+		<m:MaterialModalFooter>
+		
+			<m:MaterialButton ui:field="infopagebutton" waves="GREEN"
+				type="FLAT" text="Demo" />
+			<m:MaterialButton ui:field="infoclose" waves="GREEN"
+				type="FLAT" text="Close" />
+	
+		</m:MaterialModalFooter>
+	</m:MaterialModal>
+
+</ui:UiBinder> 

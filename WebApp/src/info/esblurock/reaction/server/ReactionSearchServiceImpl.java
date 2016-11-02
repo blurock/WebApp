@@ -10,6 +10,7 @@ import java.util.Set;
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.data.PMF;
+import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.keyword.KeywordStandardization;
 import info.esblurock.reaction.data.rdf.CreateSetOfKeywordQueryAnswers;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
@@ -18,6 +19,8 @@ import info.esblurock.reaction.data.rdf.SetOfKeywordQueryAnswers;
 import info.esblurock.reaction.data.rdf.SetOfKeywordRDF;
 import info.esblurock.reaction.data.rdf.graph.RDFTreeNode;
 import info.esblurock.reaction.data.rdf.graph.TreeNodeFactoryWithObjectNode;
+import info.esblurock.reaction.data.repository.DataPathName;
+import info.esblurock.reaction.data.repository.ListOfRepositoryDataSources;
 import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.event.RegisterTransaction;
 import info.esblurock.reaction.server.parse.interpretation.Interpretation;
@@ -26,6 +29,7 @@ import info.esblurock.reaction.server.parse.interpretation.SetOfInterpretations;
 import info.esblurock.reaction.server.parse.query.ParseQuery;
 import info.esblurock.reaction.server.parse.query.SetOfParseQueries;
 import info.esblurock.reaction.server.parse.register.RegisteredQueries;
+import info.esblurock.reaction.server.queries.QueryBase;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
 
 import javax.jdo.FetchGroup;
@@ -132,7 +136,25 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		return create.getAnswers();
 	}
 
-	
+	public ListOfRepositoryDataSources getRepositoryDataSources() throws IOException {
+		ListOfRepositoryDataSources lst = new ListOfRepositoryDataSources();
+		
+		String clsname = DescriptionDataData.class.getName();
+		Filter filter = null;
+		ArrayList<String> propertynames = new ArrayList<String>();
+		propertynames.add(ListOfRepositoryDataSources.sourceKey);
+		propertynames.add(ListOfRepositoryDataSources.keyword);
+		propertynames.add(ListOfRepositoryDataSources.path);
+		ArrayList<ArrayList<Object>> results = QueryBase.getDatabaseEntitiesFromFilter(clsname, filter, propertynames);
+		for(ArrayList<Object> objects : results) {
+			String sourcekey = (String) objects.get(0);
+			String keyword = (String) objects.get(1);
+			ArrayList<String> path = (ArrayList<String>) objects.get(2);
+			DataPathName dataname = new DataPathName(sourcekey,keyword,path);
+			lst.add(dataname);
+		}
+		return lst;
+	}
 	
 	public RDFBySubjectSet mergeSearch(HashSet<String> keyset)  throws IOException {
 		RDFBySubjectSet set = new RDFBySubjectSet();

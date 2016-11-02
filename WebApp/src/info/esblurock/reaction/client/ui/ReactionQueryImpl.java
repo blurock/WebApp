@@ -1,7 +1,10 @@
 package info.esblurock.reaction.client.ui;
 
+import info.esblurock.reaction.client.panel.InfoPanel;
 import info.esblurock.reaction.client.panel.QueryAndResultPanel;
 import info.esblurock.reaction.client.panel.QueryNavBar;
+import info.esblurock.reaction.client.resources.InterfaceConstants;
+import info.esblurock.reaction.client.resources.info.InformationTexts;
 import info.esblurock.reaction.client.ui.login.AsyncGetUserData;
 import info.esblurock.reaction.client.ui.login.UserDTO;
 import info.esblurock.reaction.client.ui.modal.QueryLinks;
@@ -26,7 +29,8 @@ public class ReactionQueryImpl extends UiImplementationBase implements ReactionQ
 			UiBinder<Widget, ReactionQueryImpl> {
 	}
 
-
+	InterfaceConstants interfaceConstants = GWT.create(InterfaceConstants.class);
+	InformationTexts informationtexts = GWT.create(InformationTexts.class);
 	
 	Presenter listener;
 	String name;
@@ -41,6 +45,7 @@ public class ReactionQueryImpl extends UiImplementationBase implements ReactionQ
 	QueryAndResultPanel query;
 	QueryNavBar navbar;
 	QueryLinks links;
+	InfoPanel infopanel;
 	
 	public ReactionQueryImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -64,7 +69,12 @@ public class ReactionQueryImpl extends UiImplementationBase implements ReactionQ
 		wholepanel.add(navbar);
 		wholepanel.add(content);
 		links = new QueryLinks();
-		linkwindow.add(links);		
+		linkwindow.add(links);
+		String title = interfaceConstants.searchinfotitle();
+		String description = interfaceConstants.searchinfodescription();
+		String info = informationtexts.searchexamples().getText();
+		infopanel = new InfoPanel(title, description, info);
+		wholepanel.add(infopanel);
 	}
 
 	@Override
@@ -91,5 +101,7 @@ public class ReactionQueryImpl extends UiImplementationBase implements ReactionQ
 		query.setUser(user);
 		links.setUser(user);
 	}
-
+	public void showSearchHelpInformation() {
+		infopanel.showModal();
+	}
 }

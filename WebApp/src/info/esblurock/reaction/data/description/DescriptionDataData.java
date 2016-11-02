@@ -1,5 +1,6 @@
 package info.esblurock.reaction.data.description;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -42,6 +43,10 @@ public class DescriptionDataData extends DatabaseObject {
 	@Persistent
 	@Unindexed
 	HashSet<String> keywords;
+
+	@Persistent
+	@Unindexed
+	ArrayList<String> dataSetPath;
 
 	public DescriptionDataData() {
 	}

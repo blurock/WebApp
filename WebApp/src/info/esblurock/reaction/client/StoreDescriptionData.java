@@ -54,5 +54,7 @@ public interface StoreDescriptionData extends RemoteService {
 	String getCoordinates(String city, String country) throws IOException;
 
 	UserDescriptionData getUserDescriptionData(String keyword) throws IOException;
+	
+	public DescriptionDataData getDescriptionDataData(String source, String keyword) throws IOException;
 
 }

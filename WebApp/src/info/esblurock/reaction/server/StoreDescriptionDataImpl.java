@@ -92,6 +92,18 @@ public class StoreDescriptionDataImpl extends ServerBase implements
 		}
 		return userdata;
 	}
+	public DescriptionDataData getDescriptionDataData(String source, String keyword) throws IOException {
+		ArrayList<String> propnames = new ArrayList<String>();
+		ArrayList<String> propvalues = new ArrayList<String>();
+		propnames.add("sourcekey");
+		propvalues.add(source);
+		propnames.add("keyword");
+		propvalues.add(keyword);
+		DescriptionDataData data = (DescriptionDataData)
+				QueryBase.getFirstOjbectFromProperties(DescriptionDataData.class.getName(), 
+				propnames, propvalues);
+		return data;
+	}
 	/**
 	 * Gets the contact info data.
 	 *

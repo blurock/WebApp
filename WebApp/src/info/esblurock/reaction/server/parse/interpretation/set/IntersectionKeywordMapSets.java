@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import info.esblurock.reaction.data.rdf.KeywordRDF;
+import info.esblurock.reaction.server.parse.interpretation.RDFQueryResultSet;
 
 /** The intersection of keyword maps
  * 
@@ -28,11 +29,11 @@ public class IntersectionKeywordMapSets {
 	 * @return
 	 */
 	
-	public HashSet<KeywordRDF> intersection(ArrayList<RDFKeywordSetMap> keywordMaps) {
-		HashSet<KeywordRDF> intersection = new HashSet<KeywordRDF>();
+	public RDFQueryResultSet intersection(ArrayList<RDFKeywordSetMap> keywordMaps) {
+		RDFQueryResultSet intersection = new RDFQueryResultSet();
 		HashSet<String> keyset = assembleKeys(keywordMaps);
 		for(String key: keyset) {
-			HashSet<KeywordRDF> rdfset = intersectionForKey(key,keywordMaps);
+			RDFQueryResultSet rdfset = intersectionForKey(key,keywordMaps);
 			intersection.addAll(rdfset);
 		}
 		return intersection;
@@ -60,15 +61,15 @@ public class IntersectionKeywordMapSets {
 	 * @return
 	 */
 
-	private HashSet<KeywordRDF> intersectionForKey(String key, ArrayList<RDFKeywordSetMap> keywordMaps) {
+	private RDFQueryResultSet intersectionForKey(String key, ArrayList<RDFKeywordSetMap> keywordMaps) {
 		Iterator<RDFKeywordSetMap> iter = keywordMaps.iterator();
-		HashSet<KeywordRDF> intersetion = null;
+		RDFQueryResultSet intersetion = null;
 		if(iter.hasNext()) {
 			RDFKeywordSetMap rdfmap = iter.next();
 			intersetion = rdfmap.get(key);
 			while(intersetion != null && iter.hasNext()) {
 				rdfmap = iter.next();
-				HashSet<KeywordRDF> keyset = rdfmap.get(key);
+				RDFQueryResultSet keyset = rdfmap.get(key);
 				intersetion.retainAll(keyset);
 			}
 		}

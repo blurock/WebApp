@@ -73,7 +73,6 @@ public class CanonicalReactionName {
 		ParseChemkinReaction parse = new ParseChemkinReaction();
 		String normed = parse.normalize(input);
 		StringTokenizer tok = new StringTokenizer(normed, " ");
-		
 		ParsedReactionInformation parsed = new ParsedReactionInformation();
 		String token = tok.nextToken();
 		while(token != null) {
