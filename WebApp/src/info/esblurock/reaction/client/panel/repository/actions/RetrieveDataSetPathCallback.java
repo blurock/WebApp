@@ -7,7 +7,6 @@ import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.panel.repository.RepositoryBaseItem;
 import info.esblurock.reaction.client.panel.repository.RepositoryPath;
-import info.esblurock.reaction.client.panel.repository.RepositoryTopNode;
 import info.esblurock.reaction.data.repository.DataPathName;
 import info.esblurock.reaction.data.repository.ListOfRepositoryDataSources;
 

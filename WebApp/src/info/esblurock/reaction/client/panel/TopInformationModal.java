@@ -64,7 +64,7 @@ public class TopInformationModal extends Composite implements HasText {
 		HTML htmlinfo1 = new HTML(informationtexts.topsearchgeneral().getText());
 		HTML htmlinfo2 = new HTML(informationtexts.topsearchlogin().getText());
 		HTML htmlinfo3 = new HTML(informationtexts.topsearchregister().getText());
-		HTMLPanel htmlinfo4 = new HTMLPanel(informationtexts.topsearchsearching().getText());
+		HTMLPanel htmlinfo4 = new HTMLPanel(informationtexts.searchexamples().getText());
 		info1.add(htmlinfo1);
 		info2.add(htmlinfo2);
 		info3.add(htmlinfo3);

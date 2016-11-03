@@ -5,7 +5,6 @@ import info.esblurock.reaction.client.panel.query.QueryPath;
 import info.esblurock.reaction.client.panel.query.QueryPathElement;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.client.panel.query.ReactionSearchServiceAsync;
-import info.esblurock.reaction.client.panel.repository.RepositoryTopNode;
 import info.esblurock.reaction.client.panel.repository.actions.RetrieveDataSetPathCallback;
 import info.esblurock.reaction.client.ui.ReactionQueryImpl;
 import info.esblurock.reaction.client.ui.ReactionQueryView.Presenter;

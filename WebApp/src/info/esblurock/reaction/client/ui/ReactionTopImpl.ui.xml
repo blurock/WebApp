@@ -5,6 +5,8 @@
 	xmlns:user="urn:import:info.esblurock.reaction.client.panel" 
 	xmlns:ma="urn:import:gwt.material.design.addins.client">
 
+	<ui:with field='pics'
+		type='info.esblurock.reaction.client.resources.info.pictures.ScreenShots' />
 	<ui:with field='res'
 		type='info.esblurock.reaction.client.ui.resource.MaterialResources' />
 	<ui:with field='loginres'
@@ -61,7 +63,7 @@
 				<m:MaterialLabel ui:field="username" textColor="black" />
 			</m:MaterialNavSection>
 		</m:MaterialNavBar>
-		<m:MaterialSideNav m:id="topsidenav" type="MINI" alwaysShowActivator="true" showOnAttach="true" width="200" closeOnClick="true">
+		<m:MaterialSideNav m:id="topsidenav" type="MINI" allowBodyScroll="true" alwaysShowActivator="true" showOnAttach="true" width="200" closeOnClick="true">
 				<m:MaterialLink ui:field="information" iconType="INFO" />
 				<m:MaterialLink ui:field="sidetoplogout" iconType="LOCK" />
 				<m:MaterialLink ui:field="sidelinkmenu" iconType="EXIT_TO_APP" />
@@ -104,7 +106,7 @@
 			</m:MaterialRow>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
-					<m:MaterialLabel ui:field="prototype" text="Prototype: 20161026"
+					<m:MaterialLabel ui:field="prototype" text="Prototype: 20161103"
 						textAlign="CENTER" textColor="white" grid="s12" width="100%" />
 				</m:MaterialColumn>
 			</m:MaterialRow>
@@ -180,7 +182,7 @@
 		<g:HorizontalPanel  ui:field="datarelations" addStyleNames='{style.panel}'/>
 		
 		
-		<m:MaterialSlider height="300" fullscreen="false">
+		<m:MaterialSlider height="300" backgroundColor="white"  fullscreen="false">
 			<m:MaterialSlideItem ui:field="rdf1">
 				<m:MaterialImage resource="{res.RDF_Ontologies}"
 					width="800" />
@@ -203,10 +205,61 @@
 			<m:MaterialSlideItem ui:field="rdf7">
 				<m:MaterialImage resource="{res.RDF_ConnectionThroughIsomers}" />
 			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="query1">
+				<m:MaterialImage resource="{pics.query1}"
+					width="800" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="query2">
+				<m:MaterialImage resource="{pics.query2}"
+					width="800" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="query3">
+				<m:MaterialImage resource="{pics.query3}"
+					width="800" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="query4">
+				<m:MaterialImage resource="{pics.query4}"
+					width="800" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="query5">
+				<m:MaterialImage resource="{pics.query5}"
+					width="800" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="query6">
+				<m:MaterialImage resource="{pics.query6}"
+					width="800" />
+			</m:MaterialSlideItem>
 		</m:MaterialSlider>
 
-
 		<g:HorizontalPanel  ui:field="seconddescription" addStyleNames='{style.panel}'/>
+		<m:MaterialSlider height="300" fullscreen="false">
+			<m:MaterialSlideItem ui:field="toppagelogin">
+				<m:MaterialImage resource="{pics.toppagelogin}"
+					width="800" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="toppagemenu">
+				<m:MaterialImage resource="{pics.toppagemenu}"
+					width="800" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="repositoryexpanded">
+				<m:MaterialImage resource="{pics.repositoryexpanded}"
+					width="800" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="queryinfo">
+				<m:MaterialImage resource="{pics.queryinfo}"
+					width="800" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="querymechanisms">
+				<m:MaterialImage resource="{pics.querymechanisms}"
+					width="800" />
+			</m:MaterialSlideItem>
+			<m:MaterialSlideItem ui:field="toppage">
+				<m:MaterialImage resource="{pics.toppage}"
+					width="800" />
+			</m:MaterialSlideItem>
+		
+		</m:MaterialSlider>
+
 
 
 		<m:MaterialFooter backgroundColor="grey darken-1">
