@@ -25,7 +25,7 @@ public class QueryClickHandler implements ClickHandler {
 	public void onClick(ClickEvent event) {
 		BasicObjectSearchCallback callback = new BasicObjectSearchCallback(path, item);
 		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
-		async.searchedRegisteredQueries(key, callback); 
+		async.searchedRegisteredQueries(key, "Top", callback); 
 	}
 
 }

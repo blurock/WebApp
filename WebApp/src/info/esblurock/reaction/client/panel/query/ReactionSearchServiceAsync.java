@@ -24,7 +24,7 @@ public interface ReactionSearchServiceAsync {
 	void getObjectFromKey(String classname, String key,
 			AsyncCallback<DatabaseObject> callback);
 
-	void searchedRegisteredQueries(String query, AsyncCallback<RDFTreeNode> callback);
+	void searchedRegisteredQueries(String query, String path, AsyncCallback<RDFTreeNode> callback);
 
 	void registerSynonyms(HashMap<String, ArrayList<String>> standardKeywordSynonyms, AsyncCallback<String> callback);
 

@@ -201,7 +201,7 @@ public class CollapsibleHeaderLink extends Composite implements HasText {
 		BasicObjectSearchCallback callback = new BasicObjectSearchCallback(linkpath, collapsible);
 		ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
 		//async.searchedRegisteredQueries(link.getText(), callback);		
-		async.searchedRegisteredQueries(originalText, callback);		
+		async.searchedRegisteredQueries(originalText, linkpath.toString(), callback);		
 	}
 	@UiHandler("deletesub")
 	public void onDelete(ClickEvent event) {

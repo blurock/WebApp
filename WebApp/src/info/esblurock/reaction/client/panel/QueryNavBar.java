@@ -122,7 +122,7 @@ public class QueryNavBar extends Composite implements HasText {
 		} else {
 			BasicObjectSearchCallback callback = new BasicObjectSearchCallback(path, topsearch);
 			ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
-			async.searchedRegisteredQueries(text, callback);
+			async.searchedRegisteredQueries(text, "TopSearch",callback);
 		}
 	}
 

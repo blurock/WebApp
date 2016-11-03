@@ -34,7 +34,7 @@ public interface ReactionSearchService  extends RemoteService {
 	   RDFBySubjectSet objectSearch(String search);
 	   RDFBySubjectSet mergeSearch(HashSet<String> keyset) throws IOException;
 	   RDFBySubjectSet singleKeyQuery(String key) throws IOException;
-	   RDFTreeNode searchedRegisteredQueries(String query) throws IOException;
+	   RDFTreeNode searchedRegisteredQueries(String query, String path) throws IOException;
 	   DatabaseObject getObjectFromKey(String classname, String key) throws Exception;
 	   String registerSynonyms(HashMap<String,ArrayList<String>> standardKeywordSynonyms) throws IOException;
 	   HashMap<String,ArrayList<String>> getSynonymsForStandardKeywords() throws IOException;

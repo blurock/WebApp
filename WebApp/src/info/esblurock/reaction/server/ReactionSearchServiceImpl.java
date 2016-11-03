@@ -84,7 +84,10 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		return oset;
 		
 	}
-	public RDFTreeNode searchedRegisteredQueries(String queryS)  throws IOException {
+	public RDFTreeNode searchedRegisteredQueries(String queryS, String path)  throws IOException {
+		ContextAndSessionUtilities util = getUtilities();
+		String registerS = queryS + ": " + path;
+		RegisterTransaction.register(util.getUserInfo(),TaskTypes.query, registerS, RegisterTransaction.checkLevel1);
 		QueryParameters query = new QueryParameters(queryS);
 		SetOfParseQueries queries = RegisteredQueries.getRegistered();
 		SetOfKeywordRDF total = new SetOfKeywordRDF();
