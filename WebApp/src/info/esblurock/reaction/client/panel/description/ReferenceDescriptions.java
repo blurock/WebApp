@@ -1,6 +1,7 @@
 package info.esblurock.reaction.client.panel.description;
 
 import java.util.HashSet;
+import java.util.Iterator;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -12,7 +13,6 @@ import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
-import com.google.gwt.http.client.Header;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
-import com.ibm.icu.util.BytesTrie.Iterator;
 
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialChip;
@@ -31,6 +30,7 @@ import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.panel.inputs.AuthorChip;
+import info.esblurock.reaction.data.description.DataSetReference;
 
 public class ReferenceDescriptions extends Composite implements HasText {
 
@@ -72,6 +72,40 @@ public class ReferenceDescriptions extends Composite implements HasText {
 		init();
 	}
 
+	public ReferenceDescriptions(DataSetReference reference) {
+		initWidget(uiBinder.createAndBindUi(this));
+		doilookupbutton.setText("DOI");
+		doi.setText(reference.getDOI());
+		doi.setPlaceholder("DOI of data set");
+		title.setText(reference.getReferenceTitle());
+		title.setPlaceholder("title");
+		referenceText.setText(reference.getReferenceString());
+		referenceText.setPlaceholder("reference of article (free form)");
+		objecttitle.setText(reference.getReferenceString());
+		HashSet<String> lastnames = reference.getAuthorLastNames();
+		HashSet<String> names = reference.getAuthors();
+		Iterator<String> iter = lastnames.iterator();
+		for(String name : names) {
+			String lastname = iter.next();
+			int i = name.indexOf(lastname);
+			String firstname = name.substring(0,i);
+			AuthorChip chip = new AuthorChip(firstname, lastname);
+			chip.disable();
+			authorpanel.add(chip);
+		}
+		setUnEditable();
+	}
+	
+	public void setUnEditable() {
+		addauthor.setVisible(false);
+		doilookupbutton.setVisible(false);
+		title.setReadOnly(true);
+		doi.setReadOnly(true);
+		referenceText.setReadOnly(true);
+		delete.setEnabled(false);
+		delete.setVisible(false);
+	}
+	
 	public ReferenceDescriptions(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
@@ -221,5 +255,4 @@ public class ReferenceDescriptions extends Composite implements HasText {
 		}
 		return lastnames;
 	}
-
 }

@@ -1,11 +1,13 @@
 package info.esblurock.reaction.client.panel.transaction;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import info.esblurock.reaction.data.transaction.TransactionInfo;
+import info.esblurock.reaction.data.upload.FileUploadTextBlock;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 
 import com.google.gwt.core.client.GWT;
@@ -136,4 +138,7 @@ public interface TransactionService extends RemoteService {
 	
 	
 	public String runProcess(String processName,String keyword) throws IOException;
+	
+	public TransactionInfo getTransactionInfo(String datasetkeyword, String classname) throws IOException;
+	public ArrayList<String> getFileUploadTextBlockFromTransaction(String datasetkeyword, String classname) throws IOException;
 }

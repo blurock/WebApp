@@ -47,10 +47,8 @@
 		background: white;
 	}
 	
-	.gwt-TextArea {
-		font-family: Consolas, Monaco, Lucida Console, Liberation Mono,
-			DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New,
-			monospace !important;;
+	.panel {
+		font-family: monospace;
 		color: black;
 		background: white;
 	}
@@ -143,8 +141,7 @@
 			</m:MaterialRow>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
-					<m:MaterialTextArea ui:field="textarea"
-						ui:text=" copy paste text here" />
+					<m:MaterialTextArea ui:field="textarea" styleName="{style.panel}"/>
 				</m:MaterialColumn>
 			</m:MaterialRow>
 		</m:MaterialCollapsibleBody>

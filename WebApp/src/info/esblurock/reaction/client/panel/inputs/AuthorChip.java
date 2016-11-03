@@ -33,7 +33,7 @@ public class AuthorChip extends Composite implements HasText {
 	}
 
 	public AuthorChip(String name, String lastName) {
-		initWidget(uiBinder.createAndBindUi(this));
+		initWidget(uiBinder.createAndBindUi(this));		
 		this.name = name;
 		this.lastName = lastName;
 		String fullname = null;
@@ -74,5 +74,7 @@ public class AuthorChip extends Composite implements HasText {
 	public String getLastName() {
 		return lastName;
 	}
-
+	public void disable() {
+		author.setEnabled(false);
+	}
 }

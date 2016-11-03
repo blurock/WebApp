@@ -4,8 +4,10 @@ import info.esblurock.reaction.data.contact.entities.ContactInfoData;
 import info.esblurock.reaction.data.contact.entities.ContactLocationData;
 import info.esblurock.reaction.data.contact.entities.OrganizationDescriptionData;
 import info.esblurock.reaction.data.contact.entities.UserDescriptionData;
+import info.esblurock.reaction.data.description.DataSetReference;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -50,5 +52,7 @@ public interface StoreDescriptionDataAsync {
 	void getUserDescriptionData(String keyword, AsyncCallback<UserDescriptionData> callback);
 
 	void getDescriptionDataData(String source, String keyword, AsyncCallback<DescriptionDataData> callback);
+
+	void getDataSetReferences(String datakeyword, AsyncCallback<ArrayList<DataSetReference>> callback);
 
 }

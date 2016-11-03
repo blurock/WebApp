@@ -16,6 +16,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialLink;
+import info.esblurock.reaction.client.StoreDescriptionData;
+import info.esblurock.reaction.client.StoreDescriptionDataAsync;
+import info.esblurock.reaction.client.panel.repository.data.FillInDataSetReferencesCallback;
 
 public class SetOfReferenceDescriptions extends Composite implements HasText {
 
@@ -50,12 +53,19 @@ public class SetOfReferenceDescriptions extends Composite implements HasText {
 		addreference.setText("Add Reference");
 	}
 	
+	public void setUnenabled() {
+		addreference.setVisible(false);
+	}
+	
 	@UiHandler("addreference")
 	void onClick(ClickEvent e) {
 		ReferenceDescriptions reference = new ReferenceDescriptions();
 		references.add(reference);
 	}
 
+	public void addReference(ReferenceDescriptions reference) {
+		references.add(reference);
+	}
 	public void setText(String text) {
 		addreference.setText(text);
 	}
@@ -76,5 +86,10 @@ public class SetOfReferenceDescriptions extends Composite implements HasText {
 			}
 		}
 		return refdescriptions;
+	}
+	public void fillInReferences(String datasetkeyword) {
+		StoreDescriptionDataAsync async = StoreDescriptionData.Util.getInstance();
+		FillInDataSetReferencesCallback callback = new FillInDataSetReferencesCallback(this);
+		async.getDataSetReferences(datasetkeyword, callback);
 	}
 }

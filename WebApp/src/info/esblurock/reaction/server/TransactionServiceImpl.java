@@ -14,10 +14,12 @@ import static com.google.appengine.api.taskqueue.RetryOptions.Builder.*;
 
 import info.esblurock.reaction.client.panel.transaction.TransactionService;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
+import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.delete.DeleteTransactionInfoAndObject;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
+import info.esblurock.reaction.data.upload.FileUploadTextBlock;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 import info.esblurock.reaction.server.authorization.TaskTypes;
 import info.esblurock.reaction.server.event.RegisterTransaction;
@@ -27,6 +29,7 @@ import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
 import info.esblurock.reaction.server.process.ProcessUtilities;
 import info.esblurock.reaction.server.process.RegisteredProcesses;
 import info.esblurock.reaction.server.process.upload.ReadFileBaseProcess;
+import info.esblurock.reaction.server.queries.QueryBase;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -193,7 +196,6 @@ public class TransactionServiceImpl extends ServerBase implements TransactionSer
 		String ans = delete.deleteTransactionInfoFromKey(transactionkey);
 		pm.close();
 		return ans;
-
 	}
 
 	public String removeFromRDFsFromDate(Date date) {
@@ -224,14 +226,39 @@ public class TransactionServiceImpl extends ServerBase implements TransactionSer
 		return delete;
 	}
 
+	public TransactionInfo getTransactionInfo(String datasetkeyword, String classname) throws IOException {
+		TransactionInfo transaction = null;
+		ArrayList<String> propertynames = new ArrayList<String>();
+		ArrayList<String> propertyvalues = new ArrayList<String>();
+		propertynames.add("keyword");
+		propertynames.add("transactionObjectType");
+		propertyvalues.add(datasetkeyword);
+		propertyvalues.add(classname);
+		String transactionC = TransactionInfo.class.getName();
+		DatabaseObject obj = QueryBase.getFirstOjbectFromProperties(transactionC, propertynames, propertyvalues);
+		transaction = (TransactionInfo) obj;
+		return transaction;
+	}
+	
+	public ArrayList<String> getFileUploadTextBlockFromTransaction(String datasetkeyword, String classname) throws IOException {
+		ArrayList<String> files = new ArrayList<String>();
+		TransactionInfo transaction = getTransactionInfo(datasetkeyword, classname);
+		String propertyname = "fileCode";
+		String propertyvalue = transaction.getSourceCode();
+		List<DatabaseObject> objs = 
+				QueryBase.getDatabaseObjectsFromSingleProperty(FileUploadTextBlock.class.getName(), 
+				propertyname, propertyvalue);
+		for(DatabaseObject obj : objs) {
+			FileUploadTextBlock fileupload = (FileUploadTextBlock) obj;
+			String text = fileupload.getTextBlock().getValue();
+			files.add(text);
+		}
+		return files;
+	}
 	public List<String> findValidProcessing(String keyword) throws IOException {
-		System.out.println("findValidProcessing: '" + keyword + "'");
 		ContextAndSessionUtilities util = getUtilities();
-		System.out.println("ContextAndSessionUtilities");
 		String user = util.getUserName();
-		System.out.println("User: " + user);
 		List<String> processes = RegisteredProcesses.toBeProcessed(user, keyword);
-		System.out.println("Processes: " + processes);
 		return processes;
 	}
 

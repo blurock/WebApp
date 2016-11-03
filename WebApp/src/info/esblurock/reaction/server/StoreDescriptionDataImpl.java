@@ -20,6 +20,7 @@ import info.esblurock.reaction.data.contact.entities.OrganizationDescriptionData
 import info.esblurock.reaction.data.contact.entities.StoreOrganizationDescriptionData;
 import info.esblurock.reaction.data.contact.entities.StoreUserDescriptionData;
 import info.esblurock.reaction.data.contact.entities.UserDescriptionData;
+import info.esblurock.reaction.data.description.DataSetReference;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.user.UnverifiedUserAccount;
@@ -92,6 +93,16 @@ public class StoreDescriptionDataImpl extends ServerBase implements
 		}
 		return userdata;
 	}
+	private List<DatabaseObject> getDatabaseObjectsFromSourceAndKeyword(Class classname,String source, String keyword) throws IOException {
+		ArrayList<String> propnames = new ArrayList<String>();
+		ArrayList<String> propvalues = new ArrayList<String>();
+		propnames.add("sourcekey");
+		propvalues.add(source);
+		propnames.add("keyword");
+		propvalues.add(keyword);
+		return QueryBase.getDatabaseObjectsFromProperties(classname.getName(), propnames, propvalues);
+	}
+	
 	public DescriptionDataData getDescriptionDataData(String source, String keyword) throws IOException {
 		ArrayList<String> propnames = new ArrayList<String>();
 		ArrayList<String> propvalues = new ArrayList<String>();
@@ -103,6 +114,16 @@ public class StoreDescriptionDataImpl extends ServerBase implements
 				QueryBase.getFirstOjbectFromProperties(DescriptionDataData.class.getName(), 
 				propnames, propvalues);
 		return data;
+	}
+	
+	public ArrayList<DataSetReference> getDataSetReferences(String datakeyword) throws IOException {
+		ArrayList<DataSetReference> references = new ArrayList<DataSetReference>();
+		List<DatabaseObject> objs = QueryBase.getDatabaseObjectsFromSingleProperty(DataSetReference.class.getName(), 
+				"DatasetKeyword", datakeyword);
+		for(DatabaseObject obj: objs) {
+			references.add((DataSetReference) obj);
+		}
+		return references;
 	}
 	/**
 	 * Gets the contact info data.

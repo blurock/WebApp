@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialChip;
@@ -169,7 +170,6 @@ public class DataDescription extends Composite implements HasText {
 		oneline.setText(onlineS);
 		description.setText(descriptionS);
 	}
-	
 	public void fill(DescriptionDataData descr) {
 		keyword.setText(descr.getKeyword());
 		oneline.setText(descr.getOnlinedescription());
@@ -177,6 +177,21 @@ public class DataDescription extends Composite implements HasText {
 		date.setDate(descr.getSourceDate());
 		sourcekey.setText(descr.getSourcekey());
 		inputkey.setText(descr.getInputkey());
+		Set<String> keywordset = descr.getKeywords();
+		for(String key : keywordset) {
+			KeywordChip chip = new KeywordChip(key);
+			keywordpanel.add(chip);
+		}
+	}
+	public void setUnEditable() {
+		keyword.setReadOnly(true);
+		oneline.setReadOnly(true);
+		sourcekey.setReadOnly(true);
+		description.setReadOnly(true);
+		inputkey.setReadOnly(true);
+		addkeyword.setVisible(false);
+		descriptionkeywords.setVisible(false);
+		date.setEnabled(false);
 	}
 	
 	public void setKeywords(ArrayList<KeywordChip> set) {

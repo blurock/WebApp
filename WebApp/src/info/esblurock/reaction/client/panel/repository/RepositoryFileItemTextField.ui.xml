@@ -1,0 +1,35 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:m="urn:import:gwt.material.design.client.ui" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:user="urn:import:info.esblurock.reaction.client.panel" xmlns:gwt="urn:import:gwtupload.client">
+	<ui:style>
+	.panel {
+		font-family: monospace;
+		background-color: white;
+		color: black;
+		font-size: 0.8em;
+	}
+	</ui:style>
+	<m:MaterialCollapsibleItem ui:field="textareaitem">
+		<m:MaterialCollapsibleHeader>
+			<m:MaterialColumn grid="s1">
+				<m:MaterialLink ui:field="more" iconType="EXPAND_MORE"
+					iconColor="grey" />
+			</m:MaterialColumn>
+			<m:MaterialRow>
+				<m:MaterialColumn grid="s6">
+					<m:MaterialLink ui:field="name" />
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s2">
+					<m:MaterialLink ui:field="lowerbound" />
+				</m:MaterialColumn>
+				<m:MaterialColumn grid="s2">
+					<m:MaterialLink ui:field="upperbound" />
+				</m:MaterialColumn>
+			</m:MaterialRow>
+		</m:MaterialCollapsibleHeader>
+		<m:MaterialCollapsibleBody>
+			<m:MaterialTextArea ui:field="textarea" styleName="{style.panel}" />
+		</m:MaterialCollapsibleBody>
+	</m:MaterialCollapsibleItem>
+</ui:UiBinder> 

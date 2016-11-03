@@ -11,7 +11,7 @@
 	}
 	
 	header, main, footer {
-		padding-left: 320px;
+		padding-left: 150px;
 	}
 	</ui:style>
 	<m:MaterialHeader>

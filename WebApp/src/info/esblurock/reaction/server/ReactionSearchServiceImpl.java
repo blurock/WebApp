@@ -57,17 +57,10 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		PreparedQuery pq = datastore.prepare(q);
 		CreateSetOfKeywordQueryAnswers create = new CreateSetOfKeywordQueryAnswers(pq,true);
 		pm.close();
-		System.out.println("RDFBySubjectSet basicSearch: 1");
 		RDFBySubjectSet hierarchy = create.getAnswers();
-		System.out.println(hierarchy.toString());
-		System.out.println("RDFBySubjectSet basicSearch: 2");
 		SetOfKeywordQueryAnswers  answers = create.getAnswers().get(search);
-		System.out.println("RDFBySubjectSet basicSearch: 3");
-		
 		RDFBySubjectSet set = new RDFBySubjectSet();
-		System.out.println("RDFBySubjectSet basicSearch: 4");
 		set.put(search, answers);
-		System.out.println("RDFBySubjectSet basicSearch: 5");
 		return set;
 	}
 	
@@ -78,11 +71,8 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 				  new FilterPredicate("object",FilterOperator.EQUAL,search);
 		Query q = new Query("KeywordRDF").setFilter(objectfilter);
 		PreparedQuery pq = datastore.prepare(q);
-		System.out.println("RDFBySubjectSet objectSearch: 1");
 		CreateSetOfKeywordQueryAnswers create = new CreateSetOfKeywordQueryAnswers(pq,false);
-		System.out.println("RDFBySubjectSet objectSearch: 2");
 		pm.close();
-		System.out.println("RDFBySubjectSet objectSearch: 3");
 		return create.getAnswers();
 	}
 	public RDFBySubjectSet singleKeyQuery(String key) throws IOException {
@@ -90,11 +80,7 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		RegisterTransaction.register(util.getUserInfo(),TaskTypes.query, key, RegisterTransaction.checkLevel1);
 		RDFBySubjectSet oset = objectSearch(key);
 		RDFBySubjectSet sset = basicSearch(key);
-		System.out.println("RDFBySubjectSet singleKeyQuery: 1");
 		oset.mergeValue(sset);
-		System.out.println("RDFBySubjectSet singleKeyQuery: 2");
-		
-		
 		return oset;
 		
 	}
@@ -232,7 +218,6 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
  				map.put(standardkeyword, synonyms);
 			}
 		}
-		System.out.println("getSynonymsForStandardKeywords()\n" + map);
 		return map;
 		
 	}

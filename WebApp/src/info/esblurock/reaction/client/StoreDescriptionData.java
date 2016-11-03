@@ -1,12 +1,14 @@
 package info.esblurock.reaction.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import info.esblurock.reaction.data.contact.entities.ContactInfoData;
 import info.esblurock.reaction.data.contact.entities.ContactLocationData;
 import info.esblurock.reaction.data.contact.entities.OrganizationDescriptionData;
 import info.esblurock.reaction.data.contact.entities.UserDescriptionData;
+import info.esblurock.reaction.data.description.DataSetReference;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 
 import com.google.gwt.core.client.GWT;
@@ -56,5 +58,7 @@ public interface StoreDescriptionData extends RemoteService {
 	UserDescriptionData getUserDescriptionData(String keyword) throws IOException;
 	
 	public DescriptionDataData getDescriptionDataData(String source, String keyword) throws IOException;
+	
+	public ArrayList<DataSetReference> getDataSetReferences(String datakeyword) throws IOException;
 
 }

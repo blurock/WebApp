@@ -5,6 +5,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import info.esblurock.reaction.client.panel.description.DataDescription;
 import info.esblurock.reaction.client.panel.repository.RepositoryBaseItem;
+import info.esblurock.reaction.client.panel.repository.data.RepositoryDataVisualization;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 
 public class DisplayDescriptionDataDataCallback implements AsyncCallback<DescriptionDataData> {
@@ -23,7 +24,10 @@ public class DisplayDescriptionDataDataCallback implements AsyncCallback<Descrip
 	public void onSuccess(DescriptionDataData result) {
 		DataDescription description = new DataDescription();
 		description.fill(result);
+		description.setUnEditable();
 		itemDisplay.addDescriptionDataData(description);
+		itemDisplay.addReferenceSet(description.createObjectKeyword());
+		itemDisplay.addFiles(description.createObjectKeyword(),result.getDataType());
 	}
 
 }

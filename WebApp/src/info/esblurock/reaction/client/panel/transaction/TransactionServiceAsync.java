@@ -1,8 +1,10 @@
 package info.esblurock.reaction.client.panel.transaction;
 
 import info.esblurock.reaction.data.transaction.TransactionInfo;
+import info.esblurock.reaction.data.upload.FileUploadTextBlock;
 import info.esblurock.reaction.data.upload.TextSetUploadData;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -36,5 +38,10 @@ public interface TransactionServiceAsync {
 	void findValidProcessing(String keyword, AsyncCallback<List<String>> callback);
 
 	void runProcess(String processName, String keyword, AsyncCallback<String> callback);
+
+	void getTransactionInfo(String datasetkeyword, String classname, AsyncCallback<TransactionInfo> callback);
+
+	void getFileUploadTextBlockFromTransaction(String datasetkeyword, String classname,
+			AsyncCallback<ArrayList<String>> callback);
 
 }

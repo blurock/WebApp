@@ -1,27 +1,20 @@
 package info.esblurock.reaction.client.panel;
 
 import info.esblurock.reaction.client.panel.query.BasicObjectSearchCallback;
-import info.esblurock.reaction.client.panel.query.BasicSearchCallback;
 import info.esblurock.reaction.client.panel.query.QueryPath;
 import info.esblurock.reaction.client.panel.query.QueryPathElement;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.client.panel.query.ReactionSearchServiceAsync;
 import info.esblurock.reaction.client.panel.repository.RepositoryTopNode;
+import info.esblurock.reaction.client.panel.repository.actions.RetrieveDataSetPathCallback;
 import info.esblurock.reaction.client.ui.ReactionQueryImpl;
 import info.esblurock.reaction.client.ui.ReactionQueryView.Presenter;
 import info.esblurock.reaction.client.ui.login.UserDTO;
-import gwt.material.design.addins.client.window.MaterialWindow;
-//import gwt.material.design.addins.client.window.MaterialWindow;
 import gwt.material.design.client.events.SearchFinishEvent;
-import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCollapsible;
-import gwt.material.design.client.ui.MaterialCollapsibleItem;
-import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialNavBar;
 import gwt.material.design.client.ui.MaterialSearch;
-import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.MaterialToast;
 
 import com.google.gwt.core.client.GWT;
@@ -124,8 +117,9 @@ public class QueryNavBar extends Composite implements HasText {
 		
 		QueryPath path = new QueryPath(QueryPathElement.SEARCHSTRING,text);
 		if(searchText.trim().toLowerCase().startsWith(repositoryLabel)) {
-			RepositoryTopNode repository = new RepositoryTopNode();
-			topsearch.add(repository);
+			ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
+			RetrieveDataSetPathCallback callback = new RetrieveDataSetPathCallback(topsearch);
+			async.getRepositoryDataSources(callback);
 		} else {
 			BasicObjectSearchCallback callback = new BasicObjectSearchCallback(path, topsearch);
 			ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
@@ -164,7 +158,6 @@ public class QueryNavBar extends Composite implements HasText {
 	public void setUser(UserDTO user) {
 		this.user = user;
 		String umsg = user.getName() + " @Host=" + user.getIP();
-		// navuser.setText(umsg);
 	}
 
 }

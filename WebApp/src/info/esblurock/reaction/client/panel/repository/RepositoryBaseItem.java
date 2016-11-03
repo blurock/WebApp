@@ -1,5 +1,6 @@
 package info.esblurock.reaction.client.panel.repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +22,9 @@ import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.StoreDescriptionData;
 import info.esblurock.reaction.client.StoreDescriptionDataAsync;
 import info.esblurock.reaction.client.panel.description.DataDescription;
+import info.esblurock.reaction.client.panel.description.SetOfReferenceDescriptions;
 import info.esblurock.reaction.client.panel.repository.actions.DisplayDescriptionDataDataCallback;
+import info.esblurock.reaction.client.panel.repository.data.RepositoryDataVisualization;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.repository.DataPathName;
 
@@ -46,7 +49,7 @@ public class RepositoryBaseItem extends Composite implements HasText {
 	
 	/** The setcollapse. */
 	@UiField
-	MaterialCollapsible setcollapse;
+	protected MaterialCollapsible setcollapse;
 	
 	/** The remove. */
 	@UiField
@@ -91,6 +94,7 @@ public class RepositoryBaseItem extends Composite implements HasText {
 		init(stringKey);
 		this.parent = parent;
 		this.topPath = topPath;
+		stringlabel.setText(stringKey);
 	}
 
 	public RepositoryBaseItem addSubItemLabel(String label) {
@@ -151,6 +155,20 @@ public class RepositoryBaseItem extends Composite implements HasText {
 	public void addDescriptionDataData(DataDescription data) {
 		setcollapse.add(data);
 		lastNodeSettings();
+	}
+	public void addReferenceSet(String keyword) {
+		SetOfReferenceDescriptions references = new SetOfReferenceDescriptions();
+		references.setUnenabled();
+		references.fillInReferences(keyword);
+		setcollapse.add(references);
+	}
+	public void addFiles(String datasetkeyword, String typeclass) {
+		MaterialToast.fireToast(datasetkeyword + " <--> " + typeclass);
+		RepositoryDataVisualization visualization = RepositoryDataVisualization.valueOf(typeclass);
+		ArrayList<Widget> visuals = visualization.getDataSetVisualizationItems(datasetkeyword);
+		for(Widget visual : visuals) {
+			setcollapse.add(visual);
+		}
 	}
 	public String getText() {
 		return stringlabel.getText();
