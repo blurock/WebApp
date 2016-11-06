@@ -19,12 +19,15 @@ public class SingletonInterpretation extends Interpretation {
 	@Override
 	public boolean interpretable(QueryParameters input) {
 		StringTokenizer tok = new StringTokenizer(input.getInputString()," ");
-		return tok.countTokens() == 1;
+		return true;
 	}
 
 	@Override
 	public RDFQueryResultSet getResults(QueryParameters input) {
+		System.out.println("Singleton: " + input.getInputString());
+		System.out.println("Singleton: " + filter);
 		RDFQueryResultSet  set = getSet(filter,input);
+		System.out.println("Singleton results: " + set.toString()); 
 		return set;
 	}
 

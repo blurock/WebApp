@@ -88,6 +88,15 @@ public interface ProcessDescriptions extends com.google.gwt.i18n.client.Constant
   String ReadNASAPolynomialFile();
 
   /**
+   * Translated "Read TherGas Molecules: Read in the TherGas molecule and thermodynamic file".
+   * 
+   * @return translated "Read TherGas Molecules: Read in the TherGas molecule and thermodynamic file"
+   */
+  @DefaultStringValue("Read TherGas Molecules: Read in the TherGas molecule and thermodynamic file")
+  @Key("ReadThergasMoleculesFile")
+  String ReadThergasMoleculesFile();
+
+  /**
    * Translated "Read Transport: Read in the CHEMKIN transport properties file".
    * 
    * @return translated "Read Transport: Read in the CHEMKIN transport properties file"
@@ -113,6 +122,24 @@ public interface ProcessDescriptions extends com.google.gwt.i18n.client.Constant
   @DefaultStringValue("Register the set of data set references")
   @Key("RegisterDataSetReferences")
   String RegisterDataSetReferences();
+
+  /**
+   * Translated "RDF TherGas Molecule: Create RDF's from Thergas molecule and thermodynamic information".
+   * 
+   * @return translated "RDF TherGas Molecule: Create RDF's from Thergas molecule and thermodynamic information"
+   */
+  @DefaultStringValue("RDF TherGas Molecule: Create RDF's from Thergas molecule and thermodynamic information")
+  @Key("ThergasMoleculeProcessRDF")
+  String ThergasMoleculeProcessRDF();
+
+  /**
+   * Translated "Store TherGas molecules: Store TherGas molecule and thermodynamic information".
+   * 
+   * @return translated "Store TherGas molecules: Store TherGas molecule and thermodynamic information"
+   */
+  @DefaultStringValue("Store TherGas molecules: Store TherGas molecule and thermodynamic information")
+  @Key("ThergasMoleculeToDatabase")
+  String ThergasMoleculeToDatabase();
 
   /**
    * Translated "RDF Transport: Create RDF's from Transport properties".
@@ -149,6 +176,15 @@ public interface ProcessDescriptions extends com.google.gwt.i18n.client.Constant
   @DefaultStringValue("Validate NASAPolynomial: Validate in a NASA polynomial file")
   @Key("ValidateNASAPolynomialFile")
   String ValidateNASAPolynomialFile();
+
+  /**
+   * Translated "Validate TherGas Molecules: Validate TherGas molecule and thermodynamics file".
+   * 
+   * @return translated "Validate TherGas Molecules: Validate TherGas molecule and thermodynamics file"
+   */
+  @DefaultStringValue("Validate TherGas Molecules: Validate TherGas molecule and thermodynamics file")
+  @Key("ValidateThergasMoleculesFile")
+  String ValidateThergasMoleculesFile();
 
   /**
    * Translated "Validate Transport: Validate in the CHEMKIN transport properties file".

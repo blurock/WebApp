@@ -317,7 +317,6 @@ public class TransactionInfoQueries {
 		Iterator<Entity> iter = pq.asIterable().iterator();
 		if (iter.hasNext()) {
 			String msg = "Transaction with key='" + key + " and class='" + classname + "' exists..";
-			System.out.println(msg);
 			throw new IOException(msg);
 		} else {
 			System.out.println("No transactions found");

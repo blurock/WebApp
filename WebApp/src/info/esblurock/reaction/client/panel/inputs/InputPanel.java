@@ -69,6 +69,26 @@ public enum InputPanel {
 					PanelInputResources.INSTANCE.exampleTransportSet().getText());
 			return mechanism;
 		};
+	}, 
+	thergasmolecules {
+		@Override
+		public DataInput getWidget(DataDescription description) {
+
+		InputConstants inputConstants = GWT.create(InputConstants.class);
+		String specName = "info.esblurock.reaction.data.upload.ThergasMoleculeFileSpecification";
+		String transName = "info.esblurock.reaction.data.upload.types.ThergasMoleculeFileUpload";
+		DataInput mechanism = new DataInput(
+				specName,
+				transName,
+				description,
+				inputConstants.thergasmoleculetype(),
+				inputConstants.thergasmoleculestitle(),
+				inputConstants.thergasmoleculestitletooltip(),
+				inputConstants.thergasmoleculeshttptext(),
+				inputConstants.thergasmoleculestexttooltip(),
+				PanelInputResources.INSTANCE.exampleThergasMoleculeSet().getText());
+		return mechanism;
+	};
 	},
 	sdfsubstructures {
 		@Override
@@ -109,26 +129,6 @@ public enum InputPanel {
 					PanelInputResources.INSTANCE.exampleSDFMoleculeSet().getText());
 			return mechanism;
 		};
-	},
-	thergasmolecules {
-		@Override
-		public DataInput getWidget(DataDescription description) {
-
-		InputConstants inputConstants = GWT.create(InputConstants.class);
-		String specName = "info.esblurock.reaction.data.upload.";
-		String transName = "info.esblurock.reaction.data.upload.";
-		DataInput mechanism = new DataInput(
-				specName,
-				transName,
-				description,
-				inputConstants.thergasmoleculetype(),
-				inputConstants.thergasmoleculestitle(),
-				inputConstants.thergasmoleculestitletooltip(),
-				inputConstants.thergasmoleculeshttptext(),
-				inputConstants.thergasmoleculestexttooltip(),
-				PanelInputResources.INSTANCE.exampleThergasMoleculeSet().getText());
-		return mechanism;
-	};
 };
 
 	private boolean required = true;

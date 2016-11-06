@@ -23,6 +23,7 @@ import java.util.StringTokenizer;
 
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.upload.FileUploadLines;
+import info.esblurock.reaction.data.upload.FileUploadTextBlock;
 import info.esblurock.reaction.server.queries.QueryBase;
 
 public class ActionsUsingIdentificationCode {
@@ -242,4 +243,15 @@ public class ActionsUsingIdentificationCode {
 		return lines;
 	}
 
+	static public String getUploadedAsString(String fileCode) throws IOException {
+		List<DatabaseObject> objs = 
+				QueryBase.getDatabaseObjectsFromSingleProperty(FileUploadTextBlock.class.getName(), 
+						"fileCode", fileCode);
+		StringBuilder build = new StringBuilder();
+		for(DatabaseObject obj: objs) {
+			FileUploadTextBlock block = (FileUploadTextBlock) obj;
+			build.append(block.getTextBlock().getValue());
+		}
+		return build.toString();
+	}
 }

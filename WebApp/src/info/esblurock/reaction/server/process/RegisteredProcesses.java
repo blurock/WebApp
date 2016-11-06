@@ -33,6 +33,7 @@ public class RegisteredProcesses {
  */
 	static public ArrayList<String> toBeProcessed(String user, String keyword) throws IOException {
 		ArrayList<String> completed = getCompletedTransactions(user, keyword);
+		System.out.println("Completed: \n" + completed);
 		ArrayList<String> processes = toBeProcessed(completed);
 		return processes;
 	}

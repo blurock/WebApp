@@ -20,8 +20,11 @@
 				<m:MaterialNavBrand ui:field="toptext" text="Data Entry" />
 			</m:MaterialNavBar>
 
-			<m:MaterialSideNav width="250" m:id="mysidebar"
-				type="FIXED" closeOnClick="false">
+			<m:MaterialSideNav width="250" m:id="mysidebar" 
+			
+			alwaysShowActivator="true"
+			allowBodyScroll="true"
+				type="FIXED" closeOnClick="true">
 				<ma:sideprofile.MaterialSideProfile
 					resource="{res.blackboardbackground}">
 					<m:MaterialLink text="Navigate" activates="dropProfile"

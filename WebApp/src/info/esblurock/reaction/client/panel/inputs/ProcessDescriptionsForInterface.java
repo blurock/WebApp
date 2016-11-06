@@ -35,6 +35,13 @@ public enum ProcessDescriptionsForInterface {
 		public String getDescription() {
 			return description.ReadTransportPropertiesFile();
 		}
+	}, ReadThergasMoleculesFile {
+
+		@Override
+		public String getDescription() {
+			return null;
+		}
+		
 	}, ValidateTransportFile {
 		@Override
 		public String getDescription() {
@@ -52,6 +59,13 @@ public enum ProcessDescriptionsForInterface {
 		public String getDescription() {
 			return description.ValidateNASAPolynomialFile();
 		}
+	}, ValidateThergasMoleculesFile {
+
+		@Override
+		public String getDescription() {
+			return description.ValidateThergasMoleculesFile();
+		}
+		
 	}, MechanismMoleculesToDatabase {
 		@Override
 		public String getDescription() {
@@ -78,6 +92,13 @@ public enum ProcessDescriptionsForInterface {
 			return description.MechanismMoleculeProcessRDF();
 		}
 		
+	}, ThergasMoleculeToDatabase {
+
+		@Override
+		public String getDescription() {
+			return description.ThergasMoleculeToDatabase();
+		}
+		
 	}, MechanismReactionsProcessRDF {
 		@Override
 		public String getDescription() {
@@ -93,6 +114,12 @@ public enum ProcessDescriptionsForInterface {
 		public String getDescription() {
 			return description.TransportPropertiesProcessRDF();
 		}
+	}, ThergasMoleculeProcessRDF {
+		@Override
+		public String getDescription() {
+			return description.ThergasMoleculeProcessRDF();
+		}
+		
 	};
 	ProcessDescriptions description = GWT.create(ProcessDescriptions.class);
 

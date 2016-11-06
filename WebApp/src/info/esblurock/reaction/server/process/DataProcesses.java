@@ -17,6 +17,10 @@ import info.esblurock.reaction.server.process.chemkin.rdf.MechanismMoleculeProce
 import info.esblurock.reaction.server.process.chemkin.rdf.MechanismReactionsProcessRDF;
 import info.esblurock.reaction.server.process.chemkin.rdf.NASAPolynomialProcessRDF;
 import info.esblurock.reaction.server.process.chemkin.rdf.TransportPropertiesProcessRDF;
+import info.esblurock.reaction.server.process.upload.ReadThergasMoleculesFile;
+import info.esblurock.reaction.server.process.upload.ValidateThergasMoleculesFile;
+import info.esblurock.reaction.server.process.thergas.ThergasMoleculeToDatabase;
+import info.esblurock.reaction.server.process.thergas.ThergasMoleculeProcessRDF;
 
 public enum DataProcesses {
 	
@@ -63,9 +67,7 @@ public enum DataProcesses {
 			return false;
 		}
 		
-	},
-	
-	ReadChemkinMechanismFile {
+	}, ReadChemkinMechanismFile {
 		@Override
 		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
 			ReadChemkinMechanismFile p = new ReadChemkinMechanismFile(specs);
@@ -177,6 +179,45 @@ public enum DataProcesses {
 		public boolean asBackgroundJob() {
 			return false;
 		}
+		
+	}, ReadThergasMoleculesFile {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ReadThergasMoleculesFile p = new ReadThergasMoleculesFile(specs);
+			return p;
+		}
+		@Override
+		public ProcessBase getEmptyProcess() {
+			return new ReadThergasMoleculesFile();
+		}
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
+		}
+		
+	}, ValidateThergasMoleculesFile {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ValidateThergasMoleculesFile p = new ValidateThergasMoleculesFile(specs);
+			return p;
+		}
+		@Override
+		public ProcessBase getEmptyProcess() {
+			return new ValidateThergasMoleculesFile();
+		}
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
+		}
+		
 	}, MechanismMoleculesToDatabase {
 
 		@Override
@@ -260,6 +301,29 @@ public enum DataProcesses {
 		@Override
 		public ProcessBase getEmptyProcess() {
 			TransportPropertiesToDatabase process = new TransportPropertiesToDatabase();
+			return process;
+		}
+
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+
+		@Override
+		public boolean asBackgroundJob() {
+			return true;
+		}
+		
+	}, ThergasMoleculeToDatabase {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ThergasMoleculeToDatabase process = new ThergasMoleculeToDatabase(specs);
+			return process;
+		}
+
+		@Override
+		public ProcessBase getEmptyProcess() {
+			ThergasMoleculeToDatabase process = new ThergasMoleculeToDatabase();
 			return process;
 		}
 
@@ -368,6 +432,29 @@ public enum DataProcesses {
 		public boolean asBackgroundJob() {
 			return true;
 		}
+	}, ThergasMoleculeProcessRDF {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ThergasMoleculeProcessRDF process = new ThergasMoleculeProcessRDF(specs);
+			return process;
+		}
+
+		@Override
+		public ProcessBase getEmptyProcess() {
+			ThergasMoleculeProcessRDF process = new ThergasMoleculeProcessRDF();
+			return process;
+		}
+
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+
+		@Override
+		public boolean asBackgroundJob() {
+			return true;
+		}
+		
 	};
 	public abstract ProcessBase getProcess(ProcessInputSpecificationsBase specs);
 	public abstract ProcessBase getEmptyProcess();

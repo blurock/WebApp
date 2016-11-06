@@ -3,42 +3,41 @@ package info.esblurock.reaction.server.process.upload;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import info.esblurock.react.mechanisms.chemkin.ChemkinMechanism;
+import info.esblurock.reaction.data.transaction.ActionsUsingIdentificationCode;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
-import info.esblurock.reaction.data.upload.types.ValidatedChemkinMechanismFile;
-import info.esblurock.reaction.server.chemkin.ChemkinStringFromStoredFile;
+import info.esblurock.reaction.data.upload.types.ValidatedThergasMoleculeFile;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
+import jThergas.data.read.JThergasReadStructureThermo;
+import jThergas.exceptions.JThergasReadException;
 
-public class ValidateChemkinMechanismFile extends ProcessBase {
+public class ValidateThergasMoleculesFile  extends ProcessBase {
 	UploadFileTransaction upload;
-	ValidatedChemkinMechanismFile validate;
-	
+	ValidatedThergasMoleculeFile validate;
+
 	String uploadS;
 	String validateS;
 	
-	public ValidateChemkinMechanismFile() {
-		super();
+	public ValidateThergasMoleculesFile() {
 	}
-
-	public ValidateChemkinMechanismFile(ProcessInputSpecificationsBase input) {
+	public ValidateThergasMoleculesFile(ProcessInputSpecificationsBase input) {
 		super(input);
 	}
-
+	
 	@Override
 	public void initialization() {
-		uploadS = "info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload";
-		validateS = "info.esblurock.reaction.data.upload.types.ValidatedChemkinMechanismFile";
+		uploadS = "info.esblurock.reaction.data.upload.types.ThergasMoleculeFileUpload";
+		validateS = "info.esblurock.reaction.data.upload.types.ValidatedThergasMoleculeFile";
 	}
 
 	@Override
 	protected String getProcessName() {
-		return "ValidateChemkinMechanismFile";
+		return "ValidateThergasMoleculesFile";
 	}
 
 	@Override
 	protected String getProcessDescription() {
-		return "Validate the uploaded CHEMKIN mechanism";
+		return "Validate the uploaded Thergas molecules";
 	}
 
 	@Override
@@ -54,25 +53,26 @@ public class ValidateChemkinMechanismFile extends ProcessBase {
 		output.add(validateS);
 		return output;
 	}
+	
 	@Override
 	protected void initializeOutputObjects() throws IOException {
 		super.initializeOutputObjects();
 		upload = (UploadFileTransaction) getInputSource(uploadS);
-		System.out.println("ValidateChemkinMechanismFile::initializeOutputObjects(): " + upload);
-		validate = new ValidatedChemkinMechanismFile(user, upload.getFilename(), outputSourceCode, upload.getSourceType());
+		validate = new ValidatedThergasMoleculeFile(user, upload.getFilename(), outputSourceCode, upload.getSourceType());
 		objectOutputs.add(validate);
 	}
 
 	@Override
 	protected void createObjects() throws IOException {
-		String commentString = "!";
 		try {
-			ChemkinStringFromStoredFile chemkinstring = new ChemkinStringFromStoredFile(upload, commentString);
-			ChemkinMechanism mechanism = new ChemkinMechanism();
-			mechanism.parse(chemkinstring, commentString);
+			JThergasReadStructureThermo readtherm = new JThergasReadStructureThermo();
+			String datastring = ActionsUsingIdentificationCode.getUploadedAsString(upload.getFileCode());
+			readtherm.readAndParse(datastring);
 		} catch (IOException ex) {
 			storeNewTransactions();
 			throw ex;
+		} catch (JThergasReadException e) {
+			throw new IOException(e.toString());
 		}
 	}
 

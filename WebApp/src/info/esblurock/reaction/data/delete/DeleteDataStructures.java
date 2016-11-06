@@ -12,6 +12,7 @@ import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.chemical.reaction.ChemkinReactionData;
 import info.esblurock.reaction.data.chemical.thermo.NASAPolynomialData;
+import info.esblurock.reaction.data.chemical.thermo.ThergasMoleculeData;
 import info.esblurock.reaction.data.chemical.transport.SpeciesTransportProperty;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.description.DataSetReferencesTransaction;
@@ -34,7 +35,9 @@ import info.esblurock.reaction.data.transaction.chemkin.rdf.MechanismMoleculeRDF
 import info.esblurock.reaction.data.transaction.chemkin.rdf.MechanismReactionsRDFTransaction;
 import info.esblurock.reaction.data.transaction.chemkin.rdf.NASAPolynomialRDFTransaction;
 import info.esblurock.reaction.data.transaction.chemkin.rdf.TransportPropertiesRDFTransaction;
-
+import info.esblurock.reaction.data.transaction.thergas.ThergasMoleculeThermodynamics;
+import info.esblurock.reaction.data.transaction.thergas.ThergasMoleculesToDatabaseTransaction;
+import info.esblurock.reaction.data.transaction.thergas.ThergasMoleculesRDFTransaction;
 public enum DeleteDataStructures {
 
 	DescriptionDataData {
@@ -215,6 +218,20 @@ public enum DeleteDataStructures {
 			return "delete TransportPropertiesToDatabaseTransaction with key: " + key;
 		}
 
+	}, ThergasMoleculesToDatabaseTransaction {
+
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			ThergasMoleculesToDatabaseTransaction transaction = (ThergasMoleculesToDatabaseTransaction) QueryBase
+					.getObjectById(ThergasMoleculesToDatabaseTransaction.class, key);
+			QueryBase.deleteWithStringKey(ThergasMoleculesToDatabaseTransaction.class, key);
+			QueryBase.deleteFromIdentificationCode(ThergasMoleculeData.class, "datasetKeyword",
+					transaction.getKeyWord());
+			QueryBase.deleteFromIdentificationCode(ThergasMoleculeThermodynamics.class, "datasetKeyword",
+					transaction.getKeyWord());
+			return "delete ThergasMoleculesToDatabaseTransaction with key: " + key;
+		}
+		
 	},
 	MechanismMoleculeRDFTransaction {
 
@@ -263,6 +280,16 @@ public enum DeleteDataStructures {
 			return "delete MechanismMoleculeRDFTransaction with key: " + key;
 		}
 
+	}, ThergasMoleculesRDFTransaction {
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			ThergasMoleculesRDFTransaction transaction = (ThergasMoleculesRDFTransaction) QueryBase
+					.getObjectById(ThergasMoleculesRDFTransaction.class, key);
+			QueryBase.deleteWithStringKey(ThergasMoleculesRDFTransaction.class, key);
+			QueryBase.deleteFromIdentificationCode(KeywordRDF.class, "sourceCode", transaction.getFileCode());
+			return "delete ThergasMoleculesRDFTransaction with key: " + key;
+		}
+		
 	},
 	TextSetUploadData {
 		@Override

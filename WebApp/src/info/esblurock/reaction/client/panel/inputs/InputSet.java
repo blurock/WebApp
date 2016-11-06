@@ -66,6 +66,28 @@ public enum InputSet {
 			return "ChemkinMechanism";
 		}
 	},
+	thergasmolecules {
+		@Override
+		public DataDescription getDescription() {
+
+			DescriptionConstants descriptionConstants = GWT.create(DescriptionConstants.class);
+			DataDescription description = new DataDescription(descriptionConstants.thergasmoleculestitle());
+			return description;
+		}
+
+		@Override
+		public ArrayList<DataInput> getSet(DataDescription description) {
+			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
+			inputset.add(InputPanel.thergasmolecules.getWidget(description));
+			return inputset;
+		}
+
+		@Override
+		public String getDataType() {
+			return "ThergasMolecules";
+		}
+
+	},
 	sdfmolecules {
 		@Override
 		public DataDescription getDescription() {
@@ -108,28 +130,6 @@ public enum InputSet {
 		@Override
 		public String getDataType() {
 			return "2D-Substructures";
-		}
-
-	},
-	thergasmolecules {
-		@Override
-		public DataDescription getDescription() {
-
-			DescriptionConstants descriptionConstants = GWT.create(DescriptionConstants.class);
-			DataDescription description = new DataDescription(descriptionConstants.thergasmoleculestitle());
-			return description;
-		}
-
-		@Override
-		public ArrayList<DataInput> getSet(DataDescription description) {
-			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
-			inputset.add(InputPanel.thergasmolecules.getWidget(description));
-			return inputset;
-		}
-
-		@Override
-		public String getDataType() {
-			return "ThermodynamicInfo";
 		}
 
 	},

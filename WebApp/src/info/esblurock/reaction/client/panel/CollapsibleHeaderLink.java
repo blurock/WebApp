@@ -33,7 +33,6 @@ import info.esblurock.reaction.data.rdf.graph.RDFGraphStringObject;
 import info.esblurock.reaction.data.rdf.graph.RDFGraphSubjectNode;
 import info.esblurock.reaction.data.rdf.graph.RDFSubTreeParentNode;
 import info.esblurock.reaction.data.rdf.graph.RDFTreeNode;
-import info.esblurock.reaction.data.rdf.graph.SetOfGraphNodes;
 
 public class CollapsibleHeaderLink extends Composite implements HasText {
 

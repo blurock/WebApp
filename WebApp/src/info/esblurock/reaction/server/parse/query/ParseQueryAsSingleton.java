@@ -9,12 +9,12 @@ public class ParseQueryAsSingleton implements ParseQuery {
 
 	public SetOfInterpretations parseInput() {
 		SetOfInterpretations interpret = new SetOfInterpretations();
-		ParseObjectAsObject ofilter = new ParseObjectAsObject();
-		SingletonInterpretation ointerpret = new SingletonInterpretation(ofilter);
-		interpret.add(ointerpret);
 		ParseObjectAsSubject sfilter = new ParseObjectAsSubject();
 		SingletonInterpretation sinterpret = new SingletonInterpretation(sfilter);
 		interpret.add(sinterpret);
+		ParseObjectAsObject ofilter = new ParseObjectAsObject();
+		SingletonInterpretation ointerpret = new SingletonInterpretation(ofilter);
+		interpret.add(ointerpret);
 		return interpret;
 	}
 
