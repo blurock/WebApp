@@ -21,6 +21,10 @@ import info.esblurock.reaction.server.process.upload.ReadThergasMoleculesFile;
 import info.esblurock.reaction.server.process.upload.ValidateThergasMoleculesFile;
 import info.esblurock.reaction.server.process.thergas.ThergasMoleculeToDatabase;
 import info.esblurock.reaction.server.process.thergas.ThergasMoleculeProcessRDF;
+import info.esblurock.reaction.server.process.upload.ReadReactSDFMolecules;
+import info.esblurock.reaction.server.process.upload.ReadReactMolCorrespondencesFile;
+import info.esblurock.reaction.server.process.upload.ValidateReactSDFMolecules;
+import info.esblurock.reaction.server.process.upload.ValidateReactMolCorrespondences;
 
 public enum DataProcesses {
 	
@@ -218,7 +222,85 @@ public enum DataProcesses {
 			return false;
 		}
 		
+	}, ReadReactSDFMolecules {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ReadReactSDFMolecules p = new ReadReactSDFMolecules(specs);
+			return p;
+		}
+		@Override
+		public ProcessBase getEmptyProcess() {
+			return new ReadReactSDFMolecules();
+		}
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
+		}
+		
+	}, ValidateReactSDFMolecules {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ValidateReactSDFMolecules p = new ValidateReactSDFMolecules(specs);
+			return p;
+		}
+		@Override
+		public ProcessBase getEmptyProcess() {
+			return new ValidateReactSDFMolecules();
+		}
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
+		}
+		
+	},	ReadReactMolCorrespondencesFile {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ReadReactMolCorrespondencesFile p = new ReadReactMolCorrespondencesFile(specs);
+			return p;
+		}
+		@Override
+		public ProcessBase getEmptyProcess() {
+			return new ReadReactMolCorrespondencesFile();
+		}
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
+		}
+		
+	}, 	ValidateReactMolCorrespondences {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ValidateReactMolCorrespondences p = new ValidateReactMolCorrespondences(specs);
+			return p;
+		}
+		@Override
+		public ProcessBase getEmptyProcess() {
+			return new ValidateReactMolCorrespondences();
+		}
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
+		}
+		
 	}, MechanismMoleculesToDatabase {
+	
+	
 
 		@Override
 		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {

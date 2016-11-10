@@ -36,7 +36,7 @@ public class SDFAtom extends ReactAtom{
         Z = parser.nextFloat();
         AtomicNumber = ReactPeriodicTable.AtomNumber( parser.nextString() );
         Info = parser.nextInt();
-    }
+           }
     // Deprecated below this line
     // _______________________________________________________________________________________________________________
     

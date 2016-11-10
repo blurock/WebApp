@@ -14,8 +14,8 @@
 				iconPosition="LEFT" iconColor="grey lighten-1"/>
 			<m:MaterialLink ui:field="rest" text="First" iconType="EXPAND_MORE"
 				iconPosition="LEFT" iconColor="grey lighten-1"/>
-			<m:MaterialIcon ui:field="expandnext" iconType="EXPAND_MORE"
-				iconPosition="RIGHT" iconColor="grey lighten-1" />
+			<m:MaterialIcon ui:field="expandnext" iconType="SEARCH"
+				iconPosition="LEFT" iconColor="grey lighten-1" />
 			<m:MaterialIcon ui:field="deletesub" iconType="CLOSE"
 				iconPosition="RIGHT" iconColor="grey lighten-1"/>
 			<m:MaterialIcon ui:field="objectinfo" iconType="DESCRIPTION"

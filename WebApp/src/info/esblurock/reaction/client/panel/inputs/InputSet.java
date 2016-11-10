@@ -91,6 +91,7 @@ public enum InputSet {
 	sdfmolecules {
 		@Override
 		public DataDescription getDescription() {
+			MaterialToast.fireToast("sdfmolecules: getDescription()");
 
 			DescriptionConstants descriptionConstants = GWT.create(DescriptionConstants.class);
 			DataDescription description = new DataDescription(descriptionConstants.sdfmoleculetitle());
@@ -99,15 +100,17 @@ public enum InputSet {
 
 		@Override
 		public ArrayList<DataInput> getSet(DataDescription description) {
+			MaterialToast.fireToast("sdfmolecules: getSet(DataDescription description)");
 			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
 			inputset.add(InputPanel.sdfmolecules.getWidget(description));
+			inputset.add(InputPanel.reactmolcorrs.getWidget(description));
 			inputset.add(InputPanel.nasapolynomials.getWidget(description));
 			return inputset;
 		}
 
 		@Override
 		public String getDataType() {
-			return "2D-Molecules";
+			return "Reaction2DMolecules";
 		}
 
 	},

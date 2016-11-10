@@ -1,9 +1,6 @@
 package info.esblurock.reaction.server;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -11,20 +8,12 @@ import java.util.Set;
 
 import javax.jdo.PersistenceManager;
 
-import org.json.JSONObject;
-
 import com.google.appengine.api.datastore.Text;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.gwtext.client.data.JsonReader;
-import com.gwtext.client.data.RecordDef;
-import com.gwtext.client.util.JSON;
 
 import java.util.logging.Logger;
 
 import info.esblurock.react.parse.keywords.KeywordsFromText;
-import info.esblurock.react.parse.keywords.SetOfKeyWords;
 import info.esblurock.reaction.client.TextToDatabase;
-import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.data.GenerateKeywordFromDescription;
 import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.description.DataSetReference;
@@ -40,7 +29,6 @@ import info.esblurock.reaction.server.process.DataProcesses;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.description.DataDescriptionSpecification;
 import info.esblurock.reaction.server.process.description.DataSetReferencesSpecifications;
-import info.esblurock.reaction.server.queries.QueryBase;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
@@ -86,7 +74,7 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 		
 		FileSourceSpecification specInstance = fileSpecification(className, sourceType, 
 				fileName, text, user, upload.getFileCode(), keyword);
-		TransactionInfo info = new TransactionInfo(user, keyword, className, upload.getFileCode());
+		//TransactionInfo info = new TransactionInfo(user, keyword, className, upload.getFileCode());
 		WriteObjectTransactionToDatabase.writeObjectWithTransaction(user, keyword, upload.getFileCode(), specInstance);
 		String ans = "Keyword: '" + keyword 
 				+ "'\n User='" + user  
@@ -100,6 +88,7 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 			String idCode, String keyword) throws IOException {
 		FileSourceSpecification specInstance;
 		try {
+			System.out.println("fileSpecification: Class '" + className + "'");
 			Class cls = Class.forName(className);
 			Object obj = cls.newInstance();
 			if (FileSourceSpecification.class.isAssignableFrom(obj.getClass())) {

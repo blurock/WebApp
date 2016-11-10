@@ -1,0 +1,80 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s10">
+						<m:MaterialLink ui:field="searchpanel"
+							text="Upon search, the results shown are nodes (shown as lines) of the relationship tree" 
+							backgroundColor="grey-light-1" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s10">
+						<m:MaterialLink ui:field="donedescription" 
+						text="Click line to see further results (sub-nodes) in the search tree"
+							backgroundColor="grey-light-3" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s1">
+						<m:MaterialIcon ui:field="delete" iconType="CLOSE"
+							iconPosition="LEFT" />
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s10">
+						<m:MaterialLink ui:field="deletedescription"
+							text="Delete the entry and all sub-entries" backgroundColor="grey-light-1" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s1">
+						<m:MaterialIcon ui:field="topsearch" iconType="SEARCH"
+							iconPosition="LEFT" />
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s10">
+						<m:MaterialLink ui:field="topsearchdescription" 
+						text="In top search mode, enter a keyword"
+							backgroundColor="grey-light-3" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s1">
+						<m:MaterialIcon ui:field="search" iconType="SEARCH"
+							iconPosition="LEFT" />
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s10">
+						<m:MaterialLink ui:field="searchdescription" 
+						text="On result line, search with keyword on line"
+							backgroundColor="grey-light-3" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s1">
+						<m:MaterialIcon ui:field="list" iconType="LIST"
+							iconPosition="LEFT" />
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s10">
+						<m:MaterialLink ui:field="listdescription" 
+						text="Click to jump to other windows"
+							backgroundColor="grey-light-3" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+				<m:MaterialRow>
+					<m:MaterialColumn grid="s1">
+						<m:MaterialIcon ui:field="info" iconType="INFO"
+							iconPosition="LEFT" />
+					</m:MaterialColumn>
+					<m:MaterialColumn grid="s10">
+						<m:MaterialLink ui:field="infodescription" 
+						text="Click for explanations and examples of search keywords"
+							backgroundColor="grey-light-3" />
+					</m:MaterialColumn>
+				</m:MaterialRow>
+	</g:HTMLPanel>
+</ui:UiBinder> 

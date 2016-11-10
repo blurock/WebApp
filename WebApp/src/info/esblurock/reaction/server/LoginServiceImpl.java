@@ -207,13 +207,12 @@ public class LoginServiceImpl extends ServerBase implements LoginService {
 					
 					System.out.println("Send Message: (" + account.getEmail() + ")\n" + message);
 					SendMail mail = new SendMail();
-					String to = "edward.blurock@esblurock.info";
 					String subject = "MolConnect: account email validation";
-					mail.sendMail(to, from, subject, message);
+					mail.sendMail(account.getEmail(), from, subject, message);
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
-				pm.makePersistent(account);
+				//pm.makePersistent(account);
 				TransactionCount count = new TransactionCount(account.getUsername());
 				pm.makePersistent(count);
 				useremail = account.getEmail();

@@ -3,23 +3,15 @@ package info.esblurock.reaction.server;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.input.ReaderInputStream;
-
-import com.google.appengine.api.datastore.Text;
 
 import info.esblurock.reaction.client.ui.login.UserDTO;
-import info.esblurock.reaction.data.PMF;
-import info.esblurock.reaction.data.transaction.TransactionInfo;
-import info.esblurock.reaction.data.upload.FileSourceSpecification;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
-import info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload;
 import info.esblurock.reaction.data.upload.types.CreateBufferedReaderForSourceFile;
 import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
 import info.esblurock.reaction.server.utilities.ManageDataSourceIdentification;
 import info.esblurock.reaction.server.utilities.WriteObjectTransactionToDatabase;
 
-import javax.jdo.PersistenceManager;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;

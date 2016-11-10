@@ -140,6 +140,7 @@ public class QueryNavBar extends Composite implements HasText {
 	void onSearch(ClickEvent e) {
 		navBar.setVisible(false);
 		navBarSearch.setVisible(true);
+		top.hideButtonInfoPanel();
 	}
 
 	@UiHandler("info")

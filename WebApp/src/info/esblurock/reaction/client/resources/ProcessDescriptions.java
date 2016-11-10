@@ -70,6 +70,42 @@ public interface ProcessDescriptions extends com.google.gwt.i18n.client.Constant
   String NASAPolynomialsToDatabase();
 
   /**
+   * Translated "Store correpondences: reaction molecule correspondences to database".
+   * 
+   * @return translated "Store correpondences: reaction molecule correspondences to database"
+   */
+  @DefaultStringValue("Store correpondences: reaction molecule correspondences to database")
+  @Key("ReactMolCorrespondencesToDatabase")
+  String ReactMolCorrespondencesToDatabase();
+
+  /**
+   * Translated "RDF Correspondences: Create RDF's from reaction molecule correspondences".
+   * 
+   * @return translated "RDF Correspondences: Create RDF's from reaction molecule correspondences"
+   */
+  @DefaultStringValue("RDF Correspondences: Create RDF's from reaction molecule correspondences")
+  @Key("ReactMoleCorrespondencesProcessRDF")
+  String ReactMoleCorrespondencesProcessRDF();
+
+  /**
+   * Translated "RDF SDF: Create RDF's from reaction SDF molecules".
+   * 
+   * @return translated "RDF SDF: Create RDF's from reaction SDF molecules"
+   */
+  @DefaultStringValue("RDF SDF: Create RDF's from reaction SDF molecules")
+  @Key("ReactSDFMoleculesProcessRDF")
+  String ReactSDFMoleculesProcessRDF();
+
+  /**
+   * Translated "Store SDF: Store reaction SDF molecules".
+   * 
+   * @return translated "Store SDF: Store reaction SDF molecules"
+   */
+  @DefaultStringValue("Store SDF: Store reaction SDF molecules")
+  @Key("ReactSDFMoleculesToDatabase")
+  String ReactSDFMoleculesToDatabase();
+
+  /**
    * Translated "Read ChemkinMechanism: Read in the CHEMKIN mechanism file".
    * 
    * @return translated "Read ChemkinMechanism: Read in the CHEMKIN mechanism file"
@@ -86,6 +122,24 @@ public interface ProcessDescriptions extends com.google.gwt.i18n.client.Constant
   @DefaultStringValue("Read NASAPolynomial: Read in a NASA polynomial file")
   @Key("ReadNASAPolynomialFile")
   String ReadNASAPolynomialFile();
+
+  /**
+   * Translated "Read reaction molecule correspondences file".
+   * 
+   * @return translated "Read reaction molecule correspondences file"
+   */
+  @DefaultStringValue("Read reaction molecule correspondences file")
+  @Key("ReadReactMolCorrespondencesFile")
+  String ReadReactMolCorrespondencesFile();
+
+  /**
+   * Translated "Read reaction SDF molecules".
+   * 
+   * @return translated "Read reaction SDF molecules"
+   */
+  @DefaultStringValue("Read reaction SDF molecules")
+  @Key("ReadReactSDFMolecules")
+  String ReadReactSDFMolecules();
 
   /**
    * Translated "Read TherGas Molecules: Read in the TherGas molecule and thermodynamic file".
@@ -176,6 +230,24 @@ public interface ProcessDescriptions extends com.google.gwt.i18n.client.Constant
   @DefaultStringValue("Validate NASAPolynomial: Validate in a NASA polynomial file")
   @Key("ValidateNASAPolynomialFile")
   String ValidateNASAPolynomialFile();
+
+  /**
+   * Translated "Validate Reaction Molecule Correspondences".
+   * 
+   * @return translated "Validate Reaction Molecule Correspondences"
+   */
+  @DefaultStringValue("Validate Reaction Molecule Correspondences")
+  @Key("ValidateReactMolCorrespondences")
+  String ValidateReactMolCorrespondences();
+
+  /**
+   * Translated "Validate Reaction SDF Molecules".
+   * 
+   * @return translated "Validate Reaction SDF Molecules"
+   */
+  @DefaultStringValue("Validate Reaction SDF Molecules")
+  @Key("ValidateReactSDFMolecules")
+  String ValidateReactSDFMolecules();
 
   /**
    * Translated "Validate TherGas Molecules: Validate TherGas molecule and thermodynamics file".

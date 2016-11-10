@@ -1,5 +1,6 @@
 package info.esblurock.reaction.client.ui;
 
+import info.esblurock.reaction.client.panel.ButtonInfoPanel;
 import info.esblurock.reaction.client.panel.InfoPanel;
 import info.esblurock.reaction.client.panel.QueryAndResultPanel;
 import info.esblurock.reaction.client.panel.QueryNavBar;
@@ -10,6 +11,7 @@ import info.esblurock.reaction.client.ui.login.UserDTO;
 import info.esblurock.reaction.client.ui.modal.QueryLinks;
 import gwt.material.design.addins.client.window.MaterialWindow;
 import gwt.material.design.client.ui.MaterialContainer;
+import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialToast;
 
 import com.google.gwt.core.client.GWT;
@@ -40,6 +42,8 @@ public class ReactionQueryImpl extends UiImplementationBase implements ReactionQ
 	@UiField
 	MaterialWindow linkwindow;
 
+	
+	ButtonInfoPanel buttoninfopanel;
 	
 	MaterialContainer content;
 	QueryAndResultPanel query;
@@ -75,8 +79,9 @@ public class ReactionQueryImpl extends UiImplementationBase implements ReactionQ
 		String info = informationtexts.searchexamples().getText();
 		infopanel = new InfoPanel(title, description, info);
 		wholepanel.add(infopanel);
-	}
-
+		buttoninfopanel = new ButtonInfoPanel();
+		wholepanel.add(buttoninfopanel);
+		}
 	@Override
 	public void setName(String helloName) {
 		this.name = helloName;
@@ -103,5 +108,12 @@ public class ReactionQueryImpl extends UiImplementationBase implements ReactionQ
 	}
 	public void showSearchHelpInformation() {
 		infopanel.showModal();
+	}
+	
+	public void buttonInfoPanel() {
+		buttoninfopanel.setVisible(true);
+	}
+	public void hideButtonInfoPanel() {
+		buttoninfopanel.setVisible(false);
 	}
 }

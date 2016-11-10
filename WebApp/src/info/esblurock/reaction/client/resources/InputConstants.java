@@ -565,6 +565,60 @@ public interface InputConstants extends com.google.gwt.i18n.client.Messages {
   String professor();
 
   /**
+   * Translated "https://".
+   * 
+   * @return translated "https://"
+   */
+  @DefaultMessage("https://")
+  @Key("reactmolcorrshttptext")
+  String reactmolcorrshttptext();
+
+  /**
+   * Translated "molecule name".
+   * 
+   * @return translated "molecule name"
+   */
+  @DefaultMessage("molecule name")
+  @Key("reactmolcorrstexttext")
+  String reactmolcorrstexttext();
+
+  /**
+   * Translated "full name followed by alternative names".
+   * 
+   * @return translated "full name followed by alternative names"
+   */
+  @DefaultMessage("full name followed by alternative names")
+  @Key("reactmolcorrstexttooltip")
+  String reactmolcorrstexttooltip();
+
+  /**
+   * Translated "REACT Molecule Correspondences".
+   * 
+   * @return translated "REACT Molecule Correspondences"
+   */
+  @DefaultMessage("REACT Molecule Correspondences")
+  @Key("reactmolcorrstitle")
+  String reactmolcorrstitle();
+
+  /**
+   * Translated "REACT Molecule full name correspondences".
+   * 
+   * @return translated "REACT Molecule full name correspondences"
+   */
+  @DefaultMessage("REACT Molecule full name correspondences")
+  @Key("reactmolcorrstitletooltip")
+  String reactmolcorrstitletooltip();
+
+  /**
+   * Translated "ReactMoleculeCorrespondence".
+   * 
+   * @return translated "ReactMoleculeCorrespondence"
+   */
+  @DefaultMessage("ReactMoleculeCorrespondence")
+  @Key("reactmolcorrstype")
+  String reactmolcorrstype();
+
+  /**
    * Translated "register".
    * 
    * @return translated "register"

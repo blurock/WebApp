@@ -50,7 +50,7 @@ public class CMLMolecule extends ReactMolecule implements IRestorableElement {
             Molecule molecule = (Molecule) list.get(0);
             fromCML(molecule);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Marshal Exception: " + e);
         }
     }
 

@@ -24,4 +24,7 @@ public interface PanelInputResources extends ClientBundle {
 	
 	@Source("nancyMoleculesAndThermoExample.txt")
 		public TextResource exampleThergasMoleculeSet();
+	
+	@Source("reactmolcorrs.txt")
+		public TextResource exampleReactMoleculeCorrespondenceSet();
 }

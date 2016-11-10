@@ -21,9 +21,9 @@ public abstract class ReactAtom implements IParsableElement
     public String toString()
     {
 		String name = ReactPeriodicTable.AtomName(AtomicNumber);
-		if(Info == 4)
-	    	name.concat(".");
-        
+		if(Info == 4) {
+	    	name += ".";
+		}
 		return "\""+name+"\"";
     }
     
@@ -41,20 +41,6 @@ public abstract class ReactAtom implements IParsableElement
         Z = e.Z;
         AtomicNumber = e.AtomicNumber;
         Info = e.Info;
-    }
-    
-    
-    /**
-     * @deprecated
-     * @see toString()
-     */
-    public String asString(ReactPeriodicTable table)
-    {
-	String name = table.AtomName(AtomicNumber);
-	if(Info == 4)
-	    name.concat(".");
-        
-	return name;
     }
 
 }

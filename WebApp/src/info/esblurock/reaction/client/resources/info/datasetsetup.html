@@ -1,0 +1,336 @@
+
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.data.upload
+XXXXFileSpecification extends FileSourceSpecification
+
+@PersistenceCapable
+@Inheritance(customStrategy = "complete-table")
+public class ReactMolCorrespondencesFileSpecification  extends FileSourceSpecification {
+	ReactMolCorrespondencesFileSpecification() {
+		super();
+	}
+}
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.data.upload
+XXXXFileUpload extends UploadFileTransaction
+	private static final long serialVersionUID = 1L;
+
+	public ReactMolCorrespondencesFileUpload() {
+		super();
+	}
+
+	public ReactMolCorrespondencesFileUpload(String user, String filename, String fileCode, String sourceType,
+			Integer lineCount) {
+		super(user, filename, fileCode, sourceType, lineCount);
+	}
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.client.resources
+InputConstants
+
+reactmolcorrstype: ReactMoleculeCorrespondence
+reactmolcorrstitle: REACT Molecule Correspondences
+reactmolcorrstitletooltip: REACT Molecule full name correspondences
+reactmolcorrshttptext: https://
+reactmolcorrstexttext:  molecule name
+reactmolcorrstexttooltip: full name followed by alternative names
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.client.panel.inputs.resource
+PanelInputResources
+
+	@Source("reactmolcorrs.txt")
+		public TextResource exampleReactMoleculeCorrespondenceSet();
+
+
+reactmolcorrs.txt
+====== Molecule Name File: mol/molsdf/C0HO-names.lst
+hydrogen-radical
+- AlternativeNames CHEMKIN H
+- AlternativeNames Short H
+hydrogen
+- AlternativeNames CHEMKIN H2
+- AlternativeNames Short H2
+oxygen-radical
+- AlternativeNames CHEMKIN O
+- AlternativeNames Short O
+
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.client.panel.inputs
+InputPanel
+
+reactmolcorrs {
+	@Override
+	public DataInput getWidget(DataDescription description) {
+
+		InputConstants inputConstants = GWT.create(InputConstants.class);
+		String specName = "info.esblurock.reaction.data.upload.ReactMolCorrespondencesFileSpecification";
+		String transName = "info.esblurock.reaction.data.upload.ReactMolCorrespondencesFileUpload";
+		DataInput mechanism = new DataInput(
+				specName,
+				transName,
+				description,
+				inputConstants.reactmolcorrstype(),
+				inputConstants.reactmolcorrshttptext(),
+				inputConstants.reactmolcorrstitletooltip(),
+				inputConstants.reactmolcorrshttptext(),
+				inputConstants.reactmolcorrstexttooltip(),
+				PanelInputResources.INSTANCE.exampleReactMoleculeCorrespondenceSet().getText());
+		return mechanism;
+	};
+	
+}
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.client.panel.inputs
+InputSet
+
+	sdfmolecules {
+		@Override
+		public DataDescription getDescription() {
+
+			DescriptionConstants descriptionConstants = GWT.create(DescriptionConstants.class);
+			DataDescription description = new DataDescription(descriptionConstants.sdfmoleculetitle());
+			return description;
+		}
+
+		@Override
+		public ArrayList<DataInput> getSet(DataDescription description) {
+			ArrayList<DataInput> inputset = new ArrayList<DataInput>();
+			inputset.add(InputPanel.sdfmolecules.getWidget(description));
+			inputset.add(InputPanel.reactmolcorrs.getWidget(description));
+			inputset.add(InputPanel.nasapolynomials.getWidget(description));
+			return inputset;
+		}
+
+		@Override
+		public String getDataType() {
+			return "2D-Molecules";
+		}
+
+	},
+
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.client.panel
+StandardNavigation
+
+	@UiField
+	MaterialLink sdfmolecules;
+
+
+	@UiHandler("sdfmolecules")
+	void onOnInputMolecules(ClickEvent e) {
+		MaterialToast.fireToast("sdfmolecules");
+		handleHistoryToken("sdfmolecules");
+	}
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.client.panel.repository.data
+RepositoryDataVisualization
+
+Reaction2DMolecules {
+
+		@Override
+		public ArrayList<Widget> getDataSetVisualizationItems(String datasetkey) {
+			ArrayList<Widget> items = new ArrayList<Widget>();
+			RepositoryFileItemTextField item2 = new RepositoryFileItemTextField(datasetkey,
+					ReactMolCorrespondencesFileUpload.class.getName());
+			RepositoryFileItemTextField item1 = new RepositoryFileItemTextField(datasetkey,
+					SDFMoleculesFileUpload.class.getName());
+			items.add(item1);
+			items.add(item2);
+			return items;
+		}
+	}
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.client.panel.inputs.place
+Place
+
+	sdfmolecules {
+		@Override
+		public String getTitle() {
+			return "Molecule 2D input";
+		}
+
+		@Override
+		public String getDescription() {
+			return "Input a molecule in 2D SDF form and in NASA polynomial form";
+		}
+
+		@Override
+		public Widget getContent() {
+			SetOfInputs inputs = new SetOfInputs(InputSet.sdfmolecules, "2D-Molecules(SDF)");
+			return inputs;
+		}
+	}
+
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.server.process.upload
+ReadReactMolCorrespondencesFile  extends ReadFileBaseProcess
+
+	ChemkinMechanismFileSpecification specification;
+	public ReadReactMolCorrespondencesFile() {	
+	}
+	public ReadReactMolCorrespondencesFile(ProcessInputSpecificationsBase specs) {
+		super(specs);
+	}
+	public void initialization() {
+		super.initialization();
+		specificationS = "info.esblurock.reaction.data.upload.SDFMoleculesFileSpecification";
+		uploadS = "info.esblurock.reaction.data.upload.types.SDFMoleculesFileUpload";
+	}
+
+	@Override
+	protected String getProcessName() {
+		return "ReadReactSDFMolecules";
+	}
+
+	@Override
+	protected String getProcessDescription() {
+		return "Read in a REACT SDF from client";
+	}
+	@Override
+	protected ArrayList<String> getInputTransactionObjectNames() {
+		return super.getInputTransactionObjectNames();
+	}
+
+	@Override
+	protected ArrayList<String> getOutputTransactionObjectNames() {
+		return super.getOutputTransactionObjectNames();
+	}
+	@Override
+	protected void initializeOutputObjects() throws IOException {
+		super.initializeOutputObjects();
+		System.out.println("user: " + user
+				+ "\ntextName: " + textName
+				+ "\noutputSourceCode: " + outputSourceCode
+				+ "\nsourceType: " + sourceType);
+		upload = new SDFMoleculesFileUpload(user, textName, outputSourceCode, sourceType, 0);
+		objectOutputs.add(upload);
+	}
+
+
+---------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.data.upload
+SDFMoleculesFileSpecification
+
+@PersistenceCapable
+@Inheritance(customStrategy = "complete-table")
+public class SDFMoleculesFileSpecification extends FileSourceSpecification  {
+	public SDFMoleculesFileSpecification() {
+		super();
+	}
+}
+
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.data.upload.types
+SDFMoleculesFileUpload
+
+@PersistenceCapable
+@Inheritance(customStrategy = "complete-table")
+public class SDFMoleculesFileUpload  extends UploadFileTransaction {
+	private static final long serialVersionUID = 1L;
+	public SDFMoleculesFileUpload() {
+		super();
+	}
+	public SDFMoleculesFileUpload(String user, String filename, String fileCode, String sourceType,
+			Integer lineCount) {
+		super(user, filename, fileCode, sourceType, lineCount);
+	}
+
+}
+
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.client.resources
+ProcessDescriptions.properties
+
+ReadReactMolCorrespondencesFile: Read reaction molecule correspondences file
+ReadReactSDFMolecules: Read reaction SDF molecules
+ValidateReactSDFMolecules: Validate Reaction SDF Molecules
+ValidateReactMolCorrespondences: Validate Reaction Molecule Correspondences
+ReactSDFMoleculesToDatabase: Store SDF: Store reaction SDF molecules
+ReactMolCorrespondencesToDatabase:Store correpondences: reaction molecule correspondences to database
+ReactSDFMoleculesProcessRDF: RDF SDF: Create RDF's from reaction SDF molecules
+ReactMoleCorrespondencesProcessRDF:RDF Correspondences: Create RDF's from reaction molecule correspondences
+
+./ProcessDescriptions-i18n and then refresh info.esblurock.reaction.client.resources
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.client.panel.inputs
+ProcessDescriptionsForInterface
+
+ ValidateReactSDFMolecules {
+
+		@Override
+		public String getDescription() {
+			return description.ValidateReactSDFMolecules();
+		}
+		
+	}, ValidateReactMolCorrespondences {
+
+		@Override
+		public String getDescription() {
+			return description.ValidateReactMolCorrespondences();
+		}
+		
+	}, ReactSDFMoleculesToDatabase {
+
+		@Override
+		public String getDescription() {
+			return description.ReactSDFMoleculesToDatabase();
+		}
+		
+	}, ReactMolCorrespondencesToDatabase {
+
+		@Override
+		public String getDescription() {
+			return description.ReactMolCorrespondencesToDatabase();
+		}
+		
+	}ReactSDFMoleculesProcessRDF {
+
+		@Override
+		public String getDescription() {
+			return description.ReactSDFMoleculesProcessRDF();
+		}
+		
+	}, ReactMoleCorrespondencesProcessRDF {
+
+		@Override
+		public String getDescription() {
+			return description.ReactMoleCorrespondencesProcessRDF();
+		}
+		
+	}
+---------------------------------------------------------------------------------------------------------
+info.esblurock.reaction.data.delete
+DeleteDataStructures
+
+ReactMolCorrespondencesFileSpecification {
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			try {
+				QueryBase.deleteWithStringKey(ReactMolCorrespondencesFileSpecification.class, key);
+			} catch (IOException ex) {
+				if (!ex.getMessage().startsWith(QueryBase.notfound)) {
+					throw ex;
+				}
+			}
+			return "delete ReactMolCorrespondencesFileSpecification with key: " + key;
+		}
+		
+	}
+ReactMolCorrespondencesFileUpload {
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			try {
+				QueryBase.deleteWithStringKey(ReactMolCorrespondencesFileUpload.class, key);
+			} catch (IOException ex) {
+				if (!ex.getMessage().startsWith(QueryBase.notfound)) {
+					throw ex;
+				}
+			}
+			return "delete ReactMolCorrespondencesFileUpload with key: " + key;
+		}
+		
+	}
+---------------------------------------------------------------------------------------------------------
+

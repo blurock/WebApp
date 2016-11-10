@@ -42,7 +42,22 @@ public enum ProcessDescriptionsForInterface {
 			return null;
 		}
 		
-	}, ValidateTransportFile {
+	}, ReadReactSDFMolecules {
+
+		@Override
+		public String getDescription() {
+			return description.ReadReactSDFMolecules();
+		}
+		
+	}, ReadReactMolCorrespondencesFile {
+
+		@Override
+		public String getDescription() {
+			return description.ReadReactMolCorrespondencesFile();
+		}
+		
+	}
+	, ValidateTransportFile {
 		@Override
 		public String getDescription() {
 			return description.ValidatedTransportPropertiesFile();
@@ -64,6 +79,20 @@ public enum ProcessDescriptionsForInterface {
 		@Override
 		public String getDescription() {
 			return description.ValidateThergasMoleculesFile();
+		}
+		
+	}, ValidateReactSDFMolecules {
+
+		@Override
+		public String getDescription() {
+			return description.ValidateReactSDFMolecules();
+		}
+		
+	}, ValidateReactMolCorrespondences {
+
+		@Override
+		public String getDescription() {
+			return description.ValidateReactMolCorrespondences();
 		}
 		
 	}, MechanismMoleculesToDatabase {
@@ -99,6 +128,20 @@ public enum ProcessDescriptionsForInterface {
 			return description.ThergasMoleculeToDatabase();
 		}
 		
+	}, ReactSDFMoleculesToDatabase {
+
+		@Override
+		public String getDescription() {
+			return description.ReactSDFMoleculesToDatabase();
+		}
+		
+	}, ReactMolCorrespondencesToDatabase {
+
+		@Override
+		public String getDescription() {
+			return description.ReactMolCorrespondencesToDatabase();
+		}
+		
 	}, MechanismReactionsProcessRDF {
 		@Override
 		public String getDescription() {
@@ -118,6 +161,20 @@ public enum ProcessDescriptionsForInterface {
 		@Override
 		public String getDescription() {
 			return description.ThergasMoleculeProcessRDF();
+		}
+		
+	}, ReactSDFMoleculesProcessRDF {
+
+		@Override
+		public String getDescription() {
+			return description.ReactSDFMoleculesProcessRDF();
+		}
+		
+	}, ReactMoleCorrespondencesProcessRDF {
+
+		@Override
+		public String getDescription() {
+			return description.ReactMoleCorrespondencesProcessRDF();
 		}
 		
 	};

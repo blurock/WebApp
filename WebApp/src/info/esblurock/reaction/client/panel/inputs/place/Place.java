@@ -77,10 +77,9 @@ public enum Place {
 			return inputs;
 		}
 	},
-	molecules {
+	sdfmolecules {
 		@Override
 		public String getTitle() {
-			
 			return "Molecule 2D input";
 		}
 
