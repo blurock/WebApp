@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.panel.repository.RepositoryFileItemTextField;
 import info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload;
 import info.esblurock.reaction.data.upload.types.NASAPolynomialFileUpload;
@@ -45,6 +46,7 @@ public enum RepositoryDataVisualization {
 
 		@Override
 		public ArrayList<Widget> getDataSetVisualizationItems(String datasetkey) {
+			MaterialToast.fireToast("Reaction2DMolecules: " + datasetkey);
 			ArrayList<Widget> items = new ArrayList<Widget>();
 
 			RepositoryFileItemTextField item1 = new RepositoryFileItemTextField(datasetkey,

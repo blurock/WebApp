@@ -1,7 +1,6 @@
 package info.esblurock.reaction.client.ui;
 
 import gwt.material.design.addins.client.window.MaterialWindow;
-import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
@@ -36,6 +35,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -92,6 +92,7 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	@UiField
 	MaterialButton btnLogin;
 
+	@UiField
 	MaterialButton getstarted;
 	
 	@UiField
@@ -154,7 +155,7 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		topinformation.setText(interfaceconstants.help());
 		
 		links = new TopPageLinks();
-		String sessionid = Cookies.getCookie("sid");
+		//String sessionid = Cookies.getCookie("sid");
 		String user = Cookies.getCookie("user");
 		
 		profile.setVisible(false);
@@ -210,12 +211,10 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 		userCreateWindow.add(newuser);
 	}
 	public void setLoggedIn() {
-
 		toplogout.setVisible(true);
 		linkmenu.setVisible(true);
 		sidetoplogout.setVisible(true);
 		sidelinkmenu.setVisible(true);
-
 		
 		profile.setVisible(true);
 		sideprofile.setVisible(true);
@@ -294,8 +293,7 @@ public class ReactionTopImpl extends UiImplementationBase implements ReactionTop
 	void onLoginClick(ClickEvent e) {
 
 		LoginServiceAsync async = LoginService.Util.getInstance();
-		//((ServiceDefTarget) async).setServiceEntryPoint("loginservice");
-		String msg = "Username: " + accountname.getText() + ", password: " + userpassword.getText();
+		String msg = "Login with username: " + accountname.getText();
 		LoginCallback callback = new LoginCallback(this);
 		MaterialToast.fireToast(msg);
 		async.loginServer(accountname.getText(), userpassword.getText(),callback);

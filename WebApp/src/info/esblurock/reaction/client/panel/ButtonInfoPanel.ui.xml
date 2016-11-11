@@ -11,14 +11,14 @@
 				<m:MaterialRow>
 					<m:MaterialColumn grid="s10">
 						<m:MaterialLink ui:field="searchpanel"
-							text="Upon search, the results shown are nodes (shown as lines) of the relationship tree" 
+							text="Upon search, the results shown are nodes (shown as lines) of the tree (like a directory)" 
 							backgroundColor="grey-light-1" />
 					</m:MaterialColumn>
 				</m:MaterialRow>
 				<m:MaterialRow>
 					<m:MaterialColumn grid="s10">
 						<m:MaterialLink ui:field="donedescription" 
-						text="Click line to see further results (sub-nodes) in the search tree"
+						text="Click result line to see further results (sub-nodes) in the search tree"
 							backgroundColor="grey-light-3" />
 					</m:MaterialColumn>
 				</m:MaterialRow>
@@ -39,7 +39,7 @@
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s10">
 						<m:MaterialLink ui:field="topsearchdescription" 
-						text="In top search mode, enter a keyword"
+						text="In top search mode, click to get field to enter a keyword (return starts search)"
 							backgroundColor="grey-light-3" />
 					</m:MaterialColumn>
 				</m:MaterialRow>
@@ -50,7 +50,7 @@
 					</m:MaterialColumn>
 					<m:MaterialColumn grid="s10">
 						<m:MaterialLink ui:field="searchdescription" 
-						text="On result line, search with keyword on line"
+						text="On result line, click to search with keyword shown on the  line (creats further branches)"
 							backgroundColor="grey-light-3" />
 					</m:MaterialColumn>
 				</m:MaterialRow>

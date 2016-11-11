@@ -8,18 +8,15 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTextArea;
-import gwt.material.design.client.ui.MaterialTextBox;
 import info.esblurock.reaction.client.panel.repository.data.FileUploadTextCallback;
 import info.esblurock.reaction.client.panel.transaction.TransactionService;
 import info.esblurock.reaction.client.panel.transaction.TransactionServiceAsync;
-import info.esblurock.reaction.data.upload.FileUploadTextBlock;
 
 public class RepositoryFileItemTextField extends Composite implements HasText {
 

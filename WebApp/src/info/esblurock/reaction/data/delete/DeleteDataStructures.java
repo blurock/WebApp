@@ -24,11 +24,15 @@ import info.esblurock.reaction.data.upload.types.ValidatedTransportFile;
 import info.esblurock.reaction.data.upload.ChemkinMechanismFileSpecification;
 import info.esblurock.reaction.data.upload.NASAPolynomialFileSpecification;
 import info.esblurock.reaction.data.upload.ReactMolCorrespondencesFileSpecification;
+import info.esblurock.reaction.data.upload.SDFMoleculesFileSpecification;
+import info.esblurock.reaction.data.upload.ThergasMoleculeFileSpecification;
 import info.esblurock.reaction.data.upload.TransportFileSpecification;
 import info.esblurock.reaction.data.upload.types.NASAPolynomialFileUpload;
 import info.esblurock.reaction.data.upload.types.ReactMolCorrespondencesFileUpload;
 import info.esblurock.reaction.data.upload.types.TransportFileUpload;
 import info.esblurock.reaction.data.upload.types.ChemkinMechanismFileUpload;
+import info.esblurock.reaction.data.upload.types.ThergasMoleculeFileUpload;
+import info.esblurock.reaction.data.upload.types.SDFMoleculesFileUpload;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismMoleculesToDatabaseTransaction;
 import info.esblurock.reaction.data.transaction.chemkin.MechanismReactionsToDatabaseTransaction;
 import info.esblurock.reaction.data.transaction.chemkin.NASAPolynomialsToDatabaseTransaction;
@@ -147,8 +151,28 @@ public enum DeleteDataStructures {
 			return "delete TransportFileSpecification with key: " + key;
 		}
 
-	},
-	ChemkinMechanismFileUpload {
+	}, SDFMoleculesFileSpecification {
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			SDFMoleculesFileSpecification upload = (SDFMoleculesFileSpecification) QueryBase
+					.getObjectById(SDFMoleculesFileSpecification.class, key);
+			return "delete SDFMoleculesFileSpecification with key: " + key;
+		}
+		
+	}, ThergasMoleculeFileSpecification {
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			try {
+				QueryBase.deleteWithStringKey(ThergasMoleculeFileSpecification.class, key);
+			} catch (IOException ex) {
+				if (!ex.getMessage().startsWith(QueryBase.notfound)) {
+					throw ex;
+				}
+			}
+			return "delete ThergasMoleculeFileSpecification with key: " + key;
+		}
+		
+	}, ChemkinMechanismFileUpload {
 		@Override
 		public String deleteStructure(String key) throws IOException {
 			ChemkinMechanismFileUpload upload = (ChemkinMechanismFileUpload) QueryBase
@@ -181,17 +205,34 @@ public enum DeleteDataStructures {
 	}, ReactMolCorrespondencesFileUpload {
 		@Override
 		public String deleteStructure(String key) throws IOException {
-			try {
-				QueryBase.deleteWithStringKey(ReactMolCorrespondencesFileUpload.class, key);
-			} catch (IOException ex) {
-				if (!ex.getMessage().startsWith(QueryBase.notfound)) {
-					throw ex;
-				}
-			}
+			ReactMolCorrespondencesFileUpload upload = (ReactMolCorrespondencesFileUpload) 
+					QueryBase.getObjectById(ReactMolCorrespondencesFileUpload.class, key);
+			QueryBase.deleteFromIdentificationCode(FileUploadTextBlock.class, "fileCode", upload.getFileCode());
+			QueryBase.deleteWithStringKey(ReactMolCorrespondencesFileUpload.class, key);
 			return "delete ReactMolCorrespondencesFileUpload with key: " + key;
 		}
+	}, ThergasMoleculeFileUpload {
+
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			ThergasMoleculeFileUpload upload = (ThergasMoleculeFileUpload) 
+					QueryBase.getObjectById(ThergasMoleculeFileUpload.class, key);
+			QueryBase.deleteFromIdentificationCode(FileUploadTextBlock.class, "fileCode", upload.getFileCode());
+			QueryBase.deleteWithStringKey(ThergasMoleculeFileUpload.class, key);
+			return "delete ThergasMoleculeFileUpload with key: " + key;
+		}
 		
-	}, MechanismMoleculesToDatabaseTransaction {
+	}, SDFMoleculesFileUpload {
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			SDFMoleculesFileUpload upload = (SDFMoleculesFileUpload) 
+					QueryBase.getObjectById(SDFMoleculesFileUpload.class, key);
+			QueryBase.deleteFromIdentificationCode(FileUploadTextBlock.class, "fileCode", upload.getFileCode());
+			QueryBase.deleteWithStringKey(SDFMoleculesFileUpload.class, key);
+			return "delete ReactMolCorrespondencesFileUpload with key: " + key;
+		}
+	},
+	MechanismMoleculesToDatabaseTransaction {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {

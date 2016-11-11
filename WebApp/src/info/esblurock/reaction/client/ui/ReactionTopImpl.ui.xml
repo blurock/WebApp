@@ -106,7 +106,7 @@
 			</m:MaterialRow>
 			<m:MaterialRow>
 				<m:MaterialColumn grid="s12">
-					<m:MaterialLabel ui:field="prototype" text="Prototype: 20161103"
+					<m:MaterialLabel ui:field="prototype" text="Prototype: 20161111"
 						textAlign="CENTER" textColor="white" grid="s12" width="100%" />
 				</m:MaterialColumn>
 			</m:MaterialRow>

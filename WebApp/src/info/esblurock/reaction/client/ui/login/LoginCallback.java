@@ -6,6 +6,7 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.ui.ReactionTopImpl;
 
 public class LoginCallback implements AsyncCallback<UserDTO> {

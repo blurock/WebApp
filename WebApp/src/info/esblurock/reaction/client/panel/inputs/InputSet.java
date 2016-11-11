@@ -132,7 +132,7 @@ public enum InputSet {
 
 		@Override
 		public String getDataType() {
-			return "2D-Substructures";
+			return "Reaction2DMolecules";
 		}
 
 	},

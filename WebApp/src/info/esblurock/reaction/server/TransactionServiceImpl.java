@@ -243,11 +243,14 @@ public class TransactionServiceImpl extends ServerBase implements TransactionSer
 	public ArrayList<String> getFileUploadTextBlockFromTransaction(String datasetkeyword, String classname) throws IOException {
 		ArrayList<String> files = new ArrayList<String>();
 		TransactionInfo transaction = getTransactionInfo(datasetkeyword, classname);
+		System.out.println("getFileUploadTextBlockFromTransaction: " + datasetkeyword + ": " + classname);
+		System.out.println("getFileUploadTextBlockFromTransaction: " + transaction.getSourceCode());
 		String propertyname = "fileCode";
 		String propertyvalue = transaction.getSourceCode();
 		List<DatabaseObject> objs = 
 				QueryBase.getDatabaseObjectsFromSingleProperty(FileUploadTextBlock.class.getName(), 
 				propertyname, propertyvalue);
+		System.out.println("getFileUploadTextBlockFromTransaction: " + objs.size());
 		for(DatabaseObject obj : objs) {
 			FileUploadTextBlock fileupload = (FileUploadTextBlock) obj;
 			String text = fileupload.getTextBlock().getValue();

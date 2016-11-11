@@ -13,7 +13,6 @@ import info.esblurock.reaction.data.contact.entities.OrganizationDescriptionData
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCollapsible;
-import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialToast;
@@ -23,6 +22,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
@@ -126,8 +126,7 @@ public class OrganizationInput extends Composite implements HasText,
 
 			@Override
 			public void onFailure(Throwable caught) {
-				MaterialToast.fireToast("onFailure: " + caught.toString());
-
+				Window.alert("onFailure: " + caught.toString());
 			}
 		};
 		

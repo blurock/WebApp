@@ -82,10 +82,10 @@ public class SetOfInputs extends Composite {
 		registerok.setText(inputConstants.register());
 		closedescr.setText(inputConstants.ok());
 	}
-	public SetOfInputs(InputSet set, String dataType) {
+	public SetOfInputs(InputSet set) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init();
-		this.dataType = dataType;
+		this.dataType = set.getDataType();
 		submitdata.setText(descriptionConstants.submit());
 		description = set.getDescription();
 		collapsable.add(description);
