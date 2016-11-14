@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import info.esblurock.reaction.data.description.DescriptionDataData;
+import info.esblurock.reaction.data.transaction.TransactionInfo;
 import info.esblurock.reaction.data.upload.FileSourceSpecification;
 import info.esblurock.reaction.data.upload.UploadFileTransaction;
 import info.esblurock.reaction.data.upload.types.CreateBufferedReaderForSourceFile;
 import info.esblurock.reaction.server.StringToKeyConversion;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
+import info.esblurock.reaction.server.queries.QueryBase;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 import info.esblurock.reaction.server.upload.InputStreamToLineDatabase;
 
@@ -83,18 +85,14 @@ public class ReadFileBaseProcess extends ProcessBase {
 			log.info("User verified: to read text: " + textName);
 			upload = input.uploadFile(upload, br);
 		} else {
-			log.info("User verified: already uploaded: " + textName + ", " + sourceType);
-			log.info("UploadFileTransaction: " + upload.toString());
-			log.info("UploadFileTransaction: fileCode=" + upload.getFileCode());
 			UploadFileTransaction trans = TransactionInfoQueries.getFirstUploadFileTransactionFromKeywordUserSourceCodeAndObjectType(user, textName);
-			System.out.println("UploadFileTransaction: " + trans);
-			System.out.println("UploadFileTransaction: " + trans.getFileCode());
-			System.out.println("user: " + upload.getUser()
-					+ "\ntextName: " + upload.getFilename()
-					+ "\noutputSourceCode: " + upload.getFileCode()
-					+ "\nsourceType: " + upload.getSourceType()
-					+ "\nlineCount: " + upload.getLineCount());
+			log.info("UploadFileTransaction: fileCode=" + upload.getFileCode() 
+			+ ", upload file code=" + trans.getFileCode());
 			upload.setFileCode(trans.getFileCode());
+			for(TransactionInfo info : transactionOutputs) {
+				info.setSourceCode(trans.getFileCode());
+			}
+			//QueryBase.deleteWithStringKey(cls, key);
 		}
 	}
 	public String getTextBody() {

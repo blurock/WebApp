@@ -9,6 +9,7 @@ import info.esblurock.reaction.data.PMF;
 import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.transaction.ActionsUsingIdentificationCode;
 import info.esblurock.reaction.data.transaction.TransactionInfo;
+import info.esblurock.reaction.server.queries.QueryBase;
 import info.esblurock.reaction.server.queries.TransactionInfoQueries;
 
 /**
@@ -134,11 +135,7 @@ public class DeleteTransactionInfoAndObject {
 		ActionsUsingIdentificationCode.deleteFromIdentificationCode(KeywordRDF.class, transaction.getSourceCode());
 
 		try {
-			PersistenceManager pm = PMF.get().getPersistenceManager();
-			pm.flush();
-			transaction = pm.getObjectById(TransactionInfo.class, transaction.getKey());
-			pm.deletePersistent(transaction);
-			pm.close();
+			QueryBase.deleteWithStringKey(TransactionInfo.class, transaction.getKey());
 		} catch (Exception ex) {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
 			pm.close();

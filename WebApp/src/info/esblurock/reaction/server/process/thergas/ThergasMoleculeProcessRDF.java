@@ -125,9 +125,11 @@ public class ThergasMoleculeProcessRDF extends ProcessBase {
 			String name = nameiter.next();
 			Integer count = countiter.next();
 			build.append(name);
-			build.append(count.toString());
+			if(count.intValue() != 1) {
+				build.append(count.toString());
+			}
 		}
-		return build.toString();
+		return build.toString().toLowerCase();
 	}
 	private String getCarbonSet(ThergasMoleculeData structure) {
 		ArrayList<Integer> atomCounts = structure.getAtomCounts();

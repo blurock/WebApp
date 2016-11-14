@@ -39,7 +39,7 @@ public enum ProcessDescriptionsForInterface {
 
 		@Override
 		public String getDescription() {
-			return null;
+			return description.ReadThergasMoleculesFile();
 		}
 		
 	}, ReadReactSDFMolecules {

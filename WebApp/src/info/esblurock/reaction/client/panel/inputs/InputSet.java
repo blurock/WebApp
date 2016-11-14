@@ -63,7 +63,7 @@ public enum InputSet {
 
 		@Override
 		public String getDataType() {
-			return "ChemkinMechanism";
+			return "Chemkin";
 		}
 	},
 	thergasmolecules {

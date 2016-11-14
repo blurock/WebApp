@@ -10,7 +10,6 @@ import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialModalContent;
 import gwt.material.design.client.ui.MaterialTitle;
-import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.client.TextToDatabase;
 import info.esblurock.reaction.client.TextToDatabaseAsync;
 import info.esblurock.reaction.client.panel.description.DataDescription;

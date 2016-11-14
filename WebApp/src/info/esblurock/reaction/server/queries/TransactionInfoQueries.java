@@ -32,21 +32,23 @@ import info.esblurock.reaction.data.upload.types.CreateBufferedReaderForSourceFi
 public class TransactionInfoQueries {
 	private static final Logger log = Logger.getLogger(TransactionInfoQueries.class.getName());
 
-/**
- * 
- * @param keyS The String key of the {@link TransactionInfo} (from {@link DatabaseObject})
- * @return The valid transaction
- * @throws IOException
- */
+	/**
+	 * 
+	 * @param keyS
+	 *            The String key of the {@link TransactionInfo} (from
+	 *            {@link DatabaseObject})
+	 * @return The valid transaction
+	 * @throws IOException
+	 */
 	public static TransactionInfo getTransactionFromKeyString(String keyS) throws IOException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		TransactionInfo info = null;
 		try {
 			info = pm.getObjectById(TransactionInfo.class, keyS);
-		if (info == null) {
-			pm.close();
-			throw new IOException("No Transaction associated with object");
-		}
+			if (info == null) {
+				pm.close();
+				throw new IOException("No Transaction associated with object");
+			}
 		} catch (Exception e) {
 			pm.close();
 			String ans = "ERROR: Unable to fetch TransactionInfo with id: " + keyS + "/n" + e.toString();
@@ -120,6 +122,7 @@ public class TransactionInfoQueries {
 		}
 		return info;
 	}
+
 	/**
 	 * getTransaction From the object key find the TransactionInfo (from
 	 * storedObjectKey).
@@ -129,34 +132,33 @@ public class TransactionInfoQueries {
 	 * @return the associated transaction
 	 * @throws IOException
 	 */
-	static public UploadFileTransaction getFirstUploadFileTransactionFromKeywordUserSourceCodeAndObjectType(
-			String user, String filename) throws IOException {
+	static public UploadFileTransaction getFirstUploadFileTransactionFromKeywordUserSourceCodeAndObjectType(String user,
+			String filename) throws IOException {
+		/*
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
+*/
 		Filter sourceCodeFilter = new FilterPredicate("filename", FilterOperator.EQUAL, filename);
 		Filter userFilter = new FilterPredicate("user", FilterOperator.EQUAL, user);
-		Filter typeFilter = new FilterPredicate("sourceType", FilterOperator.EQUAL, CreateBufferedReaderForSourceFile.uploadFileAsSource);
+		/*
+		Filter typeFilter = new FilterPredicate("sourceType", FilterOperator.EQUAL,
+				CreateBufferedReaderForSourceFile.uploadFileAsSource);
+				*/
 		Filter andfilter = CompositeFilterOperator.and(userFilter, sourceCodeFilter);
-
-		Query q = new Query("UploadFileTransaction").setFilter(andfilter);
-		PreparedQuery pq = datastore.prepare(q);
-		Iterator<Entity> iter = pq.asIterable().iterator();
+		List<DatabaseObject> objs = QueryBase.getDatabaseObjectsFromFilter(UploadFileTransaction.class.getName(), andfilter);
 		UploadFileTransaction info = null;
-		if (iter.hasNext()) {
+		if (objs.size() > 0) {
 			int sourceID = 0;
-			while(iter.hasNext()) {
-				Entity entity = iter.next();
-				UploadFileTransaction nextinfo = (UploadFileTransaction) 
-						pm.getObjectById(UploadFileTransaction.class, entity.getKey());
+			for (DatabaseObject obj : objs) {
+				UploadFileTransaction nextinfo = (UploadFileTransaction) obj;
 				int source = Integer.valueOf(nextinfo.getFileCode());
-				if(source > sourceID) {
+				if (source > sourceID) {
 					info = nextinfo;
 					sourceID = source;
 				}
 			}
 		} else {
-			throw new IOException("TransactionInfo not found with object key: " + user + "," + filename);
+			throw new IOException("UploadFileTransaction not found with object key: " + user + "," + filename);
 		}
 		return info;
 	}
@@ -193,13 +195,13 @@ public class TransactionInfoQueries {
 		} else {
 			throw new IOException("TransactionInfo not found with object key: " + key + "," + classname);
 		}
-		if(singleton) {
+		if (singleton) {
 			TransactionInfo answer = null;
-			for(TransactionInfo info : set) {
-				if(answer == null) {
+			for (TransactionInfo info : set) {
+				if (answer == null) {
 					answer = info;
 				} else {
-					if(answer.getCreationDate().before(info.getCreationDate())) {
+					if (answer.getCreationDate().before(info.getCreationDate())) {
 						answer = info;
 					}
 				}
@@ -220,28 +222,29 @@ public class TransactionInfoQueries {
 	 * @throws IOException
 	 */
 	static public List<DatabaseObject> getTransactionFromKeywordAndUser(String user, String key) throws IOException {
-		List<DatabaseObject> dataset =
-		QueryBase.getUserDatabaseObjectsFromSingleProperty("info.esblurock.reaction.data.transaction.TransactionInfo",user,"keyword",key);
+		List<DatabaseObject> dataset = QueryBase.getUserDatabaseObjectsFromSingleProperty(
+				"info.esblurock.reaction.data.transaction.TransactionInfo", user, "keyword", key);
 		HashMap<String, TransactionInfo> map = new HashMap<String, TransactionInfo>();
-		for(DatabaseObject obj : dataset) {
+		for (DatabaseObject obj : dataset) {
 			TransactionInfo info = (TransactionInfo) obj;
 			TransactionInfo i = map.get(info.getTransactionObjectType());
-			if(i == null) {
+			if (i == null) {
 				map.put(info.getTransactionObjectType(), info);
 			} else {
-				if(i.getCreationDate().before(info.getCreationDate())) {
+				if (i.getCreationDate().before(info.getCreationDate())) {
 					map.remove(info.getTransactionObjectType());
 					map.put(info.getTransactionObjectType(), info);
 				}
 			}
 		}
 		ArrayList<DatabaseObject> set = new ArrayList<DatabaseObject>();
-		for(String classname : map.keySet()) {
+		for (String classname : map.keySet()) {
 			TransactionInfo info = (TransactionInfo) map.get(classname);
 			set.add(info);
 		}
 		return set;
 	}
+
 	/**
 	 * getTransaction From the object key find the TransactionInfo (from
 	 * storedObjectKey).
@@ -295,7 +298,7 @@ public class TransactionInfoQueries {
 			throws ClassNotFoundException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		String classS = transaction.getTransactionObjectType();
-		//Class classC = Class.forName(classS);
+		// Class classC = Class.forName(classS);
 		String key = transaction.getStoredObjectKey();
 		pm.getFetchPlan().setGroup(FetchGroup.ALL);
 		pm.getFetchPlan().setMaxFetchDepth(-1);

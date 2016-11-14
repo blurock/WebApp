@@ -80,6 +80,8 @@ public class InputStreamToLineDatabase {
 		FileUploadTextBlock block = new FileUploadTextBlock(beginLineCount, totalcount-1, 
 				fileCode,textblock);
 		pm.makePersistent(block);
+		pm.flush();
+		pm.close();
 	}
 	
 	public Set<UploadFileTransaction> getUploadedFiles() {

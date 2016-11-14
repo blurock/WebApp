@@ -52,6 +52,13 @@ public class QueryBase {
 		return obj;
 	}
 
+	static public void deleteDatabaseObject(DatabaseObject obj) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		pm.flush();
+		pm.deletePersistent(obj);
+		pm.close();
+	}
+	
 	static public void deleteWithStringKey(Class cls, String key) throws IOException {
 		try {
 			PersistenceManager pm = PMF.get().getPersistenceManager();

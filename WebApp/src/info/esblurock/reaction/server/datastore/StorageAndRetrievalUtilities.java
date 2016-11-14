@@ -16,6 +16,7 @@ public class StorageAndRetrievalUtilities {
 	public static void storeDatabaseObjects(ArrayList<DatabaseObject> objects) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
     	pm.makePersistentAll(objects);
+    	pm.flush();
     	pm.close();
 		
 	}

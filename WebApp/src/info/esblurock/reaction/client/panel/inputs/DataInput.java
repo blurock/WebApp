@@ -25,21 +25,12 @@ import gwt.material.design.client.ui.animate.Transition;
 import gwtupload.client.BaseUploadStatus;
 import gwtupload.client.HasProgress;
 
-import com.google.appengine.api.datastore.Text;
-/*
-import gwtupload.client.IFileInput.FileInputType;
-import gwtupload.client.IUploadStatus.Status;
-import gwtupload.client.IUploader;
-import gwtupload.client.IUploader.UploadedInfo;
-import gwtupload.client.SingleUploader;
-*/
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -244,9 +235,6 @@ public class DataInput extends Composite implements HasText {
 	void onTextUpload(ClickEvent e) {
 		if (textarea.getText().length() < inputTextLimit) {
 			TextToDatabaseAsync async = TextToDatabase.Util.getInstance();
-			// Window.alert("Keyword: " + description.createObjectKeyword());
-			// Window.alert("Name: " + uploadTextName.getText());
-			// Window.alert("Text: " + textarea.getText());
 			async.textToDatabase(specName, textAsSource, description.createObjectKeyword(), uploadTextName.getText(),
 					textarea.getText(), callbackText);
 			MaterialToast.fireToast("Upload Text");

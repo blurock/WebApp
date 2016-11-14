@@ -21,12 +21,16 @@ import info.esblurock.reaction.data.rdf.KeywordRDF;
 import info.esblurock.reaction.data.upload.types.ValidatedNASAPolynomialFile;
 import info.esblurock.reaction.data.upload.types.ValidatedChemkinMechanismFile;
 import info.esblurock.reaction.data.upload.types.ValidatedTransportFile;
+import info.esblurock.reaction.data.upload.types.ValidatedThergasMoleculeFile;
+import info.esblurock.reaction.data.upload.types.ValidatedReactSDFMoleculesFile;
+import info.esblurock.reaction.data.upload.types.ValidatedReactMolCorrespondencesFile;
 import info.esblurock.reaction.data.upload.ChemkinMechanismFileSpecification;
 import info.esblurock.reaction.data.upload.NASAPolynomialFileSpecification;
 import info.esblurock.reaction.data.upload.ReactMolCorrespondencesFileSpecification;
 import info.esblurock.reaction.data.upload.SDFMoleculesFileSpecification;
 import info.esblurock.reaction.data.upload.ThergasMoleculeFileSpecification;
 import info.esblurock.reaction.data.upload.TransportFileSpecification;
+import info.esblurock.reaction.data.upload.UploadFileTransaction;
 import info.esblurock.reaction.data.upload.types.NASAPolynomialFileUpload;
 import info.esblurock.reaction.data.upload.types.ReactMolCorrespondencesFileUpload;
 import info.esblurock.reaction.data.upload.types.TransportFileUpload;
@@ -44,6 +48,7 @@ import info.esblurock.reaction.data.transaction.chemkin.rdf.TransportPropertiesR
 import info.esblurock.reaction.data.transaction.thergas.ThergasMoleculeThermodynamics;
 import info.esblurock.reaction.data.transaction.thergas.ThergasMoleculesToDatabaseTransaction;
 import info.esblurock.reaction.data.transaction.thergas.ThergasMoleculesRDFTransaction;
+import info.esblurock.reaction.data.transaction.reaction.ReactSDFMoleculesToDatabaseTransaction;
 
 
 public enum DeleteDataStructures {
@@ -123,6 +128,37 @@ public enum DeleteDataStructures {
 		}
 
 	},
+	ValidatedThergasMoleculeFile {
+
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			QueryBase.deleteWithStringKey(ValidatedThergasMoleculeFile.class, key);
+			return "delete ValidatedTransportFile with key: " + key;
+		}
+/*
+ * import info.esblurock.reaction.data.upload.types.ValidatedReactSDFMoleculesFile;
+import info.esblurock.reaction.data.upload.types.ValidatedReactMolCorrespondencesFile;
+
+ */
+	},
+	ValidatedReactSDFMoleculesFile {
+
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			QueryBase.deleteWithStringKey(ValidatedReactSDFMoleculesFile.class, key);
+			return "delete ValidatedTransportFile with key: " + key;
+		}
+
+	},
+	ValidatedReactMolCorrespondencesFile {
+
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			QueryBase.deleteWithStringKey(ValidatedReactMolCorrespondencesFile.class, key);
+			return "delete ValidatedTransportFile with key: " + key;
+		}
+
+	},
 	NASAPolynomialFileSpecification {
 		@Override
 		public String deleteStructure(String key) throws IOException {
@@ -151,6 +187,20 @@ public enum DeleteDataStructures {
 			return "delete TransportFileSpecification with key: " + key;
 		}
 
+	},  ThergasMoleculeFileSpecification {
+		@Override
+		public String deleteStructure(String key) throws IOException {
+				ThergasMoleculeFileSpecification spec = (ThergasMoleculeFileSpecification)
+						QueryBase.getObjectById(ThergasMoleculeFileSpecification.class, key);
+				String fileCode = spec.getFileCode();
+				if(spec.getSourceType().matches("File")) {
+					QueryBase.deleteFromIdentificationCode(UploadFileTransaction.class, "fileCode", fileCode);
+					//QueryBase.deleteFromIdentificationCode(FileUploadTextBlock.class, "fileCode", fileCode);
+				}
+				QueryBase.deleteWithStringKey(ThergasMoleculeFileSpecification.class, key);
+			return "delete ThergasMoleculeFileSpecification with key: " + key;
+		}
+		
 	}, SDFMoleculesFileSpecification {
 		@Override
 		public String deleteStructure(String key) throws IOException {
@@ -159,20 +209,7 @@ public enum DeleteDataStructures {
 			return "delete SDFMoleculesFileSpecification with key: " + key;
 		}
 		
-	}, ThergasMoleculeFileSpecification {
-		@Override
-		public String deleteStructure(String key) throws IOException {
-			try {
-				QueryBase.deleteWithStringKey(ThergasMoleculeFileSpecification.class, key);
-			} catch (IOException ex) {
-				if (!ex.getMessage().startsWith(QueryBase.notfound)) {
-					throw ex;
-				}
-			}
-			return "delete ThergasMoleculeFileSpecification with key: " + key;
-		}
-		
-	}, ChemkinMechanismFileUpload {
+	},ChemkinMechanismFileUpload {
 		@Override
 		public String deleteStructure(String key) throws IOException {
 			ChemkinMechanismFileUpload upload = (ChemkinMechanismFileUpload) QueryBase
@@ -202,16 +239,7 @@ public enum DeleteDataStructures {
 			QueryBase.deleteWithStringKey(TransportFileUpload.class, key);
 			return "delete TransportFileUpload with key: " + key;
 		}
-	}, ReactMolCorrespondencesFileUpload {
-		@Override
-		public String deleteStructure(String key) throws IOException {
-			ReactMolCorrespondencesFileUpload upload = (ReactMolCorrespondencesFileUpload) 
-					QueryBase.getObjectById(ReactMolCorrespondencesFileUpload.class, key);
-			QueryBase.deleteFromIdentificationCode(FileUploadTextBlock.class, "fileCode", upload.getFileCode());
-			QueryBase.deleteWithStringKey(ReactMolCorrespondencesFileUpload.class, key);
-			return "delete ReactMolCorrespondencesFileUpload with key: " + key;
-		}
-	}, ThergasMoleculeFileUpload {
+	},  ThergasMoleculeFileUpload {
 
 		@Override
 		public String deleteStructure(String key) throws IOException {
@@ -222,6 +250,15 @@ public enum DeleteDataStructures {
 			return "delete ThergasMoleculeFileUpload with key: " + key;
 		}
 		
+	}, ReactMolCorrespondencesFileUpload {
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			ReactMolCorrespondencesFileUpload upload = (ReactMolCorrespondencesFileUpload) 
+					QueryBase.getObjectById(ReactMolCorrespondencesFileUpload.class, key);
+			QueryBase.deleteFromIdentificationCode(FileUploadTextBlock.class, "fileCode", upload.getFileCode());
+			QueryBase.deleteWithStringKey(ReactMolCorrespondencesFileUpload.class, key);
+			return "delete ReactMolCorrespondencesFileUpload with key: " + key;
+		}
 	}, SDFMoleculesFileUpload {
 		@Override
 		public String deleteStructure(String key) throws IOException {
@@ -232,6 +269,7 @@ public enum DeleteDataStructures {
 			return "delete ReactMolCorrespondencesFileUpload with key: " + key;
 		}
 	},
+	
 	MechanismMoleculesToDatabaseTransaction {
 
 		@Override
@@ -293,12 +331,23 @@ public enum DeleteDataStructures {
 		public String deleteStructure(String key) throws IOException {
 			ThergasMoleculesToDatabaseTransaction transaction = (ThergasMoleculesToDatabaseTransaction) QueryBase
 					.getObjectById(ThergasMoleculesToDatabaseTransaction.class, key);
-			QueryBase.deleteWithStringKey(ThergasMoleculesToDatabaseTransaction.class, key);
 			QueryBase.deleteFromIdentificationCode(ThergasMoleculeData.class, "datasetKeyword",
 					transaction.getKeyWord());
 			QueryBase.deleteFromIdentificationCode(ThergasMoleculeThermodynamics.class, "datasetKeyword",
 					transaction.getKeyWord());
+			QueryBase.deleteWithStringKey(ThergasMoleculesToDatabaseTransaction.class, key);
 			return "delete ThergasMoleculesToDatabaseTransaction with key: " + key;
+		}
+		
+	}, ReactSDFMoleculesToDatabaseTransaction {
+
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			ReactSDFMoleculesToDatabaseTransaction transaction = (ReactSDFMoleculesToDatabaseTransaction) QueryBase
+					.getObjectById(ReactSDFMoleculesToDatabaseTransaction.class, key);
+			
+			QueryBase.deleteWithStringKey(ReactSDFMoleculesToDatabaseTransaction.class, key);
+			return "delete ReactSDFMoleculesToDatabaseTransaction with key: " + key;
 		}
 		
 	},

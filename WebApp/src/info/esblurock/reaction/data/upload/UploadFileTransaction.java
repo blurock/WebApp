@@ -41,6 +41,15 @@ public class UploadFileTransaction extends DatabaseObject {
 		this.fileCode = fileCode;
 		this.lineCount = lineCount;		
 	}
+	
+	public String toString() {
+		StringBuilder build = new StringBuilder();
+		build.append("user: " + user + ", ");
+		build.append("fileCode: " + fileCode);
+		build.append("sourceType: " + sourceType + ", ");
+		build.append("filename: " + filename + ", ");
+		return build.toString();
+	}
 	public String getUser() {
 		return user;
 	}

@@ -27,6 +27,13 @@ public class SingletonInterpretation extends Interpretation {
 		System.out.println("Singleton: " + input.getInputString());
 		System.out.println("Singleton: " + filter);
 		RDFQueryResultSet  set = getSet(filter,input);
+		String small = input.getInputString().toLowerCase();
+		if(!small.matches(input.getInputString())) {
+			QueryParameters smallquery = new QueryParameters(small, input.getEntityLimit());
+			RDFQueryResultSet smallset = getSet(filter,smallquery);
+			set.addAll(smallset);
+		}
+		
 		System.out.println("Singleton results: " + set.toString()); 
 		return set;
 	}

@@ -3,6 +3,7 @@ package info.esblurock.reaction.server.process;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import info.esblurock.reaction.data.DatabaseObject;
@@ -265,9 +266,9 @@ public abstract class ProcessBase {
 		try {
 		StorageAndRetrievalUtilities.storeDatabaseObjects(objectOutputs);
 		} catch(Exception ex) {
-			System.out.println("storeOutputObjects(): exception");
+			log.log(Level.WARNING,"storeOutputObjects(): exception");
 			for(DatabaseObject obj : objectOutputs) {
-				System.out.println(obj);
+				log.log(Level.WARNING,obj.toString());
 			}
 			throw ex;
 		}

@@ -75,7 +75,7 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 		FileSourceSpecification specInstance = fileSpecification(className, sourceType, 
 				fileName, text, user, upload.getFileCode(), keyword);
 		//TransactionInfo info = new TransactionInfo(user, keyword, className, upload.getFileCode());
-		WriteObjectTransactionToDatabase.writeObjectWithTransaction(user, keyword, upload.getFileCode(), specInstance);
+		WriteObjectTransactionToDatabase.writeObjectWithoutTransaction(specInstance);
 		String ans = "Keyword: '" + keyword 
 				+ "'\n User='" + user  
 				+ "'\n className='" + className 
@@ -101,8 +101,10 @@ public class TextToDatabaseImpl extends ServerBase implements TextToDatabase {
 				TransactionInfo info = new TransactionInfo(user, keyword, transactionObjectType, idCode);
 				PersistenceManager pm = PMF.get().getPersistenceManager();
 				pm.makePersistent(specInstance);
+				pm.flush();
 				info.setStoredObjectKey(specInstance.getKey());
 				pm.makePersistent(info);
+				pm.flush();
 				pm.close();
 			} else {
 				throw new IOException("Class: " + className + " not a subclass of FileSourceSpecification");

@@ -22,11 +22,14 @@ public class WriteObjectTransactionToDatabase {
 		pm.makePersistent(object);
 		transaction.setStoredObjectKey(object.getKey());
 		pm.makePersistent(transaction);
+		pm.flush();
 		pm.close();
 	}
 	static public void writeObjectWithoutTransaction(DatabaseObject object) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		pm.makePersistent(object);
-		pm.close();		
+		pm.flush();
+		pm.close();
+		
 	}
 }
