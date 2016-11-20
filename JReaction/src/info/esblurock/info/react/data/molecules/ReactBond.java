@@ -6,17 +6,22 @@
  */
 
 package info.esblurock.info.react.data.molecules;
+import java.text.ParseException;
+
 import info.esblurock.react.common.IParsableElement;
 import info.esblurock.react.common.ReactionLog;
 /**
  *
  * @author  moliate
  */
-public abstract class ReactBond implements IParsableElement
+public class ReactBond implements IParsableElement
 {
     protected int I,J,Info;
     protected String BondType;
 
+    public static String singleS = "Single Bond";
+    public static String doubleS = "Double Bond";
+    public static String tripleS = "Triple Bond";
     
     public String toString() {
 		return BondType + " (" + I + "," + J + ")";
@@ -92,5 +97,11 @@ public abstract class ReactBond implements IParsableElement
     public void setBondType(java.lang.String BondType) {
         this.BondType = BondType;
     }
+
+	@Override
+	public void parse(byte[] data) throws ParseException {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

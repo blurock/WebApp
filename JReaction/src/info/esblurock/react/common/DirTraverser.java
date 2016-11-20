@@ -5,11 +5,13 @@
  */
 
 package info.esblurock.react.common;
-import info.esblurock.CML.generated.Cml;
-import info.esblurock.CML.generated.ObjectFactory;
-import info.esblurock.CML.generated.Scalar;
 import java.io.*;
 import java.util.*;
+
+import org.xmlcml.cml.base.CMLElement;
+import org.xmlcml.cml.element.CMLArrayList;
+import org.xmlcml.cml.element.CMLCml;
+import org.xmlcml.cml.element.CMLScalar;
 
 /**
  *
@@ -64,71 +66,46 @@ public class DirTraverser
     }
     
 
-        public static Cml parseDir(String home, String suffix, boolean showFiles) throws Exception
-        {
-             
-                   ObjectFactory factory = new ObjectFactory();
-                   Cml cml = factory.createCml();
-                   info.esblurock.CML.generated.List list = factory.createList();
-          
+        public static CMLElement parseDir(String home, String suffix, boolean showFiles) throws Exception {
                    String home_replace = home;
                    //home_replace = home_replace.replaceAll(FS+FS, "");
                    if (FS.equals("\\"))
                        home_replace = home.replaceAll("\\\\", "\\\\\\\\");
                    
-                   
+                   CMLElement cml = new CMLElement(home);                   
                    File[] files = traverse(new File(home), suffix);
-                   for (int i = 0; i < files.length; i++)
-                   {
+                   for (int i = 0; i < files.length; i++) {
                        String file = files[i].getPath();
                        //file = file.replaceAll(FS+FS, "");
                        file = file.replaceAll("^"+home_replace, "");    // remove prefix
                        file = file.replaceAll(suffix + "$", "");// and suffix
                        StringTokenizer st = new StringTokenizer(file, FS);
-                       
-                       info.esblurock.CML.generated.List base = list;
-                       
-path_traverser:
-                       while( st.hasMoreTokens() )
-                       {
+                       CMLElement current = cml;
+                       path_traverser:
+                       while( st.hasMoreTokens() ) {
                            String token = st.nextToken();
-                           if (!st.hasMoreTokens()) // ----- a file ----- 
-                           {
-                               if (showFiles)
-                               {
-                                   Scalar scalar = factory.createScalar();
-                                   scalar.setValue(token);
-                                   scalar.setDataType("xsd:string");
-                                   base.getAnyCmlOrAnyOrAny().add(scalar);
+                           if (!st.hasMoreTokens()) { // ----- a file ----- 
+                               if (showFiles) {
+                            	   CMLElement element = new CMLElement(token);
+                            	   element.setAttribute("xsd:string", token);
+                            	   
+                            	   current.appendChild(element);
                                }
-                           }
-                           else // ----- a directory ----- 
-                           {
-                               // search for existing directory list
-                               List l = base.getAnyCmlOrAnyOrAny();
-                               for (int ii = 0; ii < l.size(); ii++)
-                               {
-                                   Object item = l.get(ii);
-                                   if (item instanceof info.esblurock.CML.generated.List)
-                                   {
-                                	   info.esblurock.CML.generated.List li = (info.esblurock.CML.generated.List)item;
-                                       if (li.getTitle().equals(token))
-                                       {   
-                                           base = li;
+                           } else  { // ----- a directory -----
+                        	   
+                        	   for(CMLElement element : current.getChildCMLElements() ) {	   
+                                   if(element.getId().matches(token)) {   
+                                	   current = (CMLElement) element.getChild(0);
                                            continue path_traverser;
                                        }
                                    }
                                }
                                // add a new directory list
-                               info.esblurock.CML.generated.List cl = factory.createList();
-                               cl.setTitle(token);
-                               base.getAnyCmlOrAnyOrAny().add(cl);
-                               base = cl;
+                           CMLElement dir = new CMLElement(token);
+                           current.appendChild(dir);
+                           current = dir;
                            }
                        }
-                   }
-                   
-                   cml.getAnyCmlOrAnyOrAny().add(list);
                    return cml;
         }
     /**

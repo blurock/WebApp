@@ -1,14 +1,18 @@
 
 package info.esblurock.info.react.data.molecules;
+import java.text.ParseException;
+
 import info.esblurock.react.common.IParsableElement;
 import info.esblurock.react.common.ReactionLog;
 
-public abstract class ReactAtom implements IParsableElement
+public class ReactAtom implements IParsableElement
 {
     public float X,Y,Z;
     public int AtomicNumber;
     public int Info = 0;
     public String ID;
+    
+    static public int radical = 4;
     
     public void print()
     {
@@ -42,5 +46,11 @@ public abstract class ReactAtom implements IParsableElement
         AtomicNumber = e.AtomicNumber;
         Info = e.Info;
     }
+
+	@Override
+	public void parse(byte[] data) throws ParseException {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

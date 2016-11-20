@@ -6,19 +6,21 @@
 
 package info.esblurock.react.reactions.CML;
 import info.esblurock.react.common.IRestorableElement;
-import info.esblurock.CML.generated.Metadata;
-import info.esblurock.CML.generated.MetadataList;
-import info.esblurock.CML.generated.ObjectFactory;
-import info.esblurock.CML.generated.Property;
-import info.esblurock.CML.generated.Scalar;
-import info.esblurock.react.common.SProperties;
 import info.esblurock.react.reactions.*;
+
+import java.io.ByteArrayInputStream;
+import java.text.ParseException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.Marshaller;
 
-import java.io.*;
+import org.xmlcml.cml.base.CMLElement;
+import org.xmlcml.cml.element.CMLMetadata;
+import org.xmlcml.cml.element.CMLMetadataList;
+import org.xmlcml.cml.element.CMLProperty;
+import org.xmlcml.cml.element.CMLScalar;
+
+import javax.xml.bind.Marshaller;
 /**
  *
  * @author  moliate
@@ -30,109 +32,79 @@ public class CMLReactionConstants extends ReactReactionConstants implements IRes
     public CMLReactionConstants() 
     {}
     
-    public byte[] restore() 
-    {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-        try
-        {               
-                Property constants = toCML();   
-                JAXBContext jc = JAXBContext.newInstance(constants.getClass().getPackage().getName());
-                Marshaller marshaller = jc.createMarshaller();
-                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE );
-                marshaller.marshal(constants, new PrintStream(bos) );
-        } 
-        catch (Exception e) 
-            { return e.toString().getBytes(); }  
-        
-        return bos.toString().getBytes();
+    public byte[] restore() {
+        CMLElement constants = toCML();  
+        return constants.toXML().getBytes();
     }
     
-    public void parse(byte[] data) throws java.text.ParseException 
-    {
+    public void parse(byte[] data) throws java.text.ParseException {
         ByteArrayInputStream bis = new ByteArrayInputStream(data);
-        try
-        {           
-                JAXBContext jc = JAXBContext.newInstance(SProperties.getProperty("reaction.cml.root"));
+        try {           
+                JAXBContext jc = JAXBContext.newInstance(CMLElement.class);
                 Unmarshaller unmarshaller = jc.createUnmarshaller();
-                //unmarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE );
-                Property constants = (Property) unmarshaller.unmarshal(bis);
+                unmarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE );
+                CMLElement constants = (CMLElement) unmarshaller.unmarshal(bis);
                 fromCML(constants);
-        } 
-        catch (Exception e) 
-            {
-                return; 
-            }  
+        } catch (Exception e) {
+            throw new ParseException(e.toString(),0);
+           }  
     }
     
-    public Property toCML()
-    {
-        try
-        {                
-	        ObjectFactory factory = new ObjectFactory();              
-                Property property = factory.createProperty();
-                Scalar n = factory.createScalar();
-                n.setTitle(CONST_N);
+    public CMLElement toCML() {
+    	CMLElement element = new CMLElement(this.reference);
+         CMLProperty property = new CMLProperty();
+        property.setRole(direction?CONST_ROLE_FORWARD:CONST_ROLE_REVERSE); 
+        property.setDictRef(CONST_DICTREF_COMBUSTIONCONSTANTS);
+
+        CMLScalar n = new CMLScalar();
+         n.setTitle(CONST_N);
                 n.setValue(""+nFactor);
                 n.setDataType("xsd:decimal");
                 n.setUnits("units:1/K");
-                property.getAnyCmlOrAnyOrAny().add(n);
+                property.appendChild(n);
                 
-                Scalar a = factory.createScalar();
+                
+                CMLScalar a = new CMLScalar();
                 a.setTitle(CONST_A);
                 a.setValue(""+aFactor);
                 a.setDataType("xsd:decimal");
                 a.setUnits("units:1/s");
-                property.getAnyCmlOrAnyOrAny().add(a);
+                property.appendChild(a);
                 
-                Scalar e = factory.createScalar();
+                CMLScalar e = new CMLScalar();
                 e.setTitle(CONST_EA);
                 e.setValue(""+eFactor);
                 e.setDataType("xsd:decimal");
                 e.setUnits("units:kJ");
-                property.getAnyCmlOrAnyOrAny().add(e);
+                property.appendChild(e);
                 
-                Scalar m = factory.createScalar();
+                CMLScalar m = new CMLScalar();
                 m.setTitle(CONST_MULTIPLICITY);
                 m.setValue(""+multiplicity);
                 m.setDataType("xsd:integer");
-                property.getAnyCmlOrAnyOrAny().add(m);
+                property.appendChild(m);
                 
-                property.setRole(direction?CONST_ROLE_FORWARD:CONST_ROLE_REVERSE); 
-                property.setDictRef(CONST_DICTREF_COMBUSTIONCONSTANTS);
-                
-                if (null != reference)
-                {
-                	MetadataList mdl = factory.createMetadataList();
-                	Metadata md = factory.createMetadata();
+                element.appendChild(property);
+                if (null != reference) {
+                	CMLMetadataList mdl = new CMLMetadataList();
+                	CMLMetadata md = new CMLMetadata();
                 	md.setName("dc:source");
-                	md.setValue(reference);
-                        mdl.getAnyCmlOrAnyOrAny().add(md);
-                	property.getAnyCmlOrAnyOrAny().add(mdl);
+                	md.setAttribute("dc:source", reference);
+                    mdl.appendChild(md);
+                	property.appendChild(mdl);
             	}
-                
-                return property;
-        } 
-        catch (Exception e) 
-            { return null; } 
+                return element;
     }
     
-    public void fromCML(Property property)
-    {
+    public void fromCML(CMLElement element) {
+    	CMLProperty property = (CMLProperty) element.getProperty(CONST_DICTREF_COMBUSTIONCONSTANTS);
                 if ( (property.getRole().equals(CONST_ROLE_FORWARD)) )
                     direction = true;
                 else if ( (property.getRole().equals(CONST_ROLE_REVERSE)) )
                     direction = false;    
                 else return;
                 
-                java.util.List values = property.getAnyCmlOrAnyOrAny();
-                
-                for (int iii = 0; iii < values.size(); iii++)
-                {
-	            if ( !(values.get(iii) instanceof Scalar) )
-	                	continue;
-	                	
-                    Scalar scalar = (Scalar)values.get(iii);
+                for(CMLScalar scalar : property.getScalarElements()) {
                     if (scalar.getTitle().equals(CONST_A))
                         aFactor = Double.parseDouble(scalar.getValue());
                     if (scalar.getTitle().equals(CONST_N))

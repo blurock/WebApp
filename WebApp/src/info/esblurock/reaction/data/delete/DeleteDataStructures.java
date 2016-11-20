@@ -49,7 +49,7 @@ import info.esblurock.reaction.data.transaction.thergas.ThergasMoleculeThermodyn
 import info.esblurock.reaction.data.transaction.thergas.ThergasMoleculesToDatabaseTransaction;
 import info.esblurock.reaction.data.transaction.thergas.ThergasMoleculesRDFTransaction;
 import info.esblurock.reaction.data.transaction.reaction.ReactSDFMoleculesToDatabaseTransaction;
-
+import info.esblurock.reaction.data.transaction.reaction.ReactMolCorrespondencesToDatabaseTransaction;
 
 public enum DeleteDataStructures {
 
@@ -348,6 +348,16 @@ import info.esblurock.reaction.data.upload.types.ValidatedReactMolCorrespondence
 			
 			QueryBase.deleteWithStringKey(ReactSDFMoleculesToDatabaseTransaction.class, key);
 			return "delete ReactSDFMoleculesToDatabaseTransaction with key: " + key;
+		}
+		
+	}, ReactMolCorrespondencesToDatabaseTransaction {
+		@Override
+		public String deleteStructure(String key) throws IOException {
+			ReactMolCorrespondencesToDatabaseTransaction transaction = (ReactMolCorrespondencesToDatabaseTransaction) QueryBase
+					.getObjectById(ReactMolCorrespondencesToDatabaseTransaction.class, key);
+			
+			QueryBase.deleteWithStringKey(ReactMolCorrespondencesToDatabaseTransaction.class, key);
+			return "delete ReactMolCorrespondencesToDatabaseTransaction with key: " + key;
 		}
 		
 	},

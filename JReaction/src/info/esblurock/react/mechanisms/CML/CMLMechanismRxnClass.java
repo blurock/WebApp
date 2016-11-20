@@ -6,28 +6,25 @@
 package info.esblurock.react.mechanisms.CML;
 
 import info.esblurock.react.common.IRestorableElement;
-import info.esblurock.CML.generated.MechanismComponent;
-import info.esblurock.CML.generated.Name;
-import info.esblurock.CML.generated.ObjectFactory;
-import info.esblurock.CML.generated.Property;
-import info.esblurock.CML.generated.PropertyList;
-import info.esblurock.CML.generated.Reaction;
-import info.esblurock.CML.generated.ReactionList;
 import info.esblurock.react.common.SProperties;
 import info.esblurock.react.mechanisms.*;
 import info.esblurock.react.reactions.CML.CMLReactionConstants;
 import info.esblurock.react.reactions.CML.ICMLReactionConstants;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.Hashtable;
 import java.util.Vector;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.Marshaller;
+
+import org.xmlcml.cml.base.CMLElement;
+import org.xmlcml.cml.element.CMLMechanismComponent;
+import org.xmlcml.cml.element.CMLName;
+import org.xmlcml.cml.element.CMLProperty;
+import org.xmlcml.cml.element.CMLPropertyList;
+import org.xmlcml.cml.element.CMLReaction;
+import org.xmlcml.cml.element.CMLReactionList;
 
 /**
  *
@@ -45,10 +42,10 @@ public class CMLMechanismRxnClass extends ReactMechanismRxnClass implements IRes
     public void parse(byte[] data) throws java.text.ParseException {
         ByteArrayInputStream bis = new ByteArrayInputStream(data);
         try {
-            JAXBContext jc = JAXBContext.newInstance(SProperties.getProperty("reaction.cml.root"));
+            JAXBContext jc = JAXBContext.newInstance(CMLMechanismComponent.class);
             Unmarshaller unmarshaller = jc.createUnmarshaller();
             //unmarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE );
-            MechanismComponent reaction = (MechanismComponent) unmarshaller.unmarshal(bis);
+            CMLMechanismComponent reaction = (CMLMechanismComponent) unmarshaller.unmarshal(bis);
             fromCML(reaction);
 
         } catch (Exception e) {
@@ -57,78 +54,64 @@ public class CMLMechanismRxnClass extends ReactMechanismRxnClass implements IRes
     }
 
     public byte[] restore() {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    	CMLMechanismComponent reaction = toCML();
+    	return reaction.toXML().getBytes();
+   }
 
-        try {
-            MechanismComponent reaction = toCML();
-            JAXBContext jc = JAXBContext.newInstance(reaction.getClass().getPackage().getName());
-            Marshaller marshaller = jc.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.marshal(reaction, new PrintStream(bos));
-        } catch (Exception e) {
-            return e.toString().getBytes();
-        }
-
-        return bos.toString().getBytes();
-    }
-
-    public MechanismComponent toCML() {
-           ObjectFactory factory = new ObjectFactory();
-            MechanismComponent mechanismComponent = factory.createMechanismComponent();
+    public CMLMechanismComponent toCML() {
+            CMLMechanismComponent mechanismComponent = new CMLMechanismComponent();
 
 
-            Name name = factory.createName();
+            CMLName name = new CMLName();
+            name.setId("ChemicalMechanism");
             name.setConvention("IUPAC");
-            name.setValue(className);
-            mechanismComponent.getAnyCmlOrAnyOrAny().add(name);
+            name.setAttribute("IUPAC", className);
+            mechanismComponent.appendChild(name);
 
-
-
-            PropertyList info = factory.createPropertyList();
+            CMLPropertyList info = new CMLPropertyList();
+            info.setId("ReactionConstants");
             info.setTitle("Reaction constants");
-            //PropertyList constants = factory.createPropertyList(); 
             CMLReactionConstants c = new CMLReactionConstants();
             c.setData(forwardConstants);
-            info.getAnyCmlOrAnyOrAny().add(c.toCML());
+            CMLElement felement = c.toCML();
+            felement.setId("ForwardConstants");
+            info.appendChild(felement);
             c.setData(reverseConstants);
-            info.getAnyCmlOrAnyOrAny().add(c.toCML());
-            mechanismComponent.getAnyCmlOrAnyOrAny().add(info);
+            CMLElement relement = c.toCML();
+            relement.setId("ForwardConstants");
+            info.appendChild(relement);
+            mechanismComponent.appendChild(info);
 
-            ReactionList reactionList = factory.createReactionList();
+            CMLReactionList reactionList = new CMLReactionList();
+            reactionList.setId("ReactionList");
             for (int i = 0; i < reactions.size(); i++) {
                 ReactMechanismRxn rxn = (ReactMechanismRxn) reactions.get(i);
                 CMLMechanismRxn cmlRxn = new CMLMechanismRxn(molecules);
                 cmlRxn.setData(rxn);
-                Reaction reaction = cmlRxn.toCML();
+                CMLReaction reaction = cmlRxn.toCML();
                 if (null != reaction) {
-                    reactionList.getAnyCmlOrAnyOrAny().add(reaction);
+                    reactionList.appendChild(reaction);
                 }
             }
-            mechanismComponent.getAnyCmlOrAnyOrAny().add(reactionList);
-
+            mechanismComponent.appendChild(reactionList);
             return mechanismComponent;
     }
-    public void fromCML(MechanismComponent mechanismComponent) {
-        ReactionList reactionList = null;
-        System.out.println("CMLMechanismRxnClass.fromCML " + mechanismComponent.getAnyCmlOrAnyOrAny().size());
-        for (int i = 0; i < mechanismComponent.getAnyCmlOrAnyOrAny().size(); i++) {
-            Object o = mechanismComponent.getAnyCmlOrAnyOrAny().get(i);
-            if (o instanceof ReactionList) {
-                reactionList = (ReactionList) o;
-                java.util.List Reactions = reactionList.getAnyCmlOrAnyOrAny();
+    public void fromCML(CMLMechanismComponent mechanismComponent) {
+        CMLReactionList reactionList = null;
+        for(CMLElement element : mechanismComponent.getChildCMLElements()) {       	
+            if (element.getId().matches("ReactionList")) {
+                reactionList = (CMLReactionList) element;
                 reactions = new Vector();
-                for (int j = 0; j < Reactions.size(); j++) {
-                    Reaction reaction = (Reaction) Reactions.get(j);
+                for(CMLElement relement: reactionList.getChildCMLElements()) {
+                    CMLReaction reaction = (CMLReaction) relement;
                     CMLMechanismRxn rxn = new CMLMechanismRxn(molecules);
                     rxn.fromCML(reaction);
                     reactions.add(rxn);
                 }
-            } else if (o instanceof PropertyList) {
-                PropertyList pl = (PropertyList) o;
-                java.util.List PoO = pl.getAnyCmlOrAnyOrAny();
-                for (int iii = 0; iii < PoO.size(); iii++) {
-                    if (PoO.get(iii) instanceof Property) {
-                        Property el = (Property) PoO.get(iii);
+            } else if (element.getId().matches("ReactionConstants")) {
+                CMLPropertyList pl = (CMLPropertyList) element;
+                for(CMLElement celement : pl.getChildCMLElements()) {
+                        CMLProperty el = (CMLProperty) celement;
                         if (el.getDictRef().equals(CONST_DICTREF_COMBUSTIONCONSTANTS) &&
                                 el.getRole().equals(CONST_ROLE_FORWARD)) {
                             CMLReactionConstants c = new CMLReactionConstants();
@@ -140,10 +123,10 @@ public class CMLMechanismRxnClass extends ReactMechanismRxnClass implements IRes
                             c.fromCML(el);
                             reverseConstants = c;
                         }
-                    }
+   
                 }
-            } else if (o instanceof Name) {
-                Name name = (Name) o;
+            } else if(element.getId().matches("ChemicalMechanism")) {
+                CMLName name = (CMLName) element;
                 className = name.getValue();
 
             }

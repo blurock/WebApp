@@ -26,8 +26,17 @@ public abstract class ReactMolecule implements IParsableElement
     
 
 
-    public ReactMolecule() 
-    {
+    public ReactMolecule() {
+    }
+    public ReactMolecule(ReactMolecule mol) {
+    	Atoms = mol.getAtoms();
+    	Bonds = mol.getBonds();
+    	molcommand = mol.molcommand;
+    	MoleculeName = mol.MoleculeName;
+    	ID = mol.ID;
+    	NumberOfBonds = mol.NumberOfBonds;
+    	NumberOfAtoms = mol.NumberOfAtoms;
+    	createHashCode();
     }
     
     

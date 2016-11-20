@@ -12,13 +12,13 @@ import info.esblurock.reaction.server.chemkin.ChemkinStringFromStoredFile;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
 
-public class ValidateReactMolCorrespondences  extends ProcessBase {
+public class ValidateReactMolCorrespondences extends ProcessBase {
 	UploadFileTransaction upload;
 	ValidatedReactMolCorrespondencesFile validate;
-	
+
 	String uploadS;
 	String validateS;
-	
+
 	public ValidateReactMolCorrespondences() {
 		super();
 	}
@@ -56,19 +56,19 @@ public class ValidateReactMolCorrespondences  extends ProcessBase {
 		output.add(validateS);
 		return output;
 	}
+
 	@Override
 	protected void initializeOutputObjects() throws IOException {
 		super.initializeOutputObjects();
 		upload = (UploadFileTransaction) getInputSource(uploadS);
-		validate = new ValidatedReactMolCorrespondencesFile(user, upload.getFilename(), outputSourceCode, upload.getSourceType());
+		validate = new ValidatedReactMolCorrespondencesFile(user, upload.getFilename(), outputSourceCode,
+				upload.getSourceType());
 		objectOutputs.add(validate);
 	}
 
 	@Override
 	protected void createObjects() throws IOException {
-		String commentString = "!";
-		ChemkinStringFromStoredFile chemkinstring = new ChemkinStringFromStoredFile(upload, commentString);
-		AlternativeMolecules alt = new AlternativeMolecules();
-		alt.parse(chemkinstring);
-}
+		String datastring = ActionsUsingIdentificationCode.getUploadedAsString(upload.getFileCode());
+		
+	}
 }

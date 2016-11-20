@@ -6,7 +6,7 @@
 package info.esblurock.info.react.data.molecules.CDK;
 
 import info.esblurock.info.react.data.molecules.ReactMolecule;
-import info.esblurock.info.react.data.molecules.CML.CMLMolecule;
+import info.esblurock.info.react.data.molecules.CML.CMLReactMolecule;
 
 import java.text.ParseException;
 
@@ -17,7 +17,7 @@ import java.text.ParseException;
 public class CDKMolecule extends ReactMolecule {
 
     public void parse(byte[] data) throws ParseException {
-        CMLMolecule cmlmolecule = new CMLMolecule();
+        CMLReactMolecule cmlmolecule = new CMLReactMolecule();
         cmlmolecule.parse(data);
     }
 

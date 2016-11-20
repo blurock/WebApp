@@ -6,30 +6,29 @@
 package info.esblurock.react.reactions.CML;
 
 import info.esblurock.react.common.IRestorableElement;
-import info.esblurock.CML.generated.Cml;
-import info.esblurock.CML.generated.Map;
-import info.esblurock.CML.generated.Molecule;
-import info.esblurock.CML.generated.ObjectFactory;
-import info.esblurock.CML.generated.Product;
-import info.esblurock.CML.generated.ProductList;
-import info.esblurock.CML.generated.Property;
-import info.esblurock.CML.generated.PropertyList;
-import info.esblurock.CML.generated.Reactant;
-import info.esblurock.CML.generated.ReactantList;
-import info.esblurock.CML.generated.Reaction;
 import info.esblurock.info.react.data.molecules.ReactMolecule;
-import info.esblurock.info.react.data.molecules.CML.CMLMolecule;
-import info.esblurock.react.common.SProperties;
+import info.esblurock.info.react.data.molecules.CML.CMLReactMolecule;
 import info.esblurock.react.reactions.*;
+import thermo.data.structure.structure.StructureAsCML;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.Marshaller;
 
-import java.io.*;
+import org.openscience.cdk.AtomContainer;
+import org.openscience.cdk.exception.CDKException;
+import org.openscience.cdk.libio.cml.Convertor;
+import org.xmlcml.cml.base.CMLElement;
+import org.xmlcml.cml.element.CMLMolecule;
+import org.xmlcml.cml.element.CMLProduct;
+import org.xmlcml.cml.element.CMLProductList;
+import org.xmlcml.cml.element.CMLProperty;
+import org.xmlcml.cml.element.CMLPropertyList;
+import org.xmlcml.cml.element.CMLReactant;
+import org.xmlcml.cml.element.CMLReactantList;
+import org.xmlcml.cml.element.CMLReaction;
+
+import java.io.ByteArrayInputStream;
 import java.util.Iterator;
-import java.util.List;
-
 /**
  *
  * @author  moliate
@@ -41,59 +40,47 @@ public class CMLRxnPattern extends ReactRxnPattern implements IRestorableElement
     }
 
     public byte[] restore() {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-        try {
-            Reaction constant = toCML();
-            JAXBContext jc = JAXBContext.newInstance(constant.getClass().getPackage().getName());
-            Marshaller marshaller = jc.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.marshal(constant, new PrintStream(bos));
-        } catch (Exception e) {
-            return e.toString().getBytes();
-        }
-
-        return bos.toString().getBytes();
+            CMLReaction constant = toCML();
+            return constant.toXML().getBytes();
     }
 
     public void parse(byte[] data) throws java.text.ParseException {
         ByteArrayInputStream bis = new ByteArrayInputStream(data);
         try {
-            JAXBContext jc = JAXBContext.newInstance(SProperties.getProperty("reaction.cml.root"));
+            JAXBContext jc = JAXBContext.newInstance(CMLReaction.class);
             Unmarshaller unmarshaller = jc.createUnmarshaller();
-            Cml cml = (Cml) unmarshaller.unmarshal(bis);
-            List list = cml.getAnyCmlOrAnyOrAny();
-            Reaction constant = (Reaction) list.get(0);
-            fromCML(constant);
+            CMLReaction cml = (CMLReaction) unmarshaller.unmarshal(bis);
+            fromCML(cml);
         } catch (Exception e) {
             return;
         }
     }
 
-    public Reaction toCML() {
+    public CMLReaction toCML() {
+    	Convertor convert = new Convertor(true, "");
         try {
-            ObjectFactory factory = new ObjectFactory();
-            Reaction reaction = factory.createReaction();
-
+        	// First element in CMLReaction
+            CMLReaction reaction = new CMLReaction();
             // ---- set Name
             reaction.setTitle(Name);
             reaction.setId("" + Id);
             // ---- set constants
-            PropertyList plist = factory.createPropertyList();
-
+            CMLPropertyList plist = new CMLPropertyList();
+            plist.setId("ReactionConstants");
             CMLReactionConstants ff = new CMLReactionConstants();
             ff.setData(Forward);
-            Property f = ff.toCML();
-
-            plist.getAnyCmlOrAnyOrAny().add(f);
+            CMLElement f = ff.toCML();
+            plist.appendChild(f);
             CMLReactionConstants rr = new CMLReactionConstants();
             rr.setData(Reverse);
-            Property r = rr.toCML();
-            plist.getAnyCmlOrAnyOrAny().add(r);
-            reaction.getAnyCmlOrAnyOrAny().add(plist);
+            CMLElement r = rr.toCML();
+            plist.appendChild(r);
+            reaction.appendChild(plist);
 
+            // Second element in CMLReaction
             // ---- set correspondence array
-
+            CMLPropertyList corrlist = new CMLPropertyList();
+            corrlist.setId("Correspondences");
             Iterator iter = CorrSet.iterator();
             while (iter.hasNext()) {
                 //System.out.println("cac "+ iter);
@@ -102,65 +89,71 @@ public class CMLRxnPattern extends ReactRxnPattern implements IRestorableElement
                 cac.Molecule1_id = ((ReactMolecule) Reactants.elementAt(cac.Molecule1)).getID();
                 cac.Molecule2_id = ((ReactMolecule) Products.elementAt(cac.Molecule2)).getID();
 
-                reaction.getAnyCmlOrAnyOrAny().add(cac.toCML());
+                corrlist.appendChild(cac.toCML());
             }
-
+            reaction.appendChild(corrlist);
 
             // ---- set reactants
 
-            ReactantList cre_list = factory.createReactantList();
+            CMLReactantList cre_list = new CMLReactantList();
+            cre_list.setId("ReactantList");
             Double cD = new Double(Reactants.size());
             cre_list.setCount(cD);
             //iter = Reactants.iterator();
             //while (iter.hasNext())
             for (int i = 0; i < Reactants.size(); i++) {
                 //System.out.println("cre "+ iter);
-                CMLMolecule cm = new CMLMolecule();
+                CMLReactMolecule cm = new CMLReactMolecule();
                 cm.setData((ReactMolecule) Reactants.elementAt(i));
                 cm.reaction_id = i;
                 cm.is_reactant = true;
-                Reactant cre = factory.createReactant();
-                cre.getAnyCmlOrAnyOrAny().add(cm.toCML());
-                cre_list.getAnyCmlOrAnyOrAny().add(cre);
+                CMLReactant cre = new CMLReactant();
+                AtomContainer atms = cm.toCML();
+                CMLMolecule cmlmolecule = convert.cdkAtomContainerToCMLMolecule(atms);
+                cre.appendChild(cmlmolecule); 
+                cre_list.appendChild(cre);
             }
-            reaction.getAnyCmlOrAnyOrAny().add(cre_list);
+            reaction.appendChild(cre_list);
 
             // ---- set products               
-            ProductList cpe_list = factory.createProductList();
+            CMLProductList cpe_list = new CMLProductList();
+            cpe_list.setId("ProductList");
             Double pD = new Double(Products.size());
             cpe_list.setCount(pD);
             //iter = Products.iterator();
             //while (iter.hasNext())
             for (int i = 0; i < Products.size(); i++) {
                 //System.out.println("cpe "+ iter);
-                CMLMolecule cm = new CMLMolecule();
+                CMLReactMolecule cm = new CMLReactMolecule();
                 cm.setData((ReactMolecule) Products.elementAt(i));
                 cm.reaction_id = i;
                 cm.is_reactant = false;
-                Product cpe = factory.createProduct();
-                cpe.getAnyCmlOrAnyOrAny().add(cm.toCML());
-                cpe_list.getAnyCmlOrAnyOrAny().add(cpe);
+                CMLProduct cpe = new CMLProduct();
+                AtomContainer atms = cm.toCML();
+                
+                CMLMolecule cmlmolecule = convert.cdkAtomContainerToCMLMolecule(atms);
+                cpe.appendChild(cmlmolecule);
+                cpe_list.appendChild(cpe);
             }
-            reaction.getAnyCmlOrAnyOrAny().add(cpe_list);
-
+            reaction.appendChild(cpe_list);
             return reaction;
         } catch (Exception e) {
             return null;
         }
     }
 
-    public void fromCML(Reaction el) {
-        // ---- get reaction name
+    public void fromCML(CMLReaction el) {
+    	Convertor convert = new Convertor(true, "");
+       // ---- get reaction name
         Name = el.getTitle();
         Id = Integer.parseInt(el.getId().trim());
 
-        // ---- get constants
-        java.util.List propertyList = el.getAnyCmlOrAnyOrAny();
-        for (int i = 0; i < propertyList.size(); i++) {
-            if (propertyList.get(i) instanceof PropertyList) {
-                PropertyList properties = (PropertyList) propertyList.get(i);
-                for (int ii = 0; ii < properties.getAnyCmlOrAnyOrAny().size(); ii++) {
-                    Property p = (Property) properties.getAnyCmlOrAnyOrAny().get(ii);
+        for(CMLElement cmlinfo : el.getChildCMLElements()) {
+        	if(cmlinfo.getId().matches("ReactionConstants")) {
+        		// ---- get constants
+        		CMLPropertyList properties = (CMLPropertyList) cmlinfo;
+        		for(CMLElement element : properties.getChildCMLElements()) {
+        			CMLProperty p = (CMLProperty) element;
                     if (p.getRole().equals(CONST_ROLE_FORWARD)) {
                         CMLReactionConstants constant = new CMLReactionConstants();
                         constant.fromCML(p);
@@ -171,44 +164,56 @@ public class CMLRxnPattern extends ReactRxnPattern implements IRestorableElement
                         Forward.setData(constant);
                     }
                 }
-            } else if (propertyList.get(i) instanceof Map) {
-                Map me = (Map) propertyList.get(i);
-                CMLAtomCorrespondence cac = new CMLAtomCorrespondence();
-                cac.fromCML(me);
-                cac.Molecule1 = Reactants.getSubstructureIndex(cac.Molecule1_id);
-                cac.Molecule2 = Products.getSubstructureIndex(cac.Molecule2_id);
-                CorrSet.add(cac);
-            } else if (propertyList.get(i) instanceof ProductList) {
-                ProductList ple = (ProductList) propertyList.get(i);
-                Iterator iter2 = ple.getAnyCmlOrAnyOrAny().iterator();
-                while (iter2.hasNext()) {
-                    Product pe = (Product) iter2.next();
-                    Molecule me = (Molecule) pe.getAnyCmlOrAnyOrAny();
-                    CMLMolecule cm = new CMLMolecule();
-                    cm.fromCML(me);
-                    if (-1 == cm.reaction_id) {
-                        Products.add(cm);
-                    } else {
-                        Products.add(cm.reaction_id, cm);
-                    }
+            } else if(cmlinfo.getId().matches("Correspondences")) {
+            	CMLPropertyList properties = (CMLPropertyList) cmlinfo;
+            	for(CMLElement element : properties.getChildCMLElements()) {
+                    CMLAtomCorrespondence cac = new CMLAtomCorrespondence();
+                    cac.fromCML(element);
+                    cac.Molecule1 = Reactants.getSubstructureIndex(cac.Molecule1_id);
+                    cac.Molecule2 = Products.getSubstructureIndex(cac.Molecule2_id);
+                    CorrSet.add(cac);           		
+            	}
+            } else if(cmlinfo.getId().matches("ReactantList")) {
+                CMLReactantList ple = (CMLReactantList) cmlinfo;
+                for(CMLElement element : ple.getChildCMLElements()) {
+                	CMLReactant pe = (CMLReactant) element;
+                	CMLMolecule me = (CMLMolecule) pe.getChildCMLElements().get(0);
+                	StructureAsCML cmlstruct = new StructureAsCML(me);
+                	AtomContainer atmcontainer;
+					try {
+						atmcontainer = cmlstruct.getMolecule();
+	                	CMLReactMolecule cm = new CMLReactMolecule();
+	                	cm.fromCML(atmcontainer);
+	                    if (-1 == cm.reaction_id) {
+	                        Reactants.add(cm);
+	                    } else {
+	                        Reactants.add(cm.reaction_id, cm);
+	                    }                	
+					} catch (CDKException e) {
+						e.printStackTrace();
+					}
                 }
-
-            } else if (propertyList.get(i) instanceof ReactantList) {
-                ReactantList ple = (ReactantList) propertyList.get(i);
-                Iterator iter2 = ple.getAnyCmlOrAnyOrAny().iterator();
-                while (iter2.hasNext()) {
-                    Reactant pe = (Reactant) iter2.next();
-                    Molecule me = (Molecule) pe.getAnyCmlOrAnyOrAny();
-                    CMLMolecule cm = new CMLMolecule();
-                    cm.fromCML(me);
-                    if (-1 == cm.reaction_id) {
-                        Reactants.add(cm);
-                    } else {
-                        Reactants.add(cm.reaction_id, cm);
-                    }
-                }
+            } else if(cmlinfo.getId().matches("ProductList")) {
+        		CMLProductList ple = (CMLProductList) cmlinfo;
+        		for(CMLElement element : ple.getChildCMLElements()) {
+        			CMLProduct pe = (CMLProduct) element;
+        			CMLMolecule me = (CMLMolecule) pe.getChildCMLElements().get(0);
+                    CMLReactMolecule cm = new CMLReactMolecule();
+                   	StructureAsCML cmlstruct = new StructureAsCML(me);
+                	AtomContainer atmcontainer;
+					try {
+						atmcontainer = cmlstruct.getMolecule();
+	                    cm.fromCML(atmcontainer);
+	                    if (-1 == cm.reaction_id) {
+	                        Products.add(cm);
+	                    } else {
+	                        Products.add(cm.reaction_id, cm);
+	                    }
+					} catch (CDKException e) {
+						e.printStackTrace();
+					}
+        		}
             }
-
         }
 
     }

@@ -4,13 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
 
-import org.openscience.cdk.interfaces.IAtom;
-import org.openscience.cdk.silent.AtomContainer;
-
-import info.esblurock.CML.generated.Molecule;
 import info.esblurock.info.react.data.molecules.ReactMolecule;
-import info.esblurock.info.react.data.molecules.CML.CMLMolecule;
-import info.esblurock.info.react.data.molecules.SDF.SDFMolecule;
 import info.esblurock.react.mechanisms.BRS.BRSMechanism;
 import info.esblurock.reaction.data.store.StoreObject;
 import info.esblurock.reaction.data.transaction.ActionsUsingIdentificationCode;
@@ -18,7 +12,6 @@ import info.esblurock.reaction.data.transaction.reaction.ReactSDFMoleculesToData
 import info.esblurock.reaction.data.upload.types.SDFMoleculesFileUpload;
 import info.esblurock.reaction.server.process.ProcessBase;
 import info.esblurock.reaction.server.process.ProcessInputSpecificationsBase;
-import thermo.data.structure.structure.AtomCounts;
 
 public class ReactSDFMoleculesToDatabase extends ProcessBase {
 	static public String moleculeName = "MoleculeName";
@@ -76,9 +69,15 @@ public class ReactSDFMoleculesToDatabase extends ProcessBase {
 	@Override
 	protected void createObjects() throws IOException {
 		upload = (SDFMoleculesFileUpload) getInputSource(uploadS);
-		String commentString = "!";
 		StoreObject store = new StoreObject(user, keyword, outputSourceCode);
 		String datastring = ActionsUsingIdentificationCode.getUploadedAsString(upload.getFileCode());
+		BRSMechanism mech = new BRSMechanism();
+		mech.readMolecules(datastring);
+		Set<String> keys = mech.Molecules.keySet();
+		System.out.println(keys);
+		for(String key: keys) {
+			ReactMolecule molecule = (ReactMolecule) mech.Molecules.get(key);
+		}
 		//store.flushStore();
 		}
 
