@@ -21,12 +21,9 @@ public class ParseReactionSDFMolecule {
 	
 	
 	public void parse(String datastring) throws IOException, CDKException {
-		
 		cmlmolecules = new ArrayList<CMLReactMolecule>();
 		moleculesAsCML = new ArrayList<String>();
-		
 		BRSMechanism mech = new BRSMechanism();
-
 		mech.readMolecules(datastring);
 		
 		Set<String> keys = mech.Molecules.keySet();

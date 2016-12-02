@@ -14,6 +14,7 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialModalContent;
 import gwt.material.design.client.ui.MaterialTitle;
+import info.esblurock.reaction.data.DatabaseObject;
 
 public class BaseDataPresentation extends Composite implements HasText {
 
@@ -31,15 +32,17 @@ public class BaseDataPresentation extends Composite implements HasText {
 	@UiField
 	MaterialModal modal;
 	
+	DatabaseObject object;
 	
 	public BaseDataPresentation() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	public BaseDataPresentation(String text, String description) {
+	public BaseDataPresentation(String text, String description, DatabaseObject object) {
 		initWidget(uiBinder.createAndBindUi(this));
 		title.setTitle(text);
 		title.setDescription(description);
+		this.object = object;
 	}
 
 	@UiHandler("close")

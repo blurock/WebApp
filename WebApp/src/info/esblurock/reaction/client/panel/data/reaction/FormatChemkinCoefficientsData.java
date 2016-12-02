@@ -35,9 +35,6 @@ public class FormatChemkinCoefficientsData extends Composite implements HasText 
 	@UiField
 	MaterialRow arrheniusRow,coefficientsRow;
 	
-	@UiField
-	MaterialButton saveButton;
-	
 	ChemkinCoefficientsData coefficients;
 
 	public FormatChemkinCoefficientsData(ChemkinCoefficientsData coeffs) {
@@ -47,7 +44,6 @@ public class FormatChemkinCoefficientsData extends Composite implements HasText 
 		coefficientType.setText(type);
 		loadArrheniusCoefficients(coeffs);
 		loadCoefficients(coeffs);
-		saveButton.setVisible(false);
 	}
 
 	void loadArrheniusCoefficients(ChemkinCoefficientsData coeffs) {
@@ -99,10 +95,6 @@ public class FormatChemkinCoefficientsData extends Composite implements HasText 
 			type = "Troe";
 		}
 		return type;
-	}
-	
-	public void addSaveButton() {
-		saveButton.setVisible(true);
 	}
 	public void setText(String text) {
 		

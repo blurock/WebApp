@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.google.gwt.i18n.client.NumberFormat;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialRow;
@@ -40,10 +42,11 @@ public enum DataPresentation {
 
 		@Override
 		public BaseDataPresentation asDisplayObject(DatabaseObject data) {
+			Window.alert("asDisplayObject: " + data.toString());
 			MechanismMoleculeData molecule = (MechanismMoleculeData) data;
 			String description = asOnLine(data);
 			String title = "MechanismMoleculeData";
-			BaseDataPresentation present = new BaseDataPresentation(title, description);
+			BaseDataPresentation present = new BaseDataPresentation(title, description,molecule);
 			return present;
 		}
 
@@ -146,7 +149,7 @@ public enum DataPresentation {
 			ChemkinReactionData reaction = (ChemkinReactionData) data;
 			String description = asOnLine(data);
 			String title = "ChemkinReactionData";
-			BaseDataPresentation present = new BaseDataPresentation(title, description);
+			BaseDataPresentation present = new BaseDataPresentation(title, description,reaction);
 			return present;
 		}
 
@@ -204,11 +207,11 @@ public enum DataPresentation {
 			FormatChemkinCoefficientsData formatter = new FormatChemkinCoefficientsData(coeffs);
 			String title = "ChemkinCoefficientsData";
 			String description = "";
-			BaseDataPresentation present = new BaseDataPresentation(title, description);
+			BaseDataPresentation present = new BaseDataPresentation(title, description,coeffs);
 			present.getModalContent().add(formatter);
 			return null;
 		}
-		
+
 	},
 	NASAPolynomialData {
 
@@ -252,12 +255,11 @@ public enum DataPresentation {
 		public BaseDataPresentation asDisplayObject(DatabaseObject data) {
 			NASAPolynomialData nasa = (NASAPolynomialData) data;
 			String title = "NASA Polyomial";
-			BaseDataPresentation presentation = new BaseDataPresentation(title, nasa.getMoleculeName());
+			BaseDataPresentation presentation = new BaseDataPresentation(title, nasa.getMoleculeName(),nasa);
 			FormatNASAPolynomialData formatter = new FormatNASAPolynomialData();
 			formatter.convertNASAPolynomial(nasa);
 			NASAThermoPanel panel = new NASAThermoPanel(nasa);
 			presentation.getModalContent().add(panel);
-			
 			return presentation;
 		}
 
@@ -298,7 +300,7 @@ public enum DataPresentation {
 			DataSetReference reference = (DataSetReference) data;
 			String description = asOnLine(data);
 			String title = reference.getDatasetKeyword();
-			BaseDataPresentation present = new BaseDataPresentation(title,description);
+			BaseDataPresentation present = new BaseDataPresentation(title,description,reference);
 			addRow(present,reference.getReferenceTitle());
 			StringBuilder build = new StringBuilder();
 			boolean first = true;
@@ -315,7 +317,6 @@ public enum DataPresentation {
 			addRow(present,reference.getReferenceString());
 			return present;
 		}
-		
 	};
 
 	public String getMoleculeListString(ArrayList<String> mol) {
@@ -338,7 +339,6 @@ public enum DataPresentation {
 		presentation.getModalContent().add(row);
 		return row;
 	}
-
 	abstract public String asOnLine(DatabaseObject data);
 
 	abstract public String multiLineString(DatabaseObject data);

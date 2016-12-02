@@ -1,10 +1,12 @@
 package info.esblurock.reaction.client.panel;
 
+import info.esblurock.reaction.client.panel.query.BasicObjectSearchAsTreeCallback;
 import info.esblurock.reaction.client.panel.query.BasicObjectSearchCallback;
 import info.esblurock.reaction.client.panel.query.QueryPath;
 import info.esblurock.reaction.client.panel.query.QueryPathElement;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.client.panel.query.ReactionSearchServiceAsync;
+import info.esblurock.reaction.client.panel.query.SearchPanel;
 import info.esblurock.reaction.client.panel.repository.actions.RetrieveDataSetPathCallback;
 import info.esblurock.reaction.client.ui.ReactionQueryImpl;
 import info.esblurock.reaction.client.ui.ReactionQueryView.Presenter;
@@ -26,6 +28,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -51,6 +54,8 @@ public class QueryNavBar extends Composite implements HasText {
 
 	String repositoryLabel = "repository";
 	
+	boolean asTree;
+	
 	/*
 	 * @UiField TextBox search;
 	 * 
@@ -69,11 +74,13 @@ public class QueryNavBar extends Composite implements HasText {
 	public QueryNavBar(QueryAndResultPanel qrpanel, ReactionQueryImpl top) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init("Search", qrpanel,top);
+		asTree = true;
 	}
 
 	public QueryNavBar(String firstName, QueryAndResultPanel qrpanel, ReactionQueryImpl top) {
 		initWidget(uiBinder.createAndBindUi(this));
 		init(firstName, qrpanel,top);
+		asTree = true;
 	}
 
 	private void init(String firstName, QueryAndResultPanel qrpanel, ReactionQueryImpl top) {
@@ -120,9 +127,17 @@ public class QueryNavBar extends Composite implements HasText {
 			RetrieveDataSetPathCallback callback = new RetrieveDataSetPathCallback(topsearch);
 			async.getRepositoryDataSources(callback);
 		} else {
-			BasicObjectSearchCallback callback = new BasicObjectSearchCallback(path, topsearch);
 			ReactionSearchServiceAsync async = ReactionSearchService.Util.getInstance();
-			async.searchedRegisteredQueries(text, "TopSearch",callback);
+			if(asTree) {
+				HTMLPanel toppanel = qrpanel.getTopPanel();
+				SearchPanel search = new SearchPanel(text,toppanel);
+				toppanel.add(search);
+				BasicObjectSearchAsTreeCallback callback = new BasicObjectSearchAsTreeCallback(path,search);
+				async.searchedRegisteredQueries(text, "TopSearch",callback);				
+			} else {
+				BasicObjectSearchCallback callback = new BasicObjectSearchCallback(path, topsearch);
+				async.searchedRegisteredQueries(text, "TopSearch",callback);				
+			}
 		}
 	}
 

@@ -10,6 +10,7 @@ import gwt.material.design.client.ui.MaterialLabel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,6 +25,9 @@ public class QueryAndResultPanel extends UiImplementationBase implements HasText
 	}
 	@UiField
 	MaterialCollapsible topoftree;
+	
+	@UiField
+	HTMLPanel toppanel;
 	
 	String text;
 	//MaterialCollapsibleItem search0;
@@ -45,6 +49,9 @@ public class QueryAndResultPanel extends UiImplementationBase implements HasText
 	}
 	public MaterialCollapsible getQueryTop() {
 		return topoftree;
+	}
+	public HTMLPanel getTopPanel() {
+		return toppanel;
 	}
 /*	
 	public MaterialCollapsibleItem getQueryTop(String text) {

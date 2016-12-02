@@ -5,16 +5,12 @@
  */
 
 package info.esblurock.react.common;
-import info.esblurock.CML.generated.Cml;
-import info.esblurock.CML.generated.ObjectFactory;
-import info.esblurock.CML.generated.Scalar;
 import java.io.*;
+import java.text.ParseException;
 import java.util.*;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
-import com.google.appengine.repackaged.org.apache.commons.codec.binary.Base64; 
+import org.xmlcml.cml.base.CMLElement;
+
 /**
  *
  * @author  moliate
@@ -164,8 +160,9 @@ public class FileCluster implements IParsableElement, IRestorableElement
         }
     }   
     
-    public void parse(byte[] data) throws java.text.ParseException 
-    {
+    public void parse(byte[] data) throws ParseException {
+    	throw new ParseException("Not implemented yet: FileCluster:parse", 0);
+    	/*
         Log.println("parse ");
         ByteArrayInputStream bis = new ByteArrayInputStream(data);
         try {
@@ -191,9 +188,11 @@ public class FileCluster implements IParsableElement, IRestorableElement
             Log.println(e, Log.INFO);
             return; 
         }  
+        */
     }
     
     public byte[] restore()  {
+    	/*
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try
         {               
@@ -210,20 +209,22 @@ public class FileCluster implements IParsableElement, IRestorableElement
             return e.toString().getBytes();
         }  
         return bos.toString().getBytes();
+        */
+    	return null;
     }
     
     /**
      * 
      * @return
      */
-    public Cml toCML()
-    {
+    public CMLElement toCML() {
+    	/*
         Arrays.sort(files.toArray());      
         try
         {          
                 ObjectFactory factory = new ObjectFactory();
                 Cml cml = factory.createCml();
-                info.esblurock.CML.generated.List list = factory.createList();
+                blurock.reaction.generated.core.List list = factory.createList();
                 list.setTitle("Set of files");
                 FileData file_data = getFirst();
                 while (null != file_data)
@@ -255,18 +256,21 @@ public class FileCluster implements IParsableElement, IRestorableElement
             Log.println(e, Log.INFO);
             return null; 
         }   
+        */
+    	return null;
     }
     
-    public void fromCML(Cml cml) {
+    public void fromCML(CMLElement cml) {
+    	/*
         Log.println("fromCML  0");
         Object[] list = cml.getAnyCmlOrAnyOrAny().toArray();
         Log.println("fromCML  1 - " + list.length);
         for (int i = 0; i < list.length; i++)
         {
             Log.println("fromCML  2 - " + i);
-            if (list[i] instanceof info.esblurock.CML.generated.List)
+            if (list[i] instanceof blurock.reaction.generated.core.List)
             {
-                Object[] elements = ((info.esblurock.CML.generated.List)list[i]).getAnyCmlOrAnyOrAny().toArray();
+                Object[] elements = ((blurock.reaction.generated.core.List)list[i]).getAnyCmlOrAnyOrAny().toArray();
                 for (int ii = 0; ii < elements.length; ii++)
                 {
                     if (elements[ii] instanceof Scalar)
@@ -284,7 +288,7 @@ public class FileCluster implements IParsableElement, IRestorableElement
                         }
                         else
                         {
-                        */
+                        
                             data = value.getBytes();
                             binary = false;
                         //}
@@ -297,6 +301,7 @@ public class FileCluster implements IParsableElement, IRestorableElement
             }
         }
         Arrays.sort(files.toArray());      
+        */
     }
     
     public void print() 

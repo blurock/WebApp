@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
 	<application>blurock-reaction</application>
-	<version>15</version>
+	<version>16</version>
 	<sessions-enabled>true</sessions-enabled>
 	<async-session-persistence enabled="true" />
 	<!-- Allows App Engine to send multiple requests to one instance in parallel: -->

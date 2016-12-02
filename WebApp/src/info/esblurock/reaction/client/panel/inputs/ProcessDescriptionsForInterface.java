@@ -178,6 +178,7 @@ public enum ProcessDescriptionsForInterface {
 		}
 		
 	};
+	
 	ProcessDescriptions description = GWT.create(ProcessDescriptions.class);
 
 	public abstract String getDescription();

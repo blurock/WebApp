@@ -12,9 +12,6 @@
 			<d:MaterialColumn grid="s3">
 				<d:MaterialLabel ui:field="coefficientType"  />
 			</d:MaterialColumn>
-			<d:MaterialColumn grid="s3">
-				<d:MaterialButton ui:field="saveButton"  />
-			</d:MaterialColumn>
 		</d:MaterialRow>
 		<d:MaterialRow ui:field="arrheniusRow">
 			<d:MaterialColumn grid="s1">

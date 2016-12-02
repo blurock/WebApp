@@ -24,7 +24,6 @@ public class ValidatedFileTransaction  extends DatabaseObject {
 
 	public ValidatedFileTransaction() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public ValidatedFileTransaction(String user, String filename, String fileCode, String sourceType) {

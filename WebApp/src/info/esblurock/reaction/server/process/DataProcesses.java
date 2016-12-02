@@ -25,6 +25,8 @@ import info.esblurock.reaction.server.process.upload.ReadReactSDFMolecules;
 import info.esblurock.reaction.server.process.upload.ReadReactMolCorrespondencesFile;
 import info.esblurock.reaction.server.process.upload.ValidateReactSDFMolecules;
 import info.esblurock.reaction.server.process.upload.ValidateReactMolCorrespondences;
+import info.esblurock.reaction.server.process.react.ReactSDFMoleculesToDatabase;
+import info.esblurock.reaction.server.process.react.ReactSDFMoleculesProcessRDF;
 
 public enum DataProcesses {
 	
@@ -241,25 +243,6 @@ public enum DataProcesses {
 			return false;
 		}
 		
-	}, ValidateReactSDFMolecules {
-		@Override
-		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
-			ValidateReactSDFMolecules p = new ValidateReactSDFMolecules(specs);
-			return p;
-		}
-		@Override
-		public ProcessBase getEmptyProcess() {
-			return new ValidateReactSDFMolecules();
-		}
-		@Override
-		public String getTaskType() {
-			return TaskTypes.dataInput;
-		}
-		@Override
-		public boolean asBackgroundJob() {
-			return false;
-		}
-		
 	},	ReadReactMolCorrespondencesFile {
 		@Override
 		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
@@ -298,10 +281,26 @@ public enum DataProcesses {
 			return false;
 		}
 		
+	}, ValidateReactSDFMolecules {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ValidateReactSDFMolecules p = new ValidateReactSDFMolecules(specs);
+			return p;
+		}
+		@Override
+		public ProcessBase getEmptyProcess() {
+			return new ValidateReactSDFMolecules();
+		}
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return false;
+		}
+		
 	}, MechanismMoleculesToDatabase {
-	
-	
-
 		@Override
 		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
 			MechanismMoleculesToDatabase process = new MechanismMoleculesToDatabase(specs);
@@ -419,6 +418,25 @@ public enum DataProcesses {
 			return true;
 		}
 		
+	}, ReactSDFMoleculesToDatabase {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ReactSDFMoleculesToDatabase p = new ReactSDFMoleculesToDatabase(specs);
+			return p;
+		}
+		@Override
+		public ProcessBase getEmptyProcess() {
+			return new ReactSDFMoleculesToDatabase();
+		}
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return true;
+		}
+		
 	}, MechanismMoleculeProcessRDF {
 
 		@Override
@@ -520,23 +538,38 @@ public enum DataProcesses {
 			ThergasMoleculeProcessRDF process = new ThergasMoleculeProcessRDF(specs);
 			return process;
 		}
-
 		@Override
 		public ProcessBase getEmptyProcess() {
 			ThergasMoleculeProcessRDF process = new ThergasMoleculeProcessRDF();
 			return process;
 		}
-
 		@Override
 		public String getTaskType() {
 			return TaskTypes.dataInput;
 		}
-
 		@Override
 		public boolean asBackgroundJob() {
 			return true;
 		}
-		
+	}, ReactSDFMoleculesProcessRDF {
+		@Override
+		public ProcessBase getProcess(ProcessInputSpecificationsBase specs) {
+			ReactSDFMoleculesProcessRDF process = new ReactSDFMoleculesProcessRDF(specs);
+			return process;
+		}
+		@Override
+		public ProcessBase getEmptyProcess() {
+			ReactSDFMoleculesProcessRDF process = new ReactSDFMoleculesProcessRDF();
+			return process;
+		}
+		@Override
+		public String getTaskType() {
+			return TaskTypes.dataInput;
+		}
+		@Override
+		public boolean asBackgroundJob() {
+			return true;
+		}
 	};
 	public abstract ProcessBase getProcess(ProcessInputSpecificationsBase specs);
 	public abstract ProcessBase getEmptyProcess();
