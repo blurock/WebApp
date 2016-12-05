@@ -10,6 +10,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import info.esblurock.reaction.data.DatabaseObject;
+import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
 import info.esblurock.reaction.data.rdf.graph.RDFTreeNode;
 import info.esblurock.reaction.data.repository.ListOfRepositoryDataSources;
@@ -39,4 +40,5 @@ public interface ReactionSearchService  extends RemoteService {
 	   String registerSynonyms(HashMap<String,ArrayList<String>> standardKeywordSynonyms) throws IOException;
 	   HashMap<String,ArrayList<String>> getSynonymsForStandardKeywords() throws IOException;
 	   ListOfRepositoryDataSources getRepositoryDataSources() throws IOException;
+	ArrayList<ChemkinCoefficientsData> coefficientsFromReactionName(String reactionname) throws IOException;
 }

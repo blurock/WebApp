@@ -45,6 +45,11 @@ public class ChemicalMechanismDataQuery extends QueryBase {
 		String classname = ChemkinCoefficientsData.class.getName();
 		return getDatabaseObjectsFromSingleProperty(classname, mechanismKeyword, mechanismName);
 	}
+	static public List<DatabaseObject> coefficientsFromReactionName(String reactionName) throws IOException {
+		String reactionKeyword = "reactionKeyword";
+		String classname = ChemkinCoefficientsData.class.getName();
+		return getDatabaseObjectsFromSingleProperty(classname, reactionKeyword, reactionName);
+	}
 	static public List<DatabaseObject> nasaPolynomialsFromMechanismName(String mechanismName) throws IOException {
 		String mechanismKeyword = "mechanismKeyword";
 		String classname = NASAPolynomialData.class.getName();

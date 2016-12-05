@@ -1,6 +1,7 @@
 package info.esblurock.reaction.client.panel.query;
 
 import info.esblurock.reaction.data.DatabaseObject;
+import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.rdf.RDFBySubjectSet;
 import info.esblurock.reaction.data.rdf.graph.RDFTreeNode;
 import info.esblurock.reaction.data.repository.ListOfRepositoryDataSources;
@@ -31,5 +32,7 @@ public interface ReactionSearchServiceAsync {
 	void getSynonymsForStandardKeywords(AsyncCallback<HashMap<String, ArrayList<String>>> callback);
 
 	void getRepositoryDataSources(AsyncCallback<ListOfRepositoryDataSources> callback);
+
+	void coefficientsFromReactionName(String reactionname, AsyncCallback<ArrayList<ChemkinCoefficientsData>> callback);
 
 }

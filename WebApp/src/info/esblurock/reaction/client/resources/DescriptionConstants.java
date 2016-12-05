@@ -52,6 +52,15 @@ public interface DescriptionConstants extends com.google.gwt.i18n.client.Message
   String close();
 
   /**
+   * Translated "Reaction Coefficients".
+   * 
+   * @return translated "Reaction Coefficients"
+   */
+  @DefaultMessage("Reaction Coefficients")
+  @Key("coefficientslabel")
+  String coefficientslabel();
+
+  /**
    * Translated "Contact Details".
    * 
    * @return translated "Contact Details"
@@ -187,6 +196,15 @@ public interface DescriptionConstants extends com.google.gwt.i18n.client.Message
   String keywordtext();
 
   /**
+   * Translated "Mechanism Name".
+   * 
+   * @return translated "Mechanism Name"
+   */
+  @DefaultMessage("Mechanism Name")
+  @Key("mechanismkeywordlabel")
+  String mechanismkeywordlabel();
+
+  /**
    * Translated "NASA Polynomials".
    * 
    * @return translated "NASA Polynomials"
@@ -275,6 +293,24 @@ public interface DescriptionConstants extends com.google.gwt.i18n.client.Message
   @DefaultMessage("Input the details for an organization")
   @Key("organizationsettooltip")
   String organizationsettooltip();
+
+  /**
+   * Translated "Products".
+   * 
+   * @return translated "Products"
+   */
+  @DefaultMessage("Products")
+  @Key("productslabel")
+  String productslabel();
+
+  /**
+   * Translated "Reactants".
+   * 
+   * @return translated "Reactants"
+   */
+  @DefaultMessage("Reactants")
+  @Key("reactantslabel")
+  String reactantslabel();
 
   /**
    * Translated "SDF molecular format".
@@ -374,6 +410,15 @@ public interface DescriptionConstants extends com.google.gwt.i18n.client.Message
   @DefaultMessage("THERGAS/JTHERGAS molecular format")
   @Key("thergasmoleculestitle")
   String thergasmoleculestitle();
+
+  /**
+   * Translated "Third Body Molecules".
+   * 
+   * @return translated "Third Body Molecules"
+   */
+  @DefaultMessage("Third Body Molecules")
+  @Key("thirdbodymolecules")
+  String thirdbodymolecules();
 
   /**
    * Translated "Input".

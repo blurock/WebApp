@@ -9,11 +9,13 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ModalType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialModalContent;
 import gwt.material.design.client.ui.MaterialTitle;
+import gwt.material.design.client.ui.MaterialToast;
 import info.esblurock.reaction.data.DatabaseObject;
 
 public class BaseDataPresentation extends Composite implements HasText {
@@ -31,6 +33,8 @@ public class BaseDataPresentation extends Composite implements HasText {
 	MaterialModalContent modalcontent;
 	@UiField
 	MaterialModal modal;
+	@UiField
+	MaterialButton basket;
 	
 	DatabaseObject object;
 	
@@ -43,11 +47,25 @@ public class BaseDataPresentation extends Composite implements HasText {
 		title.setTitle(text);
 		title.setDescription(description);
 		this.object = object;
+		init();
 	}
 
+	private void init() {
+		basket.setText("Save");
+		basket.setIconType(IconType.SAVE);
+		close.setText("Close");
+		close.setIconType(IconType.CLOSE);
+		
+	}
+	
 	@UiHandler("close")
 	void onClick(ClickEvent e) {
 		modal.closeModal();
+	}
+	@UiHandler("basket")
+	void onSaveClick(ClickEvent e) {
+		modal.closeModal();
+		MaterialToast.fireToast("Save to basket: " + getText());
 	}
 
 	public void openModal() {

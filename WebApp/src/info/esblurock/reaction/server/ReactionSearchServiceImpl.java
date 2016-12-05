@@ -10,6 +10,7 @@ import java.util.Set;
 import info.esblurock.reaction.data.DatabaseObject;
 import info.esblurock.reaction.client.panel.query.ReactionSearchService;
 import info.esblurock.reaction.data.PMF;
+import info.esblurock.reaction.data.chemical.reaction.ChemkinCoefficientsData;
 import info.esblurock.reaction.data.description.DescriptionDataData;
 import info.esblurock.reaction.data.keyword.KeywordStandardization;
 import info.esblurock.reaction.data.rdf.CreateSetOfKeywordQueryAnswers;
@@ -29,6 +30,7 @@ import info.esblurock.reaction.server.parse.interpretation.SetOfInterpretations;
 import info.esblurock.reaction.server.parse.query.ParseQuery;
 import info.esblurock.reaction.server.parse.query.SetOfParseQueries;
 import info.esblurock.reaction.server.parse.register.RegisteredQueries;
+import info.esblurock.reaction.server.queries.ChemicalMechanismDataQuery;
 import info.esblurock.reaction.server.queries.QueryBase;
 import info.esblurock.reaction.server.utilities.ContextAndSessionUtilities;
 
@@ -223,5 +225,14 @@ public class ReactionSearchServiceImpl  extends ServerBase implements ReactionSe
 		}
 		return map;
 		
+	}
+	@Override
+	public ArrayList<ChemkinCoefficientsData> coefficientsFromReactionName(String reactionname)  throws IOException{
+		List<DatabaseObject> objs = ChemicalMechanismDataQuery.coefficientsFromReactionName(reactionname);
+		ArrayList<ChemkinCoefficientsData> result = new ArrayList<ChemkinCoefficientsData>();
+		for(DatabaseObject obj : objs) {
+			result.add((ChemkinCoefficientsData) obj);
+		}
+		return result;
 	}
 }

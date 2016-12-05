@@ -17,7 +17,7 @@
 			<m:MaterialButton ui:field="close" waves="GREEN"
 				type="FLAT" text="Close" />
 			<m:MaterialButton ui:field="basket" waves="GREEN"
-				type="FLAT" text="Save" tooltip="Save to set" />
+				type="FLAT" text="Save"/>
 		</m:MaterialModalFooter>
 	</m:MaterialModal>
 </ui:UiBinder> 

@@ -5,13 +5,12 @@ import java.util.Collections;
 
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialRow;
 import info.esblurock.reaction.data.DatabaseObject;
-import info.esblurock.reaction.client.GenerateReactionKeywords;
 import info.esblurock.reaction.client.panel.data.reaction.FormatChemkinCoefficientsData;
+import info.esblurock.reaction.client.panel.data.reaction.ReactionDataPresentation;
 import info.esblurock.reaction.client.panel.data.thermo.FormatNASAPolynomialData;
 import info.esblurock.reaction.client.panel.data.thermo.NASAThermoPanel;
 import info.esblurock.reaction.data.chemical.molecule.MechanismMoleculeData;
@@ -87,6 +86,7 @@ public enum DataPresentation {
 			StringBuilder build = new StringBuilder();
 			GenerateReactionKeywordsServer gen = new GenerateReactionKeywordsServer(null);
 			build.append(gen.getReactionSimpleName(reaction));
+			Window.alert("");
 /*
 			if (reaction.getForwardCoefficients() != null) {
 				build.append("Coefficients:");
@@ -148,8 +148,10 @@ public enum DataPresentation {
 		public BaseDataPresentation asDisplayObject(DatabaseObject data) {
 			ChemkinReactionData reaction = (ChemkinReactionData) data;
 			String description = asOnLine(data);
-			String title = "ChemkinReactionData";
+			String title = reaction.getReactionName();
 			BaseDataPresentation present = new BaseDataPresentation(title, description,reaction);
+			ReactionDataPresentation reactionpanel = new ReactionDataPresentation(reaction);
+			present.getModalContent().add(reactionpanel);
 			return present;
 		}
 
