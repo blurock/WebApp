@@ -110,7 +110,6 @@ public class SearchPanel extends Composite implements HasText {
 		objectinfo.setEnabled(false);
 	}
 	public void setUpObject(DatabaseObject object) {
-		Window.alert("objectInfoClick: " + object.toString());
 		objectobjectB = true;
 		objectinfo.setIconType(IconType.INFO_OUTLINE);
 		expandnext.setVisible(false);
@@ -138,12 +137,10 @@ public class SearchPanel extends Composite implements HasText {
 	}
 	@UiHandler("objectinfo")
 	void objectInfoClick(ClickEvent e) {
-		Window.alert("objectInfoClick: " + objectStructure);
 		if(objectStructure != null) {
 			String classname = objectStructure.getClass().getName();
 			int pos = classname.lastIndexOf('.');
 			String shortname = classname.substring(pos+1);
-			Window.alert(shortname + ": '" + classname + "'");
 			DataPresentation presentation = DataPresentation.valueOf(shortname);
 			BaseDataPresentation display = presentation.asDisplayObject(objectStructure);
 			infocontent.clear();

@@ -1,17 +1,15 @@
 package info.esblurock.reaction.client.panel.data.reaction;
 
+
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialRow;
@@ -34,6 +32,8 @@ public class FormatChemkinCoefficientsData extends Composite implements HasText 
 	
 	@UiField
 	MaterialRow arrheniusRow,coefficientsRow;
+	@UiField
+	HTMLPanel arrheniuschart;
 	
 	ChemkinCoefficientsData coefficients;
 
@@ -44,6 +44,9 @@ public class FormatChemkinCoefficientsData extends Composite implements HasText 
 		coefficientType.setText(type);
 		loadArrheniusCoefficients(coeffs);
 		loadCoefficients(coeffs);
+		DrawArrheniusPlot plot = new DrawArrheniusPlot(coeffs);
+		//arrheniuschart.setSize("400px", "400px");
+		arrheniuschart.add(plot);
 	}
 
 	void loadArrheniusCoefficients(ChemkinCoefficientsData coeffs) {
@@ -77,7 +80,7 @@ public class FormatChemkinCoefficientsData extends Composite implements HasText 
 		}
 	}
 	
-	String getType(ChemkinCoefficientsData coeffs) {
+	public String getType(ChemkinCoefficientsData coeffs) {
 		String type = "";
 		if(coeffs.forward) {
 			type = "Forward";
@@ -96,6 +99,12 @@ public class FormatChemkinCoefficientsData extends Composite implements HasText 
 		}
 		return type;
 	}
+	
+	
+		
+	
+	
+	
 	public void setText(String text) {
 		
 	}

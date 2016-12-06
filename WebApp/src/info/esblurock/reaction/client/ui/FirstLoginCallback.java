@@ -15,7 +15,6 @@ public class FirstLoginCallback implements AsyncCallback<String> {
 	@Override
 	public void onFailure(Throwable caught) {
 		MaterialToast.fireToast("Login unsuccessful: Registration error");
-		//MaterialModal.closeModal();
 	}
 
 	@Override

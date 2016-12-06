@@ -35,5 +35,11 @@
 		</d:MaterialRow>
 		<d:MaterialRow ui:field="coefficientsRow">
 		</d:MaterialRow>
+		<d:MaterialRow>
+		<d:MaterialColumn grid="s12">
+		<g:HTMLPanel ui:field="arrheniuschart" height="500px">
+		</g:HTMLPanel>
+		</d:MaterialColumn>
+		</d:MaterialRow>
 	</g:HTMLPanel>
 </ui:UiBinder> 
