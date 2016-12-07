@@ -21,7 +21,6 @@
 			</m:MaterialNavBar>
 
 			<m:MaterialSideNav width="250" m:id="mysidebar" 
-			
 			alwaysShowActivator="true"
 			allowBodyScroll="true"
 				type="FIXED" closeOnClick="true">

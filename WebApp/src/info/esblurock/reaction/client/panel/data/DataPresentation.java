@@ -41,7 +41,6 @@ public enum DataPresentation {
 
 		@Override
 		public BaseDataPresentation asDisplayObject(DatabaseObject data) {
-			Window.alert("asDisplayObject: " + data.toString());
 			MechanismMoleculeData molecule = (MechanismMoleculeData) data;
 			String description = asOnLine(data);
 			String title = "MechanismMoleculeData";
@@ -86,61 +85,6 @@ public enum DataPresentation {
 			StringBuilder build = new StringBuilder();
 			GenerateReactionKeywordsServer gen = new GenerateReactionKeywordsServer(null);
 			build.append(gen.getReactionSimpleName(reaction));
-			Window.alert("");
-/*
-			if (reaction.getForwardCoefficients() != null) {
-				build.append("Coefficients:");
-				DataPresentation coeffpresent = DataPresentation.valueOf("ChemkinCoefficientsData");
-				build.append(coeffpresent.asOnLine(reaction.getForwardCoefficients()));
-				build.append("\n");
-			}
-			if (reaction.getReverseCoefficients() != null) {
-				build.append("Coefficients:");
-				DataPresentation coeffpresent = DataPresentation.valueOf("ChemkinCoefficientsData");
-				build.append(coeffpresent.asOnLine(reaction.getReverseCoefficients()));			
-				build.append("\n");
-			}
-				
-			if (reaction.getTroeCoefficients() != null) {
-				build.append("Coefficients:");
-				DataPresentation coeffpresent = DataPresentation.valueOf("ChemkinCoefficientsData");
-				build.append(coeffpresent.asOnLine(reaction.getTroeCoefficients()));							
-				build.append("\n");
-			}
-				
-			if (reaction.getHighCoefficients() != null) {
-				build.append("Coefficients:");
-				DataPresentation coeffpresent = DataPresentation.valueOf("ChemkinCoefficientsData");
-				build.append(coeffpresent.asOnLine(reaction.getHighCoefficients()));							
-				build.append("\n");
-			}
-			if (reaction.getSriCoefficients() != null) {
-				build.append("Coefficients:");
-				DataPresentation coeffpresent = DataPresentation.valueOf("ChemkinCoefficientsData");
-				build.append(coeffpresent.asOnLine(reaction.getSriCoefficients()));							
-				build.append("\n");
-			}
-				
-			if (reaction.getPlogCoefficients() != null) {
-				
-				
-				DataPresentation coeffpresent = DataPresentation.valueOf("ChemkinCoefficientsData");
-				for(ChemkinCoefficientsData c: reaction.getPlogCoefficients()) {
-					build.append("Coefficients:");
-					build.append(coeffpresent.asOnLine(c));
-					build.append("\n");
-				}
-											
-			}
-				*/
-		/*
-			if (reaction.getThirdBodyMolecules() != null) {
-				build.append("Coefficients:");
-				DataPresentation coeffpresent = DataPresentation.valueOf("ChemkinCoefficientsData");
-				coeffpresent.asOnLine(reaction.getReverseCoefficients());				
-			}
-				*/
-
 			return build.toString();
 		}
 
